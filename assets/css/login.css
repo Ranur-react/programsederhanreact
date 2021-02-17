@@ -1,0 +1,46 @@
+.h4,
+h4 {
+	font-size: 16px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-weight: 600;
+}
+
+.text-muted,
+.text-muted a,
+.text-muted:active,
+.text-muted:focus,
+.text-muted:hover,
+.text-muted[href] {
+	color: #818a91 !important;
+}
+
+.form-control {
+	border-radius: 3px;
+}
+
+.login-logo img {
+	width: 275px;
+	height: 35px;
+}
