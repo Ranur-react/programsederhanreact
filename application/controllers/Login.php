@@ -9,10 +9,14 @@ class Login extends CI_Controller
     }
     public function index()
     {
-        $data = [
-            'title' => 'Login'
-        ];
-        $this->template->auth('auth/login', $data);
+        if ($this->session->userdata('status_login') == "sessDashboard") {
+            redirect('welcome');
+        } else {
+            $data = [
+                'title' => 'Login'
+            ];
+            $this->template->auth('auth/login', $data);
+        }
     }
     public function signin()
     {
@@ -22,10 +26,10 @@ class Login extends CI_Controller
         $this->form_validation->set_rules('username', 'Username', 'callback_username_check[' . $check_user->num_rows() . ']');
         $this->form_validation->set_rules('password', 'Password', 'callback_password_check[' . $username . ']');
         if ($this->form_validation->run()) {
-            $value = $this->Mlogin->validate($post);
+            $value = $check_user->row_array();
             $this->session->set_userdata('masuk', TRUE);
             if ($this->session->userdata('masuk') == TRUE) {
-                $this->session->set_userdata('status_login', 'sessPOS');
+                $this->session->set_userdata('status_login', 'sessDashboard');
                 $this->session->set_userdata('kode', $value['id_user']);
             } else {
                 $this->session->sess_destroy();
