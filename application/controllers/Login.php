@@ -9,10 +9,14 @@ class Login extends CI_Controller
     }
     public function index()
     {
-        $data = [
-            'title' => 'Login'
-        ];
-        $this->template->auth('auth/login', $data);
+        if ($this->session->userdata('status_login') == "sessDashboard") {
+            redirect('welcome');
+        } else {
+            $data = [
+                'title' => 'Login'
+            ];
+            $this->template->auth('auth/login', $data);
+        }
     }
     public function signin()
     {
