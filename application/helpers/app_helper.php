@@ -29,7 +29,7 @@ if (!function_exists('cek_user')) {
     function cek_user()
     {
         $CI = &get_instance();
-        if ($CI->session->userdata('status_login') != 'sessPOS') :
+        if ($CI->session->userdata('status_login') != 'sessDashboard') :
             redirect('logout');
         endif;
     }
