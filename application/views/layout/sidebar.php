@@ -14,7 +14,7 @@
         </a>
         <ul class="treeview-menu">
             <li>
-                <a href="#"><i class="fa fa-angle-double-right"></i> Pengguna</a>
+                <a href="#"><i class="fa fa-angle-double-right"></i> Penggunaa</a>
             </li>
 
             <li>
