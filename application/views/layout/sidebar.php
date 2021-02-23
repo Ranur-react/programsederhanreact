@@ -16,6 +16,10 @@
             <li>
                 <a href="#"><i class="fa fa-angle-double-right"></i> Pengguna</a>
             </li>
+
+            <li>
+                <a href="<?= site_url('sup') ?>"><i class="fa fa-angle-double-right"></i> Supplier</a>
+            </li>
         </ul>
     </li>
 </ul>

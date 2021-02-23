@@ -10,3 +10,6 @@ $route['login/signin'] = 'login/signin';
 
 // proses logout
 $route['logout'] = 'auth/logout';
+
+//menu master
+$route['sup'] = 'master/Supplier';
