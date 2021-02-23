@@ -31,7 +31,7 @@ class Supplier extends CI_Controller
 	public function store()
 	{
 		if ($this->input->is_ajax_request() == TRUE) {
-			$this->form_validation->set_rules('idsupplier', 'Id Supplier', 'required|is_unique[karyawan.id_karyawan]');
+			$this->form_validation->set_rules('idsupplier', 'Id Supplier', 'required|is_unique[supplier.id_supplier]');
 			$this->form_validation->set_rules('namasupplier', 'Nama Supplier', 'required');
 			$this->form_validation->set_rules('alamatsupplier', 'Alamat Supplier', 'required');
 			$this->form_validation->set_rules('telpsupplier', 'Telp Supllier', 'required');
@@ -55,7 +55,7 @@ class Supplier extends CI_Controller
 	{
 		$kode = $this->input->post('kode');
 		$d['data'] = $this->Msupplier->shows($kode);
-		$this->load->view('master/datasupplier/edit', $d);
+		$this->load->view('master/supplier/edit', $d);
 	}
 	public function update()
 	{

@@ -15,8 +15,8 @@ class Msupplier extends CI_Model
 			'alamat_supplier' => $params['alamatsupplier'],
 			'telp_supplier' => $params['telpsupplier'],
 		];
-		$karyawan= $this->db->insert($this->tabel, $data);
-		return array($karyawan);
+		$supplier= $this->db->insert($this->tabel, $data);
+		return array($supplier);
 	}
 	public function shows($kode)
 	{
