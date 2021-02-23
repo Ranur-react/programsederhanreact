@@ -31,4 +31,17 @@ class Msupplier extends CI_Model
 		];
 		return $this->db->insert($this->tabel, $data);
 	}
+	public function show($kode)
+	{
+		return $this->db->where('id_supplier', $kode)->get($this->tabel)->row_array();
+	}
+	public function update($post)
+	{
+		$data = [
+			'nama_supplier' => $post['nama'],
+			'alamat_supplier' => $post['alamat'],
+			'telp_supplier' => $post['telp']
+		];
+		return $this->db->where('id_supplier', $post['kode'])->update($this->tabel, $data);
+	}
 }
