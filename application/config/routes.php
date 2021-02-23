@@ -12,4 +12,4 @@ $route['login/signin'] = 'login/signin';
 $route['logout'] = 'auth/logout';
 
 //menu master
-$route['sup'] = 'master/Supplier';
+$route['supplier'] = 'master/supplier';
