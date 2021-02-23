@@ -65,6 +65,42 @@
 		});
 	}
 
+	function hapus(kode) {
+		Swal({
+			title: "Apakah kamu yakin?",
+			text: "Anda tidak akan dapat mengembalikan ini!",
+			type: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: "Ya, hapus data ini"
+		}).then((result) => {
+			if (result.value) {
+				$.ajax({
+					type: "get",
+					url: "<?= site_url('master/supplier/destroy') ?>",
+					data: {
+						kode: kode
+					},
+					dataType: "json",
+					success: function(resp) {
+						if (resp.status == "0100") {
+							Swal.fire({
+								title: 'Deleted!',
+								text: resp.message,
+								type: 'success'
+							}).then((resp) => {
+								location.reload();
+							})
+						} else {
+							Swal.fire('Oops...', resp.message, 'error');
+						}
+					}
+				});
+			}
+		})
+	}
+
 	$(document).on('submit', '.form_create', function(e) {
 		$.ajax({
 			type: "post",
