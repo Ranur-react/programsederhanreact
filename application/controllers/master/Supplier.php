@@ -22,4 +22,35 @@ class Supplier extends CI_Controller
 		];
 		$this->template->dashboard('master/supplier/index', $data);
 	}
+	public function create()
+	{
+		$data = [
+			'name' => 'Tambah Supplier',
+			'post' => 'master/supplier/store',
+			'class' => 'form_create'
+		];
+		$this->template->modal_form('master/supplier/create', $data);
+	}
+	public function store()
+	{
+		$this->form_validation->set_rules('nama', 'Nama', 'required');
+		$this->form_validation->set_rules('alamat', 'Alamat', 'required');
+		$this->form_validation->set_rules('telp', 'Telepon', 'required');
+		$this->form_validation->set_message('required', errorRequired());
+		$this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
+		if ($this->form_validation->run() == TRUE) {
+			$post = $this->input->post(null, TRUE);
+			$this->Msupplier->store($post);
+			$json = array(
+				'status' => "0100",
+				'pesan' => "Data supplier telah disimpan"
+			);
+		} else {
+			$json['status'] = "0111";
+			foreach ($_POST as $key => $value) {
+				$json['pesan'][$key] = form_error($key);
+			}
+		}
+		echo json_encode($json);
+	}
 }
