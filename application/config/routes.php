@@ -16,3 +16,4 @@ $route['satuan/create'] = 'master/satuan/create';
 $route['satuan/store'] = 'master/satuan/store';
 $route['satuan/edit'] = 'master/satuan/edit';
 $route['satuan/update'] = 'master/satuan/update';
+$route['satuan/destroy'] = 'master/satuan/destroy';

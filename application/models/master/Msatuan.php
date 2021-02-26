@@ -44,4 +44,8 @@ class Msatuan extends CI_Model
         );
         return $this->db->where($this->id, $post['kode'])->update($this->tabel, $data);
     }
+    public function destroy($kode)
+    {
+        return $this->db->simple_query("DELETE FROM " . $this->tabel . " WHERE id_satuan='$kode'");
+    }
 }
