@@ -20,6 +20,11 @@
 
                 <a href="<?= site_url('satuan') ?>"><i class="fa fa-angle-double-right"></i> Satuan</a>
             </li>
+              </li>
+              <li class="<?= $urls == 'gudang' ? 'active' : null ?>">
+
+                <a href="<?= site_url('gudang') ?>"><i class="fa fa-angle-double-right"></i> Gudang</a>
+            </li>
         </ul>
     </li>
 </ul>
