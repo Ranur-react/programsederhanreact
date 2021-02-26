@@ -13,3 +13,6 @@ $route['logout'] = 'auth/logout';
 
 $route['satuan'] = 'master/satuan';
 $route['satuan/create'] = 'master/satuan/create';
+$route['satuan/store'] = 'master/satuan/store';
+$route['satuan/edit'] = 'master/satuan/edit';
+$route['satuan/update'] = 'master/satuan/update';

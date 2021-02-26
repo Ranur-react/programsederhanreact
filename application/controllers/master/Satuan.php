@@ -53,4 +53,36 @@ class Satuan extends CI_Controller
         }
         echo json_encode($json);
     }
+    public function edit()
+    {
+        $kode = $this->input->get('kode');
+        $data = [
+            'name' => 'Edit Satuan',
+            'post' => 'satuan/update',
+            'class' => 'form_create',
+            'data' => $this->Msatuan->show($kode)
+        ];
+        $this->template->modal_form('master/satuan/edit', $data);
+    }
+    public function update()
+    {
+        $this->form_validation->set_rules('nama', 'Nama satuan', 'required');
+        $this->form_validation->set_rules('singkatan', 'Singkatan', 'required');
+        $this->form_validation->set_message('required', errorRequired());
+        $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
+        if ($this->form_validation->run() == TRUE) {
+            $post = $this->input->post(null, TRUE);
+            $this->Msatuan->update($post);
+            $json = array(
+                'status' => "0100",
+                'pesan' => "Data satuan telah dirubah"
+            );
+        } else {
+            $json['status'] = "0111";
+            foreach ($_POST as $key => $value) {
+                $json['pesan'][$key] = form_error($key);
+            }
+        }
+        echo json_encode($json);
+    }
 }
