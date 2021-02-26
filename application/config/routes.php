@@ -12,3 +12,4 @@ $route['login/signin'] = 'login/signin';
 $route['logout'] = 'auth/logout';
 
 $route['satuan'] = 'master/satuan';
+$route['satuan/create'] = 'master/satuan/create';

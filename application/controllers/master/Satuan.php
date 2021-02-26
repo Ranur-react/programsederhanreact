@@ -22,4 +22,35 @@ class Satuan extends CI_Controller
         ];
         $this->template->dashboard('master/satuan/data', $data);
     }
+    public function create()
+    {
+        $data = [
+            'name' => 'Tambah Satuan',
+            'post' => 'satuan/store',
+            'class' => 'form_create'
+        ];
+        $this->template->modal_form('master/satuan/create', $data);
+    }
+    public function store()
+    {
+        $this->form_validation->set_rules('nama', 'Nama satuan', 'required');
+        $this->form_validation->set_rules('singkatan', 'Singkatan', 'required');
+        $this->form_validation->set_message('required', errorRequired());
+        $this->form_validation->set_message('is_unique', errorUnique());
+        $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
+        if ($this->form_validation->run() == TRUE) {
+            $post = $this->input->post(null, TRUE);
+            $this->Msatuan->store($post);
+            $json = array(
+                'status' => "0100",
+                'pesan' => "Data satuan telah disimpan"
+            );
+        } else {
+            $json['status'] = "0111";
+            foreach ($_POST as $key => $value) {
+                $json['pesan'][$key] = form_error($key);
+            }
+        }
+        echo json_encode($json);
+    }
 }
