@@ -5,7 +5,13 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title"><?= $name ?></h4>
             </div>
-            <?= form_open($post, ['class' => $class]) ?>
+            <?php
+            error_reporting(E_ALL ^ E_NOTICE);
+            if ($multipart == 1) :
+                echo form_open_multipart($post, ['class' => $class]);
+            else :
+                echo form_open($post, ['class' => $class]);
+            endif; ?>
             <div class="modal-body">
                 <?= $body ?>
             </div>

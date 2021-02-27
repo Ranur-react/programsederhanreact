@@ -11,6 +11,9 @@ $route['login/signin'] = 'login/signin';
 // proses logout
 $route['logout'] = 'auth/logout';
 
+//menu master
+$route['supplier'] = 'master/supplier';
+
 $route['satuan'] = 'master/satuan';
 $route['satuan/create'] = 'master/satuan/create';
 $route['satuan/store'] = 'master/satuan/store';
