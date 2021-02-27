@@ -5,7 +5,7 @@
             <i class="icon-home4"></i> <span>Dashboard</span>
         </a>
     </li>
-    <li class="treeview <?= $urls == 'supplier' ? 'active' : null ?>">
+    <li class="treeview <?= $urls == 'supplier' || $urls == 'satuan' ? 'active' : null ?>">
         <a href="#">
             <i class="icon-color-sampler"></i> <span>Master Data</span>
             <span class="pull-right-container">
@@ -18,6 +18,9 @@
             </li>
             <li class="<?= $urls == 'supplier' ? 'active' : null ?>">
                 <a href="<?= site_url('supplier') ?>"><i class="fa fa-angle-double-right"></i> Supplier</a>
+            </li>
+            <li class="<?= $urls == 'satuan' ? 'active' : null ?>">
+                <a href="<?= site_url('satuan') ?>"><i class="fa fa-angle-double-right"></i> Satuan</a>
             </li>
         </ul>
     </li>
