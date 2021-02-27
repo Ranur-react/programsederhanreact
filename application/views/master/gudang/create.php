@@ -1,6 +1,8 @@
 <div class="form-group">
-    <input type="text" name="nama" id="nama" class="form-control" placeholder="Nama Gudang">
+    <label>Nama Gudang</label>
+    <input type="text" name="nama" id="nama" class="form-control">
 </div>
 <div class="form-group">
-    <input type="text" name="alamat" id="alamat" class="form-control" placeholder="Alamat Gudang">
+    <label>Alamat</label>
+    <input type="text" name="alamat" id="alamat" class="form-control">
 </div>

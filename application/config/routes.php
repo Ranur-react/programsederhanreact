@@ -12,3 +12,5 @@ $route['login/signin'] = 'login/signin';
 $route['logout'] = 'auth/logout';
 
 $route['gudang'] = 'master/gudang';
+$route['gudang/create'] = 'master/gudang/create';
+$route['gudang/store'] = 'master/gudang/store';

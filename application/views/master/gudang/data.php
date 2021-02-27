@@ -36,3 +36,54 @@
         </div>
     </div>
 </div>
+<div id="tampil_modal"></div>
+<script>
+    function tambah() {
+        $.ajax({
+            url: "<?= site_url('gudang/create') ?>",
+            type: "GET",
+            success: function(resp) {
+                $("#tampil_modal").html(resp);
+                $("#modal_create").modal('show');
+            }
+        });
+    }
+
+    $(document).on('submit', '.form_create', function(e) {
+        $.ajax({
+            type: "post",
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            dataType: "json",
+            cache: false,
+            beforeSend: function() {
+                $('.store_data').button('loading');
+            },
+            success: function(resp) {
+                if (resp.status == "0100") {
+                    localStorage.setItem("swal", swal({
+                        title: "Sukses!",
+                        text: resp.pesan,
+                        type: "success",
+                    }).then(function() {
+                        location.reload();
+                    }));
+                } else {
+                    $.each(resp.pesan, function(key, value) {
+                        var element = $('#' + key);
+                        element.closest('div.form-group')
+                            .removeClass('has-error')
+                            .addClass(value.length > 0 ? 'has-error' : 'has-success')
+                            .find('.help-block')
+                            .remove();
+                        element.after(value);
+                    });
+                }
+            },
+            complete: function() {
+                $('.store_data').button('reset');
+            }
+        });
+        return false;
+    });
+</script>
