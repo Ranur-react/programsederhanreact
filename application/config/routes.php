@@ -16,3 +16,4 @@ $route['gudang/create'] = 'master/gudang/create';
 $route['gudang/store'] = 'master/gudang/store';
 $route['gudang/edit'] = 'master/gudang/edit';
 $route['gudang/update'] = 'master/gudang/update';
+$route['gudang/destroy'] = 'master/gudang/destroy';
