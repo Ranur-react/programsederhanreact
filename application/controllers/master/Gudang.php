@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Satuan extends CI_Controller
+class Gudang extends CI_Controller
 {
     public function __construct()
     {
@@ -10,40 +10,40 @@ class Satuan extends CI_Controller
             cek_user();
         else
             redirect('logout');
-        $this->load->model('master/Msatuan');
+        $this->load->model('master/Mgudang');
     }
     public function index()
     {
         $data = [
-            'title' => 'Satuan',
-            'small' => 'Menampilkan dan mengelola data satuan',
-            'links' => '<li class="active">Satuan</li>',
-            'data' => $this->Msatuan->getall()
+            'title' => 'Gudang',
+            'small' => 'Menampilkan dan mengelola data gudang',
+            'links' => '<li class="active">Gudang</li>',
+            'data' => $this->Mgudang->getall()
         ];
-        $this->template->dashboard('master/satuan/data', $data);
+        $this->template->dashboard('master/gudang/data', $data);
     }
     public function create()
     {
         $data = [
-            'name' => 'Tambah Satuan',
-            'post' => 'satuan/store',
+            'name' => 'Tambah Gudang',
+            'post' => 'gudang/store',
             'class' => 'form_create'
         ];
-        $this->template->modal_form('master/satuan/create', $data);
+        $this->template->modal_form('master/gudang/create', $data);
     }
     public function store()
     {
-        $this->form_validation->set_rules('nama', 'Nama satuan', 'required');
-        $this->form_validation->set_rules('singkatan', 'Singkatan', 'required');
+        $this->form_validation->set_rules('nama', 'Nama gudang', 'required');
+        $this->form_validation->set_rules('alamat', 'Alamat', 'required');
         $this->form_validation->set_message('required', errorRequired());
         $this->form_validation->set_message('is_unique', errorUnique());
         $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
         if ($this->form_validation->run() == TRUE) {
             $post = $this->input->post(null, TRUE);
-            $this->Msatuan->store($post);
+            $this->Mgudang->store($post);
             $json = array(
                 'status' => "0100",
-                'pesan' => "Data satuan telah disimpan"
+                'pesan' => "Data gudang telah disimpan"
             );
         } else {
             $json['status'] = "0111";
@@ -57,25 +57,25 @@ class Satuan extends CI_Controller
     {
         $kode = $this->input->get('kode');
         $data = [
-            'name' => 'Edit Satuan',
-            'post' => 'satuan/update',
+            'name' => 'Edit Gudang',
+            'post' => 'gudang/update',
             'class' => 'form_create',
-            'data' => $this->Msatuan->show($kode)
+            'data' => $this->Mgudang->show($kode)
         ];
-        $this->template->modal_form('master/satuan/edit', $data);
+        $this->template->modal_form('master/gudang/edit', $data);
     }
     public function update()
     {
-        $this->form_validation->set_rules('nama', 'Nama satuan', 'required');
-        $this->form_validation->set_rules('singkatan', 'Singkatan', 'required');
+        $this->form_validation->set_rules('nama', 'Nama gudang', 'required');
+        $this->form_validation->set_rules('alamat', 'Alamat', 'required');
         $this->form_validation->set_message('required', errorRequired());
         $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
         if ($this->form_validation->run() == TRUE) {
             $post = $this->input->post(null, TRUE);
-            $this->Msatuan->update($post);
+            $this->Mgudang->update($post);
             $json = array(
                 'status' => "0100",
-                'pesan' => "Data satuan telah dirubah"
+                'pesan' => "Data gudang telah dirubah"
             );
         } else {
             $json['status'] = "0111";
@@ -88,7 +88,7 @@ class Satuan extends CI_Controller
     public function destroy()
     {
         $kode = $this->input->get('kode', true);
-        $action = $this->Msatuan->destroy($kode);
+        $action = $this->Mgudang->destroy($kode);
         if ($action) {
             $json = array(
                 'status' => "0100",

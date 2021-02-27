@@ -8,8 +8,8 @@
                 <thead>
                     <tr>
                         <th class="text-center">No.</th>
-                        <th>Nama</th>
-                        <th>Singkatan</th>
+                        <th>Gudang</th>
+                        <th>Alamat</th>
                         <th class="text-center">Action</th>
                     </tr>
                 </thead>
@@ -18,13 +18,13 @@
                     foreach ($data as $d) { ?>
                         <tr>
                             <td class="text-center" width="40px"><?= $no . '.'; ?></td>
-                            <td><?= $d['nama_satuan'] ?></td>
-                            <td><?= $d['singkatan_satuan'] ?></td>
+                            <td><?= $d['nama_gudang'] ?></td>
+                            <td><?= $d['alamat_gudang'] ?></td>
                             <td class="text-center" width="60px">
-                                <a href="javascript:void(0)" onclick="edit('<?= $d['id_satuan'] ?>')">
+                                <a href="javascript:void(0)" onclick="edit('<?= $d['id_gudang'] ?>')">
                                     <i class="icon-pencil7 text-green" data-toggle="tooltip" data-original-title="Edit"></i>
                                 </a>
-                                <a href="javascript:void(0)" onclick="hapus('<?= $d['id_satuan'] ?>')">
+                                <a href="javascript:void(0)" onclick="hapus('<?= $d['id_gudang'] ?>')">
                                     <i class="icon-trash text-red" data-toggle="tooltip" data-original-title="Hapus"></i>
                                 </a>
                             </td>
@@ -40,7 +40,7 @@
 <script>
     function tambah() {
         $.ajax({
-            url: "<?= site_url('satuan/create') ?>",
+            url: "<?= site_url('gudang/create') ?>",
             type: "GET",
             success: function(resp) {
                 $("#tampil_modal").html(resp);
@@ -51,7 +51,7 @@
 
     function edit(kode) {
         $.ajax({
-            url: "<?= site_url('satuan/edit') ?>",
+            url: "<?= site_url('gudang/edit') ?>",
             type: "GET",
             data: {
                 kode: kode
@@ -76,7 +76,7 @@
             if (result.value) {
                 $.ajax({
                     type: "get",
-                    url: "<?= site_url('satuan/destroy') ?>",
+                    url: "<?= site_url('gudang/destroy') ?>",
                     data: {
                         kode: kode
                     },

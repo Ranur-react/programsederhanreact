@@ -1,8 +1,8 @@
 <?php
-class Msatuan extends CI_Model
+class Mgudang extends CI_Model
 {
-    var $tabel = 'satuan';
-    var $id = 'id_satuan';
+    var $tabel = 'gudang';
+    var $id = 'id_gudang';
 
     public function getall()
     {
@@ -17,7 +17,7 @@ class Msatuan extends CI_Model
             ->get($this->tabel);
         if ($query->num_rows() <> 0) {
             $data = $query->row();
-            $kode = intval($data->id_satuan) + 1;
+            $kode = intval($data->id_gudang) + 1;
         } else {
             $kode = 1;
         }
@@ -26,9 +26,9 @@ class Msatuan extends CI_Model
     public function store($post)
     {
         $data = array(
-            'id_satuan' => $this->kode(),
-            'nama_satuan' => $post['nama'],
-            'singkatan_satuan' => $post['singkatan'],
+            'id_gudang' => $this->kode(),
+            'nama_gudang' => $post['nama'],
+            'alamat_gudang' => $post['alamat']
         );
         return $this->db->insert($this->tabel, $data);
     }
@@ -39,13 +39,13 @@ class Msatuan extends CI_Model
     public function update($post)
     {
         $data = array(
-            'nama_satuan' => $post['nama'],
-            'singkatan_satuan' => $post['singkatan']
+            'nama_gudang' => $post['nama'],
+            'alamat_gudang' => $post['alamat']
         );
         return $this->db->where($this->id, $post['kode'])->update($this->tabel, $data);
     }
     public function destroy($kode)
     {
-        return $this->db->simple_query("DELETE FROM " . $this->tabel . " WHERE id_satuan='$kode'");
+        return $this->db->simple_query("DELETE FROM " . $this->tabel . " WHERE id_gudang='$kode'");
     }
 }
