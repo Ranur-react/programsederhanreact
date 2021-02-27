@@ -32,4 +32,16 @@ class Mgudang extends CI_Model
         );
         return $this->db->insert($this->tabel, $data);
     }
+    public function show($kode)
+    {
+        return $this->db->where($this->id, $kode)->get($this->tabel)->row();
+    }
+    public function update($post)
+    {
+        $data = array(
+            'nama_gudang' => $post['nama'],
+            'alamat_gudang' => $post['alamat']
+        );
+        return $this->db->where($this->id, $post['kode'])->update($this->tabel, $data);
+    }
 }

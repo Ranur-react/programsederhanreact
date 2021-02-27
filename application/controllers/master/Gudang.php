@@ -53,4 +53,36 @@ class Gudang extends CI_Controller
         }
         echo json_encode($json);
     }
+    public function edit()
+    {
+        $kode = $this->input->get('kode');
+        $data = [
+            'name' => 'Edit Gudang',
+            'post' => 'gudang/update',
+            'class' => 'form_create',
+            'data' => $this->Mgudang->show($kode)
+        ];
+        $this->template->modal_form('master/gudang/edit', $data);
+    }
+    public function update()
+    {
+        $this->form_validation->set_rules('nama', 'Nama gudang', 'required');
+        $this->form_validation->set_rules('alamat', 'Alamat', 'required');
+        $this->form_validation->set_message('required', errorRequired());
+        $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
+        if ($this->form_validation->run() == TRUE) {
+            $post = $this->input->post(null, TRUE);
+            $this->Mgudang->update($post);
+            $json = array(
+                'status' => "0100",
+                'pesan' => "Data gudang telah dirubah"
+            );
+        } else {
+            $json['status'] = "0111";
+            foreach ($_POST as $key => $value) {
+                $json['pesan'][$key] = form_error($key);
+            }
+        }
+        echo json_encode($json);
+    }
 }
