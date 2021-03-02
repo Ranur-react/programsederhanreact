@@ -88,4 +88,18 @@
             }
         });
     }
+
+    function get_gudang() {
+        var jenis = $('#jenis').val();
+        $.ajax({
+            url: "<?= site_url('master/pengguna/get_gudang') ?>",
+            method: "GET",
+            data: {
+                jenis: jenis
+            },
+            success: function(data) {
+                $('#get_gudang').html(data);
+            }
+        });
+    }
 </script>

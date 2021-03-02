@@ -42,6 +42,12 @@ class Pengguna extends CI_Controller
         }
         echo $data;
     }
+    public function get_gudang()
+    {
+        $d['jenis'] = $this->input->get('jenis');
+        $d['data'] = $this->Mgudang->getall();
+        $this->load->view('master/pengguna/get_gudang', $d);
+    }
 }
 
 /* End of file Pengguna.php */
