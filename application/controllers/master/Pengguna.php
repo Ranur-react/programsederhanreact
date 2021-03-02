@@ -48,6 +48,33 @@ class Pengguna extends CI_Controller
         $d['data'] = $this->Mgudang->getall();
         $this->load->view('master/pengguna/get_gudang', $d);
     }
+    public function store()
+    {
+        $post = $this->input->post(null, TRUE);
+        $this->form_validation->set_rules('nama', 'Nama lengkap', 'trim|required');
+        $this->form_validation->set_rules('username', 'Username', 'trim|required');
+        $this->form_validation->set_rules('password', 'Password', 'required');
+        $this->form_validation->set_rules('jenis', 'Jenis pengguna', 'required');
+        $this->form_validation->set_rules('level', 'Level', 'required');
+        if ($post['jenis'] == 2) :
+            $this->form_validation->set_rules('gudang', 'Gudang', 'required');
+        endif;
+        $this->form_validation->set_message('required', errorRequired());
+        $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
+        if ($this->form_validation->run() == TRUE) {
+            $this->Mpengguna->store($post);
+            $json = array(
+                'status' => "0100",
+                'pesan' => "Data pengguna telah disimpan"
+            );
+        } else {
+            $json['status'] = "0111";
+            foreach ($_POST as $key => $value) {
+                $json['pesan'][$key] = form_error($key);
+            }
+        }
+        echo json_encode($json);
+    }
 }
 
 /* End of file Pengguna.php */

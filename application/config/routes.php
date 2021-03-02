@@ -15,6 +15,7 @@ $route['logout'] = 'auth/logout';
 
 $route['pengguna'] = 'master/pengguna';
 $route['pengguna/create'] = 'master/pengguna/create';
+$route['pengguna/store'] = 'master/pengguna/store';
 
 $route['supplier'] = 'master/supplier';
 
