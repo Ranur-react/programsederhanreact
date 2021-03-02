@@ -62,3 +62,16 @@
         </div>
     </div>
 </div>
+<div id="tampil_modal"></div>
+<script>
+    function tambah() {
+        $.ajax({
+            url: "<?= site_url('pengguna/create') ?>",
+            type: "GET",
+            success: function(resp) {
+                $("#tampil_modal").html(resp);
+                $("#modal_create").modal('show');
+            }
+        });
+    }
+</script>

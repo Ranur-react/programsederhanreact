@@ -23,6 +23,15 @@ class Pengguna extends CI_Controller
         ];
         $this->template->dashboard('master/pengguna/data', $data);
     }
+    public function create()
+    {
+        $data = [
+            'name' => 'Tambah Pengguna',
+            'post' => 'pengguna/store',
+            'class' => 'form_create'
+        ];
+        $this->template->modal_form('master/pengguna/create', $data);
+    }
 }
 
 /* End of file Pengguna.php */
