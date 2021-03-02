@@ -12,7 +12,7 @@
 </div>
 <div class="form-group">
     <label>Jenis Pengguna</label>
-    <select name="jenis" id="jenis" class="form-control">
+    <select name="jenis" id="jenis" class="form-control" onchange="get_level()">
         <option value="">Pilih</option>
         <option value="1">Back Office</option>
         <option value="2">Gudang</option>

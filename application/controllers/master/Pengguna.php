@@ -32,6 +32,16 @@ class Pengguna extends CI_Controller
         ];
         $this->template->modal_form('master/pengguna/create', $data);
     }
+    public function get_level()
+    {
+        $jenis = $this->input->get('jenis');
+        $result = $this->Mpengguna->get_level($jenis);
+        $data = '<option value="">Pilih</option>';
+        foreach ($result as $d) {
+            $data .= '<option value="' . $d['id_role'] . '">' . $d['nama_role'] . '</option>';
+        }
+        echo $data;
+    }
 }
 
 /* End of file Pengguna.php */

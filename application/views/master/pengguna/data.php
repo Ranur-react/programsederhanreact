@@ -74,4 +74,18 @@
             }
         });
     }
+
+    function get_level() {
+        var jenis = $("#jenis").val();
+        $.ajax({
+            type: "GET",
+            url: "<?= site_url('master/pengguna/get_level') ?>",
+            data: {
+                jenis: jenis
+            },
+            success: function(data) {
+                $("#level").html(data);
+            }
+        });
+    }
 </script>
