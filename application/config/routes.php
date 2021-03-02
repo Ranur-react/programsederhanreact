@@ -12,6 +12,9 @@ $route['login/signin'] = 'login/signin';
 $route['logout'] = 'auth/logout';
 
 //menu master
+
+$route['pengguna'] = 'master/pengguna';
+
 $route['supplier'] = 'master/supplier';
 
 $route['satuan'] = 'master/satuan';
