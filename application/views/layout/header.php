@@ -18,9 +18,12 @@
                         <a href="<?= site_url('profile') ?>" class="profile-item"><i class="dropdown-icon icon-user"></i> Profile Saya</a>
                     </li>
                     <li>
-                        <a href="<?= site_url('logout') ?>" class="profile-item"><i class="dropdown-icon icon-switch"></i> Logout</a>
+                        <a href="<?= site_url('change-password') ?>" class="profile-item"><i class="dropdown-icon icon-lock2"></i> Ganti Password</a>
                     </li>
                 </ul>
+            </li>
+            <li class="dropdown notifications-menu bg-red">
+                <a href="<?= site_url('logout') ?>"><i class="icon-switch"></i></a>
             </li>
         </ul>
     </div>
