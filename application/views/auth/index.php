@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="<?= assets() ?>bower_components/Ionicons/css/ionicons.min.css">
     <link rel="stylesheet" href="<?= assets() ?>dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="<?= assets() ?>plugins/iCheck/square/blue.css">
+    <link rel="stylesheet" href="<?= assets() ?>css/login.css">
 
     <script src="<?= assets() ?>bower_components/jquery/dist/jquery.min.js"></script>
     <script src="<?= assets() ?>bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
