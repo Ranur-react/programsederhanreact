@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="<?= assets() ?>dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="<?= assets() ?>dist/css/skins/_all-skins.min.css">
     <link rel="stylesheet" href="<?= assets() ?>bower_components/icomoon/styles.css">
+    <link rel="stylesheet" href="<?= assets() ?>css/style.css">
 
     <script src="<?= assets() ?>bower_components/jquery/dist/jquery.min.js"></script>
     <script src="<?= assets() ?>bower_components/jquery-ui/jquery-ui.min.js"></script>
