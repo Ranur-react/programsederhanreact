@@ -15,11 +15,79 @@ if (!function_exists('logoApp')) {
         return base_url() . 'assets/logo/logo.png';
     }
 }
+// Logo Aplikasi
+if (!function_exists('logoDashboard')) {
+    function logoDashboard()
+    {
+        return base_url() . 'assets/logo/logo2.png';
+    }
+}
 
 // Favicon Aplikasi
 if (!function_exists('faviconApp')) {
     function faviconApp()
     {
         return base_url() . 'assets/logo/favicon.ico';
+    }
+}
+
+// cek session user yang login
+if (!function_exists('cek_user')) {
+    function cek_user()
+    {
+        $CI = &get_instance();
+        if ($CI->session->userdata('status_login') != 'sessDashboard') :
+            redirect('logout');
+        endif;
+    }
+}
+
+// session kode user
+if (!function_exists('id_user')) {
+    function id_user()
+    {
+        $CI = &get_instance();
+        return $CI->session->userdata('kode');
+    }
+}
+
+// nama user yang login
+if (!function_exists('user_profile')) {
+    function user_profile()
+    {
+        $CI = &get_instance();
+        $row = $CI->db->where('id_user', id_user())->get('users')->row_array();
+        return $row['nama_user'];
+    }
+}
+
+// avatar user
+if (!function_exists('user_photo')) {
+    function user_photo()
+    {
+        $CI = &get_instance();
+        $row = $CI->db->where('id_user', id_user())->get('users')->row_array();
+        if ($row['avatar_user'] != null) {
+            return base_url() . $row['avatar_user'];
+        } else {
+            return base_url() . 'assets/logo/no_image.png';
+        }
+    }
+}
+
+// role user
+if (!function_exists('role_user')) {
+    function role_user()
+    {
+        $CI = &get_instance();
+        $row = $CI->db->where('id_user', id_user())->get('users')->row_array();
+        if ($row['jenis_user'] == 1) :
+            $result = $CI->db->from('role')
+                ->join('user_office', 'id_role=role_level')
+                ->where('user_level', id_user())
+                ->get()->row_array();
+            $role = $result['nama_role'];
+        endif;
+        return $role;
     }
 }
