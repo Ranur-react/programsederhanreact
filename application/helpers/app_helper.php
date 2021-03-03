@@ -4,7 +4,11 @@
 if (!function_exists('nameApp')) {
     function nameApp()
     {
-        return "Barang Mudo";
+        $CI = &get_instance();
+        $CI->load->model('settings/Mconfig');
+        $data = $CI->Mconfig->nameApp();
+        $name = $data->value_seting;
+        return $name;
     }
 }
 
@@ -12,14 +16,22 @@ if (!function_exists('nameApp')) {
 if (!function_exists('logoApp')) {
     function logoApp()
     {
-        return base_url() . 'assets/logo/logo.png';
+        $CI = &get_instance();
+        $CI->load->model('settings/Mconfig');
+        $data = $CI->Mconfig->logoApp();
+        $image = $data->value_seting;
+        return $image;
     }
 }
 // Logo Aplikasi
 if (!function_exists('logoDashboard')) {
     function logoDashboard()
     {
-        return base_url() . 'assets/logo/logo2.png';
+        $CI = &get_instance();
+        $CI->load->model('settings/Mconfig');
+        $data = $CI->Mconfig->logoDashboard();
+        $image = $data->value_seting;
+        return $image;
     }
 }
 
@@ -27,7 +39,11 @@ if (!function_exists('logoDashboard')) {
 if (!function_exists('faviconApp')) {
     function faviconApp()
     {
-        return base_url() . 'assets/logo/favicon.ico';
+        $CI = &get_instance();
+        $CI->load->model('settings/Mconfig');
+        $data = $CI->Mconfig->faviconApp();
+        $image = $data->value_seting;
+        return $image;
     }
 }
 
@@ -68,9 +84,12 @@ if (!function_exists('user_photo')) {
         $CI = &get_instance();
         $row = $CI->db->where('id_user', id_user())->get('users')->row_array();
         if ($row['avatar_user'] != null) {
-            return base_url() . $row['avatar_user'];
+            return $row['avatar_user'];
         } else {
-            return base_url() . 'assets/logo/no_image.png';
+            $CI->load->model('settings/Mconfig');
+            $data = $CI->Mconfig->noUserImage();
+            $image = $data->value_seting;
+            return $image;
         }
     }
 }
