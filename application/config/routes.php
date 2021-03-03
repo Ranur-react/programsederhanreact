@@ -17,6 +17,7 @@ $route['pengguna'] = 'master/pengguna';
 $route['pengguna/create'] = 'master/pengguna/create';
 $route['pengguna/store'] = 'master/pengguna/store';
 $route['pengguna/edit'] = 'master/pengguna/edit';
+$route['pengguna/update'] = 'master/pengguna/update';
 
 $route['supplier'] = 'master/supplier';
 

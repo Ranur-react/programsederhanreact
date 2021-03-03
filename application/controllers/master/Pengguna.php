@@ -86,6 +86,28 @@ class Pengguna extends CI_Controller
         ];
         $this->template->modal_form('master/pengguna/edit', $data);
     }
+    public function update()
+    {
+        $this->form_validation->set_rules('nama', 'Nama lengkap', 'trim|required');
+        $this->form_validation->set_rules('username', 'Username', 'trim|required');
+        $this->form_validation->set_rules('status', 'Status', 'required');
+        $this->form_validation->set_message('required', errorRequired());
+        $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
+        if ($this->form_validation->run() == TRUE) {
+            $post = $this->input->post(null, TRUE);
+            $this->Mpengguna->update($post);
+            $json = array(
+                'status' => "0100",
+                'pesan' => "Data pengguna telah dirubah"
+            );
+        } else {
+            $json['status'] = "0111";
+            foreach ($_POST as $key => $value) {
+                $json['pesan'][$key] = form_error($key);
+            }
+        }
+        echo json_encode($json);
+    }
 }
 
 /* End of file Pengguna.php */

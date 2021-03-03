@@ -91,6 +91,25 @@ class Mpengguna extends CI_Model
     {
         return $this->db->where('id_user', $kode)->get('users')->row_array();
     }
+    public function update($post)
+    {
+        $kode = $post['kode'];
+        if (empty($post['password'])) {
+            $data = [
+                'nama_user' => $post['nama'],
+                'username' => $post['username'],
+                'status_user' => $post['status']
+            ];
+        } else {
+            $data = array(
+                'nama_user' => $post['nama'],
+                'username' => $post['username'],
+                'password' => password_hash($post['password'], PASSWORD_BCRYPT),
+                'status_user' => $post['status']
+            );
+        }
+        return $this->db->where('id_user', $kode)->update('users', $data);
+    }
 }
 
 /* End of file Mpengguna.php */
