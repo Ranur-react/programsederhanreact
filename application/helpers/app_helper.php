@@ -4,7 +4,11 @@
 if (!function_exists('nameApp')) {
     function nameApp()
     {
-        return "Barang Mudo";
+        $CI = &get_instance();
+        $CI->load->model('settings/Mconfig');
+        $data = $CI->Mconfig->nameApp();
+        $name = $data->value_seting;
+        return $name;
     }
 }
 
@@ -12,7 +16,22 @@ if (!function_exists('nameApp')) {
 if (!function_exists('logoApp')) {
     function logoApp()
     {
-        return base_url() . 'assets/logo/logo.png';
+        $CI = &get_instance();
+        $CI->load->model('settings/Mconfig');
+        $data = $CI->Mconfig->logoApp();
+        $image = $data->value_seting;
+        return $image;
+    }
+}
+// Logo Aplikasi
+if (!function_exists('logoDashboard')) {
+    function logoDashboard()
+    {
+        $CI = &get_instance();
+        $CI->load->model('settings/Mconfig');
+        $data = $CI->Mconfig->logoDashboard();
+        $image = $data->value_seting;
+        return $image;
     }
 }
 
@@ -20,7 +39,11 @@ if (!function_exists('logoApp')) {
 if (!function_exists('faviconApp')) {
     function faviconApp()
     {
-        return base_url() . 'assets/logo/favicon.ico';
+        $CI = &get_instance();
+        $CI->load->model('settings/Mconfig');
+        $data = $CI->Mconfig->faviconApp();
+        $image = $data->value_seting;
+        return $image;
     }
 }
 
@@ -41,5 +64,49 @@ if (!function_exists('id_user')) {
     {
         $CI = &get_instance();
         return $CI->session->userdata('kode');
+    }
+}
+
+// nama user yang login
+if (!function_exists('user_profile')) {
+    function user_profile()
+    {
+        $CI = &get_instance();
+        $row = $CI->db->where('id_user', id_user())->get('users')->row_array();
+        return $row['nama_user'];
+    }
+}
+
+// avatar user
+if (!function_exists('user_photo')) {
+    function user_photo()
+    {
+        $CI = &get_instance();
+        $row = $CI->db->where('id_user', id_user())->get('users')->row_array();
+        if ($row['avatar_user'] != null) {
+            return $row['avatar_user'];
+        } else {
+            $CI->load->model('settings/Mconfig');
+            $data = $CI->Mconfig->noUserImage();
+            $image = $data->value_seting;
+            return $image;
+        }
+    }
+}
+
+// role user
+if (!function_exists('role_user')) {
+    function role_user()
+    {
+        $CI = &get_instance();
+        $row = $CI->db->where('id_user', id_user())->get('users')->row_array();
+        if ($row['jenis_user'] == 1) :
+            $result = $CI->db->from('role')
+                ->join('user_office', 'id_role=role_level')
+                ->where('user_level', id_user())
+                ->get()->row_array();
+            $role = $result['nama_role'];
+        endif;
+        return $role;
     }
 }

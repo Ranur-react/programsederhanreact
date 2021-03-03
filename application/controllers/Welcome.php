@@ -13,6 +13,12 @@ class Welcome extends CI_Controller
 	}
 	public function index()
 	{
-		$this->load->view('welcome_message');
+		$data = [
+			'title' => 'Dashboard | ' . nameApp(),
+			'menu'  => 'Dashboard',
+			'small' => nameApp(),
+			'links' => '<li class="active">Dashboard</li>'
+		];
+		$this->template->dashboard('layout/content', $data);
 	}
 }
