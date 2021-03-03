@@ -75,6 +75,17 @@ class Pengguna extends CI_Controller
         }
         echo json_encode($json);
     }
+    public function edit()
+    {
+        $kode = $this->input->get('kode');
+        $data = [
+            'name' => 'Edit Pengguna',
+            'post' => 'pengguna/update',
+            'class' => 'form_create',
+            'data' => $this->Mpengguna->show($kode)
+        ];
+        $this->template->modal_form('master/pengguna/edit', $data);
+    }
 }
 
 /* End of file Pengguna.php */

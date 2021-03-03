@@ -103,6 +103,20 @@
         });
     }
 
+    function edit(kode) {
+        $.ajax({
+            url: "<?= site_url('pengguna/edit') ?>",
+            type: "GET",
+            data: {
+                kode: kode
+            },
+            success: function(resp) {
+                $("#tampil_modal").html(resp);
+                $("#modal_create").modal('show');
+            }
+        });
+    }
+
     $(document).on('submit', '.form_create', function(e) {
         $.ajax({
             type: "post",

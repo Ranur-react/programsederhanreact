@@ -87,6 +87,10 @@ class Mpengguna extends CI_Model
             return array($users, $gudang);
         endif;
     }
+    public function show($kode)
+    {
+        return $this->db->where('id_user', $kode)->get('users')->row_array();
+    }
 }
 
 /* End of file Mpengguna.php */
