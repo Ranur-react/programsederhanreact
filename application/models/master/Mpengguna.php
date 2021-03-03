@@ -110,6 +110,17 @@ class Mpengguna extends CI_Model
         }
         return $this->db->where('id_user', $kode)->update('users', $data);
     }
+    public function destroy($kode)
+    {
+        $data = $this->show($kode);
+        if ($data['jenis_user'] == 1) :
+            $this->db->where('user_level', $kode)->delete('user_office');
+        else :
+            $this->db->where('user_level', $kode)->delete('user_gudang');
+        endif;
+        $this->db->where('id_user', $kode)->delete('users');
+        return true;
+    }
 }
 
 /* End of file Mpengguna.php */
