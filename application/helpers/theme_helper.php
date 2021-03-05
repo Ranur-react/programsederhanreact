@@ -3,7 +3,10 @@
 if (!function_exists('assets')) {
     function assets()
     {
-        $link = base_url() . 'assets/';
-        return $link;
+        $CI = &get_instance();
+        $CI->load->model('settings/Mconfig');
+        $data = $CI->Mconfig->pathAssets();
+        $path = $data->value_seting;
+        return $path;
     }
 }

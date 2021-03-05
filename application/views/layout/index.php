@@ -9,12 +9,13 @@
     <link rel="shortcut icon" href="<?= faviconApp() ?>">
     <link rel="stylesheet" href="<?= assets() ?>bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?= assets() ?>bower_components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="<?= assets() ?>bower_components/source-sans/source-sans-pro.css">
     <link rel="stylesheet" href="<?= assets() ?>bower_components/Ionicons/css/ionicons.min.css">
     <link rel="stylesheet" href="<?= assets() ?>bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
     <link rel="stylesheet" href="<?= assets() ?>dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="<?= assets() ?>dist/css/skins/_all-skins.min.css">
     <link rel="stylesheet" href="<?= assets() ?>bower_components/icomoon/styles.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <link rel="stylesheet" href="<?= assets() ?>css/style.css">
 
     <script src="<?= assets() ?>bower_components/jquery/dist/jquery.min.js"></script>
     <script src="<?= assets() ?>bower_components/jquery-ui/jquery-ui.min.js"></script>
@@ -37,52 +38,6 @@
             })
         });
     </script>
-    <style>
-        .dropdown-menu>li>a {
-            padding: 10px 20px;
-        }
-
-        .modal-content {
-            border-radius: 5px;
-        }
-
-        .modal-header {
-            background: #f3f4f5;
-            border-bottom: 1px solid #dcdfe1;
-            border-top-right-radius: .3rem;
-            border-top-left-radius: .3rem;
-        }
-
-        .modal-footer {
-            background: #f3f4f5;
-            border-top: 1px solid #dcdfe1;
-            border-bottom-right-radius: .3rem;
-            border-bottom-left-radius: .3rem;
-        }
-
-        label {
-            font-weight: 400;
-        }
-
-        .form-control {
-            border-radius: 3px;
-        }
-
-        @media (max-width: 767px) {
-            .dropdown-menu>li>a {
-                padding: 10px 20px !important;
-            }
-
-            .skin-blue .main-header .navbar .dropdown-menu li a {
-                color: #777;
-            }
-
-            .skin-blue .main-header .navbar .dropdown-menu li a:hover {
-                background-color: #e1e3e9 !important;
-                color: #333 !important;
-            }
-        }
-    </style>
 </head>
 
 <body class="hold-transition skin-blue">
