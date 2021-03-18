@@ -62,7 +62,11 @@ class Kategori extends CI_Controller
                             "error" => "<div class='text-red'>Ukuran file tidak boleh melebihi 800KB</div>"
                         );
                     } else {
-                        // 
+                        $this->Mkategori->store($post, $link);
+                        $json = array(
+                            'status' => "0100",
+                            'pesan' => "Data kategori telah disimpan"
+                        );
                     }
                 } else {
                     $json = array(
