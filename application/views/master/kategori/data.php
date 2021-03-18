@@ -72,6 +72,7 @@
                         location.reload();
                     }));
                 } else {
+                    $("#pesan_gambar").html(resp.error);
                     $.each(resp.pesan, function(key, value) {
                         var element = $('#' + key);
                         element.closest('div.form-group')
