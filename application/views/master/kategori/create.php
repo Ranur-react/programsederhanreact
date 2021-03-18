@@ -17,7 +17,7 @@
 <div class="form-group">
     <label>Sub Kategori</label>
     <select class="form-control select2" name="parent" data-placeholder="Pilih Kategori" style="width: 100%;">
-        <option value="">-- Pilih Parent --</option>
+        <option value=""></option>
         <option value="0">None</option>
         <?php foreach ($parent as $p) { ?>
             <option value="<?= $p['id'] ?>"><?= $p['nama'] ?></option>
@@ -42,5 +42,6 @@
             },
         };
         $('#upload_image').fileinput(img_fileinput_setting);
+        $(".select2").select2();
     });
 </script>
