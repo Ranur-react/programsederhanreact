@@ -5,7 +5,7 @@
             <i class="icon-home4"></i> <span>Dashboard</span>
         </a>
     </li>
-    <li class="treeview <?= $urls == 'pengguna' || $urls == 'supplier' || $urls == 'satuan' || $urls == 'gudang' ? 'active' : null ?>">
+    <li class="treeview <?= $urls == 'pengguna' || $urls == 'supplier' || $urls == 'satuan' || $urls == 'kategori' || $urls == 'gudang' ? 'active' : null ?>">
         <a href="#">
             <i class="icon-color-sampler"></i> <span>Master Data</span>
             <span class="pull-right-container">
@@ -21,6 +21,9 @@
             </li>
             <li class="<?= $urls == 'satuan' ? 'active' : null ?>">
                 <a href="<?= site_url('satuan') ?>"><i class="fa fa-angle-double-right"></i> Satuan</a>
+            </li>
+            <li class="<?= $urls == 'kategori' ? 'active' : null ?>">
+                <a href="<?= site_url('kategori') ?>"><i class="fa fa-angle-double-right"></i> Kategori</a>
             </li>
             <li class="<?= $urls == 'gudang' ? 'active' : null ?>">
                 <a href="<?= site_url('gudang') ?>"><i class="fa fa-angle-double-right"></i> Gudang</a>

@@ -29,6 +29,8 @@ $route['satuan/edit'] = 'master/satuan/edit';
 $route['satuan/update'] = 'master/satuan/update';
 $route['satuan/destroy'] = 'master/satuan/destroy';
 
+$route['kategori'] = 'master/kategori';
+
 $route['gudang'] = 'master/gudang';
 $route['gudang/create'] = 'master/gudang/create';
 $route['gudang/store'] = 'master/gudang/store';
