@@ -44,6 +44,7 @@ class Mkategori extends CI_Model
                 $level++;
             }
         endif;
+        $this->db->query("INSERT INTO kategori_path(kategori_path,parent_path,level_path) VALUES ('$kode','$kode',$level)");
     }
 }
 
