@@ -46,7 +46,14 @@ class Kategori extends CI_Controller
             $mime = get_mime_by_extension($_FILES['gambar']['name']);
             if (isset($_FILES['gambar']['name']) && $_FILES['gambar']['name'] != "") {
                 if (in_array($mime, $types)) {
-                    // 
+                    if ($_FILES['gambar']['size'] > 819200) {
+                        $json = array(
+                            "status" => "0111",
+                            "error" => "<div class='text-red'>Ukuran file tidak boleh melebihi 800KB</div>"
+                        );
+                    } else {
+                        // 
+                    }
                 } else {
                     $json = array(
                         "status" => "0111",
