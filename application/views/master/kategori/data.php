@@ -48,4 +48,44 @@
             }
         });
     }
+
+    $(document).on('submit', '.form_create', function(e) {
+        event.preventDefault();
+        var formData = new FormData($(".form_create")[0]);
+        $.ajax({
+            url: $(".form_create").attr('action'),
+            dataType: 'json',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            beforeSend: function() {
+                $('.store_data').button('loading');
+            },
+            success: function(resp) {
+                if (resp.status == "0100") {
+                    localStorage.setItem("swal", swal({
+                        title: "Sukses!",
+                        text: resp.pesan,
+                        type: "success",
+                    }).then(function() {
+                        location.reload();
+                    }));
+                } else {
+                    $.each(resp.pesan, function(key, value) {
+                        var element = $('#' + key);
+                        element.closest('div.form-group')
+                            .removeClass('has-error')
+                            .addClass(value.length > 0 ? 'has-error' : 'has-success')
+                            .find('.help-block')
+                            .remove();
+                        element.after(value);
+                    });
+                }
+            },
+            complete: function() {
+                $('.store_data').button('reset');
+            }
+        })
+    });
 </script>
