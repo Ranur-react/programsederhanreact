@@ -14,6 +14,20 @@ class Mkategori extends CI_Model
         GROUP BY cp.kategori_path
         ORDER BY nama ASC")->result_array();
     }
+    public function kode()
+    {
+        $this->db->select('id_kategori', FALSE)
+            ->order_by('id_kategori', 'DESC')
+            ->limit(1);
+        $query = $this->db->get('kategori');
+        if ($query->num_rows() <> 0) {
+            $data = $query->row();
+            $kode = intval($data->id_kategori) + 1;
+        } else {
+            $kode = 1;
+        }
+        return $kode;
+    }
 }
 
 /* End of file Mkategori.php */
