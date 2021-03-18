@@ -35,8 +35,14 @@ class Mkategori extends CI_Model
         $slug = $post['slug'];
         $parent = $post['parent'];
         $this->db->query("INSERT INTO kategori VALUES('$kode','$nama','$slug','$link','$parent')");
+        $level = 0;
         if ($parent != "0") :
             $query = $this->db->query("SELECT * FROM kategori_path WHERE kategori_path='$parent'");
+            foreach ($query->result() as $result) {
+                $path = $result->parent_path;
+                $this->db->query("INSERT INTO kategori_path(kategori_path,parent_path,level_path) VALUES ('$kode','$path','$level')");
+                $level++;
+            }
         endif;
     }
 }
