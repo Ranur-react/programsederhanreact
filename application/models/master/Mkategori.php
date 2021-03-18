@@ -35,6 +35,9 @@ class Mkategori extends CI_Model
         $slug = $post['slug'];
         $parent = $post['parent'];
         $this->db->query("INSERT INTO kategori VALUES('$kode','$nama','$slug','$link','$parent')");
+        if ($parent != "0") :
+            $query = $this->db->query("SELECT * FROM kategori_path WHERE kategori_path='$parent'");
+        endif;
     }
 }
 
