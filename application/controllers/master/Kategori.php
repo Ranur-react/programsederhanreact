@@ -22,4 +22,15 @@ class Kategori extends CI_Controller
         ];
         $this->template->dashboard('master/kategori/data', $data);
     }
+    public function create()
+    {
+        $data = [
+            'name' => 'Tambah Data',
+            'post' => 'kategori/store',
+            'class' => 'form_create',
+            'multipart' => 1,
+            'parent' => $this->Mkategori->fetch_all()
+        ];
+        $this->template->modal_form('master/kategori/create', $data);
+    }
 }
