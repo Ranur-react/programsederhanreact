@@ -28,6 +28,14 @@ class Mkategori extends CI_Model
         }
         return $kode;
     }
+    public function store($post, $link)
+    {
+        $kode = $this->kode();
+        $nama = $post['nama'];
+        $slug = $post['slug'];
+        $parent = $post['parent'];
+        $this->db->query("INSERT INTO kategori VALUES('$kode','$nama','$slug','$link','$parent')");
+    }
 }
 
 /* End of file Mkategori.php */
