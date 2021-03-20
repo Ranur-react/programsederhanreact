@@ -111,8 +111,17 @@ class Kategori extends CI_Controller
         $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
         if ($this->form_validation->run() == TRUE) {
             $post = $this->input->post(null, TRUE);
+            $types = array('image/jpeg', 'image/pjpeg', 'image/png', 'image/x-png');
+            $mime = get_mime_by_extension($_FILES['gambar']['name']);
             if (isset($_FILES['gambar']['name']) && $_FILES['gambar']['name'] != "") {
-                // 
+                if (in_array($mime, $types)) {
+                    // 
+                } else {
+                    $json = array(
+                        "status" => "0111",
+                        "error" => "<div class='text-red'>Harap unggah file yang hanya berekstensi .jpeg / .jpg / .png.</div>"
+                    );
+                }
             } else {
                 $this->Mkategori->update($post, $link = '');
                 $json = array(
