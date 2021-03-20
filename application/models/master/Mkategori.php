@@ -108,6 +108,16 @@ class Mkategori extends CI_Model
             $this->db->query("REPLACE INTO kategori_path SET kategori_path='" . $kode . "',parent_path='" . $kode . "', level_path='" . $level . "'");
         }
     }
+    public function destroy($kode)
+    {
+        $this->db->query("DELETE FROM kategori_path WHERE kategori_path='$kode'");
+        $query = $this->db->query("SELECT * FROM kategori_path WHERE parent_path='$kode'")->result_array();
+        foreach ($query as $result) {
+            $this->destroy($result['kategori_path']);
+        }
+        $this->db->query("DELETE FROM kategori WHERE id_kategori='$kode'");
+        return true;
+    }
 }
 
 /* End of file Mkategori.php */
