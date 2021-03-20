@@ -111,6 +111,15 @@ class Kategori extends CI_Controller
         $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
         if ($this->form_validation->run() == TRUE) {
             $post = $this->input->post(null, TRUE);
+            if (isset($_FILES['gambar']['name']) && $_FILES['gambar']['name'] != "") {
+                // 
+            } else {
+                $this->Mkategori->update($post, $link = '');
+                $json = array(
+                    'status' => "0100",
+                    'pesan' => "Data kategori telah dirubah"
+                );
+            }
         } else {
             $json['status'] = "0111";
             foreach ($_POST as $key => $value) {
