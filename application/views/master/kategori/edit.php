@@ -43,5 +43,6 @@
             },
         };
         $('#upload_image').fileinput(img_fileinput_setting);
+        $(".select2").select2();
     });
 </script>
