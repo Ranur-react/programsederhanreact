@@ -71,6 +71,42 @@ class Mkategori extends CI_Model
             );
         endif;
         $this->db->where('id_kategori', $kode)->update('kategori', $data);
+
+        $sql = $this->db->query("SELECT * FROM kategori_path WHERE parent_path='$kode' ORDER BY level_path ASC");
+        if ($sql->num_rows() > 0) {
+            foreach ($sql->result_array() as $kategory_path) {
+                // Hapus semua level yang ada dibawah
+                $this->db->query("DELETE FROM kategori_path WHERE kategori_path='" . $kategory_path['kategori_path'] . "' AND level_path < '" . $kategory_path['level_path'] . "'");
+                $path = array();
+                // Dapatkan level induk yang baru
+                $query = $this->db->query("SELECT * FROM kategori_path WHERE kategori_path='$parent' ORDER BY level_path ASC");
+                foreach ($query->result_array() as $result) {
+                    $path[] = $result['parent_path'];
+                }
+                // Dapatkan level yang tersisa saat ini
+                $query = $this->db->query("SELECT * FROM kategori_path WHERE kategori_path='" . $kategory_path['kategori_path'] . "' ORDER BY level_path ASC");
+                foreach ($query->result_array() as $result) {
+                    $path[] = $result['parent_path'];
+                }
+                // Gabungkan jalur dengan level baru
+                $level = 0;
+                foreach ($path as $path_id) {
+                    $this->db->query("REPLACE INTO kategori_path SET kategori_path='" . $kategory_path['kategori_path'] . "', parent_path='" . $path_id . "', level_path='" . $level . "'");
+                    $level++;
+                }
+            }
+        } else {
+            // Hapus semua level yang ada dibawah
+            $this->db->query("DELETE FROM kategori_path WHERE category_id='$kode'");
+            // Perbaiki untuk level tanpa jalur
+            $level = 0;
+            $query = $this->db->query("SELECT * FROM kategori_path WHERE category_id='$parent' ORDER BY level_path ASC");
+            foreach ($query->result_array() as $result) {
+                $this->db->query("INSERT INTO kategori_path SET kategori_path='" . $kode . "',parent_path='" . $result['parent_path'] . "', level_path='" . $level . "'");
+                $level++;
+            }
+            $this->db->query("REPLACE INTO kategori_path SET kategori_path='" . $kode . "',parent_path='" . $kode . "', level_path='" . $level . "'");
+        }
     }
 }
 
