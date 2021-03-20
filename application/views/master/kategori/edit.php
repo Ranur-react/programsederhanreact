@@ -26,3 +26,22 @@
     </select>
     <div id="parent"></div>
 </div>
+<script>
+    $(document).ready(function() {
+        var img_fileinput_setting = {
+            showUpload: false,
+            showPreview: true,
+            browseLabel: 'Telusuri...',
+            removeLabel: 'Hapus',
+            previewSettings: {
+                image: {
+                    width: 'auto',
+                    height: 'auto',
+                    'max-width': '100%',
+                    'max-height': '100%'
+                },
+            },
+        };
+        $('#upload_image').fileinput(img_fileinput_setting);
+    });
+</script>
