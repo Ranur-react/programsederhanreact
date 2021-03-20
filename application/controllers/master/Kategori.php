@@ -102,4 +102,21 @@ class Kategori extends CI_Controller
         ];
         $this->template->modal_form('master/kategori/edit', $data);
     }
+    public function update()
+    {
+        $this->form_validation->set_rules('nama', 'Nama', 'required');
+        $this->form_validation->set_rules('slug', 'Slug', 'required');
+        $this->form_validation->set_rules('parent', 'Sub kategori', 'required');
+        $this->form_validation->set_message('required', errorRequired());
+        $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
+        if ($this->form_validation->run() == TRUE) {
+            $post = $this->input->post(null, TRUE);
+        } else {
+            $json['status'] = "0111";
+            foreach ($_POST as $key => $value) {
+                $json['pesan'][$key] = form_error($key);
+            }
+        }
+        echo json_encode($json);
+    }
 }
