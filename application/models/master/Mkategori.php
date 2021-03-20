@@ -50,6 +50,28 @@ class Mkategori extends CI_Model
     {
         return $this->db->where('id_kategori', $kode)->get('kategori')->row_array();
     }
+    public function update($post, $link)
+    {
+        $kode = $post['kode'];
+        $parent = $post['parent'];
+        $row = $this->show($kode);
+        if ($link == '') :
+            $data = array(
+                'nama_kategori' => $post['nama'],
+                'slug_kategori' => $post['slug'],
+                'parent_kategori' => $parent
+            );
+        else :
+            unlink(pathKategori() . $row['icon_kategori']);
+            $data = array(
+                'nama_kategori' => $post['nama'],
+                'slug_kategori' => $post['slug'],
+                'icon_kategori' => $link,
+                'parent_kategori' => $parent
+            );
+        endif;
+        $this->db->where('id_kategori', $kode)->update('kategori', $data);
+    }
 }
 
 /* End of file Mkategori.php */
