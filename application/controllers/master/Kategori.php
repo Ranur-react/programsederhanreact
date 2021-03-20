@@ -115,6 +115,16 @@ class Kategori extends CI_Controller
             $mime = get_mime_by_extension($_FILES['gambar']['name']);
             if (isset($_FILES['gambar']['name']) && $_FILES['gambar']['name'] != "") {
                 if (in_array($mime, $types)) {
+                    $config['upload_path'] = pathKategori() . 'images/kategori';
+                    $config['allowed_types'] = 'jpg|jpeg|png';
+                    $config['max_size'] = 819200;
+                    $config['encrypt_name'] = TRUE;
+                    $this->load->library('upload', $config);
+                    $this->upload->initialize($config);
+                    if ($this->upload->do_upload('gambar')) {
+                        $data['upload_data'] = $this->upload->data('file_name');
+                        $link = 'images/kategori/' . $data['upload_data'];
+                    }
                     if ($_FILES['gambar']['size'] > 819200) {
                         $json = array(
                             "status" => "0111",
