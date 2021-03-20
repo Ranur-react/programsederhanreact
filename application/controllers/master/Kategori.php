@@ -25,7 +25,7 @@ class Kategori extends CI_Controller
     public function create()
     {
         $data = [
-            'name' => 'Tambah Data',
+            'name' => 'Tambah Kategori',
             'post' => 'kategori/store',
             'class' => 'form_create',
             'multipart' => 1,
@@ -88,5 +88,18 @@ class Kategori extends CI_Controller
             }
         }
         echo json_encode($json);
+    }
+    public function edit()
+    {
+        $kode = $this->input->get('kode');
+        $data = [
+            'name' => 'Edit Kategori',
+            'post' => 'kategori/update',
+            'class' => 'form_create',
+            'multipart' => 1,
+            'data' => $this->Mkategori->show($kode),
+            'parent' => $this->Mkategori->fetch_all()
+        ];
+        $this->template->modal_form('master/kategori/edit', $data);
     }
 }

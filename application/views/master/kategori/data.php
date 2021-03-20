@@ -21,7 +21,7 @@
                             <td><?= $d['nama'] ?></td>
                             <td></td>
                             <td class="text-center" width="60px">
-                                <a href="javascript:void(0)">
+                                <a href="javascript:void(0)" onclick="edit('<?= $d['id'] ?>')">
                                     <i class="icon-pencil7 text-green" data-toggle="tooltip" data-original-title="Edit"></i>
                                 </a>
                                 <a href="javascript:void(0)">
@@ -42,6 +42,20 @@
         $.ajax({
             url: "<?= site_url('kategori/create') ?>",
             type: "GET",
+            success: function(resp) {
+                $("#tampil_modal").html(resp);
+                $("#modal_create").modal('show');
+            }
+        });
+    }
+
+    function edit(kode) {
+        $.ajax({
+            url: "<?= site_url('kategori/edit') ?>",
+            type: "GET",
+            data: {
+                kode: kode
+            },
             success: function(resp) {
                 $("#tampil_modal").html(resp);
                 $("#modal_create").modal('show');

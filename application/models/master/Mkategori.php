@@ -46,6 +46,10 @@ class Mkategori extends CI_Model
         endif;
         $this->db->query("INSERT INTO kategori_path(kategori_path,parent_path,level_path) VALUES ('$kode','$kode',$level)");
     }
+    public function show($kode)
+    {
+        return $this->db->where('id_kategori', $kode)->get('kategori')->row_array();
+    }
 }
 
 /* End of file Mkategori.php */
