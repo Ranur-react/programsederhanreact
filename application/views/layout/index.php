@@ -25,6 +25,7 @@
     <script src="<?= assets() ?>bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="<?= assets() ?>bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="<?= assets() ?>bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="<?= assets() ?>bower_components/ckeditor/ckeditor.js"></script>
     <script src="<?= assets() ?>bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
     <script src="<?= assets() ?>bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
     <script src="<?= assets() ?>bower_components/fastclick/lib/fastclick.js"></script>
