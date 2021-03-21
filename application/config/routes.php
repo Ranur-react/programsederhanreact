@@ -42,3 +42,10 @@ $route['gudang/store'] = 'master/gudang/store';
 $route['gudang/edit'] = 'master/gudang/edit';
 $route['gudang/update'] = 'master/gudang/update';
 $route['gudang/destroy'] = 'master/gudang/destroy';
+
+$route['barang'] = 'master/barang';
+$route['barang/create'] = 'master/barang/create';
+$route['barang/store'] = 'master/barang/store';
+$route['barang/edit/(:num)'] = 'master/barang/edit/$1';
+$route['barang/update'] = 'master/barang/update';
+$route['barang/destroy'] = 'master/barang/destroy';
