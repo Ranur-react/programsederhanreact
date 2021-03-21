@@ -22,6 +22,16 @@ class Barang extends CI_Controller
         ];
         $this->template->dashboard('master/barang/data', $data);
     }
+    public function create()
+    {
+        $data = [
+            'name' => 'Tambah Barang',
+            'post' => 'barang/store',
+            'class' => 'form_create',
+            'modallg' => 1
+        ];
+        $this->template->modal_form('master/barang/create', $data);
+    }
 }
 
 /* End of file Barang.php */
