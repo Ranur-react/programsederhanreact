@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="<?= assets() ?>bower_components/source-sans/source-sans-pro.css">
     <link rel="stylesheet" href="<?= assets() ?>bower_components/Ionicons/css/ionicons.min.css">
     <link rel="stylesheet" href="<?= assets() ?>bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="<?= assets() ?>bower_components/select2/dist/css/select2.min.css">
+    <link rel="stylesheet" href="<?= assets() ?>plugins/bootstrap-fileinput/fileinput.min.css">
     <link rel="stylesheet" href="<?= assets() ?>dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="<?= assets() ?>dist/css/skins/_all-skins.min.css">
     <link rel="stylesheet" href="<?= assets() ?>bower_components/icomoon/styles.css">
@@ -25,6 +27,8 @@
     <script src="<?= assets() ?>bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="<?= assets() ?>bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="<?= assets() ?>bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="<?= assets() ?>bower_components/select2/dist/js/select2.full.min.js"></script>
+    <script src="<?= assets() ?>plugins/bootstrap-fileinput/fileinput.min.js"></script>
     <script src="<?= assets() ?>bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
     <script src="<?= assets() ?>bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
     <script src="<?= assets() ?>bower_components/fastclick/lib/fastclick.js"></script>
