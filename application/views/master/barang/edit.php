@@ -1,5 +1,5 @@
 <div class="col-xs-12">
-    <?= form_open('#', ['id' => 'form_create'], ['kode' => $data['id_barang']]) ?>
+    <?= form_open('barang/update', ['id' => 'form_create'], ['kode' => $data['id_barang']]) ?>
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
             <li class="active"><a href="#umum" data-toggle="tab">Umum</a></li>
@@ -50,5 +50,50 @@
             CKEDITOR.config.height = 120;
             CKEDITOR.replace('desc');
         }
+    });
+    // Update data
+    $(document).ready(function() {
+        $('#form_create').on('submit', function(event) {
+            event.preventDefault();
+            for (instance in CKEDITOR.instances) {
+                CKEDITOR.instances[instance].updateElement();
+            }
+            var formData = new FormData($("#form_create")[0]);
+            $.ajax({
+                url: $("#form_create").attr('action'),
+                dataType: 'json',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                beforeSend: function() {
+                    $('#store').button('loading');
+                },
+                success: function(resp) {
+                    if (resp.status == "0100") {
+                        localStorage.setItem("swal", swal({
+                            title: "Sukses!",
+                            text: resp.pesan,
+                            type: "success",
+                        }).then(function() {
+                            location.reload();
+                        }));
+                    } else {
+                        $.each(resp.pesan, function(key, value) {
+                            var element = $('#' + key);
+                            element.closest('div.form-group')
+                                .removeClass('has-error')
+                                .addClass(value.length > 0 ? 'has-error' : 'has-success')
+                                .find('.help-block')
+                                .remove();
+                            element.after(value);
+                        });
+                    }
+                },
+                complete: function() {
+                    $('#store').button('reset');
+                }
+            })
+        });
     });
 </script>
