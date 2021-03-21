@@ -17,3 +17,13 @@
         <option value="2">Disabled</option>
     </select>
 </div>
+<script>
+    $(document).ready(function() {
+        $("#nama").keyup(function() {
+            var Text = $(this).val();
+            Text = Text.toLowerCase();
+            Text = Text.replace(/[^a-zA-Z0-9]+/g, '-');
+            $("#slug").val(Text);
+        });
+    });
+</script>
