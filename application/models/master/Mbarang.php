@@ -33,6 +33,10 @@ class Mbarang extends CI_Model
         );
         return $this->db->insert('barang', $data);
     }
+    public function show($kode)
+    {
+        return $this->db->where('id_barang', $kode)->get('barang')->row_array();
+    }
 }
 
 /* End of file Mbarang.php */

@@ -23,7 +23,7 @@
                                 <span class="label status <?= $d['status_barang'] == 1 ? 'status-active' : 'status-unpaid' ?>"><?= $d['status_barang'] == 1 ? 'Enabled' : 'Disabled' ?></span>
                             </td>
                             <td class="text-center" width="60px">
-                                <a href="javascript:void(0)">
+                                <a href="<?= site_url('barang/edit/' . $d['id_barang']) ?>">
                                     <i class="icon-pencil7 text-green" data-toggle="tooltip" data-original-title="Edit"></i>
                                 </a>
                                 <a href="javascript:void(0)">

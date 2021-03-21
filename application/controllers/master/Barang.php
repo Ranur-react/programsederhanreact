@@ -53,6 +53,16 @@ class Barang extends CI_Controller
         }
         echo json_encode($json);
     }
+    public function edit($kode)
+    {
+        $data = [
+            'title' => 'Barang',
+            'small' => 'Mengubah data barang',
+            'links' => '<li><a href="' . site_url('barang') . '">Barang</a></li><li class="active">Edit</li>',
+            'data' => $this->Mbarang->show($kode)
+        ];
+        $this->template->dashboard('master/barang/edit', $data);
+    }
 }
 
 /* End of file Barang.php */
