@@ -47,6 +47,10 @@ class Mbarang extends CI_Model
         );
         return $this->db->where('id_barang', $post['kode'])->update('barang', $data);
     }
+    public function destroy($kode)
+    {
+        return $this->db->simple_query("DELETE FROM barang WHERE id_barang='$kode'");
+    }
 }
 
 /* End of file Mbarang.php */

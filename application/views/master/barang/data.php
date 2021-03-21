@@ -26,7 +26,7 @@
                                 <a href="<?= site_url('barang/edit/' . $d['id_barang']) ?>">
                                     <i class="icon-pencil7 text-green" data-toggle="tooltip" data-original-title="Edit"></i>
                                 </a>
-                                <a href="javascript:void(0)">
+                                <a href="javascript:void(0)" onclick="hapus('<?= $d['id_barang'] ?>')">
                                     <i class="icon-trash text-red" data-toggle="tooltip" data-original-title="Hapus"></i>
                                 </a>
                             </td>
@@ -49,6 +49,42 @@
                 $("#modal_create").modal('show');
             }
         });
+    }
+
+    function hapus(kode) {
+        Swal({
+            title: "Apakah kamu yakin?",
+            text: "Anda tidak akan dapat mengembalikan ini!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: "Ya, hapus data ini"
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    type: "get",
+                    url: "<?= site_url('barang/destroy') ?>",
+                    data: {
+                        kode: kode
+                    },
+                    dataType: "json",
+                    success: function(resp) {
+                        if (resp.status == "0100") {
+                            Swal.fire({
+                                title: 'Deleted!',
+                                text: resp.message,
+                                type: 'success'
+                            }).then((resp) => {
+                                location.reload();
+                            })
+                        } else {
+                            Swal.fire('Oops...', resp.message, 'error');
+                        }
+                    }
+                });
+            }
+        })
     }
 
     $(document).on('submit', '.form_create', function(e) {
