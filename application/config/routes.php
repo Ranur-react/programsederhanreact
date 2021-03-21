@@ -38,3 +38,4 @@ $route['gudang/destroy'] = 'master/gudang/destroy';
 
 $route['barang'] = 'master/barang';
 $route['barang/create'] = 'master/barang/create';
+$route['barang/store'] = 'master/barang/store';

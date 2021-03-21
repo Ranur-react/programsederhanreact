@@ -32,6 +32,27 @@ class Barang extends CI_Controller
         ];
         $this->template->modal_form('master/barang/create', $data);
     }
+    public function store()
+    {
+        $post = $this->input->post(null, TRUE);
+        $this->form_validation->set_rules('nama', 'Nama barang', 'trim|required');
+        $this->form_validation->set_rules('slug', 'Slug', 'trim|required');
+        $this->form_validation->set_message('required', errorRequired());
+        $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
+        if ($this->form_validation->run() == TRUE) {
+            $this->Mbarang->store($post);
+            $json = array(
+                'status' => "0100",
+                'pesan' => "Data barang telah disimpan"
+            );
+        } else {
+            $json['status'] = "0111";
+            foreach ($_POST as $key => $value) {
+                $json['pesan'][$key] = form_error($key);
+            }
+        }
+        echo json_encode($json);
+    }
 }
 
 /* End of file Barang.php */
