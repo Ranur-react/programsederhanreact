@@ -38,3 +38,17 @@
     </div>
     <?= form_close() ?>
 </div>
+<script>
+    $(function() {
+        $("#nama").keyup(function() {
+            var Text = $(this).val();
+            Text = Text.toLowerCase();
+            Text = Text.replace(/[^a-zA-Z0-9]+/g, '-');
+            $("#slug").val(Text);
+        });
+        if ($('textarea#desc').length > 0) {
+            CKEDITOR.config.height = 120;
+            CKEDITOR.replace('desc');
+        }
+    });
+</script>
