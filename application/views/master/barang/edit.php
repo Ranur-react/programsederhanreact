@@ -110,6 +110,37 @@
         });
     });
 
+    // autocomplete kategori
+    $('input[name=\'kategori\']').autocomplete({
+        'source': function(request, response) {
+            $.ajax({
+                url: "<?= site_url('kategori/kategori_by_nama') ?>",
+                data: {
+                    filter_nama: request
+                },
+                dataType: 'json',
+                success: function(json) {
+                    response($.map(json, function(item) {
+                        return {
+                            label: item['nama'],
+                            value: item['id']
+                        }
+                    }));
+                }
+            });
+        },
+        'select': function(item) {
+            $('input[name=\'kategori\']').val('');
+            $('#barang-kategori' + item['value']).remove();
+            $('#barang-kategori').append('<div id="barang-kategori' + item['value'] + '"><i class="fa fa-minus-circle text-red"></i> ' + item['label'] + '<input type="hidden" name="barang_kategori[]" value="' + item['value'] + '" /></div>');
+        }
+    });
+
+    // Hapus item kategori
+    $('#barang-kategori').delegate('.fa-minus-circle', 'click', function() {
+        $(this).parent().remove();
+    });
+
     // tambah inputan otomatis untuk deskripsi barang
     var deskripsi_row = 3;
 
