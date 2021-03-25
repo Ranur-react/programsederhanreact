@@ -35,6 +35,7 @@ $route['kategori/store'] = 'master/kategori/store';
 $route['kategori/edit'] = 'master/kategori/edit';
 $route['kategori/update'] = 'master/kategori/update';
 $route['kategori/destroy'] = 'master/kategori/destroy';
+$route['kategori/kategori_by_nama'] = 'master/kategori/kategori_by_nama';
 
 $route['gudang'] = 'master/gudang';
 $route['gudang/create'] = 'master/gudang/create';

@@ -175,4 +175,18 @@ class Kategori extends CI_Controller
         }
         echo json_encode($json);
     }
+    // pencarian kategori berdasarkan nama
+    public function kategori_by_nama()
+    {
+        $filter_nama = $this->input->get('filter_nama');
+        $data = $this->Mkategori->kategori_by_nama($filter_nama);
+        $json = array();
+        foreach ($data as $d) {
+            $json[] = array(
+                'id' => $d['id'],
+                'nama' => $d['nama']
+            );
+        }
+        echo json_encode($json);
+    }
 }
