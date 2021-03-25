@@ -4,6 +4,7 @@
         <ul class="nav nav-tabs">
             <li class="active"><a href="#umum" data-toggle="tab">Umum</a></li>
             <li><a href="#deskripsi" data-toggle="tab">Deskripsi Barang</a></li>
+            <li><a href="#kategori" data-toggle="tab">Kategori & Satuan</a></li>
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="umum">
@@ -78,6 +79,24 @@
                             </tr>
                         </tfoot>
                     </table>
+                </div>
+            </div>
+            <div class="tab-pane" id="kategori">
+                <div class="row">
+                    <div class="col col-md-6">
+                        <div class="form-group">
+                            <label>Kategori</label>
+                            <input type="text" name="kategori" value="" placeholder="Kategori" id="input-kategori" class="form-control">
+                            <div id="barang-kategori" class="well well-sm" style="height: 150px; overflow: auto;"></div>
+                        </div>
+                    </div>
+                    <div class="col col-md-6">
+                        <div class="form-group">
+                            <label>Satuan</label>
+                            <input type="text" name="satuan" value="" placeholder="Satuan" id="input-satuan" class="form-control">
+                            <div id="barang-satuan" class="well well-sm" style="height: 150px; overflow: auto;"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
