@@ -4,42 +4,58 @@
             <a href="<?= site_url('barang/create') ?>" class="btn btn-social btn-flat btn-success btn-sm"><i class="icon-plus3"></i> Tambah <?= $title ?></a>
         </div>
         <div class="box-body table-responsive">
-            <table class="table table-bordered table-striped" id="data-tabel">
+            <table class="table table-bordered table-striped tabel_barang">
                 <thead>
                     <tr>
                         <th class="text-center" width="40px">No.</th>
                         <th>Barang</th>
+                        <th>Stok</th>
+                        <th>Harga</th>
+                        <th>Kategori</th>
                         <th class="text-center">Status</th>
                         <th class="text-center">Action</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <?php $no = 1;
-                    foreach ($data as $d) { ?>
-                        <tr>
-                            <td class="text-center"><?= $no . '.' ?></td>
-                            <td><?= $d['nama_barang'] ?></td>
-                            <td width="120px">
-                                <span class="label status <?= $d['status_barang'] == 1 ? 'status-active' : 'status-unpaid' ?>"><?= $d['status_barang'] == 1 ? 'Enabled' : 'Disabled' ?></span>
-                            </td>
-                            <td class="text-center" width="60px">
-                                <a href="<?= site_url('barang/edit/' . $d['id_barang']) ?>">
-                                    <i class="icon-pencil7 text-green" data-toggle="tooltip" data-original-title="Edit"></i>
-                                </a>
-                                <a href="javascript:void(0)" onclick="hapus('<?= $d['id_barang'] ?>')">
-                                    <i class="icon-trash text-red" data-toggle="tooltip" data-original-title="Hapus"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    <?php $no++;
-                    } ?>
-                </tbody>
             </table>
         </div>
     </div>
 </div>
 <div id="tampil_modal"></div>
 <script>
+    $(".tabel_barang").DataTable({
+        ordering: false,
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: "<?= base_url('barang/data') ?>",
+            type: 'GET',
+        },
+        "columns": [{
+                "class": "text-center"
+            },
+            {
+                "class": "text-left"
+            },
+            {
+                "class": "text-left"
+            },
+            {
+                "class": "text-left"
+            },
+            {
+                "class": "text-left"
+            },
+            {
+                "class": "text-center",
+                "width": "100px"
+            },
+            {
+                "class": "text-center",
+                "width": "60px"
+            }
+        ]
+    });
+
     function hapus(kode) {
         Swal({
             title: "Apakah kamu yakin?",

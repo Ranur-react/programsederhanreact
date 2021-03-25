@@ -22,6 +22,50 @@ class Barang extends CI_Controller
         ];
         $this->template->dashboard('master/barang/data', $data);
     }
+    public function data()
+    {
+        $draw   = $_REQUEST['draw'];
+        $length = $_REQUEST['length'];
+        $start  = $_REQUEST['start'];
+        $search = $_REQUEST['search']["value"];
+        $status = '';
+        $total  = $this->Mbarang->jumlah_data();
+        $output = array();
+        $output['draw'] = $draw;
+        $output['recordsTotal'] = $output['recordsFiltered'] = $total;
+        $output['data'] = array();
+        if ($search != "") {
+            $query = $this->Mbarang->cari_data($search, $status);
+        } else {
+            $query = $this->Mbarang->tampil_data($start, $length, $status);
+        }
+        if ($search != "") {
+            $count = $this->Mbarang->cari_data($search, $status);
+            $output['recordsTotal'] = $output['recordsFiltered'] = $count->num_rows();
+        }
+        $no = 1;
+        foreach ($query->result_array() as $d) {
+            $kode = $d['id_barang'];
+            $data_kategori = $this->Mbarang->barang_kategori($kode);
+            $result = '';
+            foreach ($data_kategori as $data_kategori) {
+                $result .= $data_kategori['nama_kategori'] . '<br>';
+            }
+            $edit = '<a href="' . site_url('barang/edit/' . $d['id_barang']) . '"><i class="icon-pencil7 text-green" data-toggle="tooltip" data-original-title="Edit"></i></a>';
+            $hapus = '<a href="javascript:void(0)" onclick="hapus(\'' . $d['id_barang'] . '\')"><i class="icon-trash text-red" data-toggle="tooltip" data-original-title="Hapus"></i></a>';
+            $output['data'][] = array(
+                $no . '.',
+                $d['nama_barang'],
+                '',
+                '',
+                rtrim($result, ''),
+                status_span($d['status_barang'], 'aktif'),
+                $edit . '&nbsp;' . $hapus
+            );
+            $no++;
+        }
+        echo json_encode($output);
+    }
     public function create()
     {
         $data = [

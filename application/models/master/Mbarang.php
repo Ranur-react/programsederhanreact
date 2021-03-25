@@ -7,6 +7,32 @@ class Mbarang extends CI_Model
     {
         return $this->db->order_by('nama_barang', 'ASC')->get('barang')->result_array();
     }
+    public function jumlah_data()
+    {
+        return $this->db->count_all_results("barang");
+    }
+    public function tampil_data($start, $length, $status = '')
+    {
+        $sql = $this->db->from('barang');
+        if ($status != '') {
+            $sql = $this->db->where('status_barang', $status);
+        }
+        $sql = $this->db->limit($length, $start);
+        $sql = $this->db->get();
+        return $sql;
+    }
+    public function cari_data($search, $status = '')
+    {
+        $sql = $this->db
+            ->from('barang')
+            ->order_by('nama_barang', 'ASC')
+            ->like('nama_barang', $search);
+        if ($status != '') {
+            $sql = $this->db->where('status_barang', $status);
+        }
+        $sql = $this->db->get();
+        return $sql;
+    }
     public function barang_desc($kode)
     {
         return $this->db->where('barang_brg_desc', $kode)->get('barang_deskripsi')->result_array();
