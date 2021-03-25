@@ -136,7 +136,11 @@ class Mbarang extends CI_Model
     }
     public function destroy($kode)
     {
-        return $this->db->simple_query("DELETE FROM barang WHERE id_barang='$kode'");
+        $hapus_satuan = $this->db->where('barang_brg_satuan', $kode)->delete('barang_satuan');
+        $hapus_kategori = $this->db->where('barang_brg_kategori', $kode)->delete('barang_kategori');
+        $hapus_desc = $this->db->where('barang_brg_desc', $kode)->delete('barang_deskripsi');
+        $hapus_barang = $this->db->where('id_barang', $kode)->delete('barang');
+        return array($hapus_satuan, $hapus_kategori, $hapus_desc, $hapus_barang);
     }
 }
 
