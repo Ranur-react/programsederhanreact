@@ -3,6 +3,7 @@
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
             <li class="active"><a href="#umum" data-toggle="tab">Umum</a></li>
+            <li><a href="#deskripsi" data-toggle="tab">Deskripsi Barang</a></li>
             <li><a href="#kategori" data-toggle="tab">Kategori & Satuan</a></li>
         </ul>
         <div class="tab-content">
@@ -22,6 +23,9 @@
                         <option value="2" <?= $data['status_barang'] == '2' ? 'selected' : null ?>>Disabled</option>
                     </select>
                 </div>
+            </div>
+            <div class="tab-pane" id="deskripsi">
+                <!-- // -->
             </div>
             <div class="tab-pane" id="kategori">
                 <!-- // -->
