@@ -58,7 +58,10 @@ class Barang extends CI_Controller
             'title' => 'Barang',
             'small' => 'Mengubah data barang',
             'links' => '<li><a href="' . site_url('barang') . '">Barang</a></li><li class="active">Edit</li>',
-            'data' => $this->Mbarang->show($kode)
+            'data' => $this->Mbarang->show($kode),
+            'barang_desc' => $this->Mbarang->barang_desc($kode),
+            'barang_kategori' => $this->Mbarang->barang_kategori($kode),
+            'barang_satuan' => $this->Mbarang->barang_satuan($kode)
         ];
         $this->template->dashboard('master/barang/edit', $data);
     }

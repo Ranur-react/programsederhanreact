@@ -25,10 +25,72 @@
                 </div>
             </div>
             <div class="tab-pane" id="deskripsi">
-                <!-- // -->
+                <div class="table-responsive">
+                    <table id="attribute" class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <td class="text-left" style="width: 20%;">Judul</td>
+                                <td class="text-left">Deskripsi</td>
+                                <td style="width: 5%;"></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php $no = 0;
+                            foreach ($barang_desc as $barang_desc) { ?>
+                                <tr id="deskripsi-row<?= $no ?>">
+                                    <td class="text-left">
+                                        <input type="text" name="barang_desc[<?= $no ?>][name]" placeholder="Judul" class="form-control" value="<?= $barang_desc['judul_brg_desc'] ?>" <?= $barang_desc['level_brg_desc'] == 0 ? 'readonly' : null  ?>>
+                                        <input type="hidden" name="barang_desc[<?= $no ?>][attribute_id]" value="<?= $no ?>" />
+                                    </td>
+                                    <td class="text-left">
+                                        <textarea name="barang_desc[<?= $no ?>][barang_desc_desc][text]" rows="5" placeholder="Deskripsi" class="form-control editor"><?= $barang_desc['desc_brg_desc'] ?></textarea>
+                                    </td>
+                                    <td class="text-right">
+                                        <?php if ($barang_desc['level_brg_desc'] != 0) : ?>
+                                            <button type="button" onclick="$('#deskripsi-row<?= $no ?>').remove();" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button>
+                                        <?php endif ?>
+                                    </td>
+                                </tr>
+                            <?php $no++;
+                            } ?>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td class="text-right">
+                                    <button type="button" onclick="tambahDeksripsi();" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
             </div>
             <div class="tab-pane" id="kategori">
-                <!-- // -->
+                <div class="row">
+                    <div class="col col-md-6">
+                        <div class="form-group">
+                            <label>Kategori</label>
+                            <input type="text" name="kategori" value="" placeholder="Kategori" id="input-kategori" class="form-control">
+                            <div id="barang-kategori" class="well well-sm" style="height: 150px; overflow: auto;">
+                                <?php foreach ($barang_kategori as $barang_kategori) { ?>
+                                    <div id="barang-kategori<?= $barang_kategori['kategori_brg_kategori'] ?>"><i class="fa fa-minus-circle text-red"></i> <?= $barang_kategori['nama_kategori'] ?><input type="hidden" name="barang_kategori[]" value="<?= $barang_kategori['kategori_brg_kategori'] ?>"></div>
+                                <?php } ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-md-6">
+                        <div class="form-group">
+                            <label>Satuan</label>
+                            <input type="text" name="satuan" value="" placeholder="Satuan" id="input-satuan" class="form-control">
+                            <div id="barang-satuan" class="well well-sm" style="height: 150px; overflow: auto;">
+                                <?php foreach ($barang_satuan as $barang_satuan) { ?>
+                                    <div id="barang-satuan<?= $barang_satuan['satuan_brg_satuan'] ?>"><i class="fa fa-minus-circle text-red"></i> <?= $barang_satuan['nama_satuan'] ?><input type="hidden" name="barang_satuan[]" value="<?= $barang_satuan['satuan_brg_satuan'] ?>"></div>
+                                <?php } ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="box-footer">

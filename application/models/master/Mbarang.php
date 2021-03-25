@@ -7,6 +7,24 @@ class Mbarang extends CI_Model
     {
         return $this->db->order_by('nama_barang', 'ASC')->get('barang')->result_array();
     }
+    public function barang_desc($kode)
+    {
+        return $this->db->where('barang_brg_desc', $kode)->get('barang_deskripsi')->result_array();
+    }
+    public function barang_kategori($kode)
+    {
+        return $this->db->from('barang_kategori')
+            ->join('kategori', 'id_kategori=kategori_brg_kategori')
+            ->where('barang_brg_kategori', $kode)
+            ->get()->result_array();
+    }
+    public function barang_satuan($kode)
+    {
+        return $this->db->from('barang_satuan')
+            ->join('satuan', 'id_satuan=satuan_brg_satuan')
+            ->where('barang_brg_satuan', $kode)
+            ->get()->result_array();
+    }
     public function kode()
     {
         $query = $this->db
