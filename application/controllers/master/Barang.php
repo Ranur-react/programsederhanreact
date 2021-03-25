@@ -25,12 +25,11 @@ class Barang extends CI_Controller
     public function create()
     {
         $data = [
-            'name' => 'Tambah Barang',
-            'post' => 'barang/store',
-            'class' => 'form_create',
-            'modallg' => 1
+            'title' => 'Barang',
+            'small' => 'Tambah data barang',
+            'links' => '<li><a href="' . site_url('barang') . '">Barang</a></li><li class="active">Tambah</li>'
         ];
-        $this->template->modal_form('master/barang/create', $data);
+        $this->template->dashboard('master/barang/create', $data);
     }
     public function store()
     {
