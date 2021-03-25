@@ -24,14 +24,15 @@ class Mbarang extends CI_Model
     }
     public function store($post)
     {
+        $kode = $this->kode();
         $data = array(
-            'id_barang' => $this->kode(),
+            'id_barang' => $kode,
             'nama_barang' => $post['nama'],
             'slug_barang' => $post['slug'],
-            'desc_barang' => $post['desc'],
             'status_barang' => $post['status']
         );
-        return $this->db->insert('barang', $data);
+        $barang = $this->db->insert('barang', $data);
+        return $barang;
     }
     public function show($kode)
     {

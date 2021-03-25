@@ -41,4 +41,45 @@
             $("#slug").val(Text);
         });
     });
+
+    // simpan data
+    $(document).ready(function() {
+        $('#form_create').on('submit', function(event) {
+            event.preventDefault();
+            $.ajax({
+                type: "post",
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                dataType: "json",
+                cache: false,
+                beforeSend: function() {
+                    $('#store').button('loading');
+                },
+                success: function(resp) {
+                    if (resp.status == "0100") {
+                        localStorage.setItem("swal", swal({
+                            title: "Sukses!",
+                            text: resp.pesan,
+                            type: "success",
+                        }).then(function() {
+                            location.reload();
+                        }));
+                    } else {
+                        $.each(resp.pesan, function(key, value) {
+                            var element = $('#' + key);
+                            element.closest('div.form-group')
+                                .removeClass('has-error')
+                                .addClass(value.length > 0 ? 'has-error' : 'has-success')
+                                .find('.help-block')
+                                .remove();
+                            element.after(value);
+                        });
+                    }
+                },
+                complete: function() {
+                    $('#store').button('reset');
+                }
+            })
+        });
+    });
 </script>
