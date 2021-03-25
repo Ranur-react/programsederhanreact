@@ -59,13 +59,14 @@ class Mbarang extends CI_Model
     }
     public function update($post)
     {
+        $kode = $post['kode'];
         $data = array(
             'nama_barang' => $post['nama'],
             'slug_barang' => $post['slug'],
-            'desc_barang' => $post['desc'],
             'status_barang' => $post['status']
         );
-        return $this->db->where('id_barang', $post['kode'])->update('barang', $data);
+        $barang = $this->db->where('id_barang', $kode)->update('barang', $data);
+        return $barang;
     }
     public function destroy($kode)
     {

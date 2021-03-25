@@ -16,10 +16,6 @@
                     <input type="text" name="slug" id="slug" class="form-control" value="<?= $data['slug_barang'] ?>">
                 </div>
                 <div class="form-group">
-                    <label>Deskripsi Barang</label>
-                    <textarea class="form-control" name="desc" id="desc" cols="50" rows="10" style="visibility: hidden; display: none;"><?= $data['desc_barang'] ?></textarea>
-                </div>
-                <div class="form-group">
                     <label>Status</label>
                     <select name="status" id="status" class="form-control">
                         <option value="1" <?= $data['status_barang'] == '1' ? 'selected' : null ?>>Enabled</option>
@@ -46,26 +42,17 @@
             Text = Text.replace(/[^a-zA-Z0-9]+/g, '-');
             $("#slug").val(Text);
         });
-        if ($('textarea#desc').length > 0) {
-            CKEDITOR.config.height = 120;
-            CKEDITOR.replace('desc');
-        }
     });
     // Update data
     $(document).ready(function() {
         $('#form_create').on('submit', function(event) {
             event.preventDefault();
-            for (instance in CKEDITOR.instances) {
-                CKEDITOR.instances[instance].updateElement();
-            }
-            var formData = new FormData($("#form_create")[0]);
             $.ajax({
-                url: $("#form_create").attr('action'),
-                dataType: 'json',
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                processData: false,
+                type: "post",
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                dataType: "json",
+                cache: false,
                 beforeSend: function() {
                     $('#store').button('loading');
                 },
