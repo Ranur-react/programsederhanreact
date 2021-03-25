@@ -109,6 +109,24 @@
             $("#slug").val(Text);
         });
     });
+
+    // tambah inputan otomatis untuk deskripsi barang
+    var deskripsi_row = 3;
+
+    function tambahDeksripsi() {
+        html = '<tr id="deskripsi-row' + deskripsi_row + '">';
+        html += '  <td class="text-left"><input type="text" name="barang_desc[' + deskripsi_row + '][name]" value="" placeholder="Judul" class="form-control" /><input type="hidden" name="barang_desc[' + deskripsi_row + '][attribute_id]" value="' + deskripsi_row + '" /></td>';
+        html += '  <td class="text-left">';
+        html += '<textarea name="barang_desc[' + deskripsi_row + '][barang_desc_desc][text]" rows="5" placeholder="Deskripsi" class="form-control"></textarea>';
+        html += '  </td>';
+        html += '  <td class="text-right"><button type="button" onclick="$(\'#deskripsi-row' + deskripsi_row + '\').remove();" data-toggle="tooltip" title="Remove" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+        html += '</tr>';
+
+        $('#deskripsi tbody').append(html);
+
+        deskripsi_row++;
+    }
+
     // Update data
     $(document).ready(function() {
         $('#form_create').on('submit', function(event) {
