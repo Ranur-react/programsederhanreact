@@ -3,6 +3,7 @@
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
             <li class="active"><a href="#umum" data-toggle="tab">Umum</a></li>
+            <li><a href="#deskripsi" data-toggle="tab">Deskripsi Barang</a></li>
             <li><a href="#kategori" data-toggle="tab">Kategori & Satuan</a></li>
         </ul>
         <div class="tab-content">
@@ -16,10 +17,6 @@
                     <input type="text" name="slug" id="slug" class="form-control" value="<?= $data['slug_barang'] ?>">
                 </div>
                 <div class="form-group">
-                    <label>Deskripsi Barang</label>
-                    <textarea class="form-control" name="desc" id="desc" cols="50" rows="10" style="visibility: hidden; display: none;"><?= $data['desc_barang'] ?></textarea>
-                </div>
-                <div class="form-group">
                     <label>Status</label>
                     <select name="status" id="status" class="form-control">
                         <option value="1" <?= $data['status_barang'] == '1' ? 'selected' : null ?>>Enabled</option>
@@ -27,8 +24,73 @@
                     </select>
                 </div>
             </div>
+            <div class="tab-pane" id="deskripsi">
+                <div class="table-responsive">
+                    <table id="attribute" class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <td class="text-left" style="width: 20%;">Judul</td>
+                                <td class="text-left">Deskripsi</td>
+                                <td style="width: 5%;"></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php $no = 0;
+                            foreach ($barang_desc as $barang_desc) { ?>
+                                <tr id="deskripsi-row<?= $no ?>">
+                                    <td class="text-left">
+                                        <input type="text" name="barang_desc[<?= $no ?>][name]" placeholder="Judul" class="form-control" value="<?= $barang_desc['judul_brg_desc'] ?>" <?= $barang_desc['level_brg_desc'] == 0 ? 'readonly' : null  ?>>
+                                        <input type="hidden" name="barang_desc[<?= $no ?>][attribute_id]" value="<?= $no ?>" />
+                                    </td>
+                                    <td class="text-left">
+                                        <textarea name="barang_desc[<?= $no ?>][barang_desc_desc][text]" rows="5" placeholder="Deskripsi" class="form-control editor"><?= $barang_desc['desc_brg_desc'] ?></textarea>
+                                    </td>
+                                    <td class="text-right">
+                                        <?php if ($barang_desc['level_brg_desc'] != 0) : ?>
+                                            <button type="button" onclick="$('#deskripsi-row<?= $no ?>').remove();" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button>
+                                        <?php endif ?>
+                                    </td>
+                                </tr>
+                            <?php $no++;
+                            } ?>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td class="text-right">
+                                    <button type="button" onclick="tambahDeksripsi();" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
             <div class="tab-pane" id="kategori">
-                <!-- // -->
+                <div class="row">
+                    <div class="col col-md-6">
+                        <div class="form-group">
+                            <label>Kategori</label>
+                            <input type="text" name="kategori" value="" placeholder="Kategori" id="input-kategori" class="form-control">
+                            <div id="barang-kategori" class="well well-sm" style="height: 150px; overflow: auto;">
+                                <?php foreach ($barang_kategori as $barang_kategori) { ?>
+                                    <div id="barang-kategori<?= $barang_kategori['kategori_brg_kategori'] ?>"><i class="fa fa-minus-circle text-red"></i> <?= $barang_kategori['nama_kategori'] ?><input type="hidden" name="barang_kategori[]" value="<?= $barang_kategori['kategori_brg_kategori'] ?>"></div>
+                                <?php } ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-md-6">
+                        <div class="form-group">
+                            <label>Satuan</label>
+                            <input type="text" name="satuan" value="" placeholder="Satuan" id="input-satuan" class="form-control">
+                            <div id="barang-satuan" class="well well-sm" style="height: 150px; overflow: auto;">
+                                <?php foreach ($barang_satuan as $barang_satuan) { ?>
+                                    <div id="barang-satuan<?= $barang_satuan['satuan_brg_satuan'] ?>"><i class="fa fa-minus-circle text-red"></i> <?= $barang_satuan['nama_satuan'] ?><input type="hidden" name="barang_satuan[]" value="<?= $barang_satuan['satuan_brg_satuan'] ?>"></div>
+                                <?php } ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="box-footer">
@@ -46,26 +108,97 @@
             Text = Text.replace(/[^a-zA-Z0-9]+/g, '-');
             $("#slug").val(Text);
         });
-        if ($('textarea#desc').length > 0) {
-            CKEDITOR.config.height = 120;
-            CKEDITOR.replace('desc');
+    });
+
+    // autocomplete kategori
+    $('input[name=\'kategori\']').autocomplete({
+        'source': function(request, response) {
+            $.ajax({
+                url: "<?= site_url('kategori/kategori_by_nama') ?>",
+                data: {
+                    filter_nama: request
+                },
+                dataType: 'json',
+                success: function(json) {
+                    response($.map(json, function(item) {
+                        return {
+                            label: item['nama'],
+                            value: item['id']
+                        }
+                    }));
+                }
+            });
+        },
+        'select': function(item) {
+            $('input[name=\'kategori\']').val('');
+            $('#barang-kategori' + item['value']).remove();
+            $('#barang-kategori').append('<div id="barang-kategori' + item['value'] + '"><i class="fa fa-minus-circle text-red"></i> ' + item['label'] + '<input type="hidden" name="barang_kategori[]" value="' + item['value'] + '" /></div>');
         }
     });
+
+    // autocomplete satuan
+    $('input[name=\'satuan\']').autocomplete({
+        'source': function(request, response) {
+            $.ajax({
+                url: "<?= site_url('satuan/satuan_by_nama') ?>",
+                data: {
+                    filter_nama: request
+                },
+                dataType: 'json',
+                success: function(json) {
+                    response($.map(json, function(item) {
+                        return {
+                            label: item['nama'],
+                            value: item['id']
+                        }
+                    }));
+                }
+            });
+        },
+        'select': function(item) {
+            $('input[name=\'satuan\']').val('');
+            $('#barang-satuan' + item['value']).remove();
+            $('#barang-satuan').append('<div id="barang-satuan' + item['value'] + '"><i class="fa fa-minus-circle text-red"></i> ' + item['label'] + '<input type="hidden" name="barang_satuan[]" value="' + item['value'] + '" /></div>');
+        }
+    });
+
+    // Hapus item kategori
+    $('#barang-kategori').delegate('.fa-minus-circle', 'click', function() {
+        $(this).parent().remove();
+    });
+
+    // Hapus item satuan
+    $('#barang-satuan').delegate('.fa-minus-circle', 'click', function() {
+        $(this).parent().remove();
+    });
+
+    // tambah inputan otomatis untuk deskripsi barang
+    var deskripsi_row = 3;
+
+    function tambahDeksripsi() {
+        html = '<tr id="deskripsi-row' + deskripsi_row + '">';
+        html += '  <td class="text-left"><input type="text" name="barang_desc[' + deskripsi_row + '][name]" value="" placeholder="Judul" class="form-control" /><input type="hidden" name="barang_desc[' + deskripsi_row + '][attribute_id]" value="' + deskripsi_row + '" /></td>';
+        html += '  <td class="text-left">';
+        html += '<textarea name="barang_desc[' + deskripsi_row + '][barang_desc_desc][text]" rows="5" placeholder="Deskripsi" class="form-control"></textarea>';
+        html += '  </td>';
+        html += '  <td class="text-right"><button type="button" onclick="$(\'#deskripsi-row' + deskripsi_row + '\').remove();" data-toggle="tooltip" title="Remove" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button></td>';
+        html += '</tr>';
+
+        $('#deskripsi tbody').append(html);
+
+        deskripsi_row++;
+    }
+
     // Update data
     $(document).ready(function() {
         $('#form_create').on('submit', function(event) {
             event.preventDefault();
-            for (instance in CKEDITOR.instances) {
-                CKEDITOR.instances[instance].updateElement();
-            }
-            var formData = new FormData($("#form_create")[0]);
             $.ajax({
-                url: $("#form_create").attr('action'),
-                dataType: 'json',
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                processData: false,
+                type: "post",
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                dataType: "json",
+                cache: false,
                 beforeSend: function() {
                     $('#store').button('loading');
                 },
