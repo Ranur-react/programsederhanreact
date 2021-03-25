@@ -84,6 +84,16 @@ class Mbarang extends CI_Model
             'status_barang' => $post['status']
         );
         $barang = $this->db->where('id_barang', $kode)->update('barang', $data);
+        if (isset($post['barang_desc'])) {
+            $this->db->where('barang_brg_desc', $kode)->delete('barang_deskripsi');
+            foreach ($post['barang_desc'] as $barang_desc_key => $barang_desc) {
+                foreach ($barang_desc['barang_desc_desc'] as $barang_desc_desc) {
+                    if ($barang_desc['name'] != "" && $barang_desc_desc != "") :
+                        $this->db->query("INSERT INTO barang_deskripsi SET barang_brg_desc = '" . $kode . "', judul_brg_desc = '" . $barang_desc['name'] . "', desc_brg_desc = '" .  $barang_desc_desc . "', level_brg_desc = '" . $barang_desc['attribute_id'] . "'");
+                    endif;
+                }
+            }
+        }
         return $barang;
     }
     public function destroy($kode)
