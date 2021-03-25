@@ -41,6 +41,11 @@ class Mbarang extends CI_Model
                 }
             }
         }
+        if (isset($post['barang_kategori'])) {
+            foreach ($post['barang_kategori'] as $id_kategori) {
+                $this->db->query("INSERT INTO barang_kategori SET barang_brg_kategori='$kode',kategori_brg_kategori='$id_kategori'");
+            }
+        }
         return $barang;
     }
     public function show($kode)
