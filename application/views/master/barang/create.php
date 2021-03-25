@@ -3,6 +3,7 @@
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
             <li class="active"><a href="#umum" data-toggle="tab">Umum</a></li>
+            <li><a href="#deskripsi" data-toggle="tab">Deskripsi Barang</a></li>
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="umum">
@@ -20,6 +21,63 @@
                         <option value="1">Enabled</option>
                         <option value="2">Disabled</option>
                     </select>
+                </div>
+            </div>
+            <div class="tab-pane" id="deskripsi">
+                <div class="table-responsive">
+                    <table id="attribute" class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <td class="text-left" style="width: 20%;">Judul</td>
+                                <td class="text-left">Deskripsi</td>
+                                <td style="width: 5%;"></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr id="deskripsi-row0">
+                                <td class="text-left">
+                                    <input type="text" name="barang_desc[0][name]" placeholder="Judul" class="form-control" value="Deskripsi Umum" readonly>
+                                    <input type="hidden" name="barang_desc[0][attribute_id]" value="0" />
+                                </td>
+                                <td class="text-left">
+                                    <textarea name="barang_desc[0][barang_desc_desc][text]" rows="5" placeholder="Deskripsi" class="form-control editor"></textarea>
+                                </td>
+                            </tr>
+                            <tr id="deskripsi-row1">
+                                <td class="text-left">
+                                    <input type="text" name="barang_desc[1][name]" placeholder="Judul" class="form-control" value="Nutrisi dan Manfaat">
+                                    <input type="hidden" name="barang_desc[1][attribute_id]" value="1" />
+                                </td>
+                                <td class="text-left">
+                                    <textarea name="barang_desc[1][barang_desc_desc][text]" rows="5" placeholder="Deskripsi" class="form-control editor"></textarea>
+                                </td>
+                                <td class="text-right">
+                                    <button type="button" onclick="$('#deskripsi-row1').remove();" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button>
+                                </td>
+                            </tr>
+                            <tr id="deskripsi-row2">
+                                <td class="text-left">
+                                    <input type="text" name="barang_desc[2][name]" placeholder="Judul" class="form-control" value="Cara Penyimpanan">
+                                    <input type="hidden" name="barang_desc[2][attribute_id]" value="2" />
+                                </td>
+                                <td class="text-left">
+                                    <textarea name="barang_desc[2][barang_desc_desc][text]" rows="5" placeholder="Deskripsi" class="form-control editor"></textarea>
+                                </td>
+                                <td class="text-right">
+                                    <button type="button" onclick="$('#deskripsi-row2').remove();" class="btn btn-danger"><i class="fa fa-minus-circle"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td class="text-right">
+                                    <button type="button" onclick="tambahDeksripsi();" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
                 </div>
             </div>
         </div>
