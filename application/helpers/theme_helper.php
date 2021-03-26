@@ -11,12 +11,12 @@ if (!function_exists('assets')) {
     }
 }
 
-if (!function_exists('pathKategori')) {
-    function pathKategori()
+if (!function_exists('pathImage')) {
+    function pathImage()
     {
         $CI = &get_instance();
         $CI->load->model('settings/Mconfig');
-        $data = $CI->Mconfig->pathKategori();
+        $data = $CI->Mconfig->pathImage();
         $path = $data->value_seting;
         return $path;
     }

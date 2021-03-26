@@ -62,7 +62,7 @@ class Mkategori extends CI_Model
                 'parent_kategori' => $parent
             );
         else :
-            unlink(pathKategori() . $row['icon_kategori']);
+            unlink(pathImage() . $row['icon_kategori']);
             $data = array(
                 'nama_kategori' => $post['nama'],
                 'slug_kategori' => $post['slug'],
