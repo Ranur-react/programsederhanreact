@@ -10,6 +10,8 @@ $route['login/signin'] = 'login/signin';
 
 // proses registrasi
 $route['registrasi'] = 'auth/registrasi';
+$route['registrasi/signup-level'] = 'auth/registrasi/signup_level';
+$route['registrasi/signup-gudang'] = 'auth/registrasi/signup_gudang';
 
 // proses logout
 $route['logout'] = 'auth/logout';

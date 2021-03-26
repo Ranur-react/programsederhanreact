@@ -36,3 +36,32 @@
         <?= form_close() ?>
     </div>
 </div>
+<script>
+    function get_level() {
+        var jenis = $("#jenis").val();
+        $.ajax({
+            type: "GET",
+            url: "<?= site_url('registrasi/signup-level') ?>",
+            data: {
+                jenis: jenis
+            },
+            success: function(data) {
+                $("#level").html(data);
+            }
+        });
+    }
+
+    function get_gudang() {
+        var jenis = $('#jenis').val();
+        $.ajax({
+            url: "<?= site_url('registrasi/signup-gudang') ?>",
+            method: "GET",
+            data: {
+                jenis: jenis
+            },
+            success: function(data) {
+                $('#get_gudang').html(data);
+            }
+        });
+    }
+</script>
