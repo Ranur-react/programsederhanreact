@@ -118,6 +118,7 @@ class Mpengguna extends CI_Model
         else :
             $this->db->where('user_level', $kode)->delete('user_gudang');
         endif;
+        unlink(pathImage() . $data['avatar_user']);
         $this->db->where('id_user', $kode)->delete('users');
         return true;
     }
