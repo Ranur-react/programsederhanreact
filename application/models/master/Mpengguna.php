@@ -64,6 +64,7 @@ class Mpengguna extends CI_Model
             'nama_user' => $post['nama'],
             'username' => $post['username'],
             'password' => password_hash($post['password'], PASSWORD_BCRYPT),
+            'avatar_user' => make_avatar($post['nama']),
             'jenis_user' => $post['jenis'],
             'status_user' => 1
         );
