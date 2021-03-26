@@ -64,4 +64,38 @@
             }
         });
     }
+
+    $(document).ready(function() {
+        $('#form_signup').on('submit', function(event) {
+            event.preventDefault();
+            $.ajax({
+                url: $(this).attr('action'),
+                type: "POST",
+                data: $(this).serialize(),
+                dataType: "json",
+                beforeSend: function() {
+                    $('#btn_signup').button('loading');
+                },
+                success: function(resp) {
+                    $('#message').html(resp.message);
+                    if (resp.status == "0100") {
+                        $('#form_signup').trigger("reset");
+                    } else {
+                        $.each(resp.pesan, function(key, value) {
+                            var element = $('#' + key);
+                            element.closest('div.form-group')
+                                .removeClass('has-error')
+                                .addClass(value.length > 0 ? 'has-error' : 'has-success')
+                                .find('.help-block')
+                                .remove();
+                            element.after(value);
+                        });
+                    }
+                },
+                complete: function() {
+                    $('#btn_signup').button('reset');
+                }
+            })
+        });
+    });
 </script>

@@ -8,6 +8,7 @@ class Registrasi extends CI_Controller
         parent::__construct();
         $this->load->model('master/Mpengguna');
         $this->load->model('master/Mgudang');
+        $this->load->model('auth/Mregistrasi');
     }
     public function index()
     {
@@ -41,6 +42,40 @@ class Registrasi extends CI_Controller
             $data .= '</div>';
             echo $data;
         endif;
+    }
+    public function signup()
+    {
+        $post = $this->input->post(null, TRUE);
+        $this->form_validation->set_rules('nama', 'Nama lengkap', 'trim|required');
+        $this->form_validation->set_rules('username', 'Username', 'trim|required|is_unique[users.username]');
+        $this->form_validation->set_rules(
+            'password',
+            'Password',
+            'required|min_length[5]',
+            ['min_length' => 'Minimal panjang password 5 karakter']
+        );
+        $this->form_validation->set_rules('jenis', 'Jenis pengguna', 'required');
+        $this->form_validation->set_rules('level', 'Level', 'required');
+        if ($post['jenis'] == 2) :
+            $this->form_validation->set_rules('gudang', 'Gudang', 'required');
+        endif;
+        $this->form_validation->set_message('required', errorRequired());
+        $this->form_validation->set_message('is_unique', errorUnique());
+        $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
+        if ($this->form_validation->run() == TRUE) {
+            $this->Mregistrasi->signup($post);
+            $json = array(
+                'status' => "0100",
+                'message' => sukses('Registrasi akun baru berhasil dilakukan. Mohon tunggu validasi akun dari <b>Administrator</b>.')
+            );
+        } else {
+            $json['status'] = "0111";
+            $json['message'] = "";
+            foreach ($_POST as $key => $value) {
+                $json['pesan'][$key] = form_error($key);
+            }
+        }
+        echo json_encode($json);
     }
 }
 
