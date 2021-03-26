@@ -8,6 +8,9 @@ $route['translate_uri_dashes'] = FALSE;
 // proses login
 $route['login/signin'] = 'login/signin';
 
+// proses registrasi
+$route['registrasi'] = 'auth/registrasi';
+
 // proses logout
 $route['logout'] = 'auth/logout';
 
