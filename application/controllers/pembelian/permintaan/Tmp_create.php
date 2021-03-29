@@ -75,6 +75,30 @@ class Tmp_create extends CI_Controller
         ];
         $this->template->modal_form('pembelian/permintaan/tmp_create/edit', $data);
     }
+    public function update()
+    {
+        $this->form_validation->set_rules('satuan', 'Satuan', 'required');
+        $this->form_validation->set_rules('harga', 'Harga', 'required|greater_than[0]');
+        $this->form_validation->set_rules('jumlah', 'Jumlah', 'required|greater_than[0]');
+        $this->form_validation->set_message('required', errorRequired());
+        $this->form_validation->set_message('greater_than', greater_than());
+        $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
+        if ($this->form_validation->run() == TRUE) {
+            $json = array(
+                'status' => "0100",
+                'message' => 'Data barang berhasil dirubah'
+            );
+        } else {
+            $json = array(
+                'status' => "0101",
+                'message' => 'Data barang gagal dirubah'
+            );
+            foreach ($_POST as $key => $value) {
+                $json['pesan'][$key] = form_error($key);
+            }
+        }
+        echo json_encode($json);
+    }
 }
 
 /* End of file Tmp_create.php */
