@@ -11,6 +11,7 @@ class Permintaan extends CI_Controller
         else
             redirect('logout');
         $this->load->model('master/Msupplier');
+        $this->load->model('pembelian/permintaan/Mpermintaan');
         $this->load->model('pembelian/permintaan/Mtmp_create');
     }
     public function index()
@@ -41,6 +42,7 @@ class Permintaan extends CI_Controller
         if ($this->form_validation->run() == TRUE) {
             $tmp_data = $this->Mtmp_create->tampil_data();
             if (count($tmp_data) > 0) :
+                $kode = $this->Mpermintaan->kode();
                 $json = array(
                     'status' => "0100",
                     'kode' => '1'
