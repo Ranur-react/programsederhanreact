@@ -41,15 +41,9 @@
     <script src="<?= assets() ?>dist/js/demo.js"></script>
     <script src="<?= assets() ?>plugins/sweetalert2/sweetalert2.all.min.js"></script>
     <script src="<?= assets() ?>plugins/toastr/toastr.min.js"></script>
+    <script src="<?= assets() ?>js/app.js"></script>
     <script src="<?= assets() ?>js/common.js"></script>
     <script src="<?= assets() ?>js/currency.js"></script>
-    <script>
-        $(function() {
-            $('#data-tabel').DataTable({
-                ordering: false
-            })
-        });
-    </script>
 </head>
 
 <body class="hold-transition skin-blue">
