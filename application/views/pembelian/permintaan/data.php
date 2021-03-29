@@ -1,7 +1,7 @@
 <div class="col-xs-12">
     <div class="box box-default">
         <div class="box-header with-border">
-            <a href="#" class="btn btn-social btn-flat btn-success btn-sm"><i class="icon-plus3"></i> Tambah <?= $title ?></a>
+            <a href="<?= site_url('permintaan/create') ?>" class="btn btn-social btn-flat btn-success btn-sm"><i class="icon-plus3"></i> Tambah <?= $title ?></a>
         </div>
         <div class="box-body table-responsive">
             <table class="table table-bordered table-striped">

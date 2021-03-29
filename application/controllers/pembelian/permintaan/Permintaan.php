@@ -10,6 +10,7 @@ class Permintaan extends CI_Controller
             cek_user();
         else
             redirect('logout');
+        $this->load->model('master/Msupplier');
     }
     public function index()
     {
@@ -19,6 +20,16 @@ class Permintaan extends CI_Controller
             'links' => '<li class="active">Permintaan</li>'
         ];
         $this->template->dashboard('pembelian/permintaan/data', $data);
+    }
+    public function create()
+    {
+        $data = [
+            'title' => 'Permintaan',
+            'small' => 'Tambah Data Permintaan Barang',
+            'links' => '<li class="active">Permintaan</li>',
+            'supplier' => $this->Msupplier->getall()
+        ];
+        $this->template->dashboard('pembelian/permintaan/tambah', $data);
     }
 }
 
