@@ -25,6 +25,41 @@ class Tmp_create extends CI_Controller
         ];
         $this->template->modal_form('pembelian/permintaan/tmp_create/create', $data);
     }
+    public function store()
+    {
+        $this->form_validation->set_rules('barang', 'Barang', 'required|callback_cekbarang');
+        $this->form_validation->set_rules('satuan', 'Satuan', 'required');
+        $this->form_validation->set_rules('harga', 'Harga', 'required|greater_than[0]');
+        $this->form_validation->set_rules('jumlah', 'Jumlah', 'required|greater_than[0]');
+        $this->form_validation->set_message('required', errorRequired());
+        $this->form_validation->set_message('greater_than', greater_than());
+        $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
+        if ($this->form_validation->run() == TRUE) {
+            $json = array(
+                'status' => "0100",
+                'message' => 'Barang berhasil ditambahkan'
+            );
+        } else {
+            $json = array(
+                'status' => "0101",
+                'message' => 'Barang gagal ditambahkan'
+            );
+            foreach ($_POST as $key => $value) {
+                $json['pesan'][$key] = form_error($key);
+            }
+        }
+        echo json_encode($json);
+    }
+    public function cekbarang($barang)
+    {
+        $check = $this->db->where(['barang' => $barang, 'user' => id_user()])->get('tmp_permintaan');
+        if ($check->num_rows() == 1) {
+            $this->form_validation->set_message('cekbarang', 'Barang sudah ditambahkan, silahkan update jika ingin melakukan perubahan.');
+            return FALSE;
+        } else {
+            return TRUE;
+        }
+    }
 }
 
 /* End of file Tmp_create.php */
