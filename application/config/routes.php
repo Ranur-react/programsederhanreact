@@ -59,3 +59,6 @@ $route['barang/store'] = 'master/barang/store';
 $route['barang/edit/(:num)'] = 'master/barang/edit/$1';
 $route['barang/update'] = 'master/barang/update';
 $route['barang/destroy'] = 'master/barang/destroy';
+
+// menu permintaan
+$route['permintaan'] = 'pembelian/permintaan/permintaan';
