@@ -17,7 +17,7 @@
                             <th class="text-right">Jumlah</th>
                             <th class="text-right">Total</th>
                             <th class="text-center" width="60px">
-                                <a href="javascript:void(0)" onclick="" title="Tambah Barang"><i class="fa fa-plus-circle text-primary fa-lg"></i></a>
+                                <a href="javascript:void(0)" onclick="create()" title="Tambah Barang"><i class="fa fa-plus-circle text-primary fa-lg"></i></a>
                             </th>
                         </tr>
                     </thead>
@@ -74,6 +74,17 @@
             method: "GET",
             success: function(resp) {
                 $('#data_tmp').html(resp);
+            }
+        });
+    }
+
+    function create() {
+        $.ajax({
+            url: "<?= site_url('permintaan/tmp-create/create') ?>",
+            type: "GET",
+            success: function(resp) {
+                $("#tampil_modal").html(resp);
+                $("#modal_create").modal('show');
             }
         });
     }
