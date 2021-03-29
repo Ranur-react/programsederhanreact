@@ -111,6 +111,16 @@ class Tmp_create extends CI_Controller
             $pesan['error'] = "0101";
         }
     }
+    public function batal()
+    {
+        $action = $this->Mtmp_create->batal();
+        if ($action) {
+            $pesan['success'] = successCancel();
+        } else {
+            $pesan['error'] = errorDestroy();
+        }
+        echo json_encode($pesan);
+    }
 }
 
 /* End of file Tmp_create.php */
