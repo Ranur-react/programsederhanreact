@@ -22,6 +22,14 @@ class Mtmp_create extends CI_Model
         ];
         return $this->db->insert('tmp_permintaan', $data);
     }
+    public function show($kode)
+    {
+        return $this->db->from('tmp_permintaan')
+            ->join('barang', 'barang=id_barang')
+            ->join('satuan', 'satuan=id_satuan')
+            ->where(['barang' => $kode, 'user', id_user()])
+            ->get()->row_array();
+    }
 }
 
 /* End of file Mtmp_create.php */

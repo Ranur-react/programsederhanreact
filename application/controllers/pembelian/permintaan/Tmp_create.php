@@ -62,6 +62,19 @@ class Tmp_create extends CI_Controller
             return TRUE;
         }
     }
+    public function edit()
+    {
+        $kode = $this->input->get('kode');
+        $data = [
+            'name' => 'Edit Barang',
+            'post' => 'permintaan/tmp-create/update',
+            'class' => 'form_tmp',
+            'backdrop' => 1,
+            'satuan' => $this->Mbarang->get_satuan($kode),
+            'data' => $this->Mtmp_create->show($kode)
+        ];
+        $this->template->modal_form('pembelian/permintaan/tmp_create/edit', $data);
+    }
 }
 
 /* End of file Tmp_create.php */

@@ -5,7 +5,7 @@
                 <a class="text-back" href="<?= site_url('popupuk') ?>" title="Kembali"><i class="icon-arrow-left8" style="font-size: 24px"></i></a> Tambah Permintaan Barang
             </h3>
         </div>
-        <?= form_open('#', ['id' => 'form_create']) ?>
+        <?= form_open('permintaan/store', ['id' => 'form_create']) ?>
         <div class="box-body">
             <div class="table-responsive">
                 <table class="table table-bordered">
@@ -51,7 +51,7 @@
         </div>
         <div class="box-footer">
             <button type="submit" class="btn btn-primary" id="store" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading..."><i class="icon-floppy-disk"></i> Simpan Permintaan</button>
-            <a href="javascript:void(0)" class="btn btn-danger" onclick=""><i class="icon-cross2"></i> Batalkan Permintaan</a>
+            <a href="javascript:void(0)" class="btn btn-danger" onclick="batal()"><i class="icon-cross2"></i> Batalkan Permintaan</a>
         </div>
         <?= form_close() ?>
     </div>
@@ -82,6 +82,20 @@
         $.ajax({
             url: "<?= site_url('permintaan/tmp-create/create') ?>",
             type: "GET",
+            success: function(resp) {
+                $("#tampil_modal").html(resp);
+                $("#modal_create").modal('show');
+            }
+        });
+    }
+
+    function edit(kode) {
+        $.ajax({
+            url: "<?= site_url('permintaan/tmp-create/edit') ?>",
+            type: "GET",
+            data: {
+                kode: kode
+            },
             success: function(resp) {
                 $("#tampil_modal").html(resp);
                 $("#modal_create").modal('show');
