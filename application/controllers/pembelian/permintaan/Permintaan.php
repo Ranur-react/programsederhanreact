@@ -35,6 +35,7 @@ class Permintaan extends CI_Controller
     }
     public function store()
     {
+        $post = $this->input->post(null, TRUE);
         $this->form_validation->set_rules('tanggal', 'Tanggal', 'required');
         $this->form_validation->set_rules('supplier', 'Supplier', 'required');
         $this->form_validation->set_message('required', errorRequired());
@@ -43,6 +44,7 @@ class Permintaan extends CI_Controller
             $tmp_data = $this->Mtmp_create->tampil_data();
             if (count($tmp_data) > 0) :
                 $kode = $this->Mpermintaan->kode();
+                $this->Mpermintaan->store($kode, $post);
                 $json = array(
                     'status' => "0100",
                     'kode' => '1'
