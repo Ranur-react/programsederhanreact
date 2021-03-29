@@ -38,3 +38,27 @@ if (!function_exists('make_avatar')) {
         return $path;
     }
 }
+
+if (!function_exists('rupiah')) {
+    function rupiah($uang)
+    {
+        $format = number_format($uang, 0, ",", ".");
+        return $format;
+    }
+}
+
+if (!function_exists('akuntansi')) {
+    function akuntansi($uang)
+    {
+        $format = "<span style='float:left;'>Rp.</span><span style='float:right;'>" . number_format($uang, 0, ",", ".") . "</span>";
+        return $format;
+    }
+}
+
+if (!function_exists('convert_uang')) {
+    function convert_uang($text)
+    {
+        $text = str_replace(".", "", $text);
+        return $text;
+    }
+}
