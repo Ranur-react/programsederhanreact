@@ -30,6 +30,15 @@ class Mtmp_create extends CI_Model
             ->where(['barang' => $kode, 'user', id_user()])
             ->get()->row_array();
     }
+    public function update($post)
+    {
+        $data = [
+            'satuan' => $post['satuan'],
+            'harga'  => convert_uang($post['harga']),
+            'jumlah' => convert_uang($post['jumlah'])
+        ];
+        return $this->db->where(['barang' => $post['barang'], 'user' => id_user()])->update('tmp_permintaan', $data);
+    }
 }
 
 /* End of file Mtmp_create.php */
