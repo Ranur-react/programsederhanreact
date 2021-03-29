@@ -63,3 +63,5 @@ $route['barang/destroy'] = 'master/barang/destroy';
 // menu permintaan
 $route['permintaan'] = 'pembelian/permintaan/permintaan';
 $route['permintaan/create'] = 'pembelian/permintaan/permintaan/create';
+
+$route['permintaan/tmp-create/data'] = 'pembelian/permintaan/tmp_create/data';

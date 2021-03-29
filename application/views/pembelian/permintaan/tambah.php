@@ -56,3 +56,25 @@
         <?= form_close() ?>
     </div>
 </div>
+<div id="tampil_modal"></div>
+<script>
+    $(document).ready(function() {
+        $('.select2').select2();
+        $('.datepicker').datepicker({
+            format: "dd-mm-yyyy",
+            autoclose: true
+        });
+        data();
+    });
+
+    function data() {
+        $('#data_tmp').html('<tr><td class="text-center text-red" colspan="8"><b><i class="fa fa-refresh animation-rotate"></i> Loading...</b></td></tr>');
+        $.ajax({
+            url: "<?= site_url('permintaan/tmp-create/data') ?>",
+            method: "GET",
+            success: function(resp) {
+                $('#data_tmp').html(resp);
+            }
+        });
+    }
+</script>
