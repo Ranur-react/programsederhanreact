@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="<?= assets() ?>bower_components/select2/dist/css/select2.min.css">
     <link rel="stylesheet" href="<?= assets() ?>plugins/bootstrap-fileinput/fileinput.min.css">
     <link rel="stylesheet" href="<?= assets() ?>bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="<?= assets() ?>plugins/toastr/toastr.min.css">
     <link rel="stylesheet" href="<?= assets() ?>dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="<?= assets() ?>dist/css/skins/_all-skins.min.css">
     <link rel="stylesheet" href="<?= assets() ?>bower_components/icomoon/styles.css">
@@ -39,6 +40,7 @@
     <script src="<?= assets() ?>dist/js/adminlte.min.js"></script>
     <script src="<?= assets() ?>dist/js/demo.js"></script>
     <script src="<?= assets() ?>plugins/sweetalert2/sweetalert2.all.min.js"></script>
+    <script src="<?= assets() ?>plugins/toastr/toastr.min.js"></script>
     <script src="<?= assets() ?>js/common.js"></script>
     <script>
         $(function() {
