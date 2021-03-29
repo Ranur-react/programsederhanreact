@@ -42,6 +42,7 @@
     <script src="<?= assets() ?>plugins/sweetalert2/sweetalert2.all.min.js"></script>
     <script src="<?= assets() ?>plugins/toastr/toastr.min.js"></script>
     <script src="<?= assets() ?>js/common.js"></script>
+    <script src="<?= assets() ?>js/currency.js"></script>
     <script>
         $(function() {
             $('#data-tabel').DataTable({
