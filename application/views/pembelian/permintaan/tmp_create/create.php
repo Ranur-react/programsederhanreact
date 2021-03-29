@@ -23,3 +23,17 @@
     <label class="required">Jumlah</label>
     <input type="text" name="jumlah" id="jumlah" class="form-control" placeholder="Jumlah">
 </div>
+<script>
+    $(function() {
+        $('.select2').select2();
+
+        $('#harga').keyup(function(e) {
+            var nilai = formatRupiah($(this).val(), '');
+            $(this).val(nilai);
+        });
+        $('#qty').keyup(function(e) {
+            var nilai = formatRupiah($(this).val(), '');
+            $(this).val(nilai);
+        });
+    });
+</script>
