@@ -103,6 +103,19 @@
         });
     }
 
+    function destroy(kode) {
+        $.ajax({
+            url: "<?= site_url('permintaan/tmp-create/destroy') ?>",
+            type: "GET",
+            data: {
+                kode: kode
+            },
+            success: function(resp) {
+                data();
+            }
+        });
+    }
+
     $(document).on('change', '.barang', function(e) {
         var barang = $(".barang").val();
         $.ajax({

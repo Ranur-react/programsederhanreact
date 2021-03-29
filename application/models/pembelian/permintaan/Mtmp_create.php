@@ -39,6 +39,10 @@ class Mtmp_create extends CI_Model
         ];
         return $this->db->where(['barang' => $post['barang'], 'user' => id_user()])->update('tmp_permintaan', $data);
     }
+    public function destroy($kode)
+    {
+        return $this->db->where(['barang' => $kode, 'user' => id_user()])->delete('tmp_permintaan');
+    }
 }
 
 /* End of file Mtmp_create.php */
