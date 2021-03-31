@@ -102,6 +102,16 @@ class Permintaan extends CI_Controller
         }
         echo json_encode($json);
     }
+    public function edit($kode)
+    {
+        $data = [
+            'title' => 'Permintaan',
+            'small' => 'Edit Data Permintaan Barang',
+            'links' => '<li class="active">Permintaan</li>',
+            'supplier' => $this->Msupplier->getall()
+        ];
+        $this->template->dashboard('pembelian/permintaan/edit', $data);
+    }
 }
 
 /* End of file Permintaan.php */
