@@ -8,6 +8,30 @@ class Mpermintaan extends CI_Model
         parent::__construct();
         $this->load->model('pembelian/permintaan/Mtmp_create');
     }
+    public function jumlah_data()
+    {
+        return $this->db->count_all_results("permintaan");
+    }
+    public function tampil_data($start, $length)
+    {
+        $sql = $this->db->from('permintaan')
+            ->join('supplier', 'supplier_permintaan=id_supplier')
+            ->join('users', 'user_permintaan=id_user')
+            ->order_by('id_permintaan', 'DESC')
+            ->limit($length, $start)
+            ->get();
+        return $sql;
+    }
+    public function cari_data($search)
+    {
+        $sql = $this->db->from('permintaan')
+            ->join('supplier', 'supplier_permintaan=id_supplier')
+            ->join('users', 'user_permintaan=id_user')
+            ->order_by('id_permintaan', 'DESC')
+            ->like('nama_supplier', $search)
+            ->get();
+        return $sql;
+    }
     public function kode()
     {
         $query = $this->db

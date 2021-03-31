@@ -63,6 +63,7 @@ $route['barang/get-satuan'] = 'master/barang/get_satuan';
 
 // menu permintaan
 $route['permintaan'] = 'pembelian/permintaan/permintaan';
+$route['permintaan/data'] = 'pembelian/permintaan/permintaan/data';
 $route['permintaan/create'] = 'pembelian/permintaan/permintaan/create';
 $route['permintaan/store'] = 'pembelian/permintaan/permintaan/store';
 

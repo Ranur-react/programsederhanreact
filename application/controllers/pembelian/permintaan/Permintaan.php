@@ -23,6 +23,44 @@ class Permintaan extends CI_Controller
         ];
         $this->template->dashboard('pembelian/permintaan/data', $data);
     }
+    public function data()
+    {
+        $draw   = $_REQUEST['draw'];
+        $length = $_REQUEST['length'];
+        $start  = $_REQUEST['start'];
+        $search = $_REQUEST['search']["value"];
+        $total  = $this->Mpermintaan->jumlah_data();
+        $output = array();
+        $output['draw'] = $draw;
+        $output['recordsTotal'] = $output['recordsFiltered'] = $total;
+        $output['data'] = array();
+        if ($search != "") {
+            $query = $this->Mpermintaan->cari_data($search);
+        } else {
+            $query = $this->Mpermintaan->tampil_data($start, $length);
+        }
+        if ($search != "") {
+            $count = $this->Mpermintaan->cari_data($search);
+            $output['recordsTotal'] = $output['recordsFiltered'] = $count->num_rows();
+        }
+        $no = 1;
+        foreach ($query->result_array() as $d) {
+            $edit = '<a href="' . site_url('permintaan/edit/' . $d['id_permintaan']) . '"><i class="icon-pencil7 text-green" data-toggle="tooltip" data-original-title="Edit"></i></a>';
+            $hapus = '<a href="javascript:void(0)" onclick="hapus(\'' . $d['id_permintaan'] . '\')"><i class="icon-trash text-red" data-toggle="tooltip" data-original-title="Hapus"></i></a>';
+            $output['data'][] = array(
+                $no . '.',
+                $d['id_permintaan'],
+                $d['nama_supplier'],
+                format_biasa($d['tanggal_permintaan']),
+                akuntansi($d['total_permintaan']),
+                $d['nama_user'],
+                status_span($d['status_permintaan'], 'permintaan'),
+                $edit . '&nbsp;' . $hapus
+            );
+            $no++;
+        }
+        echo json_encode($output);
+    }
     public function create()
     {
         $data = [
