@@ -3,17 +3,30 @@
 if (!function_exists('status_span')) {
     function status_span($code, $jenis)
     {
-        if ($code == 1) :
-            if ($jenis == 'aktif') :
+        if ($jenis == 'aktif') :
+            if ($code == 1) :
                 $pesan = 'Enabled';
-            endif;
-            $span = '<span class="label status status-active ">' . $pesan . '</span>';
-        elseif ($code == 2) :
-            if ($jenis == 'aktif') :
+                $class = 'status-active';
+            else :
                 $pesan = 'Disabled';
+                $class = 'status-unpaid';
             endif;
-            $span = '<span class="label status status-unpaid">' . $pesan . '</span>';
+        elseif ($jenis == 'permintaan') :
+            if ($code == 1) :
+                $pesan = 'Pending';
+                $class = 'status-pending transfer';
+            elseif ($code == 2) :
+                $pesan = 'Proses';
+                $class = 'status-suspended';
+            elseif ($code == 3) :
+                $pesan = 'Selesai';
+                $class = 'status-completed';
+            elseif ($code == 4) :
+                $pesan = 'Batal';
+                $class = 'status-cancelled';
+            endif;
         endif;
+        $span = '<span class="label status ' . $class . '">' . $pesan . '</span>';
         return $span;
     }
 }
