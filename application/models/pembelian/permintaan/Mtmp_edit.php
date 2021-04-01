@@ -24,6 +24,19 @@ class Mtmp_edit extends CI_Model
         );
         return $this->db->where('id_permintaan', $kode)->update('permintaan', $data);
     }
+    public function store($post)
+    {
+        $data = [
+            'permintaan_detail' => $post['id_permintaan'],
+            'barang_detail' => $post['barang'],
+            'satuan_detail' => $post['satuan'],
+            'harga_detail' => convert_uang($post['harga']),
+            'jumlah_detail' => convert_uang($post['jumlah'])
+        ];
+        $store = $this->db->insert('permintaan_detail', $data);
+        $this->update_total($post['id_permintaan']);
+        return $store;
+    }
 }
 
 /* End of file Mtmp_edit.php */

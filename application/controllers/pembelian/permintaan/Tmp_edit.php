@@ -38,6 +38,7 @@ class Tmp_edit extends CI_Controller
         $this->form_validation->set_message('greater_than', greater_than());
         $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
         if ($this->form_validation->run() == TRUE) {
+            $this->Mtmp_edit->store($post);
             $json = array(
                 'status' => "0100",
                 'message' => 'Barang berhasil ditambahkan'
