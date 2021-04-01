@@ -52,7 +52,7 @@
         </div>
         <div class="box-footer">
             <button type="submit" class="btn btn-primary" id="store" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading..."><i class="icon-floppy-disk"></i> Edit Permintaan</button>
-            <a href="javascript:void(0)" class="btn btn-danger"><i class="icon-cross2"></i> Batalkan Permintaan</a>
+            <a href="javascript:void(0)" class="btn btn-danger" onclick="batal()"><i class="icon-cross2"></i> Batalkan Permintaan</a>
         </div>
         <?= form_close() ?>
     </div>
@@ -108,6 +108,19 @@
             success: function(resp) {
                 $("#tampil_modal").html(resp);
                 $("#modal_create").modal('show');
+            }
+        });
+    }
+
+    function destroy(kode) {
+        $.ajax({
+            url: "<?= site_url('permintaan/tmp-edit/destroy') ?>",
+            type: "GET",
+            data: {
+                kode: kode
+            },
+            success: function(resp) {
+                data();
             }
         });
     }
