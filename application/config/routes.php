@@ -82,3 +82,4 @@ $route['permintaan/tmp-edit/data'] = 'pembelian/permintaan/tmp_edit/data';
 $route['permintaan/tmp-edit/create'] = 'pembelian/permintaan/tmp_edit/create';
 $route['permintaan/tmp-edit/store'] = 'pembelian/permintaan/tmp_edit/store';
 $route['permintaan/tmp-edit/edit'] = 'pembelian/permintaan/tmp_edit/edit';
+$route['permintaan/tmp-edit/update'] = 'pembelian/permintaan/tmp_edit/update';
