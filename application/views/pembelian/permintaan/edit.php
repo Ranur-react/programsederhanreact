@@ -18,7 +18,7 @@
                             <th class="text-right">Jumlah</th>
                             <th class="text-right">Total</th>
                             <th class="text-center" width="60px">
-                                <a href="javascript:void(0)" title="Tambah Barang"><i class="fa fa-plus-circle text-primary fa-lg"></i></a>
+                                <a href="javascript:void(0)" onclick="create()" title="Tambah Barang"><i class="fa fa-plus-circle text-primary fa-lg"></i></a>
                             </th>
                         </tr>
                     </thead>
@@ -57,6 +57,7 @@
         <?= form_close() ?>
     </div>
 </div>
+<div id="tampil_modal"></div>
 <script>
     $(document).ready(function() {
         $('.select2').select2();
@@ -79,6 +80,20 @@
             },
             success: function(resp) {
                 $('#data_tmp').html(resp);
+            }
+        });
+    }
+
+    function create() {
+        $.ajax({
+            url: "<?= site_url('permintaan/tmp-edit/create') ?>",
+            type: "GET",
+            data: {
+                kode: kode
+            },
+            success: function(resp) {
+                $("#tampil_modal").html(resp);
+                $("#modal_create").modal('show');
             }
         });
     }
