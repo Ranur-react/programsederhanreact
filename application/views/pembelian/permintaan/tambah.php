@@ -2,7 +2,7 @@
     <div class="box box-solid">
         <div class="box-header with-border">
             <h3 class="box-title">
-                <a class="text-back" href="<?= site_url('popupuk') ?>" title="Kembali"><i class="icon-arrow-left8" style="font-size: 24px"></i></a> Tambah Permintaan Barang
+                <a class="text-back" href="<?= site_url('permintaan') ?>" title="Kembali"><i class="icon-arrow-left8" style="font-size: 24px"></i></a> Tambah Permintaan Barang
             </h3>
         </div>
         <?= form_open('permintaan/store', ['id' => 'form_create']) ?>
@@ -231,10 +231,10 @@
                     } else {
                         localStorage.setItem("swal", swal({
                             title: "Sukses!",
-                            text: "Form tambah permintaan barang berhasil dibuat.",
+                            text: resp.message,
                             type: "success",
                         }).then(function() {
-                            window.location.href = "<?= site_url('permintaan/info/') ?>" + resp.kode;
+                            window.location.href = "<?= site_url('permintaan/detail/') ?>" + resp.kode;
                         }));
                     }
                 } else {

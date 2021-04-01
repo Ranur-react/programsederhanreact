@@ -66,7 +66,7 @@ class Permintaan extends CI_Controller
         $data = [
             'title' => 'Permintaan',
             'small' => 'Tambah Data Permintaan Barang',
-            'links' => '<li class="active">Permintaan</li>',
+            'links' => '<li><a href="' . site_url('permintaan') . '">Permintaan</a></li><li class="active">Permintaan</li>',
             'supplier' => $this->Msupplier->getall()
         ];
         $this->template->dashboard('pembelian/permintaan/tambah', $data);
@@ -85,7 +85,8 @@ class Permintaan extends CI_Controller
                 $this->Mpermintaan->store($kode, $post);
                 $json = array(
                     'status' => "0100",
-                    'kode' => '1'
+                    'kode' => $kode,
+                    'message' => 'Form tambah permintaan barang berhasil dibuat.'
                 );
             else :
                 $json = array(
