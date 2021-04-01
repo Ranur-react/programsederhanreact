@@ -29,7 +29,8 @@ class Tmp_edit extends CI_Controller
     }
     public function store()
     {
-        $this->form_validation->set_rules('barang', 'Barang', 'required');
+        $post = $this->input->post(null, TRUE);
+        $this->form_validation->set_rules('barang', 'Barang', 'required|callback_cekbarang[' . $post['id_permintaan'] . ']');
         $this->form_validation->set_rules('satuan', 'Satuan', 'required');
         $this->form_validation->set_rules('harga', 'Harga', 'required|greater_than[0]');
         $this->form_validation->set_rules('jumlah', 'Jumlah', 'required|greater_than[0]');
@@ -51,6 +52,16 @@ class Tmp_edit extends CI_Controller
             }
         }
         echo json_encode($json);
+    }
+    public function cekbarang($barang, $kode)
+    {
+        $check = $this->db->where(['permintaan_detail' => $kode, 'barang_detail' => $barang])->get('permintaan_detail');
+        if ($check->num_rows() == 1) {
+            $this->form_validation->set_message('cekbarang', 'Barang sudah ditambahkan, silahkan update jika ingin melakukan perubahan.');
+            return FALSE;
+        } else {
+            return TRUE;
+        }
     }
 }
 
