@@ -97,4 +97,18 @@
             }
         });
     }
+
+    $(document).on('change', '.barang', function(e) {
+        var barang = $(".barang").val();
+        $.ajax({
+            type: "GET",
+            url: "<?= site_url('barang/get-satuan') ?>",
+            data: {
+                barang: barang
+            },
+            success: function(resp) {
+                $(".satuan").html(resp);
+            }
+        });
+    });
 </script>
