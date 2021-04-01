@@ -31,6 +31,29 @@ if (!function_exists('status_span')) {
     }
 }
 
+if (!function_exists('status_label')) {
+    function status_label($code, $jenis)
+    {
+        if ($jenis == 'permintaan') :
+            if ($code == 1) :
+                $pesan = 'Pending';
+                $class = 'status-pending transfer';
+            elseif ($code == 2) :
+                $pesan = 'Proses';
+                $class = 'status-suspended';
+            elseif ($code == 3) :
+                $pesan = 'Selesai';
+                $class = 'status-completed';
+            elseif ($code == 4) :
+                $pesan = 'Batal';
+                $class = 'status-cancelled';
+            endif;
+        endif;
+        $span = '<span class="label status-label ' . $class . '">' . $pesan . '</span>';
+        return $span;
+    }
+}
+
 if (!function_exists('make_avatar')) {
     function make_avatar($character)
     {
