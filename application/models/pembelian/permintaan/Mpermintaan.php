@@ -7,6 +7,7 @@ class Mpermintaan extends CI_Model
     {
         parent::__construct();
         $this->load->model('pembelian/permintaan/Mtmp_create');
+        $this->load->model('pembelian/permintaan/Mtmp_edit');
     }
     public function jumlah_data()
     {
@@ -82,6 +83,17 @@ class Mpermintaan extends CI_Model
             ->join('users', 'user_permintaan=id_user')
             ->where('id_permintaan', $kode)
             ->get()->row_array();
+    }
+    public function update($kode, $post)
+    {
+        $total = $this->Mtmp_edit->get_total($kode);
+        $data = array(
+            'supplier_permintaan' => $post['supplier'],
+            'tanggal_permintaan' => date("Y-m-d", strtotime($post['tanggal'])),
+            'total_permintaan' => $total
+        );
+        $this->db->set('updated_at', 'NOW()', FALSE);
+        return $this->db->where('id_permintaan', $kode)->update('permintaan', $data);
     }
 }
 
