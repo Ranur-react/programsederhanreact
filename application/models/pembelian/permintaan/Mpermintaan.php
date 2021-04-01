@@ -75,6 +75,14 @@ class Mpermintaan extends CI_Model
         $hapus_tmp = $this->db->where('user', id_user())->delete('tmp_permintaan');
         return array($permintaan, $hapus_tmp);
     }
+    public function show($kode)
+    {
+        return $this->db->from('permintaan')
+            ->join('supplier', 'supplier_permintaan=id_supplier')
+            ->join('users', 'user_permintaan=id_user')
+            ->where('id_permintaan', $kode)
+            ->get()->row_array();
+    }
 }
 
 /* End of file Mpermintaan.php */

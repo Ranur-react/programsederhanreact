@@ -66,7 +66,7 @@ class Permintaan extends CI_Controller
         $data = [
             'title' => 'Permintaan',
             'small' => 'Tambah Data Permintaan Barang',
-            'links' => '<li><a href="' . site_url('permintaan') . '">Permintaan</a></li><li class="active">Permintaan</li>',
+            'links' => '<li><a href="' . site_url('permintaan') . '">Permintaan</a></li><li class="active">Tambah</li>',
             'supplier' => $this->Msupplier->getall()
         ];
         $this->template->dashboard('pembelian/permintaan/tambah', $data);
@@ -108,8 +108,9 @@ class Permintaan extends CI_Controller
         $data = [
             'title' => 'Permintaan',
             'small' => 'Edit Data Permintaan Barang',
-            'links' => '<li class="active">Permintaan</li>',
-            'supplier' => $this->Msupplier->getall()
+            'links' => '<li><a href="' . site_url('permintaan') . '">Permintaan</a></li><li class="active">Edit</li>',
+            'supplier' => $this->Msupplier->getall(),
+            'data' => $this->Mpermintaan->show($kode)
         ];
         $this->template->dashboard('pembelian/permintaan/edit', $data);
     }

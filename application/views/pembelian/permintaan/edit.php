@@ -6,6 +6,7 @@
             </h3>
         </div>
         <?= form_open('permintaan/update', ['id' => 'form_create']) ?>
+        <input type="hidden" name="kode" id="kode" value="<?= $data['id_permintaan'] ?>">
         <div class="box-body">
             <div class="table-responsive">
                 <table class="table table-bordered">
@@ -30,7 +31,7 @@
                         <label for="tanggal">Tanggal</label>
                         <div class="input-group date">
                             <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
-                            <input type="text" name="tanggal" class="form-control pull-right datepicker" placeholder="dd-mm-yyyy" value="<?= date('d-m-Y') ?>">
+                            <input type="text" name="tanggal" class="form-control pull-right datepicker" placeholder="dd-mm-yyyy" value="<?= format_biasa($data['tanggal_permintaan']) ?>">
                         </div>
                         <div id="tanggal"></div>
                     </div>
@@ -41,7 +42,7 @@
                         <select class="form-control select2" name="supplier" data-placeholder="Pilih Supplier" style="width: 100%;">
                             <option value=""></option>
                             <?php foreach ($supplier as $s) { ?>
-                                <option value="<?= $s['id_supplier'] ?>"><?= $s['nama_supplier'] ?></option>
+                                <option value="<?= $s['id_supplier'] ?>" <?= $data['supplier_permintaan'] == $s['id_supplier'] ? 'selected' : null ?>><?= $s['nama_supplier'] ?></option>
                             <?php } ?>
                         </select>
                         <div id="supplier"></div>
