@@ -11,6 +11,11 @@ class Mtmp_edit extends CI_Model
             ->where('permintaan_detail', $kode)
             ->get()->result_array();
     }
+    public function get_total($kode)
+    {
+        $query = $this->db->select('IFNULL(SUM(harga_detail*jumlah_detail),0) AS total')->where('permintaan_detail', $kode)->get('permintaan_detail')->row();
+        return $query->total;
+    }
 }
 
 /* End of file Mtmp_edit.php */
