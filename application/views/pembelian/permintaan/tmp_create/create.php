@@ -31,7 +31,7 @@
             var nilai = formatRupiah($(this).val(), '');
             $(this).val(nilai);
         });
-        $('#qty').keyup(function(e) {
+        $('#jumlah').keyup(function(e) {
             var nilai = formatRupiah($(this).val(), '');
             $(this).val(nilai);
         });

@@ -1,5 +1,5 @@
 <?php if (empty($data)) :
-    echo '<tr><td colspan="8" class="text-center text-red">Belum ada data pupuk yang akan diorder ke pemasok.</td></tr>';
+    echo '<tr><td colspan="8" class="text-center text-red">Belum ada data barang yang diinputkan.</td></tr>';
 else :
     $no = 1;
     $total = 0;
