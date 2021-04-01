@@ -64,6 +64,20 @@ class Tmp_edit extends CI_Controller
             return TRUE;
         }
     }
+    public function edit()
+    {
+        $kode = $this->input->get('kode');
+        $query = $this->Mtmp_edit->show($kode);
+        $data = [
+            'name' => 'Edit Barang',
+            'post' => 'permintaan/tmp-edit/update',
+            'class' => 'form_tmp',
+            'backdrop' => 1,
+            'satuan' => $this->Mbarang->get_satuan($query['barang_detail']),
+            'data' => $query
+        ];
+        $this->template->modal_form('pembelian/permintaan/tmp_edit/edit', $data);
+    }
 }
 
 /* End of file Tmp_edit.php */

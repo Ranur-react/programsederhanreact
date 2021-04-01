@@ -37,6 +37,14 @@ class Mtmp_edit extends CI_Model
         $this->update_total($post['id_permintaan']);
         return $store;
     }
+    public function show($kode)
+    {
+        return $this->db->from('permintaan_detail')
+            ->join('barang', 'barang_detail=id_barang')
+            ->join('satuan', 'satuan_detail=id_satuan')
+            ->where('id_detail', $kode)
+            ->get()->row_array();
+    }
 }
 
 /* End of file Mtmp_edit.php */

@@ -98,6 +98,20 @@
         });
     }
 
+    function edit(kode) {
+        $.ajax({
+            url: "<?= site_url('permintaan/tmp-edit/edit') ?>",
+            type: "GET",
+            data: {
+                kode: kode
+            },
+            success: function(resp) {
+                $("#tampil_modal").html(resp);
+                $("#modal_create").modal('show');
+            }
+        });
+    }
+
     $(document).on('change', '.barang', function(e) {
         var barang = $(".barang").val();
         $.ajax({
