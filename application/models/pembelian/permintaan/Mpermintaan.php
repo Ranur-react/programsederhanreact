@@ -95,6 +95,17 @@ class Mpermintaan extends CI_Model
         $this->db->set('updated_at', 'NOW()', FALSE);
         return $this->db->where('id_permintaan', $kode)->update('permintaan', $data);
     }
+    public function destroy($kode)
+    {
+        $data = $this->show($kode);
+        if ($data['status_permintaan'] == 1) :
+            $this->db->where('permintaan_detail', $kode)->delete('permintaan_detail');
+            $this->db->where('id_permintaan', $kode)->delete('permintaan');
+            return "0100";
+        else :
+            return "0101";
+        endif;
+    }
 }
 
 /* End of file Mpermintaan.php */

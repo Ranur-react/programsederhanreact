@@ -157,6 +157,23 @@ class Permintaan extends CI_Controller
         ];
         $this->template->dashboard('pembelian/permintaan/detail', $data);
     }
+    public function destroy()
+    {
+        $kode = $this->input->get('kode', true);
+        $query = $this->Mpermintaan->destroy($kode);
+        if ($query == "0100") {
+            $json = array(
+                'status' => "0100",
+                "message" => successDestroy()
+            );
+        } else {
+            $json = array(
+                'status' => "0101",
+                "message" => "Beberapa data barang sudah ada yang diterima."
+            );
+        }
+        echo json_encode($json);
+    }
 }
 
 /* End of file Permintaan.php */

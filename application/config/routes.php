@@ -69,6 +69,7 @@ $route['permintaan/store'] = 'pembelian/permintaan/permintaan/store';
 $route['permintaan/edit/(:num)'] = 'pembelian/permintaan/permintaan/edit/$1';
 $route['permintaan/update'] = 'pembelian/permintaan/permintaan/update';
 $route['permintaan/detail/(:num)'] = 'pembelian/permintaan/permintaan/detail/$1';
+$route['permintaan/destroy'] = 'pembelian/permintaan/permintaan/destroy';
 
 $route['permintaan/tmp-create/data'] = 'pembelian/permintaan/tmp_create/data';
 $route['permintaan/tmp-create/create'] = 'pembelian/permintaan/tmp_create/create';
