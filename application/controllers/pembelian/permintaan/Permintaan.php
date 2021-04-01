@@ -146,6 +146,17 @@ class Permintaan extends CI_Controller
         }
         echo json_encode($json);
     }
+    public function detail($kode)
+    {
+        $data = [
+            'title' => 'Permintaan',
+            'small' => 'Detail Permintaan barang',
+            'links' => '<li><a href="' . site_url('permintaan') . '">Permintaan</a></li><li class="active">Detail</li>',
+            'data' => $this->Mpermintaan->show($kode),
+            'barang' => $this->Mtmp_edit->tampil_data($kode)
+        ];
+        $this->template->dashboard('pembelian/permintaan/detail', $data);
+    }
 }
 
 /* End of file Permintaan.php */
