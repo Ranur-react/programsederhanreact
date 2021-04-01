@@ -66,6 +66,12 @@ class Mtmp_edit extends CI_Model
         $this->update_total($kode);
         return $hapus;
     }
+    public function batal($kode)
+    {
+        $detail = $this->db->where('permintaan_detail', $kode)->delete('permintaan_detail');
+        $data = $this->db->where('id_permintaan', $kode)->delete('permintaan');
+        return array($detail, $data);
+    }
 }
 
 /* End of file Mtmp_edit.php */

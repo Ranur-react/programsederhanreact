@@ -114,6 +114,18 @@ class Tmp_edit extends CI_Controller
             $pesan['error'] = "0101";
         }
     }
+    public function batal()
+    {
+        $kode = $this->input->get('kode');
+        $total = 0;
+        if ($total > 0) :
+            $json['error'] = 'Beberapa data barang sudah ada yang sudah diterima';
+        else :
+            $this->Mtmp_edit->batal($kode);
+            $json['success'] = successCancel();
+        endif;
+        echo json_encode($json);
+    }
 }
 
 /* End of file Tmp_edit.php */
