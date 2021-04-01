@@ -142,6 +142,14 @@ class Mbarang extends CI_Model
         $hapus_barang = $this->db->where('id_barang', $kode)->delete('barang');
         return array($hapus_satuan, $hapus_kategori, $hapus_desc, $hapus_barang);
     }
+    public function get_satuan($barang)
+    {
+        $query = $this->db->from('barang_satuan')
+            ->join('satuan', 'satuan_brg_satuan=id_satuan')
+            ->where('barang_brg_satuan', $barang)
+            ->get()->result_array();
+        return $query;
+    }
 }
 
 /* End of file Mbarang.php */

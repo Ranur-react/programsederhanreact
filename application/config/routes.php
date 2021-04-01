@@ -59,3 +59,30 @@ $route['barang/store'] = 'master/barang/store';
 $route['barang/edit/(:num)'] = 'master/barang/edit/$1';
 $route['barang/update'] = 'master/barang/update';
 $route['barang/destroy'] = 'master/barang/destroy';
+$route['barang/get-satuan'] = 'master/barang/get_satuan';
+
+// menu permintaan
+$route['permintaan'] = 'pembelian/permintaan/permintaan';
+$route['permintaan/data'] = 'pembelian/permintaan/permintaan/data';
+$route['permintaan/create'] = 'pembelian/permintaan/permintaan/create';
+$route['permintaan/store'] = 'pembelian/permintaan/permintaan/store';
+$route['permintaan/edit/(:num)'] = 'pembelian/permintaan/permintaan/edit/$1';
+$route['permintaan/update'] = 'pembelian/permintaan/permintaan/update';
+$route['permintaan/detail/(:num)'] = 'pembelian/permintaan/permintaan/detail/$1';
+$route['permintaan/destroy'] = 'pembelian/permintaan/permintaan/destroy';
+
+$route['permintaan/tmp-create/data'] = 'pembelian/permintaan/tmp_create/data';
+$route['permintaan/tmp-create/create'] = 'pembelian/permintaan/tmp_create/create';
+$route['permintaan/tmp-create/store'] = 'pembelian/permintaan/tmp_create/store';
+$route['permintaan/tmp-create/edit'] = 'pembelian/permintaan/tmp_create/edit';
+$route['permintaan/tmp-create/update'] = 'pembelian/permintaan/tmp_create/update';
+$route['permintaan/tmp-create/destroy'] = 'pembelian/permintaan/tmp_create/destroy';
+$route['permintaan/tmp-create/batal'] = 'pembelian/permintaan/tmp_create/batal';
+
+$route['permintaan/tmp-edit/data'] = 'pembelian/permintaan/tmp_edit/data';
+$route['permintaan/tmp-edit/create'] = 'pembelian/permintaan/tmp_edit/create';
+$route['permintaan/tmp-edit/store'] = 'pembelian/permintaan/tmp_edit/store';
+$route['permintaan/tmp-edit/edit'] = 'pembelian/permintaan/tmp_edit/edit';
+$route['permintaan/tmp-edit/update'] = 'pembelian/permintaan/tmp_edit/update';
+$route['permintaan/tmp-edit/destroy'] = 'pembelian/permintaan/tmp_edit/destroy';
+$route['permintaan/tmp-edit/batal'] = 'pembelian/permintaan/tmp_edit/batal';
