@@ -41,3 +41,41 @@
         </div>
     </div>
 </div>
+<script>
+    $(".data_permintaan").DataTable({
+        ordering: false,
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: "<?= base_url('penerimaan/tmp-create/data-permintaan') ?>",
+            type: 'GET',
+        },
+        "columns": [{
+                "class": "text-center"
+            },
+            {
+                "class": "text-left"
+            },
+            {
+                "class": "text-left"
+            },
+            {
+                "class": "text-left"
+            },
+            {
+                "class": "text-right"
+            },
+            {
+                "class": "text-left"
+            },
+            {
+                "class": "text-center",
+                "width": "100px"
+            },
+            {
+                "class": "text-center",
+                "width": "60px"
+            }
+        ]
+    });
+</script>
