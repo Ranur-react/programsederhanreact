@@ -5,9 +5,9 @@
             <i class="icon-home4"></i> <span>Dashboard</span>
         </a>
     </li>
-    <li class="treeview <?= $urls == 'pengguna' || $urls == 'supplier' || $urls == 'satuan' || $urls == 'kategori' || $urls == 'gudang' ? 'active' : null ?>">
+    <li class="treeview <?= $urls == 'pengguna' || $urls == 'supplier' || $urls == 'satuan' || $urls == 'kategori' || $urls == 'gudang' || $urls == 'barang' ? 'active' : null ?>">
         <a href="#">
-            <i class="icon-color-sampler"></i> <span>Master Data</span>
+            <i class="fas fa-th-large"></i> <span>Master Data</span>
             <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
             </span>
@@ -27,6 +27,22 @@
             </li>
             <li class="<?= $urls == 'gudang' ? 'active' : null ?>">
                 <a href="<?= site_url('gudang') ?>"><i class="fa fa-angle-double-right"></i> Gudang</a>
+            </li>
+            <li class="<?= $urls == 'barang' ? 'active' : null ?>">
+                <a href="<?= site_url('barang') ?>"><i class="fa fa-angle-double-right"></i> Barang</a>
+            </li>
+        </ul>
+    </li>
+    <li class="treeview <?= $urls == 'permintaan' ? 'active' : null ?>">
+        <a href="#">
+            <i class="fas fa-shopping-basket"></i> <span>Pembelian</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li class="<?= $urls == 'permintaan' ? 'active' : null ?>">
+                <a href="<?= site_url('permintaan') ?>"><i class="fa fa-angle-double-right"></i> Permintaan</a>
             </li>
         </ul>
     </li>

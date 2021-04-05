@@ -44,7 +44,9 @@
                                 <div class="text-muted text-size-small"><?= $gudang ?></div>
                             </td>
                             <td width="120px">
-                                <span class="label status <?= $d['status_user'] == 1 ? 'status-active' : 'status-pending' ?>"><?= $d['status_user'] == 1 ? 'Aktif' : 'Tidak Aktif' ?></span>
+                                <a href="<?= site_url('pengguna/status-pengguna/' . $kode) ?>">
+                                    <span class="label status <?= $d['status_user'] == 1 ? 'status-active' : 'status-pending' ?>"><?= $d['status_user'] == 1 ? 'Aktif' : 'Tidak Aktif' ?></span>
+                                </a>
                             </td>
                             <td class="text-center" width="60px">
                                 <a href="javascript:void(0)" onclick="edit('<?= $kode ?>')">

@@ -1,13 +1,12 @@
-<div class="modal fade" id="modal_create">
-    <div class="modal-dialog">
+<?php error_reporting(E_ALL ^ E_NOTICE); ?>
+<div class="modal fade" <?= $backdrop == 1 ? 'data-backdrop="static"' : '' ?> id="modal_create">
+    <div class="modal-dialog <?= $modallg == 1 ? 'modal-lg' : '' ?>">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title"><?= $name ?></h4>
             </div>
-            <?php
-            error_reporting(E_ALL ^ E_NOTICE);
-            if ($multipart == 1) :
+            <?php if ($multipart == 1) :
                 echo form_open_multipart($post, ['class' => $class]);
             else :
                 echo form_open($post, ['class' => $class]);

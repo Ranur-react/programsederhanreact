@@ -46,7 +46,7 @@ class Kategori extends CI_Controller
             $mime = get_mime_by_extension($_FILES['gambar']['name']);
             if (isset($_FILES['gambar']['name']) && $_FILES['gambar']['name'] != "") {
                 if (in_array($mime, $types)) {
-                    $config['upload_path'] = pathKategori() . 'images/kategori';
+                    $config['upload_path'] = pathImage() . 'images/kategori';
                     $config['allowed_types'] = 'jpg|jpeg|png|svg';
                     $config['max_size'] = 819200;
                     $config['encrypt_name'] = TRUE;
@@ -54,7 +54,7 @@ class Kategori extends CI_Controller
                     $this->upload->initialize($config);
                     if ($this->upload->do_upload('gambar')) {
                         $data['upload_data'] = $this->upload->data('file_name');
-                        $link = pathKategori() . 'images/kategori/' . $data['upload_data'];
+                        $link = 'images/kategori/' . $data['upload_data'];
                     }
                     if ($_FILES['gambar']['size'] > 819200) {
                         $json = array(
@@ -115,7 +115,7 @@ class Kategori extends CI_Controller
             $mime = get_mime_by_extension($_FILES['gambar']['name']);
             if (isset($_FILES['gambar']['name']) && $_FILES['gambar']['name'] != "") {
                 if (in_array($mime, $types)) {
-                    $config['upload_path'] = pathKategori() . 'images/kategori';
+                    $config['upload_path'] = pathImage() . 'images/kategori';
                     $config['allowed_types'] = 'jpg|jpeg|png|svg';
                     $config['max_size'] = 819200;
                     $config['encrypt_name'] = TRUE;
@@ -171,6 +171,20 @@ class Kategori extends CI_Controller
             $json = array(
                 "status" => "0101",
                 "message" => errorDestroy()
+            );
+        }
+        echo json_encode($json);
+    }
+    // pencarian kategori berdasarkan nama
+    public function kategori_by_nama()
+    {
+        $filter_nama = $this->input->get('filter_nama');
+        $data = $this->Mkategori->kategori_by_nama($filter_nama);
+        $json = array();
+        foreach ($data as $d) {
+            $json[] = array(
+                'id' => $d['id'],
+                'nama' => $d['nama']
             );
         }
         echo json_encode($json);
