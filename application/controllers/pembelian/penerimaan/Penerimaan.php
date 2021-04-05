@@ -20,6 +20,15 @@ class Penerimaan extends CI_Controller
         ];
         $this->template->dashboard('pembelian/penerimaan/data', $data);
     }
+    public function create()
+    {
+        $data = [
+            'title' => 'Penerimaan',
+            'small' => 'Tambah Data Penerimaan Barang',
+            'links' => '<li><a href="' . site_url('penerimaan') . '">Penerimaan</a></li><li class="active">Tambah</li>'
+        ];
+        $this->template->dashboard('pembelian/penerimaan/tambah', $data);
+    }
 }
 
 /* End of file Penerimaan.php */
