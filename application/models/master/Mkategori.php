@@ -110,11 +110,13 @@ class Mkategori extends CI_Model
     }
     public function destroy($kode)
     {
+        $data = $this->show($kode);
         $this->db->query("DELETE FROM kategori_path WHERE kategori_path='$kode'");
         $query = $this->db->query("SELECT * FROM kategori_path WHERE parent_path='$kode'")->result_array();
         foreach ($query as $result) {
             $this->destroy($result['kategori_path']);
         }
+        unlink(pathImage() . $data['icon_kategori']);
         $this->db->query("DELETE FROM kategori WHERE id_kategori='$kode'");
         return true;
     }

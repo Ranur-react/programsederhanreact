@@ -29,7 +29,7 @@ class Mconfig extends CI_Model
     }
     public function pathKategori()
     {
-        return $this->db->where('nama_seting', 'pathkategori')->get('settings')->row();
+        return $this->db->where('nama_seting', 'pathimage')->get('settings')->row();
     }
 }
 
