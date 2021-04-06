@@ -80,6 +80,48 @@ class Tmp_create extends CI_Controller
         ];
         $this->template->modal_form('pembelian/penerimaan/tmp_create/create', $data);
     }
+    public function store()
+    {
+        $post = $this->input->post(null, TRUE);
+        $cek_user = $this->db->where(['iddetail' => $post['iddetail'], 'user' => id_user()])->get('tmp_penerimaan');
+        $cek_barang = $this->db->where('iddetail', $post['iddetail'])->where_not_in('user', id_user())->get('tmp_penerimaan');
+        if ($cek_user->num_rows() > 0) :
+            $json = array(
+                'status' => "0100",
+                'count' => $cek_user->num_rows(),
+                'message' => info('Barang sudah ditambahkan, silahkan update jika ingin melakukan perubahan.')
+            );
+        elseif ($cek_barang->num_rows() > 0) :
+            $json = array(
+                'status' => "0100",
+                'count' => $cek_barang->num_rows(),
+                'message' => info('Barang sudah ditambahkan oleh user yang lain.')
+            );
+        else :
+            $this->form_validation->set_rules('harga', 'Harga', 'required|greater_than[0]');
+            $this->form_validation->set_rules('jumlah', 'Jumlah', 'required|greater_than[0]');
+            $this->form_validation->set_message('required', errorRequired());
+            $this->form_validation->set_message('greater_than', greater_than());
+            $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
+            if ($this->form_validation->run() == TRUE) {
+                $json = array(
+                    'status' => "0100",
+                    'count' => 0,
+                    'notif' => 'Barang berhasil ditambahkan',
+                );
+            } else {
+                $json = array(
+                    'status' => "0101",
+                    'notif' => 'Barang gagal ditambahkan',
+                    'message' => ''
+                );
+                foreach ($_POST as $key => $value) {
+                    $json['pesan'][$key] = form_error($key);
+                }
+            }
+        endif;
+        echo json_encode($json);
+    }
 }
 
 /* End of file Tmp_create.php */

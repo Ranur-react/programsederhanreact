@@ -95,4 +95,44 @@
             }
         });
     }
+
+    $(document).on('submit', '.form_tmp', function(e) {
+        $.ajax({
+            type: "post",
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            dataType: "json",
+            cache: false,
+            beforeSend: function() {
+                $('.store_data').button('loading');
+            },
+            success: function(resp) {
+                if (resp.status == "0100") {
+                    if (resp.count == 0) {
+                        $('#modal_create').modal('hide');
+                        data();
+                        toastr.success(resp.notif);
+                    } else {
+                        $('#message').html(resp.message);
+                    }
+                } else {
+                    $('#message').html(resp.message);
+                    $.each(resp.pesan, function(key, value) {
+                        var element = $('#' + key);
+                        element.closest('div.form-group')
+                            .removeClass('has-error')
+                            .addClass(value.length > 0 ? 'has-error' : 'has-success')
+                            .find('.help-block')
+                            .remove();
+                        element.after(value);
+                    });
+                    toastr.error(resp.notif);
+                }
+            },
+            complete: function() {
+                $('.store_data').button('reset');
+            }
+        });
+        return false;
+    });
 </script>
