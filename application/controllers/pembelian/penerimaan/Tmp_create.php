@@ -144,6 +144,7 @@ class Tmp_create extends CI_Controller
         $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
         if ($this->form_validation->run() == TRUE) {
             $post = $this->input->post(null, TRUE);
+            $this->Mtmp_create->update($post);
             $json = array(
                 'status' => "0100",
                 'count' => 0,
