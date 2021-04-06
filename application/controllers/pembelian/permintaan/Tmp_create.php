@@ -106,10 +106,11 @@ class Tmp_create extends CI_Controller
         $kode = $this->input->get('kode', true);
         $action = $this->Mtmp_create->destroy($kode);
         if ($action == true) {
-            $pesan['success'] = "0100";
+            $pesan['status'] = "0100";
         } else {
-            $pesan['error'] = "0101";
+            $pesan['status'] = "0101";
         }
+        echo json_encode($pesan);
     }
     public function batal()
     {
