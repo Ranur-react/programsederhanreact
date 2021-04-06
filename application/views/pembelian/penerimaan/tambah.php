@@ -81,4 +81,18 @@
             }
         });
     }
+
+    function create(kode) {
+        $.ajax({
+            url: "<?= site_url('penerimaan/tmp-create/create') ?>",
+            type: "GET",
+            data: {
+                kode: kode
+            },
+            success: function(resp) {
+                $("#tampil_modal").html(resp);
+                $("#modal_create").modal('show');
+            }
+        });
+    }
 </script>

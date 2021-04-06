@@ -68,6 +68,18 @@ class Tmp_create extends CI_Controller
         $d['data'] = $this->Mtmp_create->data();
         $this->load->view('pembelian/penerimaan/tmp_create/data', $d);
     }
+    public function create()
+    {
+        $kode = $this->input->get('kode');
+        $data = [
+            'name' => 'Tambah Barang',
+            'post' => 'penerimaan/tmp-create/store',
+            'class' => 'form_tmp',
+            'backdrop' => 1,
+            'data' => $this->Mtmp_edit->show($kode)
+        ];
+        $this->template->modal_form('pembelian/penerimaan/tmp_create/create', $data);
+    }
 }
 
 /* End of file Tmp_create.php */

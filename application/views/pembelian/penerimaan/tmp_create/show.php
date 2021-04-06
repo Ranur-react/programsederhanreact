@@ -36,7 +36,7 @@
                     <td class="text-right"><?= rupiah($b['jumlah_detail']) . ' ' . $b['singkatan_satuan'] ?></td>
                     <td><?= akuntansi($b['harga_detail'] * $b['jumlah_detail']) ?></td>
                     <td class="text-center">
-                        <a href="javascript:void(0)" class="btn btn-success btn-xs"><i class="fa fa-plus-circle"></i> Tambah</a>
+                        <a href="javascript:void(0)" onclick="create('<?= $b['id_detail'] ?>')" class="btn btn-success btn-xs"><i class="fa fa-plus-circle"></i> Tambah</a>
                     </td>
                 </tr>
             <?php } ?>
