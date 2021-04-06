@@ -94,3 +94,5 @@ $route['penerimaan/create'] = 'pembelian/penerimaan/penerimaan/create';
 $route['penerimaan/tmp-create/modal-permintaan'] = 'pembelian/penerimaan/tmp_create';
 $route['penerimaan/tmp-create/data-permintaan'] = 'pembelian/penerimaan/tmp_create/data_permintaan';
 $route['penerimaan/tmp-create/show-permintaan'] = 'pembelian/penerimaan/tmp_create/show_permintaan';
+
+$route['penerimaan/tmp-create/data'] = 'pembelian/penerimaan/tmp_create/data';

@@ -63,6 +63,11 @@ class Tmp_create extends CI_Controller
         $data['barang'] = $this->Mtmp_edit->tampil_data($kode);
         $this->load->view('pembelian/penerimaan/tmp_create/show', $data);
     }
+    public function data()
+    {
+        $d['data'] = $this->Mtmp_create->data();
+        $this->load->view('pembelian/penerimaan/tmp_create/data', $d);
+    }
 }
 
 /* End of file Tmp_create.php */
