@@ -27,6 +27,10 @@ class Mconfig extends CI_Model
     {
         return $this->db->where('nama_seting', 'pathnouser')->get('settings')->row();
     }
+    public function pathImage()
+    {
+        return $this->db->where('nama_seting', 'pathimage')->get('settings')->row();
+    }
 }
 
 /* End of file Mconfig.php */

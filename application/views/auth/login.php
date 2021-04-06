@@ -28,6 +28,7 @@
             </div>
         </div>
         <button type="submit" id="btn_signin" class="login btn btn-primary btn-block" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading...">Masuk</button>
+        <a href="<?= site_url('registrasi') ?>" class="btn btn-default btn-block">Registrasi</a>
         <?= form_close() ?>
     </div>
 </div>

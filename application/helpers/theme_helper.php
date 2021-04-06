@@ -10,3 +10,14 @@ if (!function_exists('assets')) {
         return $path;
     }
 }
+
+if (!function_exists('pathImage')) {
+    function pathImage()
+    {
+        $CI = &get_instance();
+        $CI->load->model('settings/Mconfig');
+        $data = $CI->Mconfig->pathImage();
+        $path = $data->value_seting;
+        return $path;
+    }
+}
