@@ -100,3 +100,4 @@ $route['penerimaan/tmp-create/create'] = 'pembelian/penerimaan/tmp_create/create
 $route['penerimaan/tmp-create/store'] = 'pembelian/penerimaan/tmp_create/store';
 $route['penerimaan/tmp-create/edit'] = 'pembelian/penerimaan/tmp_create/edit';
 $route['penerimaan/tmp-create/update'] = 'pembelian/penerimaan/tmp_create/update';
+$route['penerimaan/tmp-create/destroy'] = 'pembelian/penerimaan/tmp_create/destroy';

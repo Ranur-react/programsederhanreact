@@ -161,6 +161,17 @@ class Tmp_create extends CI_Controller
         }
         echo json_encode($json);
     }
+    public function destroy()
+    {
+        $kode = $this->input->get('kode', true);
+        $action = $this->Mtmp_create->destroy($kode);
+        if ($action == true) {
+            $pesan['status'] = "0100";
+        } else {
+            $pesan['status'] = "0101";
+        }
+        echo json_encode($pesan);
+    }
 }
 
 /* End of file Tmp_create.php */
