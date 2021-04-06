@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <button type="button" onclick="data_permintaan()" class="btn btn-social btn-block btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="icon-folder-search"></i> Cari data permintaan barang</button>
-                    <div id="fetch_popupuk"></div>
+                    <div id="show_permintaan"></div>
                 </div>
             </div>
         </div>
@@ -32,5 +32,21 @@
     function pilih(id_permintaan) {
         $("#id_permintaan").val(id_permintaan);
         $('#modal_data').modal('hide');
+        show_permintaan();
+    }
+
+    function show_permintaan() {
+        var id_permintaan = $('#id_permintaan').val();
+        $('#show_permintaan').html('<p class="text-center m-t-0 m-b-2 text-red"><b><i class="fa fa-refresh animation-rotate"></i> Loading...</b></p>');
+        $.ajax({
+            url: "<?= site_url('penerimaan/tmp-create/show-permintaan') ?>",
+            method: "GET",
+            data: {
+                id_permintaan: id_permintaan
+            },
+            success: function(resp) {
+                $('#show_permintaan').html(resp);
+            }
+        });
     }
 </script>

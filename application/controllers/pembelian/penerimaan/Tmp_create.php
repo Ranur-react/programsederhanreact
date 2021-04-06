@@ -11,6 +11,9 @@ class Tmp_create extends CI_Controller
         else
             redirect('logout');
         $this->load->model('pembelian/penerimaan/Mtmp_create');
+
+        $this->load->model('pembelian/permintaan/Mpermintaan');
+        $this->load->model('pembelian/permintaan/Mtmp_edit');
     }
     public function index()
     {
@@ -52,6 +55,13 @@ class Tmp_create extends CI_Controller
             $no++;
         }
         echo json_encode($output);
+    }
+    public function show_permintaan()
+    {
+        $kode = $this->input->get('id_permintaan');
+        $data['data'] = $this->Mpermintaan->show($kode);
+        $data['barang'] = $this->Mtmp_edit->tampil_data($kode);
+        $this->load->view('pembelian/penerimaan/tmp_create/show', $data);
     }
 }
 
