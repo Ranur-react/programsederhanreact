@@ -38,7 +38,7 @@ class Tmp_create extends CI_Controller
         }
         $no = 1;
         foreach ($query->result_array() as $d) {
-            $pilih = '<a href="javascript:void(0)" class="btn btn-success btn-xs">Pilih <i class="icon-arrow-right8"></i></a>';
+            $pilih = '<a href="javascript:void(0)" onclick="pilih(\'' . $d['id_permintaan'] . '\')" class="btn btn-success btn-xs">Pilih <i class="icon-arrow-right8"></i></a>';
             $output['data'][] = array(
                 $no . '.',
                 $d['id_permintaan'],

@@ -5,6 +5,7 @@
                 <a class="text-back" href="<?= site_url('penerimaan') ?>" title="Kembali"><i class="icon-arrow-left8" style="font-size: 24px"></i></a> Tambah Penerimaan Barang
             </h3>
         </div>
+        <input type="hidden" name="id_permintaan" id="id_permintaan">
         <div class="box-body">
             <div class="row">
                 <div class="col-md-6">
@@ -26,5 +27,10 @@
                 $("#modal_data").modal('show');
             }
         });
+    }
+
+    function pilih(id_permintaan) {
+        $("#id_permintaan").val(id_permintaan);
+        $('#modal_data').modal('hide');
     }
 </script>
