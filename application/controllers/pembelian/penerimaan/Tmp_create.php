@@ -123,6 +123,18 @@ class Tmp_create extends CI_Controller
         endif;
         echo json_encode($json);
     }
+    public function edit()
+    {
+        $kode = $this->input->get('kode');
+        $data = [
+            'name' => 'Edit Barang',
+            'post' => 'penerimaan/tmp-create/update',
+            'class' => 'form_tmp',
+            'backdrop' => 1,
+            'data' => $this->Mtmp_create->show($kode)
+        ];
+        $this->template->modal_form('pembelian/penerimaan/tmp_create/edit', $data);
+    }
 }
 
 /* End of file Tmp_create.php */
