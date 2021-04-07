@@ -51,7 +51,7 @@ class Mtmp_edit extends CI_Model
         $data = $this->show($post['kode']);
         $kode = $data['permintaan_detail'];
         $data = [
-            'satuan_detail' => $post['satuan'],
+            'barang_detail' => $post['satuan'],
             'harga_detail' => convert_uang($post['harga']),
             'jumlah_detail' => convert_uang($post['jumlah'])
         ];
