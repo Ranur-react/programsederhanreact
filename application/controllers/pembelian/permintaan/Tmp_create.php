@@ -27,7 +27,8 @@ class Tmp_create extends CI_Controller
     }
     public function store()
     {
-        $this->form_validation->set_rules('barang', 'Barang', 'required|callback_cekbarang');
+        $post = $this->input->post(null, TRUE);
+        $this->form_validation->set_rules('barang', 'Barang', 'required|callback_cekbarang[' . $post['satuan'] . ']');
         $this->form_validation->set_rules('satuan', 'Satuan', 'required');
         $this->form_validation->set_rules('harga', 'Harga', 'required|greater_than[0]');
         $this->form_validation->set_rules('jumlah', 'Jumlah', 'required|greater_than[0]');
@@ -35,7 +36,6 @@ class Tmp_create extends CI_Controller
         $this->form_validation->set_message('greater_than', greater_than());
         $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
         if ($this->form_validation->run() == TRUE) {
-            $post = $this->input->post(null, TRUE);
             $this->Mtmp_create->store($post);
             $json = array(
                 'status' => "0100",
@@ -52,9 +52,9 @@ class Tmp_create extends CI_Controller
         }
         echo json_encode($json);
     }
-    public function cekbarang($barang)
+    public function cekbarang($barang, $satuan)
     {
-        $check = $this->db->where(['barang' => $barang, 'user' => id_user()])->get('tmp_permintaan');
+        $check = $this->db->where(['satuan' => $satuan, 'user' => id_user()])->get('tmp_permintaan');
         if ($check->num_rows() == 1) {
             $this->form_validation->set_message('cekbarang', 'Barang sudah ditambahkan, silahkan update jika ingin melakukan perubahan.');
             return FALSE;
