@@ -15,7 +15,6 @@ class Mtmp_create extends CI_Model
     public function store($post)
     {
         $data = [
-            'barang' => $post['barang'],
             'satuan' => $post['satuan'],
             'harga'  => convert_uang($post['harga']),
             'jumlah' => convert_uang($post['jumlah']),
