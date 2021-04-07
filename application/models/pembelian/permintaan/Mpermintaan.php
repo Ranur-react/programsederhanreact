@@ -59,15 +59,12 @@ class Mpermintaan extends CI_Model
             'status_permintaan' => 1,
             'user_permintaan' => id_user()
         ];
-        $this->db->set('created_at', 'NOW()', FALSE);
-        $this->db->set('updated_at', 'NOW()', FALSE);
         $permintaan = $this->db->insert('permintaan', $data_permintaan);
         $data_tmp = $this->Mtmp_create->tampil_data();
         foreach ($data_tmp as $d) {
             $data_detail = [
                 'permintaan_detail' => $kode,
-                'barang_detail' => $d['barang'],
-                'satuan_detail' => $d['satuan'],
+                'barang_detail' => $d['satuan'],
                 'harga_detail' => $d['harga'],
                 'jumlah_detail' => $d['jumlah']
             ];

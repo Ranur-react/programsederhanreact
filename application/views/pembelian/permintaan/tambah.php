@@ -221,7 +221,7 @@
                             '</div>' +
                             '</div>' +
                             '<div class="modal-footer">' +
-                            '<button type="button" data-dismiss="modal" class="btn btn-danger btn-sm"> <i class="icon-cross2"></i> Tutup</button>' +
+                            '<button type="button" data-dismiss="modal" class="btn btn-default btn-sm"> <i class="icon-cross2"></i> Tutup</button>' +
                             '</div>'
                         '</div>' +
                         '</div>' +
