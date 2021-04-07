@@ -25,9 +25,10 @@ class Mtmp_create extends CI_Model
     public function show($kode)
     {
         return $this->db->from('tmp_permintaan')
-            ->join('barang', 'barang=id_barang')
-            ->join('satuan', 'satuan=id_satuan')
-            ->where(['barang' => $kode, 'user', id_user()])
+            ->join('barang_satuan', 'satuan=id_brg_satuan')
+            ->join('barang', 'barang_brg_satuan=id_barang')
+            ->join('satuan', 'satuan_brg_satuan=id_satuan')
+            ->where(['satuan' => $kode, 'user' => id_user()])
             ->get()->row_array();
     }
     public function update($post)
