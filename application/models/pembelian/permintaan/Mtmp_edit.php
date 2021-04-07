@@ -29,8 +29,7 @@ class Mtmp_edit extends CI_Model
     {
         $data = [
             'permintaan_detail' => $post['id_permintaan'],
-            'barang_detail' => $post['barang'],
-            'satuan_detail' => $post['satuan'],
+            'barang_detail' => $post['satuan'],
             'harga_detail' => convert_uang($post['harga']),
             'jumlah_detail' => convert_uang($post['jumlah'])
         ];
