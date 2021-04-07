@@ -38,7 +38,7 @@ class Mtmp_create extends CI_Model
             'harga'  => convert_uang($post['harga']),
             'jumlah' => convert_uang($post['jumlah'])
         ];
-        return $this->db->where(['barang' => $post['barang'], 'user' => id_user()])->update('tmp_permintaan', $data);
+        return $this->db->where(['satuan' => $post['barang'], 'user' => id_user()])->update('tmp_permintaan', $data);
     }
     public function destroy($kode)
     {
