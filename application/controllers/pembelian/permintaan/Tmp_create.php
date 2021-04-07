@@ -117,11 +117,17 @@ class Tmp_create extends CI_Controller
     {
         $action = $this->Mtmp_create->batal();
         if ($action) {
-            $pesan['success'] = successCancel();
+            $json = array(
+                'status' => '0100',
+                'message' => successCancel()
+            );
         } else {
-            $pesan['error'] = errorDestroy();
+            $json = array(
+                'status' => '0101',
+                'message' => errorDestroy()
+            );
         }
-        echo json_encode($pesan);
+        echo json_encode($json);
     }
 }
 
