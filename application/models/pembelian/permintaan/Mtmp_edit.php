@@ -40,8 +40,9 @@ class Mtmp_edit extends CI_Model
     public function show($kode)
     {
         return $this->db->from('permintaan_detail')
-            ->join('barang', 'barang_detail=id_barang')
-            ->join('satuan', 'satuan_detail=id_satuan')
+            ->join('barang_satuan', 'barang_detail=id_brg_satuan')
+            ->join('barang', 'barang_brg_satuan=id_barang')
+            ->join('satuan', 'satuan_brg_satuan=id_satuan')
             ->where('id_detail', $kode)
             ->get()->row_array();
     }

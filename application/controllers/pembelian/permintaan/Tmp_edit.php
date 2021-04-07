@@ -75,7 +75,7 @@ class Tmp_edit extends CI_Controller
             'post' => 'permintaan/tmp-edit/update',
             'class' => 'form_tmp',
             'backdrop' => 1,
-            'satuan' => $this->Mbarang->get_satuan($query['barang_detail']),
+            'satuan' => $this->Mbarang->get_satuan($query['id_barang']),
             'data' => $query
         ];
         $this->template->modal_form('pembelian/permintaan/tmp_edit/edit', $data);
