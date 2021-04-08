@@ -35,8 +35,9 @@ class Mtmp_create extends CI_Model
     {
         return $this->db->from('tmp_penerimaan')
             ->join('permintaan_detail', 'iddetail=id_detail')
-            ->join('barang', 'barang_detail=id_barang')
-            ->join('satuan', 'satuan_detail=id_satuan')
+            ->join('barang_satuan', 'barang_detail=id_brg_satuan')
+            ->join('barang', 'barang_brg_satuan=id_barang')
+            ->join('satuan', 'satuan_brg_satuan=id_satuan')
             ->where('user', id_user())
             ->get()->result_array();
     }
@@ -55,8 +56,9 @@ class Mtmp_create extends CI_Model
     {
         return $this->db->from('tmp_penerimaan')
             ->join('permintaan_detail', 'iddetail=id_detail')
-            ->join('barang', 'barang_detail=id_barang')
-            ->join('satuan', 'satuan_detail=id_satuan')
+            ->join('barang_satuan', 'barang_detail=id_brg_satuan')
+            ->join('barang', 'barang_brg_satuan=id_barang')
+            ->join('satuan', 'satuan_brg_satuan=id_satuan')
             ->where('iddetail', $kode)
             ->get()->row_array();
     }
