@@ -27,7 +27,8 @@ class Mtmp_create extends CI_Model
             ->join('users', 'user_permintaan=id_user')
             ->where_in('status_permintaan', array(1, 2))
             ->order_by('id_permintaan', 'DESC')
-            ->like('nama_supplier', $search)
+            ->like('id_permintaan', $search)
+            ->or_like('nama_supplier', $search)
             ->get();
         return $sql;
     }
