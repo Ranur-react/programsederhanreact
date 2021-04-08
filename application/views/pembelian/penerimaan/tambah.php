@@ -31,6 +31,9 @@
                 </div>
             </div>
         </div>
+        <div class="box-footer">
+            <a href="javascript:void(0)" class="btn btn-danger" onclick="batal()"><i class="icon-cross2"></i> Batalkan Penerimaan</a>
+        </div>
     </div>
 </div>
 <div id="tampil_modal"></div>
@@ -121,6 +124,39 @@
                 data();
             }
         });
+    }
+
+    function batal() {
+        Swal({
+            title: "Anda yakin untuk membatalkan form penerimaan barang?",
+            text: "Anda tidak akan dapat mengembalikan data ini!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: "Ya, batalkan proses ini"
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    type: "get",
+                    url: "<?= site_url('penerimaan/tmp-create/batal') ?>",
+                    dataType: "json",
+                    success: function(resp) {
+                        if (resp.status == "0100") {
+                            Swal.fire({
+                                title: 'Canceled!',
+                                text: resp.message,
+                                type: 'success'
+                            }).then((resp) => {
+                                location.reload();
+                            })
+                        } else {
+                            Swal.fire('Oops...', resp.message, 'error');
+                        }
+                    }
+                });
+            }
+        })
     }
 
     $(document).on('submit', '.form_tmp', function(e) {

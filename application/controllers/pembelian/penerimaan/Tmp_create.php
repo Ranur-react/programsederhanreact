@@ -172,6 +172,22 @@ class Tmp_create extends CI_Controller
         }
         echo json_encode($pesan);
     }
+    public function batal()
+    {
+        $action = $this->Mtmp_create->batal();
+        if ($action) {
+            $json = array(
+                'status' => '0100',
+                'message' => successCancel()
+            );
+        } else {
+            $json = array(
+                'status' => '0101',
+                'message' => errorDestroy()
+            );
+        }
+        echo json_encode($json);
+    }
 }
 
 /* End of file Tmp_create.php */
