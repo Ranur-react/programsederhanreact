@@ -144,16 +144,16 @@
                     },
                     dataType: "json",
                     success: function(resp) {
-                        if (resp.success) {
+                        if (resp.status == "0100") {
                             Swal.fire({
                                 title: 'Canceled!',
-                                text: resp.success,
+                                text: resp.message,
                                 type: 'success'
                             }).then((resp) => {
                                 window.location.href = "<?= site_url('permintaan') ?>";
                             })
                         } else {
-                            Swal.fire('Oops...', resp.error, 'error');
+                            Swal.fire('Oops...', resp.message, 'error');
                         }
                     }
                 });

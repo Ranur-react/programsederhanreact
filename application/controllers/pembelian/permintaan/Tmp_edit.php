@@ -122,10 +122,16 @@ class Tmp_edit extends CI_Controller
         $kode = $this->input->get('kode');
         $total = 0;
         if ($total > 0) :
-            $json['error'] = 'Beberapa data barang sudah ada yang diterima';
+            $json = array(
+                'status' => '0101',
+                'message' => 'Beberapa data barang sudah ada yang diterima'
+            );
         else :
             $this->Mtmp_edit->batal($kode);
-            $json['success'] = successCancel();
+            $json = array(
+                'status' => '0100',
+                'message' => successCancel()
+            );
         endif;
         echo json_encode($json);
     }
