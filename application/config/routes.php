@@ -86,3 +86,10 @@ $route['permintaan/tmp-edit/edit'] = 'pembelian/permintaan/tmp_edit/edit';
 $route['permintaan/tmp-edit/update'] = 'pembelian/permintaan/tmp_edit/update';
 $route['permintaan/tmp-edit/destroy'] = 'pembelian/permintaan/tmp_edit/destroy';
 $route['permintaan/tmp-edit/batal'] = 'pembelian/permintaan/tmp_edit/batal';
+
+// penerminaan
+$route['penerimaan'] = 'pembelian/penerimaan/penerimaan';
+$route['penerimaan/create'] = 'pembelian/penerimaan/penerimaan/create';
+
+$route['penerimaan/tmp-create/modal-permintaan'] = 'pembelian/penerimaan/tmp_create';
+$route['penerimaan/tmp-create/data-permintaan'] = 'pembelian/penerimaan/tmp_create/data_permintaan';
