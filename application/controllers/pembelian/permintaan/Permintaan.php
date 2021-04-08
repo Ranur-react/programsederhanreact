@@ -134,12 +134,13 @@ class Permintaan extends CI_Controller
                 );
             else :
                 $json = array(
-                    'status' => "0101",
+                    'status' => "0100",
                     'count' => count($tmp_data),
                     'message' => 'Anda belum melengkapi isian form permintaan barang.'
                 );
             endif;
         } else {
+            $json['status'] = "0101";
             foreach ($_POST as $key => $value) {
                 $json['pesan'][$key] = form_error($key);
             }

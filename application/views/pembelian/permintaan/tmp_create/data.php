@@ -13,8 +13,8 @@ else :
             <td class="text-right"><?= rupiah($d['jumlah']) . ' ' . $d['singkatan_satuan'] ?></td>
             <td><?= akuntansi($d['harga'] * $d['jumlah']) ?></td>
             <td class="text-center">
-                <a href="javascript:void(0)" onclick="edit('<?= $d['barang'] ?>')"><i class="icon-pencil7 text-green" title="Edit Data"></i></a>
-                <a href="javascript:void(0)" onclick="destroy('<?= $d['barang'] ?>')"><i class="icon-trash text-red" title="Hapus Data"></i></a>
+                <a href="javascript:void(0)" onclick="edit('<?= $d['satuan'] ?>')"><i class="icon-pencil7 text-green" title="Edit Data"></i></a>
+                <a href="javascript:void(0)" onclick="destroy('<?= $d['satuan'] ?>')"><i class="icon-trash text-red" title="Hapus Data"></i></a>
             </td>
         </tr>
     <?php $no++;

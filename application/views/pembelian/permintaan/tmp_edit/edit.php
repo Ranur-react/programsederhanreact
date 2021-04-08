@@ -8,7 +8,7 @@
     <select class="form-control select2 satuan" name="satuan" style="width: 100%;" data-placeholder="Pilh Satuan">
         <option></option>
         <?php foreach ($satuan as $s) { ?>
-            <option value="<?= $s['id_satuan'] ?>" <?= $s['id_satuan'] == $data['satuan_detail'] ? 'selected' : null ?>><?= $s['nama_satuan'] ?></option>
+            <option value="<?= $s['id_brg_satuan'] ?>" <?= $s['id_brg_satuan'] == $data['barang_detail'] ? 'selected' : null ?>><?= $s['nama_satuan'] ?></option>
         <?php } ?>
     </select>
     <div id="satuan"></div>
@@ -19,7 +19,7 @@
 </div>
 <div class="form-group">
     <label class="required">Jumlah</label>
-    <input type="text" name="jumlah" id="jumlah" class="form-control" placeholder="Jumlah" value="<?= ($data['jumlah_detail']) ?>">
+    <input type="text" name="jumlah" id="jumlah" class="form-control" placeholder="Jumlah" value="<?= rupiah($data['jumlah_detail']) ?>">
 </div>
 <script>
     $(function() {
