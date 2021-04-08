@@ -6,8 +6,9 @@ class Mtmp_edit extends CI_Model
     public function tampil_data($kode)
     {
         return $this->db->from('permintaan_detail')
-            ->join('barang', 'barang_detail=id_barang')
-            ->join('satuan', 'satuan_detail=id_satuan')
+            ->join('barang_satuan', 'barang_detail=id_brg_satuan')
+            ->join('barang', 'barang_brg_satuan=id_barang')
+            ->join('satuan', 'satuan_brg_satuan=id_satuan')
             ->where('permintaan_detail', $kode)
             ->get()->result_array();
     }
@@ -28,8 +29,7 @@ class Mtmp_edit extends CI_Model
     {
         $data = [
             'permintaan_detail' => $post['id_permintaan'],
-            'barang_detail' => $post['barang'],
-            'satuan_detail' => $post['satuan'],
+            'barang_detail' => $post['satuan'],
             'harga_detail' => convert_uang($post['harga']),
             'jumlah_detail' => convert_uang($post['jumlah'])
         ];
@@ -40,8 +40,9 @@ class Mtmp_edit extends CI_Model
     public function show($kode)
     {
         return $this->db->from('permintaan_detail')
-            ->join('barang', 'barang_detail=id_barang')
-            ->join('satuan', 'satuan_detail=id_satuan')
+            ->join('barang_satuan', 'barang_detail=id_brg_satuan')
+            ->join('barang', 'barang_brg_satuan=id_barang')
+            ->join('satuan', 'satuan_brg_satuan=id_satuan')
             ->where('id_detail', $kode)
             ->get()->row_array();
     }
@@ -50,7 +51,7 @@ class Mtmp_edit extends CI_Model
         $data = $this->show($post['kode']);
         $kode = $data['permintaan_detail'];
         $data = [
-            'satuan_detail' => $post['satuan'],
+            'barang_detail' => $post['satuan'],
             'harga_detail' => convert_uang($post['harga']),
             'jumlah_detail' => convert_uang($post['jumlah'])
         ];
@@ -61,9 +62,8 @@ class Mtmp_edit extends CI_Model
     public function destroy($kode)
     {
         $data = $this->show($kode);
-        $kode = $data['permintaan_detail'];
         $hapus = $this->db->where('id_detail', $kode)->delete('permintaan_detail');
-        $this->update_total($kode);
+        $this->update_total($data['permintaan_detail']);
         return $hapus;
     }
     public function batal($kode)
