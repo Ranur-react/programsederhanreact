@@ -144,16 +144,16 @@
                     },
                     dataType: "json",
                     success: function(resp) {
-                        if (resp.success) {
+                        if (resp.status == "0100") {
                             Swal.fire({
                                 title: 'Canceled!',
-                                text: resp.success,
+                                text: resp.message,
                                 type: 'success'
                             }).then((resp) => {
                                 window.location.href = "<?= site_url('permintaan') ?>";
                             })
                         } else {
-                            Swal.fire('Oops...', resp.error, 'error');
+                            Swal.fire('Oops...', resp.message, 'error');
                         }
                     }
                 });
@@ -241,13 +241,15 @@
                         $("#tampil_modal").html(generate_html);
                         $("#modal-alert").modal('show');
                     } else {
-                        localStorage.setItem("swal", swal({
-                            title: "Sukses!",
+                        Swal.fire({
+                            title: 'Sukses!',
                             text: resp.message,
-                            type: "success",
-                        }).then(function() {
-                            window.location.href = "<?= site_url('permintaan/detail/') ?>" + resp.kode;
-                        }));
+                            type: 'success'
+                        }).then(okay => {
+                            if (okay) {
+                                window.location.href = "<?= site_url('permintaan/detail/') ?>" + resp.kode;
+                            }
+                        });
                     }
                 } else {
                     $.each(resp.pesan, function(key, value) {

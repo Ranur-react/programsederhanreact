@@ -132,16 +132,16 @@
                     url: "<?= site_url('permintaan/tmp-create/batal') ?>",
                     dataType: "json",
                     success: function(resp) {
-                        if (resp.success) {
+                        if (resp.status == "0100") {
                             Swal.fire({
                                 title: 'Canceled!',
-                                text: resp.success,
+                                text: resp.message,
                                 type: 'success'
                             }).then((resp) => {
                                 location.reload();
                             })
                         } else {
-                            Swal.fire('Oops...', resp.error, 'error');
+                            Swal.fire('Oops...', resp.message, 'error');
                         }
                     }
                 });
@@ -221,7 +221,7 @@
                             '</div>' +
                             '</div>' +
                             '<div class="modal-footer">' +
-                            '<button type="button" data-dismiss="modal" class="btn btn-danger btn-sm"> <i class="icon-cross2"></i> Tutup</button>' +
+                            '<button type="button" data-dismiss="modal" class="btn btn-default btn-sm"> <i class="icon-cross2"></i> Tutup</button>' +
                             '</div>'
                         '</div>' +
                         '</div>' +
@@ -229,13 +229,15 @@
                         $("#tampil_modal").html(generate_html);
                         $("#modal-alert").modal('show');
                     } else {
-                        localStorage.setItem("swal", swal({
-                            title: "Sukses!",
+                        Swal.fire({
+                            title: 'Sukses!',
                             text: resp.message,
-                            type: "success",
-                        }).then(function() {
-                            window.location.href = "<?= site_url('permintaan/detail/') ?>" + resp.kode;
-                        }));
+                            type: 'success'
+                        }).then(okay => {
+                            if (okay) {
+                                window.location.href = "<?= site_url('permintaan/detail/') ?>" + resp.kode;
+                            }
+                        });
                     }
                 } else {
                     $.each(resp.pesan, function(key, value) {

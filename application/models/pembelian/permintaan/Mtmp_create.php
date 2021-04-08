@@ -6,15 +6,15 @@ class Mtmp_create extends CI_Model
     public function tampil_data()
     {
         return $this->db->from('tmp_permintaan')
-            ->join('barang', 'barang=id_barang')
-            ->join('satuan', 'satuan=id_satuan')
+            ->join('barang_satuan', 'satuan=id_brg_satuan')
+            ->join('barang', 'barang_brg_satuan=id_barang')
+            ->join('satuan', 'satuan_brg_satuan=id_satuan')
             ->where('user', id_user())
             ->get()->result_array();
     }
     public function store($post)
     {
         $data = [
-            'barang' => $post['barang'],
             'satuan' => $post['satuan'],
             'harga'  => convert_uang($post['harga']),
             'jumlah' => convert_uang($post['jumlah']),
@@ -25,9 +25,10 @@ class Mtmp_create extends CI_Model
     public function show($kode)
     {
         return $this->db->from('tmp_permintaan')
-            ->join('barang', 'barang=id_barang')
-            ->join('satuan', 'satuan=id_satuan')
-            ->where(['barang' => $kode, 'user', id_user()])
+            ->join('barang_satuan', 'satuan=id_brg_satuan')
+            ->join('barang', 'barang_brg_satuan=id_barang')
+            ->join('satuan', 'satuan_brg_satuan=id_satuan')
+            ->where(['satuan' => $kode, 'user' => id_user()])
             ->get()->row_array();
     }
     public function update($post)
@@ -37,11 +38,11 @@ class Mtmp_create extends CI_Model
             'harga'  => convert_uang($post['harga']),
             'jumlah' => convert_uang($post['jumlah'])
         ];
-        return $this->db->where(['barang' => $post['barang'], 'user' => id_user()])->update('tmp_permintaan', $data);
+        return $this->db->where(['satuan' => $post['barang'], 'user' => id_user()])->update('tmp_permintaan', $data);
     }
     public function destroy($kode)
     {
-        return $this->db->where(['barang' => $kode, 'user' => id_user()])->delete('tmp_permintaan');
+        return $this->db->where(['satuan' => $kode, 'user' => id_user()])->delete('tmp_permintaan');
     }
     public function batal()
     {
