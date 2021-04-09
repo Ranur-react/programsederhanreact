@@ -24,6 +24,45 @@ class Penerimaan extends CI_Controller
         ];
         $this->template->dashboard('pembelian/penerimaan/data', $data);
     }
+    public function data()
+    {
+        $draw   = $_REQUEST['draw'];
+        $length = $_REQUEST['length'];
+        $start  = $_REQUEST['start'];
+        $search = $_REQUEST['search']["value"];
+        $total  = $this->Mpenerimaan->jumlah_data();
+        $output = array();
+        $output['draw'] = $draw;
+        $output['recordsTotal'] = $output['recordsFiltered'] = $total;
+        $output['data'] = array();
+        if ($search != "") {
+            $query = $this->Mpenerimaan->cari_data($search);
+        } else {
+            $query = $this->Mpenerimaan->tampil_data($start, $length);
+        }
+        if ($search != "") {
+            $count = $this->Mpenerimaan->cari_data($search);
+            $output['recordsTotal'] = $output['recordsFiltered'] = $count->num_rows();
+        }
+        $no = 1;
+        foreach ($query->result_array() as $d) {
+            $edit = '<a href="#"><i class="icon-pencil7 text-green" data-toggle="tooltip" data-original-title="Edit"></i></a>';
+            $hapus = '<a href="#"><i class="icon-trash text-red" data-toggle="tooltip" data-original-title="Hapus"></i></a>';
+            $output['data'][] = array(
+                $no . '.',
+                $d['id_terima'],
+                '',
+                $d['nama_gudang'],
+                format_biasa($d['tanggal_terima']),
+                akuntansi($d['total_terima']),
+                $d['nama_user'],
+                status_span($d['status_terima'], 'penerimaan'),
+                $edit . '&nbsp;' . $hapus
+            );
+            $no++;
+        }
+        echo json_encode($output);
+    }
     public function create()
     {
         $data = [

@@ -8,6 +8,31 @@ class Mpenerimaan extends CI_Model
         parent::__construct();
         $this->load->model('pembelian/penerimaan/Mtmp_create');
     }
+    public function jumlah_data()
+    {
+        return $this->db->count_all_results("penerimaan");
+    }
+    public function tampil_data($start, $length)
+    {
+        $sql = $this->db->from('penerimaan')
+            ->join('gudang', 'gudang_terima=id_gudang')
+            ->join('users', 'user_terima=id_user')
+            ->order_by('id_terima', 'DESC')
+            ->limit($length, $start)
+            ->get();
+        return $sql;
+    }
+    public function cari_data($search)
+    {
+        $sql = $this->db->from('penerimaan')
+            ->join('gudang', 'gudang_terima=id_gudang')
+            ->join('users', 'user_terima=id_user')
+            ->order_by('id_terima', 'DESC')
+            ->like('id_terima', $search)
+            ->or_like('nama_gudang', $search)
+            ->get();
+        return $sql;
+    }
     public function kode()
     {
         $query = $this->db
