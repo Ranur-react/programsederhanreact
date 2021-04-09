@@ -25,6 +25,14 @@ if (!function_exists('status_span')) {
                 $pesan = 'Batal';
                 $class = 'status-cancelled';
             endif;
+        elseif ($jenis == 'penerimaan') :
+            if ($code == 0) :
+                $pesan = 'Belum Bayar';
+                $class = 'status-pending transfer';
+            elseif ($code == 1) :
+                $pesan = 'Sudah Bayar';
+                $class = 'status-completed';
+            endif;
         endif;
         $span = '<span class="label status ' . $class . '">' . $pesan . '</span>';
         return $span;
@@ -47,6 +55,14 @@ if (!function_exists('status_label')) {
             elseif ($code == 4) :
                 $pesan = 'Batal';
                 $class = 'status-cancelled';
+            endif;
+        elseif ($jenis == 'penerimaan') :
+            if ($code == 0) :
+                $pesan = 'Belum Bayar';
+                $class = 'status-pending transfer';
+            elseif ($code == 1) :
+                $pesan = 'Sudah Bayar';
+                $class = 'status-completed';
             endif;
         endif;
         $span = '<span class="label status-label ' . $class . '">' . $pesan . '</span>';
