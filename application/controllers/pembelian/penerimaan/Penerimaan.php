@@ -11,6 +11,8 @@ class Penerimaan extends CI_Controller
         else
             redirect('logout');
         $this->load->model('master/Mgudang');
+        $this->load->model('pembelian/penerimaan/Mpenerimaan');
+        $this->load->model('pembelian/penerimaan/Mtmp_create');
     }
     public function index()
     {
@@ -30,6 +32,38 @@ class Penerimaan extends CI_Controller
             'gudang' => $this->Mgudang->getall()
         ];
         $this->template->dashboard('pembelian/penerimaan/tambah', $data);
+    }
+    public function store()
+    {
+        $post = $this->input->post(null, TRUE);
+        $this->form_validation->set_rules('tanggal', 'Tanggal', 'required');
+        $this->form_validation->set_rules('gudang', 'Gudang', 'required');
+        $this->form_validation->set_message('required', errorRequired());
+        $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
+        if ($this->form_validation->run() == TRUE) {
+            $tmp_data = $this->Mtmp_create->data();
+            if (count($tmp_data) > 0) :
+                $kode = $this->Mpenerimaan->kode();
+                $this->Mpenerimaan->store($kode, $post);
+                $json = array(
+                    'status' => "0100",
+                    'kode' => 1,
+                    'message' => 'Form tambah penerimaan barang berhasil dibuat.'
+                );
+            else :
+                $json = array(
+                    'status' => "0100",
+                    'count' => count($tmp_data),
+                    'message' => 'Anda belum melengkapi isian form penerimaan barang.'
+                );
+            endif;
+        } else {
+            $json['status'] = "0101";
+            foreach ($_POST as $key => $value) {
+                $json['pesan'][$key] = form_error($key);
+            }
+        }
+        echo json_encode($json);
     }
 }
 

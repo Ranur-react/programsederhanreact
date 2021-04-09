@@ -5,6 +5,7 @@
                 <a class="text-back" href="<?= site_url('penerimaan') ?>" title="Kembali"><i class="icon-arrow-left8" style="font-size: 24px"></i></a> Tambah Penerimaan Barang
             </h3>
         </div>
+        <?= form_open('penerimaan/store', ['id' => 'form_create']) ?>
         <input type="hidden" name="id_permintaan" id="id_permintaan">
         <div class="box-body">
             <div class="row">
@@ -56,8 +57,10 @@
             </div>
         </div>
         <div class="box-footer">
-            <a href="javascript:void(0)" class="btn btn-danger" onclick="batal()"><i class="icon-cross2"></i> Batalkan Penerimaan</a>
+            <a href="javascript:void(0)" class="btn btn-danger pull-right" onclick="batal()"><i class="icon-cross2"></i> Batalkan Penerimaan</a>
+            <button type="submit" class="btn btn-primary pull-right" id="store" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading..." style="margin-right: 5px;"><i class="icon-floppy-disk"></i> Simpan Penerimaan</button>
         </div>
+        <?= form_close() ?>
     </div>
 </div>
 <div id="tampil_modal"></div>
@@ -226,5 +229,64 @@
             }
         });
         return false;
+    });
+
+    $('#form_create').on('submit', function(event) {
+        event.preventDefault();
+        $.ajax({
+            url: $("#form_create").attr('action'),
+            method: "POST",
+            data: $(this).serialize(),
+            dataType: "json",
+            beforeSend: function() {
+                $('#store').button('loading');
+            },
+            success: function(resp) {
+                if (resp.status == "0100") {
+                    if (resp.count == 0) {
+                        var generate_html = '<div id="modal-alert" tabindex="-1" data-backdrop="static" class="modal_alert_new modal fade">' +
+                            '<div class="modal-dialog">' +
+                            '<div class="modal-content">' +
+                            '<div class="modal-header text-white"><i class="fa fa-check-circle"></i> <b>Peringatan!</b></div>' +
+                            '<div class="modal-body">' +
+                            '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert">×</button>' +
+                            resp.message +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="modal-footer">' +
+                            '<button type="button" data-dismiss="modal" class="btn btn-default btn-sm"> <i class="icon-cross2"></i> Tutup</button>' +
+                            '</div>'
+                        '</div>' +
+                        '</div>' +
+                        '</div>';
+                        $("#tampil_modal").html(generate_html);
+                        $("#modal-alert").modal('show');
+                    } else {
+                        Swal.fire({
+                            title: 'Sukses!',
+                            text: resp.message,
+                            type: 'success'
+                        }).then(okay => {
+                            if (okay) {
+                                window.location.href = "#";
+                            }
+                        });
+                    }
+                } else {
+                    $.each(resp.pesan, function(key, value) {
+                        var element = $('#' + key);
+                        element.closest('div.form-group')
+                            .removeClass('has-error')
+                            .addClass(value.length > 0 ? 'has-error' : 'has-success')
+                            .find('.help-block')
+                            .remove();
+                        element.after(value);
+                    });
+                }
+            },
+            complete: function() {
+                $('#store').button('reset');
+            }
+        })
     });
 </script>
