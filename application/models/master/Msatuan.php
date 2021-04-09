@@ -48,4 +48,9 @@ class Msatuan extends CI_Model
     {
         return $this->db->simple_query("DELETE FROM " . $this->tabel . " WHERE id_satuan='$kode'");
     }
+    // pencarian satuan berdasarkan nama
+    public function satuan_by_nama($filter_nama = '')
+    {
+        return $this->db->like('nama_satuan', $filter_nama)->get('satuan')->result_array();
+    }
 }

@@ -101,4 +101,18 @@ class Satuan extends CI_Controller
         }
         echo json_encode($json);
     }
+    // pencarian satuan berdasarkan nama
+    public function satuan_by_nama()
+    {
+        $filter_nama = $this->input->get('filter_nama');
+        $data = $this->Msatuan->satuan_by_nama($filter_nama);
+        $json = array();
+        foreach ($data as $d) {
+            $json[] = array(
+                'id' => $d['id_satuan'],
+                'nama' => $d['nama_satuan']
+            );
+        }
+        echo json_encode($json);
+    }
 }
