@@ -10,6 +10,7 @@ class Penerimaan extends CI_Controller
             cek_user();
         else
             redirect('logout');
+        $this->load->model('master/Mgudang');
     }
     public function index()
     {
@@ -25,7 +26,8 @@ class Penerimaan extends CI_Controller
         $data = [
             'title' => 'Penerimaan',
             'small' => 'Tambah Data Penerimaan Barang',
-            'links' => '<li><a href="' . site_url('penerimaan') . '">Penerimaan</a></li><li class="active">Tambah</li>'
+            'links' => '<li><a href="' . site_url('penerimaan') . '">Penerimaan</a></li><li class="active">Tambah</li>',
+            'gudang' => $this->Mgudang->getall()
         ];
         $this->template->dashboard('pembelian/penerimaan/tambah', $data);
     }

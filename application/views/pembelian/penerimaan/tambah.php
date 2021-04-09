@@ -28,6 +28,30 @@
                             <tbody id="data_tmp"></tbody>
                         </table>
                     </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="tanggal">Tanggal Terima</label>
+                                <div class="input-group date">
+                                    <div class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                                    <input type="text" name="tanggal" class="form-control pull-right datepicker" placeholder="dd-mm-yyyy" value="<?= date('d-m-Y') ?>">
+                                </div>
+                                <div id="tanggal"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-sm-6 col-md-6">
+                            <div class="form-group">
+                                <label for="gudang">Pilih Gudang</label>
+                                <select class="form-control select2" name="gudang" data-placeholder="Pilih Gudang" style="width: 100%;">
+                                    <option value=""></option>
+                                    <?php foreach ($gudang as $g) { ?>
+                                        <option value="<?= $g['id_gudang'] ?>"><?= $g['nama_gudang'] ?></option>
+                                    <?php } ?>
+                                </select>
+                                <div id="gudang"></div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -39,6 +63,11 @@
 <div id="tampil_modal"></div>
 <script>
     $(document).ready(function() {
+        $('.select2').select2();
+        $('.datepicker').datepicker({
+            format: "dd-mm-yyyy",
+            autoclose: true
+        });
         data();
     });
 
