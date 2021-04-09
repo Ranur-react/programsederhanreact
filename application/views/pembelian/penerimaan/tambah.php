@@ -268,7 +268,7 @@
                             type: 'success'
                         }).then(okay => {
                             if (okay) {
-                                window.location.href = "#";
+                                window.location.href = "<?= site_url('penerimaan/detail/') ?>" + resp.kode;
                             }
                         });
                     }

@@ -3,6 +3,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Mpenerimaan extends CI_Model
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('pembelian/penerimaan/Mtmp_create');
+    }
     public function kode()
     {
         $query = $this->db
@@ -50,6 +55,17 @@ class Mpenerimaan extends CI_Model
         }
         $this->db->where('user', id_user())->delete('tmp_penerimaan');
         return $permintaan;
+    }
+    public function show($kode)
+    {
+        return $this->db->from('penerimaan')
+            ->join('gudang', 'gudang_terima=id_gudang')
+            ->join('penerimaan_supplier', 'id_terima=id_terima_supplier')
+            ->join('permintaan', 'id_minta_supplier=id_permintaan')
+            ->join('supplier', 'supplier_permintaan=id_supplier')
+            ->where('id_terima', $kode)
+            ->limit(1)
+            ->get()->row_array();
     }
 }
 

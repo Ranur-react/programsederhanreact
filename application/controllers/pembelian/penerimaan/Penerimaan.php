@@ -13,6 +13,7 @@ class Penerimaan extends CI_Controller
         $this->load->model('master/Mgudang');
         $this->load->model('pembelian/penerimaan/Mpenerimaan');
         $this->load->model('pembelian/penerimaan/Mtmp_create');
+        $this->load->model('pembelian/penerimaan/Mtmp_edit');
     }
     public function index()
     {
@@ -64,6 +65,17 @@ class Penerimaan extends CI_Controller
             }
         }
         echo json_encode($json);
+    }
+    public function detail($kode)
+    {
+        $data = [
+            'title' => 'Penerimaan',
+            'small' => 'Detail Penerimaan barang',
+            'links' => '<li><a href="' . site_url('penerimaan') . '">Penerimaan</a></li><li class="active">Detail</li>',
+            'data' => $this->Mpenerimaan->show($kode),
+            'barang' => $this->Mtmp_edit->tampil_data($kode)
+        ];
+        $this->template->dashboard('pembelian/penerimaan/detail', $data);
     }
 }
 
