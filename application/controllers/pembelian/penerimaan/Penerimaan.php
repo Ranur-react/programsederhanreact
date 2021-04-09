@@ -46,7 +46,7 @@ class Penerimaan extends CI_Controller
         }
         $no = 1;
         foreach ($query->result_array() as $d) {
-            $edit = '<a href="#"><i class="icon-pencil7 text-green" data-toggle="tooltip" data-original-title="Edit"></i></a>';
+            $edit = '<a href="' . site_url('penerimaan/edit/' . $d['id_terima']) . '"><i class="icon-pencil7 text-green" data-toggle="tooltip" data-original-title="Edit"></i></a>';
             $hapus = '<a href="#"><i class="icon-trash text-red" data-toggle="tooltip" data-original-title="Hapus"></i></a>';
             $output['data'][] = array(
                 $no . '.',
@@ -104,6 +104,17 @@ class Penerimaan extends CI_Controller
             }
         }
         echo json_encode($json);
+    }
+    public function edit($kode)
+    {
+        $data = [
+            'title' => 'Penerimaan',
+            'small' => 'Edit Data Penerimaan Barang',
+            'links' => '<li><a href="' . site_url('penerimaan') . '">Penerimaan</a></li><li class="active">Edit</li>',
+            'gudang' => $this->Mgudang->getall(),
+            'data' => $this->Mpenerimaan->show($kode)
+        ];
+        $this->template->dashboard('pembelian/penerimaan/edit', $data);
     }
     public function detail($kode)
     {

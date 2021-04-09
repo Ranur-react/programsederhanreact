@@ -57,6 +57,9 @@
                     </table>
                 </div>
             </div>
+            <div class="box-footer">
+                <a href="<?= site_url('penerimaan/edit/' . $data['id_terima']) ?>" class="btn btn-primary"><i class="icon-pencil7"></i> Edit Penerimaan</a>
+            </div>
         </div>
     </div>
 </div>
