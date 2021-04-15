@@ -51,6 +51,17 @@ class Tmp_edit extends CI_Controller
         }
         echo json_encode($json);
     }
+    public function destroy()
+    {
+        $kode = $this->input->get('kode', true);
+        $action = $this->Mtmp_edit->destroy($kode);
+        if ($action == true) {
+            $json['status'] = "0100";
+        } else {
+            $json['status'] = "0101";
+        }
+        echo json_encode($json);
+    }
 }
 
 /* End of file Tmp_edit.php */

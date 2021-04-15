@@ -96,6 +96,19 @@
         });
     }
 
+    function destroy(kode) {
+        $.ajax({
+            url: "<?= site_url('penerimaan/tmp-edit/destroy') ?>",
+            type: "GET",
+            data: {
+                kode: kode
+            },
+            success: function(resp) {
+                data();
+            }
+        });
+    }
+
     $(document).on('submit', '.form_tmp', function(e) {
         $.ajax({
             type: "post",
