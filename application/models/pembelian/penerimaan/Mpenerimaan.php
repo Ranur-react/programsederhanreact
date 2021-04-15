@@ -15,24 +15,13 @@ class Mpenerimaan extends CI_Model
     }
     public function tampil_data($start, $length)
     {
-        $sql = $this->db->from('penerimaan')
-            ->join('gudang', 'gudang_terima=id_gudang')
-            ->join('users', 'user_terima=id_user')
-            ->order_by('id_terima', 'DESC')
-            ->limit($length, $start)
-            ->get();
-        return $sql;
+        $query = $this->db->query("SELECT *,(SELECT nama_supplier FROM penerimaan_supplier,permintaan,supplier WHERE id_terima=id_terima_supplier AND id_minta_supplier=id_permintaan AND supplier_permintaan=id_supplier LIMIT 1) AS nama FROM penerimaan JOIN gudang ON gudang_terima=id_gudang JOIN users ON user_terima=id_user ORDER BY id_terima DESC LIMIT $start,$length");
+        return $query;
     }
     public function cari_data($search)
     {
-        $sql = $this->db->from('penerimaan')
-            ->join('gudang', 'gudang_terima=id_gudang')
-            ->join('users', 'user_terima=id_user')
-            ->order_by('id_terima', 'DESC')
-            ->like('id_terima', $search)
-            ->or_like('nama_gudang', $search)
-            ->get();
-        return $sql;
+        $query = $this->db->query("SELECT *,(SELECT nama_supplier FROM penerimaan_supplier,permintaan,supplier WHERE id_terima=id_terima_supplier AND id_minta_supplier=id_permintaan AND supplier_permintaan=id_supplier) AS nama FROM penerimaan JOIN gudang ON gudang_terima=id_gudang JOIN users ON user_terima=id_user WHERE id_terima LIKE '%$search%' ESCAPE '!' OR nama_gudang LIKE '%$search%' ESCAPE '!' OR (SELECT nama_supplier FROM penerimaan_supplier,permintaan,supplier WHERE id_terima=id_terima_supplier AND id_minta_supplier=id_permintaan AND supplier_permintaan=id_supplier) LIKE '%$search%' ESCAPE '!' ORDER BY id_terima DESC");
+        return $query;
     }
     public function kode()
     {

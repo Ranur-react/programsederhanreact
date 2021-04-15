@@ -51,7 +51,7 @@ class Penerimaan extends CI_Controller
             $output['data'][] = array(
                 $no . '.',
                 $d['id_terima'],
-                '',
+                $d['nama'],
                 $d['nama_gudang'],
                 format_biasa($d['tanggal_terima']),
                 akuntansi($d['total_terima']),
