@@ -4,7 +4,7 @@
             <a href="<?= site_url('penerimaan/create') ?>" class="btn btn-social btn-flat btn-success btn-sm"><i class="icon-plus3"></i> Tambah <?= $title ?></a>
         </div>
         <div class="box-body table-responsive">
-            <table class="table table-bordered table-striped tabel_permintaan" style="width: 100%">
+            <table class="table table-bordered table-striped tabel_penerimaan" style="width: 100%">
                 <thead>
                     <tr>
                         <th class="text-center" width="40px">No.</th>
@@ -23,7 +23,7 @@
     </div>
 </div>
 <script>
-    $(".tabel_permintaan").DataTable({
+    $(".tabel_penerimaan").DataTable({
         ordering: false,
         processing: true,
         serverSide: true,
@@ -62,4 +62,39 @@
             }
         ]
     });
+
+    function hapus(kode) {
+        Swal({
+            title: "Anda yakin?",
+            text: "Anda tidak akan dapat mengembalikan data ini!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: "Ya, hapus data ini"
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    type: "get",
+                    url: "<?= site_url('penerimaan/destroy') ?>",
+                    data: "&kode=" + kode,
+                    dataType: "json",
+                    success: function(resp) {
+                        if (resp.status == "0100") {
+                            Swal.fire({
+                                title: 'Deleted!',
+                                text: resp.message,
+                                type: 'success'
+                            }).then((resp) => {
+                                var DataTabel = $('.tabel_penerimaan').DataTable();
+                                DataTabel.ajax.reload();
+                            })
+                        } else {
+                            toastr.error(resp.message);
+                        }
+                    }
+                });
+            }
+        })
+    }
 </script>

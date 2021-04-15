@@ -47,7 +47,7 @@ class Penerimaan extends CI_Controller
         $no = 1;
         foreach ($query->result_array() as $d) {
             $edit = '<a href="' . site_url('penerimaan/edit/' . $d['id_terima']) . '"><i class="icon-pencil7 text-green" data-toggle="tooltip" data-original-title="Edit"></i></a>';
-            $hapus = '<a href="#"><i class="icon-trash text-red" data-toggle="tooltip" data-original-title="Hapus"></i></a>';
+            $hapus = '<a href="javascript:void(0)" onclick="hapus(\'' . $d['id_terima'] . '\')"><i class="icon-trash text-red" data-toggle="tooltip" data-original-title="Hapus"></i></a>';
             $output['data'][] = array(
                 $no . '.',
                 $d['id_terima'],
@@ -158,6 +158,23 @@ class Penerimaan extends CI_Controller
             'barang' => $this->Mtmp_edit->tampil_data($kode)
         ];
         $this->template->dashboard('pembelian/penerimaan/detail', $data);
+    }
+    public function destroy()
+    {
+        $kode = $this->input->get('kode', true);
+        $query = $this->Mpenerimaan->destroy($kode);
+        if ($query == '0100') {
+            $json = array(
+                'status' => '0100',
+                'message' => 'Data penerimaan barang berhasil dihapus'
+            );
+        } else {
+            $json = array(
+                'status' => '0101',
+                'message' => 'Data penerimaan barang tidak bisa dihapus.'
+            );
+        }
+        echo json_encode($json);
     }
 }
 

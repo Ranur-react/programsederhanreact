@@ -92,6 +92,18 @@ class Mpenerimaan extends CI_Model
         );
         return $this->db->where('id_terima', $kode)->update('penerimaan', $data);
     }
+    public function destroy($kode)
+    {
+        $data = $this->show($kode);
+        if ($data['status_terima'] == 0) :
+            $this->db->where('id_terima_supplier', $kode)->delete('penerimaan_supplier');
+            $this->db->where('terima_detail', $kode)->delete('penerimaan_detail');
+            $this->db->where('id_terima', $kode)->delete('penerimaan');
+            return '0100';
+        else :
+            return '0101';
+        endif;
+    }
 }
 
 /* End of file Mpenerimaan.php */
