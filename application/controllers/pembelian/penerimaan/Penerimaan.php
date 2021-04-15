@@ -127,6 +127,7 @@ class Penerimaan extends CI_Controller
             $kode = $post['kode'];
             $tmp_data = $this->Mtmp_edit->tampil_data($kode);
             if (count($tmp_data) > 0) :
+                $this->Mpenerimaan->update($kode, $post);
                 $json = array(
                     'status' => "0100",
                     'kode' => $kode,

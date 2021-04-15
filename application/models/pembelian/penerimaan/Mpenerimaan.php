@@ -7,6 +7,7 @@ class Mpenerimaan extends CI_Model
     {
         parent::__construct();
         $this->load->model('pembelian/penerimaan/Mtmp_create');
+        $this->load->model('pembelian/penerimaan/Mtmp_edit');
     }
     public function jumlah_data()
     {
@@ -91,6 +92,16 @@ class Mpenerimaan extends CI_Model
             ->where('id_terima', $kode)
             ->limit(1)
             ->get()->row_array();
+    }
+    public function update($kode, $post)
+    {
+        $total = $this->Mtmp_edit->get_total($kode);
+        $data = array(
+            'gudang_terima' => $post['gudang'],
+            'tanggal_terima' => date("Y-m-d", strtotime($post['tanggal'])),
+            'total_terima' => $total
+        );
+        return $this->db->where('id_terima', $kode)->update('penerimaan', $data);
     }
 }
 
