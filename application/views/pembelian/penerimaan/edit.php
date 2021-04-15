@@ -5,7 +5,8 @@
                 <a class="text-back" href="<?= site_url('penerimaan') ?>" title="Kembali"><i class="icon-arrow-left8" style="font-size: 24px"></i></a> Edit Penerimaan Barang
             </h3>
         </div>
-        <input type="hidden" name="kode" id="kode" value="<?= $data['id_permintaan'] ?>">
+        <?= form_open('penerimaan/update', ['id' => 'form_create']) ?>
+        <input type="hidden" name="kode" id="kode" value="<?= $data['id_terima'] ?>">
         <div class="box-body">
             <div class="table-responsive">
                 <table class="table table-bordered">
@@ -48,11 +49,13 @@
             </div>
         </div>
         <div class="box-footer">
-            <button type="button" class="btn btn-primary" id="store" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading..."><i class="icon-floppy-disk"></i> Edit Penerimaan</button>
+            <button type="submit" class="btn btn-primary" id="store" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading..."><i class="icon-floppy-disk"></i> Edit Penerimaan</button>
             <a href="javascript:void(0)" class="btn btn-danger"><i class="icon-cross2"></i> Batalkan Penerimaan</a>
         </div>
+        <?= form_close() ?>
     </div>
 </div>
+<div id="tampil_modal"></div>
 <script>
     $(document).ready(function() {
         $('.select2').select2();
@@ -75,6 +78,20 @@
             },
             success: function(resp) {
                 $('#data_tmp').html(resp);
+            }
+        });
+    }
+
+    function edit(kode) {
+        $.ajax({
+            url: "<?= site_url('penerimaan/tmp-edit/edit') ?>",
+            type: "GET",
+            data: {
+                kode: kode
+            },
+            success: function(resp) {
+                $("#tampil_modal").html(resp);
+                $("#modal_create").modal('show');
             }
         });
     }

@@ -14,6 +14,17 @@ class Mtmp_edit extends CI_Model
             ->where('terima_detail', $kode)
             ->get()->result_array();
     }
+    public function show($kode)
+    {
+        return $this->db->select('terima_detail,nama_barang,nama_satuan,singkatan_satuan,penerimaan_detail.id_detail AS id_detail_terima,penerimaan_detail.harga_detail AS harga_terima,penerimaan_detail.jumlah_detail AS jumlah_terima,permintaan_detail.harga_detail AS harga_minta,permintaan_detail.jumlah_detail AS jumlah_minta')
+            ->from('penerimaan_detail')
+            ->join('permintaan_detail', 'minta_detail=permintaan_detail.id_detail')
+            ->join('barang_satuan', 'barang_detail=id_brg_satuan')
+            ->join('barang', 'barang_brg_satuan=id_barang')
+            ->join('satuan', 'satuan_brg_satuan=id_satuan')
+            ->where('penerimaan_detail.id_detail', $kode)
+            ->get()->row_array();
+    }
 }
 
 /* End of file Mtmp_edit.php */
