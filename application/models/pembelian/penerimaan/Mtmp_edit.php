@@ -25,13 +25,29 @@ class Mtmp_edit extends CI_Model
             ->where('penerimaan_detail.id_detail', $kode)
             ->get()->row_array();
     }
+    public function get_total($kode)
+    {
+        $query = $this->db->select('IFNULL(SUM(harga_detail*jumlah_detail),0) AS total')->where('terima_detail', $kode)->get('penerimaan_detail')->row();
+        return $query->total;
+    }
+    public function update_total($kode)
+    {
+        $total = $this->get_total($kode);
+        $data = array(
+            'total_terima' => $total
+        );
+        return $this->db->where('id_terima', $kode)->update('penerimaan', $data);
+    }
     public function update($post)
     {
+        $data = $this->show($post['iddetail']);
+        $kode = $data['terima_detail'];
         $data = [
             'harga_detail'  => convert_uang($post['harga']),
             'jumlah_detail' => convert_uang($post['jumlah'])
         ];
         $query = $this->db->where('id_detail', $post['iddetail'])->update('penerimaan_detail', $data);
+        $this->update_total($kode);
         return $query;
     }
 }
