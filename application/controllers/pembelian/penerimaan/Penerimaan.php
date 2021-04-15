@@ -116,6 +116,37 @@ class Penerimaan extends CI_Controller
         ];
         $this->template->dashboard('pembelian/penerimaan/edit', $data);
     }
+    public function update()
+    {
+        $post = $this->input->post(null, TRUE);
+        $this->form_validation->set_rules('tanggal', 'Tanggal', 'required');
+        $this->form_validation->set_rules('gudang', 'Gudang', 'required');
+        $this->form_validation->set_message('required', errorRequired());
+        $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
+        if ($this->form_validation->run() == TRUE) {
+            $kode = $post['kode'];
+            $tmp_data = $this->Mtmp_edit->tampil_data($kode);
+            if (count($tmp_data) > 0) :
+                $json = array(
+                    'status' => "0100",
+                    'kode' => $kode,
+                    'message' => 'Form edit penerimaan barang berhasil dirubah.'
+                );
+            else :
+                $json = array(
+                    'status' => "0100",
+                    'count' => count($tmp_data),
+                    'message' => 'Anda belum melengkapi isian form penerimaan barang.'
+                );
+            endif;
+        } else {
+            $json['status'] = "0101";
+            foreach ($_POST as $key => $value) {
+                $json['pesan'][$key] = form_error($key);
+            }
+        }
+        echo json_encode($json);
+    }
     public function detail($kode)
     {
         $data = [
