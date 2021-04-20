@@ -1,11 +1,19 @@
+<style type="text/css">
+    .TombolUpload{
+
+    }
+</style>
 <div class="col-xs-12">
     <?= form_open('barang/store', ['id' => 'form_create']) ?>
     <div class="nav-tabs-custom">
+<!-- NavTab Header -->
         <ul class="nav nav-tabs">
             <li class="active"><a href="#umum" data-toggle="tab">Umum</a></li>
             <li><a href="#deskripsi" data-toggle="tab">Deskripsi Barang</a></li>
             <li><a href="#kategori" data-toggle="tab">Kategori & Satuan</a></li>
+            <li><a href="#gambar" data-toggle="tab">Gambar</a></li>
         </ul>
+<!--  Isi dari NavTab -->
         <div class="tab-content">
             <div class="tab-pane active" id="umum">
                 <div class="form-group">
@@ -81,7 +89,7 @@
                     </table>
                 </div>
             </div>
-            <div class="tab-pane" id="kategori">
+            <div  class="tab-pane" id="kategori">
                 <div class="row">
                     <div class="col col-md-6">
                         <div class="form-group">
@@ -99,7 +107,27 @@
                     </div>
                 </div>
             </div>
+            <div class="tab-pane" id="gambar">
+                <div class="table-responsive">
+                    <table id="attribute" class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <td class="text-left" style="width: 20%;">Satuan</td>
+                                <td class="text-left">Gambar</td>
+                                <td class="text-left">Nomor Urut</td>
+                                <td style="width: 5%;"></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                        
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
         </div>
+<!-- Akhiran isi  -->
         <div class="box-footer">
             <button type="submit" class="btn btn-success" id="store" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading..."><i class="icon-floppy-disk"></i> Simpan</button>
             <a href="<?= site_url('barang') ?>" class="btn btn-danger"><i class="fa fa-angle-double-left"></i> Kembali</a>
@@ -110,6 +138,10 @@
 
 <script>
     $(document).ready(function() {
+//GLobal Variable declartae
+         Gsatuan={
+        };
+
         // menampilkan slug otomatis sesuai dengan nama barang
         $("#nama").keyup(function() {
             var Text = $(this).val();
@@ -167,10 +199,54 @@
         'select': function(item) {
             $('input[name=\'satuan\']').val('');
             $('#barang-satuan' + item['value']).remove();
+            if (!Boolean(Gsatuan[item['value']])) {
+            Gsatuan[item['value']]=[item['label'],count(Gsatuan)+1];
+            }
+            console.log(Gsatuan);
+            TampilGambarTab();
             $('#barang-satuan').append('<div id="barang-satuan' + item['value'] + '"><i class="fa fa-minus-circle text-red"></i> ' + item['label'] + '<input type="hidden" name="barang_satuan[]" value="' + item['value'] + '" /></div>');
         }
     });
 
+    function TampilGambarTab() {
+                $('#gambar tbody').html("");
+                for (const [key, value] of Object.entries(Gsatuan)) {
+                        // alert(value);     
+                        $('#gambar tbody').append(rowOfImages(value, key));
+                }
+    }
+    function  rowOfImages(v, k){
+
+     let a=12;
+    return   `
+            <tr id="deskripsi-row${v[1]}">
+                <td class="text-left">
+                    ${v[0]}
+                </td>
+                <td class="text-left">
+                    <img onmouseenter="ShowButton()" class="profile-user-img img-responsive img-circle" src="https://adminlte.io/themes/AdminLTE/dist/img/user4-128x128.jpg" alt="User profile picture">
+                    <div class="TombolUpload">
+                        Tombol
+                    </div>
+                </td>
+                <td class="text-left">
+                    ${v[1]} 
+                </td>
+            </tr>
+            `;
+        }
+function panggil(argument) {
+    alert("Bisa");
+}
+function count(obj) {
+   var count=0;
+   for(var prop in obj) {
+      if (obj.hasOwnProperty(prop)) {
+         ++count;
+      }
+   }
+   return count;
+}
     // Hapus item kategori
     $('#barang-kategori').delegate('.fa-minus-circle', 'click', function() {
         $(this).parent().remove();
@@ -195,6 +271,7 @@
         $('#deskripsi tbody').append(html);
         deskripsi_row++;
     }
+
 
     // simpan data
     $(document).ready(function() {
