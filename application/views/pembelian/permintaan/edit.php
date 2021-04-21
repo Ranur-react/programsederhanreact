@@ -116,11 +116,17 @@
         $.ajax({
             url: "<?= site_url('permintaan/tmp-edit/destroy') ?>",
             type: "GET",
+            dataType: "json",
             data: {
                 kode: kode
             },
             success: function(resp) {
-                data();
+                if (resp.status == "0100") {
+                    data();
+                    toastr.success(resp.message);
+                } else {
+                    toastr.error(resp.message);
+                }
             }
         });
     }
