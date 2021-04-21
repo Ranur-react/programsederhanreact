@@ -41,7 +41,7 @@ class Mpenerimaan extends CI_Model
     public function store($kode, $post)
     {
         $total = $this->db->select('SUM(harga*jumlah) AS total')->where('user', id_user())->get('tmp_penerimaan')->row();
-        $data_permintaan = [
+        $data_terima = [
             'id_terima' => $kode,
             'gudang_terima' => $post['gudang'],
             'tanggal_terima' => date("Y-m-d", strtotime($post['tanggal'])),
@@ -49,7 +49,7 @@ class Mpenerimaan extends CI_Model
             'status_terima' => 0,
             'user_terima' => id_user()
         ];
-        $permintaan = $this->db->insert('penerimaan', $data_permintaan);
+        $terima = $this->db->insert('penerimaan', $data_terima);
         $data_tmp = $this->Mtmp_create->data();
         foreach ($data_tmp as $d) {
             $data_detail = [
@@ -69,7 +69,27 @@ class Mpenerimaan extends CI_Model
             $this->db->insert('penerimaan_supplier', $detail_supplier);
         }
         $this->db->where('user', id_user())->delete('tmp_penerimaan');
-        return $permintaan;
+        $this->UpdateStatusPermintaan($kode);
+        return $terima;
+    }
+    public function UpdateStatusPermintaan($kode)
+    {
+        $data_supplier = $this->db->where('id_terima_supplier', $kode)->get('penerimaan_supplier')->result_array();
+        foreach ($data_supplier as $ds) {
+            $count_minta = $this->db->from('permintaan_detail')->where('permintaan_detail', $ds['id_minta_supplier'])->count_all_results();
+            $count_terima = $this->db->from('permintaan_detail')
+                ->join('penerimaan_detail', 'permintaan_detail.id_detail=minta_detail')
+                ->where('permintaan_detail', $ds['id_minta_supplier'])
+                ->count_all_results();
+            if ($count_terima == 0) :
+                $data['status_permintaan'] = 1;
+            elseif ($count_terima < $count_minta) :
+                $data['status_permintaan'] = 2;
+            else :
+                $data['status_permintaan'] = 3;
+            endif;
+            $this->db->where('id_permintaan', $ds['id_minta_supplier'])->update('permintaan', $data);
+        }
     }
     public function show($kode)
     {
@@ -96,8 +116,9 @@ class Mpenerimaan extends CI_Model
     {
         $data = $this->show($kode);
         if ($data['status_terima'] == 0) :
-            $this->db->where('id_terima_supplier', $kode)->delete('penerimaan_supplier');
             $this->db->where('terima_detail', $kode)->delete('penerimaan_detail');
+            $this->UpdateStatusPermintaan($kode);
+            $this->db->where('id_terima_supplier', $kode)->delete('penerimaan_supplier');
             $this->db->where('id_terima', $kode)->delete('penerimaan');
             return '0100';
         else :
