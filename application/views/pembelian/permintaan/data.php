@@ -87,7 +87,6 @@
                             })
                         } else {
                             Swal.fire('Oops...', resp.message, 'error');
-                            toastr.error(resp.message);
                         }
                     }
                 });
