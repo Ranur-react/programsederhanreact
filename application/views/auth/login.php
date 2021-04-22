@@ -19,7 +19,7 @@
             <div class="col-xs-6">
                 <div class="checkbox icheck" style="margin-top: 5px;">
                     <label>
-                        <input type="checkbox"> Ingatkan saya
+                        <input type="checkbox" name="remember"> Ingatkan saya
                     </label>
                 </div>
             </div>
