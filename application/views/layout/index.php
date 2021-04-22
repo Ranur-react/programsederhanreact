@@ -8,13 +8,19 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="shortcut icon" href="<?= faviconApp() ?>">
     <link rel="stylesheet" href="<?= assets() ?>bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?= assets() ?>bower_components/font-awesome-5/css/all.css">
     <link rel="stylesheet" href="<?= assets() ?>bower_components/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="<?= assets() ?>bower_components/source-sans/source-sans-pro.css">
     <link rel="stylesheet" href="<?= assets() ?>bower_components/Ionicons/css/ionicons.min.css">
     <link rel="stylesheet" href="<?= assets() ?>bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="<?= assets() ?>bower_components/select2/dist/css/select2.min.css">
+    <link rel="stylesheet" href="<?= assets() ?>plugins/bootstrap-fileinput/fileinput.min.css">
+    <link rel="stylesheet" href="<?= assets() ?>bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="<?= assets() ?>plugins/toastr/toastr.min.css">
     <link rel="stylesheet" href="<?= assets() ?>dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="<?= assets() ?>dist/css/skins/_all-skins.min.css">
     <link rel="stylesheet" href="<?= assets() ?>bower_components/icomoon/styles.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <link rel="stylesheet" href="<?= assets() ?>css/style.css">
 
     <script src="<?= assets() ?>bower_components/jquery/dist/jquery.min.js"></script>
     <script src="<?= assets() ?>bower_components/jquery-ui/jquery-ui.min.js"></script>
@@ -24,62 +30,43 @@
     <script src="<?= assets() ?>bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="<?= assets() ?>bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
     <script src="<?= assets() ?>bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="<?= assets() ?>bower_components/ckeditor/ckeditor.js"></script>
+    <script src="<?= assets() ?>bower_components/select2/dist/js/select2.full.min.js"></script>
+    <script src="<?= assets() ?>plugins/bootstrap-fileinput/fileinput.min.js"></script>
+    <script src="<?= assets() ?>bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
     <script src="<?= assets() ?>bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
     <script src="<?= assets() ?>bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
     <script src="<?= assets() ?>bower_components/fastclick/lib/fastclick.js"></script>
     <script src="<?= assets() ?>dist/js/adminlte.min.js"></script>
     <script src="<?= assets() ?>dist/js/demo.js"></script>
     <script src="<?= assets() ?>plugins/sweetalert2/sweetalert2.all.min.js"></script>
-    <script>
-        $(function() {
-            $('#data-tabel').DataTable({
-                ordering: false
-            })
-        });
-    </script>
+    <script src="<?= assets() ?>plugins/toastr/toastr.min.js"></script>
+    <script src="<?= assets() ?>js/app.js"></script>
+    <script src="<?= assets() ?>js/common.js"></script>
+    <script src="<?= assets() ?>js/currency.js"></script>
     <style>
-        .dropdown-menu>li>a {
-            padding: 10px 20px;
+        .animation-rotate {
+            -webkit-animation: spin .5s linear infinite;
+            -moz-animation: spin .5s linear infinite;
+            animation: spin .5s linear infinite;
         }
 
-        .modal-content {
-            border-radius: 5px;
-        }
-
-        .modal-header {
-            background: #f3f4f5;
-            border-bottom: 1px solid #dcdfe1;
-            border-top-right-radius: .3rem;
-            border-top-left-radius: .3rem;
-        }
-
-        .modal-footer {
-            background: #f3f4f5;
-            border-top: 1px solid #dcdfe1;
-            border-bottom-right-radius: .3rem;
-            border-bottom-left-radius: .3rem;
-        }
-
-        label {
-            font-weight: 400;
-        }
-
-        .form-control {
-            border-radius: 3px;
-        }
-
-        @media (max-width: 767px) {
-            .dropdown-menu>li>a {
-                padding: 10px 20px !important;
+        @-moz-keyframes spin {
+            100% {
+                -moz-transform: rotate(360deg);
             }
+        }
 
-            .skin-blue .main-header .navbar .dropdown-menu li a {
-                color: #777;
+        @-webkit-keyframes spin {
+            100% {
+                -webkit-transform: rotate(360deg);
             }
+        }
 
-            .skin-blue .main-header .navbar .dropdown-menu li a:hover {
-                background-color: #e1e3e9 !important;
-                color: #333 !important;
+        @keyframes spin {
+            100% {
+                -webkit-transform: rotate(360deg);
+                transform: rotate(360deg);
             }
         }
     </style>

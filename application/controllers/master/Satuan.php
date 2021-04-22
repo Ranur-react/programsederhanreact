@@ -36,7 +36,6 @@ class Satuan extends CI_Controller
         $this->form_validation->set_rules('nama', 'Nama satuan', 'required');
         $this->form_validation->set_rules('singkatan', 'Singkatan', 'required');
         $this->form_validation->set_message('required', errorRequired());
-        $this->form_validation->set_message('is_unique', errorUnique());
         $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
         if ($this->form_validation->run() == TRUE) {
             $post = $this->input->post(null, TRUE);
@@ -98,6 +97,20 @@ class Satuan extends CI_Controller
             $json = array(
                 'status' => "0101",
                 "message" => errorDestroy()
+            );
+        }
+        echo json_encode($json);
+    }
+    // pencarian satuan berdasarkan nama
+    public function satuan_by_nama()
+    {
+        $filter_nama = $this->input->get('filter_nama');
+        $data = $this->Msatuan->satuan_by_nama($filter_nama);
+        $json = array();
+        foreach ($data as $d) {
+            $json[] = array(
+                'id' => $d['id_satuan'],
+                'nama' => $d['nama_satuan']
             );
         }
         echo json_encode($json);
