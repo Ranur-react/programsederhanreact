@@ -115,3 +115,6 @@ $route['penerimaan/tmp-edit/data'] = 'pembelian/penerimaan/tmp_edit/data';
 $route['penerimaan/tmp-edit/edit'] = 'pembelian/penerimaan/tmp_edit/edit';
 $route['penerimaan/tmp-edit/update'] = 'pembelian/penerimaan/tmp_edit/update';
 $route['penerimaan/tmp-edit/destroy'] = 'pembelian/penerimaan/tmp_edit/destroy';
+
+// pengaturan
+$route['roles'] = 'master/roles';
