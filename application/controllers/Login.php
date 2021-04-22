@@ -38,7 +38,7 @@ class Login extends CI_Controller
                 $this->session->set_userdata('kode', $value['id_user']);
                 $id_user = encrypt_url(id_user());
                 if (!empty($this->input->post("remember"))) {
-                    set_cookie("remember_bm_dashboard",  $id_user, time() + (10 * 365 * 24 * 60 * 60));
+                    set_cookie("remember_bm_dashboard",  $id_user, 60 * 60 * 24 * 365);
                 } else {
                     set_cookie("remember_bm_dashboard", "");
                 }
