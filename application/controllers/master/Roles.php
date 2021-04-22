@@ -63,6 +63,27 @@ class Roles extends CI_Controller
         ];
         $this->template->modal_form('master/roles/edit', $data);
     }
+    public function update()
+    {
+        $this->form_validation->set_rules('nama', 'Hak akses', 'required');
+        $this->form_validation->set_rules('jenis', 'Jenis hak akses', 'required');
+        $this->form_validation->set_message('required', errorRequired());
+        $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
+        if ($this->form_validation->run() == TRUE) {
+            $post = $this->input->post(null, TRUE);
+            $this->Mroles->update($post);
+            $json = array(
+                'status' => "0100",
+                'pesan' => "Data hak akses telah dirubah"
+            );
+        } else {
+            $json['status'] = "0111";
+            foreach ($_POST as $key => $value) {
+                $json['pesan'][$key] = form_error($key);
+            }
+        }
+        echo json_encode($json);
+    }
 }
 
 /* End of file Roles.php */

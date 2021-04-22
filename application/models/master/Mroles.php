@@ -34,4 +34,12 @@ class Mroles extends CI_Model
     {
         return $this->db->where('id_role', $kode)->get($this->tabel)->row_array();
     }
+    public function update($post)
+    {
+        $data = array(
+            'nama_role' => $post['nama'],
+            'jenis_role' => $post['jenis']
+        );
+        return $this->db->where('id_role', $post['kode'])->update($this->tabel, $data);
+    }
 }
