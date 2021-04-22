@@ -32,6 +32,25 @@ class Mtmp_create extends CI_Model
             ->get();
         return $sql;
     }
+    public function check_permintaan($kode)
+    {
+        $check_data = $this->db->from('tmp_penerimaan')->where('user', id_user())->count_all_results();
+        if ($check_data > 0) :
+            $data = $this->db->where('id_permintaan', $kode)->get('permintaan')->row_array();
+            $query = $this->db->from('tmp_penerimaan')
+                ->join('permintaan', 'permintaan=id_permintaan')
+                ->where(['user' => id_user(), 'supplier_permintaan' => $data['supplier_permintaan']])
+                ->count_all_results();
+            if ($query > 0) :
+                $status = '0100';
+            else :
+                $status = '0101';
+            endif;
+        else :
+            $status = '0100';
+        endif;
+        return $status;
+    }
     public function data()
     {
         return $this->db->from('tmp_penerimaan')

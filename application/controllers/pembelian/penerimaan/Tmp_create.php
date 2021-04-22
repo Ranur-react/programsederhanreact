@@ -56,6 +56,22 @@ class Tmp_create extends CI_Controller
         }
         echo json_encode($output);
     }
+    public function check_permintaan()
+    {
+        $kode = $this->input->get('kode');
+        $data = $this->Mtmp_create->check_permintaan($kode);
+        if ($data == '0100') :
+            $json = array(
+                'status' => '0100'
+            );
+        else :
+            $json = array(
+                'status' => '0101',
+                'pesan' => 'Supplier yang dipilih tidak sama.'
+            );
+        endif;
+        echo json_encode($json);
+    }
     public function show_permintaan()
     {
         $kode = $this->input->get('id_permintaan');

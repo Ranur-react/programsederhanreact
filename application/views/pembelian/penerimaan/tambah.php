@@ -97,9 +97,23 @@
     }
 
     function pilih(id_permintaan) {
-        $("#id_permintaan").val(id_permintaan);
-        $('#modal_data').modal('hide');
-        show_permintaan();
+        $.ajax({
+            url: "<?= site_url('penerimaan/tmp-create/check-permintaan') ?>",
+            type: "GET",
+            dataType: "json",
+            data: {
+                kode: id_permintaan
+            },
+            success: function(resp) {
+                if (resp.status == "0100") {
+                    $("#id_permintaan").val(id_permintaan);
+                    $('#modal_data').modal('hide');
+                    show_permintaan();
+                } else {
+                    toastr.error(resp.pesan);
+                }
+            }
+        });
     }
 
     function show_permintaan() {
