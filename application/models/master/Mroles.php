@@ -42,4 +42,8 @@ class Mroles extends CI_Model
         );
         return $this->db->where('id_role', $post['kode'])->update($this->tabel, $data);
     }
+    public function destroy($kode)
+    {
+        return $this->db->simple_query("DELETE FROM " . $this->tabel . " WHERE id_role='$kode'");
+    }
 }

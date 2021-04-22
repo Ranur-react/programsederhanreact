@@ -122,3 +122,4 @@ $route['roles/create'] = 'master/roles/create';
 $route['roles/store'] = 'master/roles/store';
 $route['roles/edit'] = 'master/roles/edit';
 $route['roles/update'] = 'master/roles/update';
+$route['roles/destroy'] = 'master/roles/destroy';

@@ -84,6 +84,23 @@ class Roles extends CI_Controller
         }
         echo json_encode($json);
     }
+    public function destroy()
+    {
+        $kode = $this->input->get('kode', true);
+        $action = $this->Mroles->destroy($kode);
+        if ($action) {
+            $json = array(
+                'status' => "0100",
+                "message" => successDestroy()
+            );
+        } else {
+            $json = array(
+                'status' => "0101",
+                "message" => errorDestroy()
+            );
+        }
+        echo json_encode($json);
+    }
 }
 
 /* End of file Roles.php */
