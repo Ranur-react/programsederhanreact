@@ -52,6 +52,17 @@ class Roles extends CI_Controller
         }
         echo json_encode($json);
     }
+    public function edit()
+    {
+        $kode = $this->input->get('kode');
+        $data = [
+            'name' => 'Edit Hak Akses',
+            'post' => 'roles/update',
+            'class' => 'form_create',
+            'data' => $this->Mroles->show($kode)
+        ];
+        $this->template->modal_form('master/roles/edit', $data);
+    }
 }
 
 /* End of file Roles.php */

@@ -9,7 +9,7 @@
                     <?php foreach ($data as $d) { ?>
                         <tr>
                             <td class="text-center" width="100px">
-                                <a href="#"><i class="icon-pencil7 text-green" data-toggle="tooltip" data-original-title="Edit"></i></a>
+                                <a href="javascript:void(0)" onclick="edit('<?= $d['id_role'] ?>')"><i class="icon-pencil7 text-green" data-toggle="tooltip" data-original-title="Edit"></i></a>
                                 <a href="#"><i class="icon-trash text-red" data-toggle="tooltip" data-original-title="Hapus"></i></a>
                             </td>
                             <td>
@@ -31,6 +31,20 @@
         $.ajax({
             url: "<?= site_url('roles/create') ?>",
             type: "GET",
+            success: function(resp) {
+                $("#tampil_modal").html(resp);
+                $("#modal_create").modal('show');
+            }
+        });
+    }
+
+    function edit(kode) {
+        $.ajax({
+            url: "<?= site_url('roles/edit') ?>",
+            type: "GET",
+            data: {
+                kode: kode
+            },
             success: function(resp) {
                 $("#tampil_modal").html(resp);
                 $("#modal_create").modal('show');

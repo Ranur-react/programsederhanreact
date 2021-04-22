@@ -120,3 +120,4 @@ $route['penerimaan/tmp-edit/destroy'] = 'pembelian/penerimaan/tmp_edit/destroy';
 $route['roles'] = 'master/roles';
 $route['roles/create'] = 'master/roles/create';
 $route['roles/store'] = 'master/roles/store';
+$route['roles/edit'] = 'master/roles/edit';
