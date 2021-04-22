@@ -118,3 +118,4 @@ $route['penerimaan/tmp-edit/destroy'] = 'pembelian/penerimaan/tmp_edit/destroy';
 
 // pengaturan
 $route['roles'] = 'master/roles';
+$route['roles/create'] = 'master/roles/create';

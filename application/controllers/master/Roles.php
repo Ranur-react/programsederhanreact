@@ -22,6 +22,15 @@ class Roles extends CI_Controller
         ];
         $this->template->dashboard('master/roles/index', $data);
     }
+    public function create()
+    {
+        $data = [
+            'name' => 'Tambah Hak Akses',
+            'post' => 'roles/store',
+            'class' => 'form_create'
+        ];
+        $this->template->modal_form('master/roles/create', $data);
+    }
 }
 
 /* End of file Roles.php */
