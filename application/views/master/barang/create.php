@@ -1,6 +1,40 @@
 <style type="text/css">
-    .TombolUpload{
+    .upload{
+        position: relative;
+        width: auto;
+        height: auto;
+        /*text-align: center;*/
+        padding: auto;
+        /*background-color: grey;*/
+        /*color: red;*/
+    }
+    .tombolupload{
+        position: absolute;
+        top: 0;
+        /*left: 40%;*/
+        width: 100%;
+        height: 100%;
+        background-color: rgba(50,50,50,0);
+        border-color: rgba(50,50,50,0);
+        opacity: 0;
+        font-size: 24px;
+        transition: 0.5s ease;
 
+
+    }
+    .tombolupload:hover{
+        background-color: rgba(50,50,50,0);
+        border-color: rgba(50,50,50,0);
+        opacity: 0.5;
+    }
+    .tombolupload:active{
+        background-color: rgba(50,50,50,0);
+        border-radius: 20%;
+        border-color: rgba(50,50,50,0);
+        opacity: 0.1;
+    }
+    .iconUpload{
+        
     }
 </style>
 <div class="col-xs-12">
@@ -135,13 +169,16 @@
     </div>
     <?= form_close() ?>
 </div>
+<div id="tampil_modal"></div>
+<div id="tampil_uploadfile"></div>
 
+<?php //$this->load->view('/master/Modal/imageUpload.php') ?>
 <script>
     $(document).ready(function() {
-//GLobal Variable declartae
-         Gsatuan={
-        };
-
+        //GLobal Variable declartae
+         Gsatuan={};
+         Gsatuan['4']=['Karung',count(Gsatuan)+1,'http://assets.barangmudo.com/logo/no_image.png'];
+         TampilGambarSatuanTab();
         // menampilkan slug otomatis sesuai dengan nama barang
         $("#nama").keyup(function() {
             var Text = $(this).val();
@@ -149,6 +186,7 @@
             Text = Text.replace(/[^a-zA-Z0-9]+/g, '-');
             $("#slug").val(Text);
         });
+      
     });
 
     // autocomplete kategori
@@ -199,54 +237,67 @@
         'select': function(item) {
             $('input[name=\'satuan\']').val('');
             $('#barang-satuan' + item['value']).remove();
+            //mengambil nilai satuan lalu menyimpan kedalam Global State variabel
             if (!Boolean(Gsatuan[item['value']])) {
-            Gsatuan[item['value']]=[item['label'],count(Gsatuan)+1];
+            Gsatuan[item['value']]=[item['label'],count(Gsatuan)+1,'http://assets.barangmudo.com/logo/no_image.png'];
             }
-            console.log(Gsatuan);
-            TampilGambarTab();
+            //funtions untuk tampilkan isi state ke dalam View
+            TampilGambarSatuanTab();
             $('#barang-satuan').append('<div id="barang-satuan' + item['value'] + '"><i class="fa fa-minus-circle text-red"></i> ' + item['label'] + '<input type="hidden" name="barang_satuan[]" value="' + item['value'] + '" /></div>');
         }
     });
 
-    function TampilGambarTab() {
+//funtions untuk menampilkan data satuan ke view 
+    function TampilGambarSatuanTab() {
                 $('#gambar tbody').html("");
                 for (const [key, value] of Object.entries(Gsatuan)) {
                         // alert(value);     
                         $('#gambar tbody').append(rowOfImages(value, key));
                 }
     }
-    function  rowOfImages(v, k){
-
-     let a=12;
-    return   `
-            <tr id="deskripsi-row${v[1]}">
-                <td class="text-left">
-                    ${v[0]}
-                </td>
-                <td class="text-left">
-                    <img onmouseenter="ShowButton()" class="profile-user-img img-responsive img-circle" src="https://adminlte.io/themes/AdminLTE/dist/img/user4-128x128.jpg" alt="User profile picture">
-                    <div class="TombolUpload">
-                        Tombol
-                    </div>
-                </td>
-                <td class="text-left">
-                    ${v[1]} 
-                </td>
-            </tr>
-            `;
+        //funtions untuk mengisi ke kososngan baris pada view sesuai nilai yang di kirim
+        function  rowOfImages(v, k){
+         let a=12;
+        return   `
+                <tr id="deskripsi-row${v[1]}">
+                    <td class="text-left">
+                        ${v[0]}
+                    </td>
+                    <td class="text-left">
+                        <div class="upload">
+                                <img onmouseenter="ShowButton()" class="profile-user-img img-responsive img-circle" src="${v[2]}" alt="User profile picture">
+                                <a class="btn btn-large btn-primary tombolupload" onclick="upload(${k})">
+                                        <i class="fa fa-upload align-middle iconUpload" ></i>
+                                </a>
+                        </div>
+                    </td>
+                    <td class="text-left">
+                        ${v[1]} 
+                    </td>
+                </tr>
+                `;
+            }
+        //funtions untuk menghitung jumlah JSON data dalam sebuah state
+        function count(obj) {
+           var count=0;
+           for(var prop in obj) {
+              if (obj.hasOwnProperty(prop)) {
+                 ++count;
+              }
+           }
+           return count;
         }
-function panggil(argument) {
-    alert("Bisa");
-}
-function count(obj) {
-   var count=0;
-   for(var prop in obj) {
-      if (obj.hasOwnProperty(prop)) {
-         ++count;
-      }
-   }
-   return count;
-}
+          //Tampilkan Modal Upload
+        const upload=(e)=>{
+            $.ajax({
+            url: "<?= site_url('upload') ?>",
+            type: "GET",
+            success: function(resp) {
+                $("#tampil_modal").html(resp);
+                $("#modal_create").modal('show');
+            }
+        });
+        }
     // Hapus item kategori
     $('#barang-kategori').delegate('.fa-minus-circle', 'click', function() {
         $(this).parent().remove();
@@ -275,6 +326,7 @@ function count(obj) {
 
     // simpan data
     $(document).ready(function() {
+
         $('#form_create').on('submit', function(event) {
             event.preventDefault();
             $.ajax({

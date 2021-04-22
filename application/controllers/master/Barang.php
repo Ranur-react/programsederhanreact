@@ -147,6 +147,7 @@ class Barang extends CI_Controller
         }
         echo json_encode($json);
     }
+
 }
 
 /* End of file Barang.php */

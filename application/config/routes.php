@@ -52,3 +52,7 @@ $route['barang/store'] = 'master/barang/store';
 $route['barang/edit/(:num)'] = 'master/barang/edit/$1';
 $route['barang/update'] = 'master/barang/update';
 $route['barang/destroy'] = 'master/barang/destroy';
+
+$route['upload'] = 'master/UploadImages';
+$route['browse'] = 'master/UploadImages/choseImages';
+$route['insert'] = 'master/UploadImages/insertImages';
