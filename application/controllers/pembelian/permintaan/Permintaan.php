@@ -159,6 +159,17 @@ class Permintaan extends CI_Controller
         ];
         $this->template->dashboard('pembelian/permintaan/detail', $data);
     }
+    public function info()
+    {
+        $kode = $this->input->get('kode');
+        $data = [
+            'name' => 'Detail Permintaan Barang',
+            'modallg' => 1,
+            'data' => $this->Mpermintaan->show($kode),
+            'barang' => $this->Mtmp_edit->tampil_data($kode)
+        ];
+        $this->template->modal_info('pembelian/permintaan/info', $data);
+    }
     public function destroy()
     {
         $kode = $this->input->get('kode', true);
