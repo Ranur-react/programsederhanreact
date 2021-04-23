@@ -21,6 +21,7 @@
         </div>
     </div>
 </div>
+<div id="tampil_modal"></div>
 <script>
     $(".tabel_permintaan").DataTable({
         ordering: false,
@@ -59,6 +60,20 @@
         ]
     });
 
+    function info(kode) {
+        $.ajax({
+            url: "<?= site_url('permintaan/info') ?>",
+            type: "GET",
+            data: {
+                kode: kode
+            },
+            success: function(resp) {
+                $("#tampil_modal").html(resp);
+                $("#modal_alert").modal('show');
+            }
+        });
+    }
+
     function hapus(kode) {
         Swal({
             title: "Anda yakin?",
@@ -87,7 +102,6 @@
                             })
                         } else {
                             Swal.fire('Oops...', resp.message, 'error');
-                            toastr.error(resp.message);
                         }
                     }
                 });

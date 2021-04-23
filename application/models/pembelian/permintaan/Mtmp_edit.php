@@ -61,10 +61,16 @@ class Mtmp_edit extends CI_Model
     }
     public function destroy($kode)
     {
-        $data = $this->show($kode);
-        $hapus = $this->db->where('id_detail', $kode)->delete('permintaan_detail');
-        $this->update_total($data['permintaan_detail']);
-        return $hapus;
+        $check = $this->db->from('penerimaan_detail')->where('minta_detail', $kode)->count_all_results();
+        if ($check > 0) :
+            $status = '0101';
+        else :
+            $data = $this->show($kode);
+            $this->db->where('id_detail', $kode)->delete('permintaan_detail');
+            $this->update_total($data['permintaan_detail']);
+            $status = '0100';
+        endif;
+        return $status;
     }
     public function batal($kode)
     {

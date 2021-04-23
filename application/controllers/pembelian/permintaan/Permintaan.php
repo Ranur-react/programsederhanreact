@@ -46,6 +46,7 @@ class Permintaan extends CI_Controller
         }
         $no = 1;
         foreach ($query->result_array() as $d) {
+            $info = '<a href="javascript:void(0)" onclick="info(\'' . $d['id_permintaan'] . '\')"><i class="icon-eye8 text-black" data-toggle="tooltip" data-original-title="Info"></i></a>';
             $edit = '<a href="' . site_url('permintaan/edit/' . $d['id_permintaan']) . '"><i class="icon-pencil7 text-green" data-toggle="tooltip" data-original-title="Edit"></i></a>';
             $hapus = '<a href="javascript:void(0)" onclick="hapus(\'' . $d['id_permintaan'] . '\')"><i class="icon-trash text-red" data-toggle="tooltip" data-original-title="Hapus"></i></a>';
             $output['data'][] = array(
@@ -56,7 +57,7 @@ class Permintaan extends CI_Controller
                 akuntansi($d['total_permintaan']),
                 $d['nama_user'],
                 status_span($d['status_permintaan'], 'permintaan'),
-                $edit . '&nbsp;' . $hapus
+                $info . '&nbsp;' . $edit . '&nbsp;' . $hapus
             );
             $no++;
         }
@@ -157,6 +158,17 @@ class Permintaan extends CI_Controller
             'barang' => $this->Mtmp_edit->tampil_data($kode)
         ];
         $this->template->dashboard('pembelian/permintaan/detail', $data);
+    }
+    public function info()
+    {
+        $kode = $this->input->get('kode');
+        $data = [
+            'name' => 'Detail Permintaan Barang',
+            'modallg' => 1,
+            'data' => $this->Mpermintaan->show($kode),
+            'barang' => $this->Mtmp_edit->tampil_data($kode)
+        ];
+        $this->template->modal_info('pembelian/permintaan/info', $data);
     }
     public function destroy()
     {
