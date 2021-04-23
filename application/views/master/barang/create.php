@@ -174,12 +174,14 @@
 
 <?php //$this->load->view('/master/Modal/imageUpload.php') ?>
 <script>
+    let folderImagesAssets="<?= assets() ?>images/Galery/";
+
     $(document).ready(function() {
         //GLobal Variable declartae
          Gsatuan={};
-         Gsatuan['4']=['Karung',count(Gsatuan)+1,'http://assets.barangmudo.com/logo/no_image.png'];
          TampilGambarSatuanTab();
 
+         //-----Test Global Funtions
         // menampilkan slug otomatis sesuai dengan nama barang
         $("#nama").keyup(function() {
             var Text = $(this).val();
@@ -239,7 +241,7 @@
             $('#barang-satuan' + item['value']).remove();
             //mengambil nilai satuan lalu menyimpan kedalam Global State variabel
             if (!Boolean(Gsatuan[item['value']])) {
-            Gsatuan[item['value']]=[item['label'],count(Gsatuan)+1,'http://assets.barangmudo.com/logo/no_image.png'];
+            Gsatuan[item['value']]=[item['label'],count(Gsatuan)+1,'no_image.png'];
             }
             //funtions untuk tampilkan isi state ke dalam View
             TampilGambarSatuanTab();
@@ -248,6 +250,7 @@
     });
 
 //funtions untuk menampilkan data satuan ke view 
+
     function TampilGambarSatuanTab() {
                 $('#gambar tbody').html("");
                 for (const [key, value] of Object.entries(Gsatuan)) {
@@ -265,7 +268,7 @@
                     </td>
                     <td class="text-left">
                         <div class="upload">
-                                <img onmouseenter="ShowButton()" class="profile-user-img img-responsive img-circle" src="${v[2]}" alt="User profile picture">
+                                <img onmouseenter="ShowButton()" class="profile-user-img img-responsive img-circle" src="${folderImagesAssets+v[2]}" alt="User profile picture">
                                 <a class="btn btn-large btn-primary tombolupload" onclick="upload(${k})">
                                         <i class="fa fa-upload align-middle iconUpload" ></i>
                                 </a>
@@ -367,5 +370,8 @@
             })
         });
     });
-
+    function CloseModalAndrefresh() {
+        $("#modal_create").modal('hide');
+        TampilGambarSatuanTab();
+    }
 </script>

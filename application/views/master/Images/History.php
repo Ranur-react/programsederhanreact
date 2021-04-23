@@ -57,7 +57,7 @@
                   <tr >
                     <td colspan="4">
                       <br>
-                      <button type="submit" id="selectButton" class="btn btn-success store_data disabled" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading..."><i class="<?= $submitIcon ?>"></i> <?= $submitLabel ?></button>
+                      <button type="submit" id="selectButton" onclick="ChoseImages()" class="btn btn-success store_data disabled" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading..."><i class="<?= $submitIcon ?>"></i> <?= $submitLabel ?></button>
                     </td>
                   </tr>
                 </table>  
@@ -67,10 +67,12 @@
 </div>
 <script type="text/javascript">
     var uriSelected="";
-     function ChoseImages(e) {
-      console.log("Mouse Over")
-      console.log(e);
+     //Select data from Images
+     function ChoseImages() {
+        Gsatuan[<?= $key ?>][2]=uriSelected;
+        CloseModalAndrefresh();
     }
+    //Actions on Event try do something
     function ImagesActiveMouse(e) {
       $(e).addClass('mouseActive');
     }
@@ -78,42 +80,35 @@
       $(e).removeClass('mouseActive');
     }
     function selectActive(e,v) {
-      console.log("Cek Kondisi Class:");
-      console.log()
-// console.log($(e'.selectActive'));
-if ($(e).hasClass("selectActive")) {
-$(e).removeClass('selectActive');
-        uriSelected=v;
-        // Gsatuan[<?= $key ?>][2]=v;
-        $('#selectButton').addClass('disabled');
-      console.log(Gsatuan[<?= $key ?>][2])
-}else{
-  $(e).addClass('selectActive');
-        uriSelected=v;
-        // Gsatuan[<?= $key ?>][2]=v;
-        $('#selectButton').removeClass('disabled');
-      console.log(Gsatuan[<?= $key ?>][2])
-}
-
-      
+      if ($(e).hasClass("selectActive")) {
+        $(e).removeClass('selectActive');
+            uriSelected=v;
+            $('#selectButton').addClass('disabled');
+      }else{
+        $(e).addClass('selectActive');
+              uriSelected=v;
+              $('#selectButton').removeClass('disabled');
+      }
     }
     function selectShutdown(e) {
         $('#selectButton').addClass('disabled');
       $(e).removeClass('selectActive');
     }
+
+
   $(document).ready(function() {
-    //Global variabel state
-    // alert('<?= $key ?>');
+      //Global variabel state
     let ImagesData=[];
     let DataMatrix=[];
     let lengthShow=3;
     let StartIndex=3;
-    let folderImagesAssets="<?= assets() ?>images/Galery/";
-    GetImagesFromDir(1);
-    // $('.img-responsive').click(function(event) {
-    //      alert("Chose");
-    // });
 
+
+    //Show Images Funtions// if 1=(animations true) // if 0=(animations false) 
+    GetImagesFromDir(1);
+    //----end funtions
+
+    
     //how to set range and length the images show in several Functions with event button
     $('#downTombol').click(function(event) {
      StartIndex+=3;
@@ -128,7 +123,7 @@ $(e).removeClass('selectActive');
     GetImagesFromDir(0);
     });
     // ----and--set
-    //Select data from Images
+ 
 
     //Scan Image from Assets Directory
     function GetImagesFromDir(e){
