@@ -11,9 +11,13 @@
                 <?= $body ?> 
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-success store_data" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading..."><i class="icon-floppy-disk"></i> Simpan</button>
-                <button type="button" class="btn btn-default" data-dismiss="modal"><i class="icon-cross2"></i> Batal</button>
+                <button type="button"  class="btn btn-default " data-dismiss="modal"><i class="icon-cross2"></i> Batal</button>
             </div>
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    $(document).ready(function() {
+
+    });
+</script>

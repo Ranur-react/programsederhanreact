@@ -14,11 +14,16 @@ class UploadImages extends CI_Controller
     }
     public function index()
     {
+       $kode = $this->input->post('kode');
        $data = [
             'name' => 'Galeri Gambar',
-            'post' => 'pengguna/store',
-            'class' => 'form_create'
+            'class' => 'form_create',
+            'submitLabel' => 'Pilih',
+            'submitIcon' =>'fa fa-check-square-o',
+            'modallg'=>0,
+            'key'=>$kode,
         ];
+        // echo $kode;
         $this->template->modal_images_form('master/Images/History', $data);
     }
     public function choseImages()

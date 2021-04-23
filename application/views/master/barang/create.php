@@ -179,6 +179,7 @@
          Gsatuan={};
          Gsatuan['4']=['Karung',count(Gsatuan)+1,'http://assets.barangmudo.com/logo/no_image.png'];
          TampilGambarSatuanTab();
+
         // menampilkan slug otomatis sesuai dengan nama barang
         $("#nama").keyup(function() {
             var Text = $(this).val();
@@ -186,7 +187,6 @@
             Text = Text.replace(/[^a-zA-Z0-9]+/g, '-');
             $("#slug").val(Text);
         });
-      
     });
 
     // autocomplete kategori
@@ -291,7 +291,9 @@
         const upload=(e)=>{
             $.ajax({
             url: "<?= site_url('upload') ?>",
-            type: "GET",
+            data:"&kode="+e,
+            cache: false,
+            type: "POST",
             success: function(resp) {
                 $("#tampil_modal").html(resp);
                 $("#modal_create").modal('show');
@@ -365,4 +367,5 @@
             })
         });
     });
+
 </script>

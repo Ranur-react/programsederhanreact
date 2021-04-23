@@ -37,6 +37,8 @@
     <script src="<?= assets() ?>dist/js/demo.js"></script>
     <script src="<?= assets() ?>plugins/sweetalert2/sweetalert2.all.min.js"></script>
     <script src="<?= assets() ?>js/common.js"></script>
+
+
     <script>
         $(function() {
             $('#data-tabel').DataTable({
