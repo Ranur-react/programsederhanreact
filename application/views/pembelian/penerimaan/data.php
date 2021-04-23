@@ -22,6 +22,7 @@
         </div>
     </div>
 </div>
+<div id="tampil_modal"></div>
 <script>
     $(".tabel_penerimaan").DataTable({
         ordering: false,
@@ -62,6 +63,20 @@
             }
         ]
     });
+
+    function info(kode) {
+        $.ajax({
+            url: "<?= site_url('penerimaan/info') ?>",
+            type: "GET",
+            data: {
+                kode: kode
+            },
+            success: function(resp) {
+                $("#tampil_modal").html(resp);
+                $("#modal_alert").modal('show');
+            }
+        });
+    }
 
     function hapus(kode) {
         Swal({

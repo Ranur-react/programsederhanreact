@@ -160,6 +160,17 @@ class Penerimaan extends CI_Controller
         ];
         $this->template->dashboard('pembelian/penerimaan/detail', $data);
     }
+    public function info()
+    {
+        $kode = $this->input->get('kode');
+        $data = [
+            'name' => 'Detail Penerimaan Barang',
+            'modallg' => 1,
+            'data' => $this->Mpenerimaan->show($kode),
+            'barang' => $this->Mtmp_edit->tampil_data($kode)
+        ];
+        $this->template->modal_info('pembelian/penerimaan/info', $data);
+    }
     public function destroy()
     {
         $kode = $this->input->get('kode', true);
