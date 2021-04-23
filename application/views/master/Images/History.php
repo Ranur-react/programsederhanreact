@@ -108,7 +108,7 @@
     GetImagesFromDir(1);
     //----end funtions
 
-    
+
     //how to set range and length the images show in several Functions with event button
     $('#downTombol').click(function(event) {
      StartIndex+=3;
@@ -158,13 +158,13 @@
       for (var i=0; i<lengthShow; i=i+2) { 
         results +=`<div class="col-sm-6">
                       <br>
-                          <a href="#" onclick="selectActive(this,'${ImagesData[x]}')" onfocusout="selectShutdown(this)" onmouseenter="ImagesActiveMouse(this)" onmouseout="ImagesMouseOver(this)" class="boxImages">
+                          <a href="#" onclick="selectActive(this,'${ImagesData[x]}')" onfocusout="selectShutdown(this)" ondblclick="ChoseImages()" onmouseenter="ImagesActiveMouse(this)" onmouseout="ImagesMouseOver(this)" class="boxImages">
                             <img class="img-responsive " src="${folderImagesAssets+ImagesData[x]}" alt="Photo">
                           </a>
                       <br>`;
         x+=1;
         if(i+1 < ImagesData.length){
-          results += `    <a href="#" onclick="selectActive(this,'${ImagesData[x]}')" onfocusout="selectShutdown(this)" onmouseenter="ImagesActiveMouse(this)" onmouseout="ImagesMouseOver(this)" class="boxImages">
+          results += `    <a href="#" onclick="selectActive(this,'${ImagesData[x]}')" onfocusout="selectShutdown(this)" ondblclick="ChoseImages()" onmouseenter="ImagesActiveMouse(this)" onmouseout="ImagesMouseOver(this)" class="boxImages">
                             <img class="img-responsive " src="${folderImagesAssets+ImagesData[x]}" alt="Photo">
                           </a>
                   </div>`;x+=1;
@@ -183,7 +183,7 @@
         results +=`<div class="col-sm-6">
                       <br>
                         <div class="span3 wow flipInX center">
-                          <a href="#" onclick="selectActive(this,'${ImagesData[x]}')" onfocusout="selectShutdown(this)" onmouseenter="ImagesActiveMouse(this)" onmouseout="ImagesMouseOver(this)" class="boxImages">
+                          <a href="#" onclick="selectActive(this,'${ImagesData[x]}')" ondblclick="ChoseImages()" onfocusout="selectShutdown(this)" onmouseenter="ImagesActiveMouse(this)" onmouseout="ImagesMouseOver(this)" class="boxImages">
                             <img class="img-responsive " src="${folderImagesAssets+ImagesData[x]}" alt="Photo">
                           </a>
                         </div>
@@ -192,7 +192,7 @@
         if(i+1 < ImagesData.length){
           results += `
                       <div class="span3 wow flipInX center">
-                        <a href="#" onclick="selectActive(this,'${ImagesData[x]}')" onfocusout="selectShutdown(this)" onmouseenter="ImagesActiveMouse(this)" onmouseout="ImagesMouseOver(this)" class="boxImages">
+                        <a href="#" onclick="selectActive(this,'${ImagesData[x]}')" ondblclick="ChoseImages()" onfocusout="selectShutdown(this)" onmouseenter="ImagesActiveMouse(this)" onmouseout="ImagesMouseOver(this)" class="boxImages">
                           <img class="img-responsive" src="${folderImagesAssets+ImagesData[x]}" alt="Photo">
                           </a>
                       </div>
