@@ -1,9 +1,15 @@
-<div class="col-md-10 col-md-offset-1">
+<style>
+    .status-label {
+        font-size: 18px;
+    }
+</style>
+<div class="col-xs-12">
     <div class="box box-solid">
         <div class="box-header with-border">
             <h3 class="box-title">
                 <a class="text-back" href="<?= site_url('penerimaan') ?>" title="Kembali"><i class="icon-arrow-left8" style="font-size: 24px"></i></a> Edit Penerimaan Barang
             </h3>
+            <h3 class="box-title pull-right">Status Bayar : <?= status_label($data['status_terima'], 'penerimaan') ?></h3>
         </div>
         <?= form_open('penerimaan/update', ['id' => 'form_create']) ?>
         <input type="hidden" name="kode" id="kode" value="<?= $data['id_terima'] ?>">
