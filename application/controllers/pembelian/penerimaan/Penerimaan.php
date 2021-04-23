@@ -46,6 +46,7 @@ class Penerimaan extends CI_Controller
         }
         $no = 1;
         foreach ($query->result_array() as $d) {
+            $info = '<a href="javascript:void(0)" onclick="info(\'' . $d['id_terima'] . '\')"><i class="icon-eye8 text-black" data-toggle="tooltip" data-original-title="Info"></i></a>';
             $edit = '<a href="' . site_url('penerimaan/edit/' . $d['id_terima']) . '"><i class="icon-pencil7 text-green" data-toggle="tooltip" data-original-title="Edit"></i></a>';
             $hapus = '<a href="javascript:void(0)" onclick="hapus(\'' . $d['id_terima'] . '\')"><i class="icon-trash text-red" data-toggle="tooltip" data-original-title="Hapus"></i></a>';
             $output['data'][] = array(
@@ -57,7 +58,7 @@ class Penerimaan extends CI_Controller
                 akuntansi($d['total_terima']),
                 $d['nama_user'],
                 status_span($d['status_terima'], 'penerimaan'),
-                $edit . '&nbsp;' . $hapus
+                $info . '&nbsp;' . $edit . '&nbsp;' . $hapus
             );
             $no++;
         }
