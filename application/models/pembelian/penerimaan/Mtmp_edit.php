@@ -3,7 +3,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Mtmp_edit extends CI_Model
 {
-    public function tampil_data($kode)
+    public function data_tmp($kode)
     {
         return $this->db->select('*,penerimaan_detail.id_detail AS id_detail_terima,penerimaan_detail.harga_detail AS harga_terima,penerimaan_detail.jumlah_detail AS jumlah_terima')
             ->from('penerimaan_detail')
@@ -12,6 +12,7 @@ class Mtmp_edit extends CI_Model
             ->join('barang', 'barang_brg_satuan=id_barang')
             ->join('satuan', 'satuan_brg_satuan=id_satuan')
             ->where('terima_detail', $kode)
+            ->order_by('penerimaan_detail.id_detail', 'ASC')
             ->get()->result_array();
     }
     public function show($kode)

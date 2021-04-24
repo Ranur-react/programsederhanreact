@@ -1,8 +1,3 @@
-<style>
-    .status-label {
-        font-size: 18px;
-    }
-</style>
 <div class="col-xs-12">
     <div class="box box-solid">
         <div class="box-header with-border">
@@ -69,15 +64,15 @@
             format: "dd-mm-yyyy",
             autoclose: true
         });
-        data();
+        data_tmp();
     });
 
     var kode = $('#kode').val();
 
-    function data() {
+    function data_tmp() {
         $('#data_tmp').html('<tr><td class="text-center text-red" colspan="8"><b><i class="fa fa-refresh animation-rotate"></i> Loading...</b></td></tr>');
         $.ajax({
-            url: "<?= site_url('penerimaan/tmp-edit/data') ?>",
+            url: "<?= site_url('penerimaan/tmp-edit/data-tmp') ?>",
             method: "GET",
             data: {
                 kode: kode
@@ -110,7 +105,7 @@
                 kode: kode
             },
             success: function(resp) {
-                data();
+                data_tmp();
             }
         });
     }
@@ -128,7 +123,7 @@
             success: function(resp) {
                 if (resp.status == "0100") {
                     $('#modal_create').modal('hide');
-                    data();
+                    data_tmp();
                     toastr.success(resp.message);
                 } else {
                     $.each(resp.pesan, function(key, value) {
