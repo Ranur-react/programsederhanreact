@@ -6,6 +6,11 @@ class Tmp_edit extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        if ($this->session->userdata('status_login') == "sessDashboard")
+            cek_user();
+        else
+            redirect('logout');
+        $this->load->model('pembelian/penerimaan/Mpenerimaan');
         $this->load->model('pembelian/penerimaan/Mtmp_edit');
     }
     public function data_supplier()
@@ -41,6 +46,20 @@ class Tmp_edit extends CI_Controller
         $kode = $this->input->get('kode');
         $d['data'] = $this->Mtmp_edit->data_tmp($kode);
         $this->load->view('pembelian/penerimaan/tmp_edit/data_tmp', $d);
+    }
+    public function create()
+    {
+        $id_detail = $this->input->get('id_detail');
+        $id_terima = $this->input->get('id_terima');
+        $data = [
+            'name' => 'Tambah Barang',
+            'post' => 'penerimaan/tmp-edit/store',
+            'class' => 'form_tmp',
+            'backdrop' => 1,
+            'terima' => $this->Mpenerimaan->show($id_terima),
+            'data' => $this->Mtmp_edit->show_minta($id_detail)
+        ];
+        $this->template->modal_form('pembelian/penerimaan/tmp_edit/create', $data);
     }
     public function edit()
     {

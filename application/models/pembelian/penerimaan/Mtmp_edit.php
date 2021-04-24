@@ -30,6 +30,15 @@ class Mtmp_edit extends CI_Model
         endif;
         return $status;
     }
+    public function show_minta($id_detail)
+    {
+        return $this->db->from('permintaan_detail')
+            ->join('barang_satuan', 'barang_detail=id_brg_satuan')
+            ->join('barang', 'barang_brg_satuan=id_barang')
+            ->join('satuan', 'satuan_brg_satuan=id_satuan')
+            ->where('id_detail', $id_detail)
+            ->get()->row_array();
+    }
     public function data_tmp($kode)
     {
         return $this->db->select('*,penerimaan_detail.id_detail AS id_detail_terima,penerimaan_detail.harga_detail AS harga_terima,penerimaan_detail.jumlah_detail AS jumlah_terima')

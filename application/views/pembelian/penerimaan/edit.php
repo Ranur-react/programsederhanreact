@@ -155,6 +155,21 @@
         });
     }
 
+    function create(id_detail) {
+        $.ajax({
+            url: "<?= site_url('penerimaan/tmp-edit/create') ?>",
+            type: "GET",
+            data: {
+                id_detail: id_detail,
+                id_terima: kode
+            },
+            success: function(resp) {
+                $("#tampil_modal").html(resp);
+                $("#modal_create").modal('show');
+            }
+        });
+    }
+
     function edit(kode) {
         $.ajax({
             url: "<?= site_url('penerimaan/tmp-edit/edit') ?>",
