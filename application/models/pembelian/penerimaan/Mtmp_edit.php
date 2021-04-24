@@ -11,6 +11,25 @@ class Mtmp_edit extends CI_Model
             ->where('id_terima_supplier', $kode)
             ->get()->result_array();
     }
+    public function check_permintaan($id_terima, $id_minta)
+    {
+        $check_data = $this->db->from('penerimaan_supplier')->where(['id_terima_supplier' => $id_terima, 'id_minta_supplier' => $id_minta])->count_all_results();
+        if ($check_data > 0) :
+            $status = '0102';
+        else :
+            $data = $this->db->where('id_permintaan', $id_minta)->get('permintaan')->row_array();
+            $query = $this->db->from('penerimaan_supplier')
+                ->join('permintaan', 'id_minta_supplier=id_permintaan')
+                ->where(['id_terima_supplier' => $id_terima, 'supplier_permintaan' => $data['supplier_permintaan']])
+                ->count_all_results();
+            if ($query > 0) :
+                $status = '0100';
+            else :
+                $status = '0101';
+            endif;
+        endif;
+        return $status;
+    }
     public function data_tmp($kode)
     {
         return $this->db->select('*,penerimaan_detail.id_detail AS id_detail_terima,penerimaan_detail.harga_detail AS harga_terima,penerimaan_detail.jumlah_detail AS jumlah_terima')

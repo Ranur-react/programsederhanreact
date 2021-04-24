@@ -113,6 +113,7 @@ $route['penerimaan/tmp-create/destroy'] = 'pembelian/penerimaan/tmp_create/destr
 $route['penerimaan/tmp-create/batal'] = 'pembelian/penerimaan/tmp_create/batal';
 
 $route['penerimaan/tmp-edit/data-supplier'] = 'pembelian/penerimaan/tmp_edit/data_supplier';
+$route['penerimaan/tmp-edit/check-permintaan'] = 'pembelian/penerimaan/tmp_edit/check_permintaan';
 
 $route['penerimaan/tmp-edit/data-tmp'] = 'pembelian/penerimaan/tmp_edit/data_tmp';
 $route['penerimaan/tmp-edit/edit'] = 'pembelian/penerimaan/tmp_edit/edit';

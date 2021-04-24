@@ -8,6 +8,7 @@
         </div>
         <?= form_open('penerimaan/update', ['id' => 'form_create']) ?>
         <input type="hidden" name="kode" id="kode" value="<?= $data['id_terima'] ?>">
+        <input type="hidden" name="id_minta" id="id_minta">
         <div class="box-body">
             <div class="row">
                 <div class="col-md-6">
@@ -86,6 +87,26 @@
             success: function(reps) {
                 $("#tampil_modal").html(reps);
                 $("#modal_data").modal('show');
+            }
+        });
+    }
+
+    function pilih(id_minta) {
+        $.ajax({
+            url: "<?= site_url('penerimaan/tmp-edit/check-permintaan') ?>",
+            type: "GET",
+            dataType: "json",
+            data: {
+                id_terima: kode,
+                id_minta: id_minta
+            },
+            success: function(resp) {
+                if (resp.status == "0100") {
+                    $("#id_minta").val(id_minta);
+                    $('#modal_data').modal('hide');
+                } else {
+                    toastr.error(resp.pesan);
+                }
             }
         });
     }

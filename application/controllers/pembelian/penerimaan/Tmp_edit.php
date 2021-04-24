@@ -14,6 +14,28 @@ class Tmp_edit extends CI_Controller
         $d['data'] = $this->Mtmp_edit->data_supplier($kode);
         $this->load->view('pembelian/penerimaan/tmp_edit/data_supplier', $d);
     }
+    public function check_permintaan()
+    {
+        $id_terima = $this->input->get('id_terima');
+        $id_minta = $this->input->get('id_minta');
+        $data = $this->Mtmp_edit->check_permintaan($id_terima, $id_minta);
+        if ($data == '0100') :
+            $json = array(
+                'status' => '0100'
+            );
+        elseif ($data == '0101') :
+            $json = array(
+                'status' => '0101',
+                'pesan' => 'Supplier yang dipilih tidak sama.'
+            );
+        else :
+            $json = array(
+                'status' => '0102',
+                'pesan' => 'Data permintaan telah diinputkan sebelumnya.'
+            );
+        endif;
+        echo json_encode($json);
+    }
     public function data_tmp()
     {
         $kode = $this->input->get('kode');
