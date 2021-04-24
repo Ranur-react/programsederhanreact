@@ -56,3 +56,4 @@ $route['barang/destroy'] = 'master/barang/destroy';
 $route['upload'] = 'master/UploadImages';
 $route['browse'] = 'master/UploadImages/choseImages';
 $route['insert'] = 'master/UploadImages/insertImages';
+$route['delete'] = 'master/UploadImages/delteImages';

@@ -23,7 +23,6 @@ class UploadImages extends CI_Controller
             'modallg'=>0,
             'key'=>$kode,
         ];
-        // echo $kode;
         $this->template->modal_images_form('master/Images/History', $data);
     }
     public function choseImages()
@@ -32,6 +31,24 @@ class UploadImages extends CI_Controller
             'name' => 'Upload ke Galery',
         ];
         $this->load->view('master/Images/ChoseFiles', $data);
+    }
+    public function delteImages()
+    {
+       $file = $this->input->post('filedes');
+       $filepath=assets().'images/Galery/'.$file;
+       $json=[];
+            $json['path']=$filepath;
+            unlink($filepath);
+        // if (unlink($filepath)))
+        //   {
+            
+        //     $json['status']=true;
+        //   }
+        //   else{
+        //     $json['status']=false;
+
+        //   }
+         echo json_encode($json);
     }
     public function insertImages()
     {

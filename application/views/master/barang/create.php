@@ -175,7 +175,12 @@
 <?php //$this->load->view('/master/Modal/imageUpload.php') ?>
 <script>
     let folderImagesAssets="<?= assets() ?>images/Galery/";
-
+      var uriSelected="";
+          //Global variabel state
+      let ImagesData=[];
+      let DataMatrix=[];
+      let lengthShow=3;
+      let StartIndex=3;
     $(document).ready(function() {
         //GLobal Variable declartae
          Gsatuan={};
