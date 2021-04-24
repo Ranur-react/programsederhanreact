@@ -11,7 +11,8 @@
         <div class="box-body">
             <div class="row">
                 <div class="col-md-6">
-                    <button type="button" class="btn btn-social btn-block btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="icon-folder-search"></i>Cari data permintaan barang</button>
+                    <button type="button" onclick="data_permintaan()" class="btn btn-social btn-block btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="icon-folder-search"></i>Cari data permintaan barang</button>
+                    <div id="show_permintaan"></div>
                     <div id="data_supplier"></div>
                 </div>
                 <div class="col-md-6">
@@ -77,6 +78,17 @@
     });
 
     var kode = $('#kode').val();
+
+    function data_permintaan() {
+        $.ajax({
+            url: "<?= site_url('penerimaan/tmp-create/modal-permintaan') ?>",
+            type: "GET",
+            success: function(reps) {
+                $("#tampil_modal").html(reps);
+                $("#modal_data").modal('show');
+            }
+        });
+    }
 
     function data_supplier() {
         $('#data_supplier').html('<p class="text-center m-y-1 text-red"><b><i class="fa fa-refresh animation-rotate"></i> Loading...</b></p>');
