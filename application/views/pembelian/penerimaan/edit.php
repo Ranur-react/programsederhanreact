@@ -11,7 +11,8 @@
         <div class="box-body">
             <div class="row">
                 <div class="col-md-6">
-                    <button type="button" class="btn btn-social btn-block btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="icon-folder-search"></i> Cari data permintaan barang</button>
+                    <button type="button" class="btn btn-social btn-block btn-flat btn-primary btn-sm visible-xs-block visible-sm-inline-block visible-md-inline-block visible-lg-inline-block"><i class="icon-folder-search"></i>Cari data permintaan barang</button>
+                    <div id="data_supplier"></div>
                 </div>
                 <div class="col-md-6">
                     <div class="table-responsive">
@@ -71,10 +72,25 @@
             format: "dd-mm-yyyy",
             autoclose: true
         });
+        data_supplier();
         data_tmp();
     });
 
     var kode = $('#kode').val();
+
+    function data_supplier() {
+        $('#data_supplier').html('<p class="text-center m-y-1 text-red"><b><i class="fa fa-refresh animation-rotate"></i> Loading...</b></p>');
+        $.ajax({
+            url: "<?= site_url('penerimaan/tmp-edit/data-supplier') ?>",
+            method: "GET",
+            data: {
+                kode: kode
+            },
+            success: function(resp) {
+                $('#data_supplier').html(resp);
+            }
+        });
+    }
 
     function data_tmp() {
         $('#data_tmp').html('<tr><td class="text-center text-red" colspan="8"><b><i class="fa fa-refresh animation-rotate"></i> Loading...</b></td></tr>');

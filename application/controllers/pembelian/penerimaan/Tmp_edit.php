@@ -8,6 +8,12 @@ class Tmp_edit extends CI_Controller
         parent::__construct();
         $this->load->model('pembelian/penerimaan/Mtmp_edit');
     }
+    public function data_supplier()
+    {
+        $kode = $this->input->get('kode');
+        $d['data'] = $this->Mtmp_edit->data_supplier($kode);
+        $this->load->view('pembelian/penerimaan/tmp_edit/data_supplier', $d);
+    }
     public function data_tmp()
     {
         $kode = $this->input->get('kode');
