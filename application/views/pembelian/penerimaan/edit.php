@@ -104,9 +104,25 @@
                 if (resp.status == "0100") {
                     $("#id_minta").val(id_minta);
                     $('#modal_data').modal('hide');
+                    show_permintaan();
                 } else {
                     toastr.error(resp.pesan);
                 }
+            }
+        });
+    }
+
+    function show_permintaan() {
+        var id_minta = $('#id_minta').val();
+        $('#show_permintaan').html('<p class="text-center m-t-0 m-b-2 text-red"><b><i class="fa fa-refresh animation-rotate"></i> Loading...</b></p>');
+        $.ajax({
+            url: "<?= site_url('penerimaan/tmp-create/show-permintaan') ?>",
+            method: "GET",
+            data: {
+                id_permintaan: id_minta
+            },
+            success: function(resp) {
+                $('#show_permintaan').html(resp);
             }
         });
     }
