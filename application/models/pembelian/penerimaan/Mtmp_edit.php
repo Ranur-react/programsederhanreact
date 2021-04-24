@@ -3,6 +3,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Mtmp_edit extends CI_Model
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('pembelian/penerimaan/Mpenerimaan');
+    }
     public function data_supplier($kode)
     {
         return $this->db->from('penerimaan_supplier')
@@ -53,7 +58,7 @@ class Mtmp_edit extends CI_Model
     }
     public function show($kode)
     {
-        return $this->db->select('terima_detail,nama_barang,nama_satuan,singkatan_satuan,penerimaan_detail.id_detail AS id_detail_terima,penerimaan_detail.harga_detail AS harga_terima,penerimaan_detail.jumlah_detail AS jumlah_terima,permintaan_detail.harga_detail AS harga_minta,permintaan_detail.jumlah_detail AS jumlah_minta')
+        return $this->db->select('terima_detail,permintaan_detail.permintaan_detail AS id_minta,nama_barang,nama_satuan,singkatan_satuan,penerimaan_detail.id_detail AS id_detail_terima,penerimaan_detail.harga_detail AS harga_terima,penerimaan_detail.jumlah_detail AS jumlah_terima,permintaan_detail.harga_detail AS harga_minta,permintaan_detail.jumlah_detail AS jumlah_minta')
             ->from('penerimaan_detail')
             ->join('permintaan_detail', 'minta_detail=permintaan_detail.id_detail')
             ->join('barang_satuan', 'barang_detail=id_brg_satuan')
@@ -107,10 +112,25 @@ class Mtmp_edit extends CI_Model
     public function destroy($kode)
     {
         $data = $this->show($kode);
-        $kode = $data['terima_detail'];
-        $query = $this->db->where('id_detail', $kode)->delete('penerimaan_detail');
-        $this->update_total($kode);
-        return $query;
+        $idterima = $data['terima_detail'];
+        $idminta = $data['id_minta'];
+        $check = $this->db->from('permintaan_detail')
+            ->join('penerimaan_detail', 'permintaan_detail.id_detail=minta_detail')
+            ->where(['permintaan_detail' => $idminta, 'terima_detail' => $idterima])
+            ->where_not_in('penerimaan_detail.id_detail', $kode)
+            ->count_all_results();
+        if ($check > 0) :
+            $this->db->where('id_detail', $kode)->delete('penerimaan_detail');
+            $this->Mpenerimaan->UpdateStatusPermintaan($idterima);
+            $status = '0100';
+        else :
+            $this->db->where('id_detail', $kode)->delete('penerimaan_detail');
+            $this->Mpenerimaan->UpdateStatusPermintaan($idterima);
+            $this->db->where(['id_terima_supplier' => $idterima, 'id_minta_supplier' => $idminta])->delete('penerimaan_supplier');
+            $status = '0100';
+        endif;
+        $this->update_total($idterima);
+        return $status;
     }
 }
 

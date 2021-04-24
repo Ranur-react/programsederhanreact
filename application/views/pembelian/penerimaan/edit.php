@@ -192,6 +192,9 @@
                 kode: kode
             },
             success: function(resp) {
+                $('#id_minta').val('');
+                show_permintaan();
+                data_supplier();
                 data_tmp();
             }
         });

@@ -138,10 +138,10 @@ class Tmp_edit extends CI_Controller
     {
         $kode = $this->input->get('kode', true);
         $action = $this->Mtmp_edit->destroy($kode);
-        if ($action == true) {
-            $json['status'] = "0100";
+        if ($action == '0100') {
+            $json['status'] = '0100';
         } else {
-            $json['status'] = "0101";
+            $json['status'] = '0101';
         }
         echo json_encode($json);
     }
