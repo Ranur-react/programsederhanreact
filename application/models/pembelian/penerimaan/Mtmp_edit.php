@@ -75,6 +75,23 @@ class Mtmp_edit extends CI_Model
         );
         return $this->db->where('id_terima', $kode)->update('penerimaan', $data);
     }
+    public function store($post)
+    {
+        $query = $this->db->from('penerimaan_supplier')->where(['id_terima_supplier' => $post['idterima'], 'id_minta_supplier' => $post['idminta']])->count_all_results();
+        if ($query == 0) {
+            $this->db->insert('penerimaan_supplier', ['id_terima_supplier' => $post['idterima'], 'id_minta_supplier' => $post['idminta']]);
+        }
+        $data = [
+            'terima_detail' => $post['idterima'],
+            'minta_detail' => $post['iddetail'],
+            'harga_detail' => convert_uang($post['harga']),
+            'jumlah_detail' => convert_uang($post['jumlah'])
+        ];
+        $store = $this->db->insert('penerimaan_detail', $data);
+        $this->update_total($post['idterima']);
+        $this->Mpenerimaan->UpdateStatusPermintaan($post['idterima']);
+        return $store;
+    }
     public function update($post)
     {
         $data = $this->show($post['iddetail']);

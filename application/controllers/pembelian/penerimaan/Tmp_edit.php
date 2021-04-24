@@ -61,6 +61,41 @@ class Tmp_edit extends CI_Controller
         ];
         $this->template->modal_form('pembelian/penerimaan/tmp_edit/create', $data);
     }
+    public function store()
+    {
+        $post = $this->input->post(null, TRUE);
+        $cek_user = $this->db->from('penerimaan_detail')->where('minta_detail', $post['iddetail'])->count_all_results();
+        if ($cek_user > 0) :
+            $json = array(
+                'status' => "0100",
+                'count' => $cek_user,
+                'message' => 'Barang sudah ditambahkan, silahkan update jika ingin melakukan perubahan.'
+            );
+        else :
+            $this->form_validation->set_rules('harga', 'Harga', 'required|greater_than[0]');
+            $this->form_validation->set_rules('jumlah', 'Jumlah', 'required|greater_than[0]');
+            $this->form_validation->set_message('required', errorRequired());
+            $this->form_validation->set_message('greater_than', greater_than());
+            $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
+            if ($this->form_validation->run() == TRUE) {
+                $this->Mtmp_edit->store($post);
+                $json = array(
+                    'status' => "0100",
+                    'count' => 0,
+                    'message' => 'Barang berhasil ditambahkan'
+                );
+            } else {
+                $json = array(
+                    'status' => "0101",
+                    'message' => 'Barang gagal ditambahkan'
+                );
+                foreach ($_POST as $key => $value) {
+                    $json['pesan'][$key] = form_error($key);
+                }
+            }
+        endif;
+        echo json_encode($json);
+    }
     public function edit()
     {
         $kode = $this->input->get('kode');

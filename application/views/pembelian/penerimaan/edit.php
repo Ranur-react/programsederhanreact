@@ -210,8 +210,15 @@
             success: function(resp) {
                 if (resp.status == "0100") {
                     $('#modal_create').modal('hide');
+                    $('#id_minta').val('');
+                    show_permintaan();
+                    data_supplier();
                     data_tmp();
-                    toastr.success(resp.message);
+                    if (resp.count > 0) {
+                        toastr.error(resp.message);
+                    } else {
+                        toastr.success(resp.message);
+                    }
                 } else {
                     $.each(resp.pesan, function(key, value) {
                         var element = $('#' + key);
