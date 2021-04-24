@@ -119,12 +119,13 @@ class Tmp_edit extends CI_Controller
             $post = $this->input->post(null, TRUE);
             $this->Mtmp_edit->update($post);
             $json = array(
-                'status' => "0100",
+                'status' => '0100',
+                'count' => 0,
                 'message' => 'Data barang berhasil dirubah'
             );
         } else {
             $json = array(
-                'status' => "0101",
+                'status' => '0101',
                 'message' => 'Data barang gagal dirubah'
             );
             foreach ($_POST as $key => $value) {
