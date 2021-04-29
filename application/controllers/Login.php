@@ -70,14 +70,19 @@ class Login extends CI_Controller
     public function password_check($password, $username)
     {
         $check = $this->Mlogin->check_user($username);
-        $query = $check->row_array();
-        $pass  = $query['password'];
         if ($password == null) {
             $this->form_validation->set_message('password_check', 'Password tidak boleh kosong');
             return false;
         } else {
-            if (password_verify($password, $pass)) {
-                return true;
+            if ($check->num_rows() > 0) {
+                $query = $check->row_array();
+                $pass  = $query['password'];
+                if (password_verify($password, $pass)) {
+                    return true;
+                } else {
+                    $this->form_validation->set_message('password_check', 'Password yang Anda masukkan salah');
+                    return FALSE;
+                }
             } else {
                 $this->form_validation->set_message('password_check', 'Password yang Anda masukkan salah');
                 return FALSE;
