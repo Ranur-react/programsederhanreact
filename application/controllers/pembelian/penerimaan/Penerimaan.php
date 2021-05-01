@@ -156,7 +156,7 @@ class Penerimaan extends CI_Controller
             'small' => 'Detail Penerimaan barang',
             'links' => '<li><a href="' . site_url('penerimaan') . '">Penerimaan</a></li><li class="active">Detail</li>',
             'data' => $this->Mpenerimaan->show($kode),
-            'barang' => $this->Mtmp_edit->tampil_data($kode)
+            'barang' => $this->Mtmp_edit->data_tmp($kode)
         ];
         $this->template->dashboard('pembelian/penerimaan/detail', $data);
     }
@@ -167,7 +167,7 @@ class Penerimaan extends CI_Controller
             'name' => 'Detail Penerimaan Barang',
             'modallg' => 1,
             'data' => $this->Mpenerimaan->show($kode),
-            'barang' => $this->Mtmp_edit->tampil_data($kode)
+            'barang' => $this->Mtmp_edit->data_tmp($kode)
         ];
         $this->template->modal_info('pembelian/penerimaan/info', $data);
     }
