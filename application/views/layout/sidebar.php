@@ -2,7 +2,7 @@
 <ul class="sidebar-menu" data-widget="tree">
     <li class="<?= $urls == null || $urls == 'welcome' ? 'active' : null ?>">
         <a href="<?= site_url('welcome') ?>">
-            <i class="icon-home4"></i> <span>Dashboard</span>
+            <i class="icon icon-home4"></i> <span>Dashboard</span>
         </a>
     </li>
     <li class="treeview <?= $urls == 'pengguna' || $urls == 'supplier' || $urls == 'satuan' || $urls == 'kategori' || $urls == 'gudang' || $urls == 'barang' ? 'active' : null ?>">
@@ -33,7 +33,7 @@
             </li>
         </ul>
     </li>
-    <li class="treeview <?= $urls == 'permintaan' ? 'active' : null ?>">
+    <li class="treeview <?= $urls == 'permintaan' || $urls == 'penerimaan' ? 'active' : null ?>">
         <a href="#">
             <i class="fas fa-shopping-basket"></i> <span>Pembelian</span>
             <span class="pull-right-container">
@@ -43,6 +43,22 @@
         <ul class="treeview-menu">
             <li class="<?= $urls == 'permintaan' ? 'active' : null ?>">
                 <a href="<?= site_url('permintaan') ?>"><i class="fa fa-angle-double-right"></i> Permintaan</a>
+            </li>
+            <li class="<?= $urls == 'penerimaan' ? 'active' : null ?>">
+                <a href="<?= site_url('penerimaan') ?>"><i class="fa fa-angle-double-right"></i> Penerimaan</a>
+            </li>
+        </ul>
+    </li>
+    <li class="treeview <?= $urls == 'roles' ? 'active' : null ?>">
+        <a href="#">
+            <i class="fas fa-cog"></i> <span>Pengaturan</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li class="<?= $urls == 'roles' ? 'active' : null ?>">
+                <a href="<?= site_url('roles') ?>"><i class="fa fa-angle-double-right"></i> Hak Akses</a>
             </li>
         </ul>
     </li>

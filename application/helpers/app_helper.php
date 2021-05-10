@@ -84,7 +84,7 @@ if (!function_exists('user_photo')) {
         $CI = &get_instance();
         $row = $CI->db->where('id_user', id_user())->get('users')->row_array();
         if ($row['avatar_user'] != null) {
-            return pathImage() . $row['avatar_user'];
+            return assets() . $row['avatar_user'];
         } else {
             $CI->load->model('settings/Mconfig');
             $data = $CI->Mconfig->noUserImage();
