@@ -57,7 +57,8 @@ class Mpenerimaan extends CI_Model
                 'terima_detail' => $kode,
                 'minta_detail' => $d['iddetail'],
                 'harga_detail' => $d['harga'],
-                'jumlah_detail' => $d['jumlah']
+                'jumlah_detail' => $d['jumlah'],
+                'stok_detail' => $d['jumlah']
             ];
             $this->db->insert('penerimaan_detail', $data_detail);
             $id_detail_terima = $this->db->insert_id();
