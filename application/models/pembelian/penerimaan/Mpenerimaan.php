@@ -131,6 +131,18 @@ class Mpenerimaan extends CI_Model
     {
         $data = $this->show($kode);
         if ($data['status_terima'] == 0) :
+            // ambil data harga jual barang berdasarkan penerimaan barang
+            $check_hrg = $this->db->from('penerimaan_detail')
+                ->join('harga_barang', 'id_detail=terima_hrg_barang')
+                ->where('terima_detail', $kode)
+                ->get()->result();
+            foreach ($check_hrg as $ch) {
+                $id_hrg = $ch->id_hrg_barang;
+                // hapus data harga jual persatuan
+                $this->db->where('harga_hrg_detail', $id_hrg)->delete('harga_detail');
+                // hapus data harga jual
+                $this->db->where('id_hrg_barang', $id_hrg)->delete('harga_barang');
+            }
             $this->db->where('terima_detail', $kode)->delete('penerimaan_detail');
             $this->UpdateStatusPermintaan($kode);
             $this->db->where('id_terima_supplier', $kode)->delete('penerimaan_supplier');
