@@ -52,13 +52,28 @@ class Mpenerimaan extends CI_Model
         $terima = $this->db->insert('penerimaan', $data_terima);
         $data_tmp = $this->Mtmp_create->data();
         foreach ($data_tmp as $d) {
+            $id_barang = $d['id_barang'];
             $data_detail = [
                 'terima_detail' => $kode,
                 'minta_detail' => $d['iddetail'],
                 'harga_detail' => $d['harga'],
-                'jumlah_detail' => $d['jumlah']
+                'jumlah_detail' => $d['jumlah'],
+                'stok_detail' => $d['jumlah']
             ];
             $this->db->insert('penerimaan_detail', $data_detail);
+            $id_detail_terima = $this->db->insert_id();
+            $this->db->insert('harga_barang', ['terima_hrg_barang' => $id_detail_terima]);
+            $id_harga = $this->db->insert_id();
+            $data_satuan = $this->db->where('barang_brg_satuan', $id_barang)->get('barang_satuan')->result();
+            foreach ($data_satuan as $ds) {
+                $this->db->insert('harga_detail', [
+                    'harga_hrg_detail' => $id_harga,
+                    'satuan_hrg_detail' => $ds->id_brg_satuan,
+                    'jual_hrg_detail' => 0,
+                    'default_hrg_detail' => 0,
+                    'aktif_hrg_detail' => 0,
+                ]);
+            }
         }
         $data_supplier = $this->db->from('tmp_penerimaan')->group_by('permintaan')->get()->result_array();
         foreach ($data_supplier as $s) {
@@ -116,6 +131,18 @@ class Mpenerimaan extends CI_Model
     {
         $data = $this->show($kode);
         if ($data['status_terima'] == 0) :
+            // ambil data harga jual barang berdasarkan penerimaan barang
+            $check_hrg = $this->db->from('penerimaan_detail')
+                ->join('harga_barang', 'id_detail=terima_hrg_barang')
+                ->where('terima_detail', $kode)
+                ->get()->result();
+            foreach ($check_hrg as $ch) {
+                $id_hrg = $ch->id_hrg_barang;
+                // hapus data harga jual persatuan
+                $this->db->where('harga_hrg_detail', $id_hrg)->delete('harga_detail');
+                // hapus data harga jual
+                $this->db->where('id_hrg_barang', $id_hrg)->delete('harga_barang');
+            }
             $this->db->where('terima_detail', $kode)->delete('penerimaan_detail');
             $this->UpdateStatusPermintaan($kode);
             $this->db->where('id_terima_supplier', $kode)->delete('penerimaan_supplier');
