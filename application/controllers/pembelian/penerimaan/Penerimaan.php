@@ -88,7 +88,7 @@ class Penerimaan extends CI_Controller
                 $this->Mpenerimaan->store($kode, $post);
                 $json = array(
                     'status' => "0100",
-                    'kode' => 1,
+                    'kode' => $kode,
                     'message' => 'Form tambah penerimaan barang berhasil dibuat.'
                 );
             else :
