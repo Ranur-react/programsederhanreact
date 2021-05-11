@@ -139,11 +139,13 @@ class Mpenerimaan extends CI_Model
         if ($data['status_terima'] == 0) :
             // ambil data harga jual barang berdasarkan penerimaan barang
             $check_hrg = $this->db->from('penerimaan_detail')
-                ->join('harga_barang', 'id_detail=terima_hrg_barang')
+                ->join('penerimaan_harga', 'id_detail=detail_terima_harga')
                 ->where('terima_detail', $kode)
                 ->get()->result();
             foreach ($check_hrg as $ch) {
-                $id_hrg = $ch->id_hrg_barang;
+                $id_hrg = $ch->barang_terima_harga;
+                // hapus data penerimaan harga
+                $this->db->where('barang_terima_harga', $id_hrg)->delete('penerimaan_harga');
                 // hapus data harga jual persatuan
                 $this->db->where('harga_hrg_detail', $id_hrg)->delete('harga_detail');
                 // hapus data harga jual
