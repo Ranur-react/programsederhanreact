@@ -10,7 +10,7 @@ class Mtmp_create extends CI_Model
             ->join('barang', 'barang_brg_satuan=id_barang')
             ->join('satuan', 'satuan_brg_satuan=id_satuan')
             ->where('user', id_user())
-            ->order_by('tmp_permintaan.satuan')
+            ->order_by('tmp_permintaan.id')
             ->get()->result_array();
     }
     public function store($post)
