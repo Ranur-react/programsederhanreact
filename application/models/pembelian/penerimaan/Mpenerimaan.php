@@ -62,8 +62,14 @@ class Mpenerimaan extends CI_Model
             ];
             $this->db->insert('penerimaan_detail', $data_detail);
             $id_detail_terima = $this->db->insert_id();
-            $this->db->insert('harga_barang', ['terima_hrg_barang' => $id_detail_terima]);
+            $this->db->insert('harga_barang', [
+                'tanggal_hrg_barang' => date("Y-m-d", strtotime($post['tanggal']))
+            ]);
             $id_harga = $this->db->insert_id();
+            $this->db->insert('penerimaan_harga', [
+                'detail_terima_harga' => $id_detail_terima,
+                'barang_terima_harga' => $id_harga
+            ]);
             $data_satuan = $this->db->where('barang_brg_satuan', $id_barang)->get('barang_satuan')->result();
             foreach ($data_satuan as $ds) {
                 $this->db->insert('harga_detail', [
@@ -133,11 +139,13 @@ class Mpenerimaan extends CI_Model
         if ($data['status_terima'] == 0) :
             // ambil data harga jual barang berdasarkan penerimaan barang
             $check_hrg = $this->db->from('penerimaan_detail')
-                ->join('harga_barang', 'id_detail=terima_hrg_barang')
+                ->join('penerimaan_harga', 'id_detail=detail_terima_harga')
                 ->where('terima_detail', $kode)
                 ->get()->result();
             foreach ($check_hrg as $ch) {
-                $id_hrg = $ch->id_hrg_barang;
+                $id_hrg = $ch->barang_terima_harga;
+                // hapus data penerimaan harga
+                $this->db->where('barang_terima_harga', $id_hrg)->delete('penerimaan_harga');
                 // hapus data harga jual persatuan
                 $this->db->where('harga_hrg_detail', $id_hrg)->delete('harga_detail');
                 // hapus data harga jual
