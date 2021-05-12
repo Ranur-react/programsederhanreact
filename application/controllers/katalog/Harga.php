@@ -27,6 +27,11 @@ class Harga extends CI_Controller
         $data = array();
         $no = $_GET['start'];
         foreach ($results as $result) {
+            $row = $this->Mharga->terima_terakhir_aktif($result->id_barang, 1);
+            if ($row != null) {
+                $data_harga = '<div class="text-muted text-size-small">Tgl terima: ' . format_indo($row->tanggal_hrg_barang) . '</div>';
+            }
+
             $detail = '<a href="#"><i class="icon-eye8 text-black" title="Detail"></i></a>';
             $histori = '<a href="#"><i class="icon-history text-green" title="Riwayat Harga"></i></a>';
 
@@ -35,7 +40,7 @@ class Harga extends CI_Controller
             $rows[] = $no . '.';
             $rows[] = $result->nama_barang;
             $rows[] = '';
-            $rows[] = '';
+            $rows[] = $row != null ? $data_harga : '<div class="text-muted text-size-small">Harga belum diaktifkan</div>';
             $rows[] = status_span($result->status_barang, 'aktif');
             $rows[] = $detail . '&nbsp;' . $histori;
             $data[] = $rows;

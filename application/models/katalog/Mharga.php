@@ -52,6 +52,15 @@ class Mharga extends CI_Model
         $query = $this->db->get();
         return $query->num_rows();
     }
+    public function terima_terakhir_aktif($id = null, $limit = null)
+    {
+        $query = "SELECT * FROM barang JOIN barang_satuan ON id_barang=barang_brg_satuan JOIN permintaan_detail ON id_brg_satuan=barang_detail JOIN penerimaan_detail ON minta_detail=permintaan_detail.id_detail JOIN penerimaan_harga ON detail_terima_harga=penerimaan_detail.id_detail JOIN harga_barang ON barang_terima_harga=id_hrg_barang JOIN harga_detail ON id_hrg_barang=harga_hrg_detail WHERE id_barang='$id' AND default_hrg_detail='1'";
+        if ($limit == 1) :
+            $query .= " ORDER BY tanggal_hrg_barang,created_at DESC LIMIT 1";
+            $query = $this->db->query($query)->row();
+        endif;
+        return $query;
+    }
 }
 
 /* End of file Mharga.php */
