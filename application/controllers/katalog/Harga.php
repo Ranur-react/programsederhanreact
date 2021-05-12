@@ -60,9 +60,12 @@ class Harga extends CI_Controller
     }
     public function detail()
     {
+        $kode = $this->input->get('kode');
+        $data = $this->Mharga->data_harga_aktif($kode);
         $view = [
             'name' => 'Daftar harga jual barang',
-            'modallg' => 1
+            'modallg' => 1,
+            'data' => $data
         ];
         $this->template->modal_info('katalog/harga/detail', $view);
     }

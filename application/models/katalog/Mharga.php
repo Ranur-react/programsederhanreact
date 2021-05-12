@@ -9,6 +9,11 @@ class Mharga extends CI_Model
     var $column_search = array('nama_barang');
     var $order = array('nama_barang' => 'asc');
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('pembelian/penerimaan/Mpenerimaan');
+    }
     public function _get_data_query()
     {
         $this->db->from($this->tabel);
@@ -58,6 +63,9 @@ class Mharga extends CI_Model
         if ($limit == 1) :
             $query .= " ORDER BY tanggal_hrg_barang,created_at DESC LIMIT 1";
             $query = $this->db->query($query)->row();
+        else :
+            $query .= " ORDER BY tanggal_hrg_barang,created_at DESC";
+            $query = $this->db->query($query)->result();
         endif;
         return $query;
     }
@@ -68,6 +76,36 @@ class Mharga extends CI_Model
             ->join('satuan', 'satuan_brg_satuan=id_satuan')
             ->where(['harga_hrg_detail' => $id, 'aktif_hrg_detail' => 1])
             ->get()->result();
+    }
+    public function data_harga_aktif($id = null)
+    {
+        $results = $this->terima_terakhir_aktif($id, 0);
+        $data = array();
+        foreach ($results as $result) {
+            $id_terima = $result->terima_detail;
+            $id_harga = $result->id_hrg_barang;
+            // Tampilkan informasi penerimaan barang
+            $row_terima = $this->Mpenerimaan->show($id_terima);
+            $rows = array();
+            $rows['barang'] = $result->nama_barang;
+            $rows['id_terima'] = $row_terima['id_terima'];
+            $rows['supplier'] = $row_terima['nama_supplier'];
+            $rows['tanggal'] = $row_terima['tanggal_terima'];
+            $rows['created_at'] = $row_terima['created_at'];
+            // Tampilkan data harga satuan yang aktif
+            $result_harga = $this->harga_terakhir_aktif($id_harga);
+            $rows_harga = array();
+            $row_harga = array();
+            foreach ($result_harga as $rh) {
+                $rows_harga['satuan'] = $rh->nama_satuan;
+                $rows_harga['singkatan'] = $rh->singkatan_satuan;
+                $rows_harga['harga'] = $rh->jual_hrg_detail;
+                $row_harga[] = $rows_harga;
+            }
+            $rows['data_harga'] = $row_harga;
+            $data[] = $rows;
+        }
+        return $data;
     }
 }
 
