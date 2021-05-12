@@ -56,4 +56,18 @@
             ]
         });
     });
+
+    function detail(kode) {
+        $.ajax({
+            url: "<?= site_url('harga/detail') ?>",
+            type: "GET",
+            data: {
+                kode: kode
+            },
+            success: function(resp) {
+                $("#tampil_modal").html(resp);
+                $("#modal_alert").modal('show');
+            }
+        });
+    }
 </script>

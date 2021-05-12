@@ -37,7 +37,7 @@ class Harga extends CI_Controller
                 $data_harga .= '<div class="text-muted text-size-small">Tgl terima: ' . format_indo($row->tanggal_hrg_barang) . '</div>';
             }
 
-            $detail = '<a href="#"><i class="icon-eye8 text-black" title="Detail"></i></a>';
+            $detail = '<a href="javascript:void(0)" onclick="detail(\'' . $result->id_barang . '\')"><i class="icon-eye8 text-black" title="Detail"></i></a>';
             $histori = '<a href="#"><i class="icon-history text-green" title="Riwayat Harga"></i></a>';
 
             $no++;
@@ -57,6 +57,14 @@ class Harga extends CI_Controller
             "data" => $data,
         );
         echo json_encode($json);
+    }
+    public function detail()
+    {
+        $view = [
+            'name' => 'Daftar harga jual barang',
+            'modallg' => 1
+        ];
+        $this->template->modal_info('katalog/harga/detail', $view);
     }
 }
 

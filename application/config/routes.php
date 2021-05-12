@@ -63,6 +63,7 @@ $route['barang/get-satuan'] = 'master/barang/get_satuan';
 // katalog
 $route['harga'] = 'katalog/harga';
 $route['harga/data'] = 'katalog/harga/data';
+$route['harga/detail'] = 'katalog/harga/detail';
 
 
 // menu permintaan
