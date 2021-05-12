@@ -18,7 +18,6 @@ $route['registrasi/signup'] = 'auth/registrasi/signup';
 $route['logout'] = 'auth/logout';
 
 //menu master
-
 $route['pengguna'] = 'master/pengguna';
 $route['pengguna/create'] = 'master/pengguna/create';
 $route['pengguna/store'] = 'master/pengguna/store';
@@ -60,6 +59,10 @@ $route['barang/edit/(:num)'] = 'master/barang/edit/$1';
 $route['barang/update'] = 'master/barang/update';
 $route['barang/destroy'] = 'master/barang/destroy';
 $route['barang/get-satuan'] = 'master/barang/get_satuan';
+
+// katalog
+$route['harga'] = 'katalog/harga';
+
 
 // menu permintaan
 $route['permintaan'] = 'pembelian/permintaan/permintaan';
