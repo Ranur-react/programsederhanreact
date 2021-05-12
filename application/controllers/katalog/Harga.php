@@ -29,7 +29,12 @@ class Harga extends CI_Controller
         foreach ($results as $result) {
             $row = $this->Mharga->terima_terakhir_aktif($result->id_barang, 1);
             if ($row != null) {
-                $data_harga = '<div class="text-muted text-size-small">Tgl terima: ' . format_indo($row->tanggal_hrg_barang) . '</div>';
+                $harga_terakhir = $this->Mharga->harga_terakhir_aktif($row->id_hrg_barang);
+                $data_harga = '';
+                foreach ($harga_terakhir as $value) {
+                    $data_harga .= rupiah($value->jual_hrg_detail) . '&nbsp;' . $value->singkatan_satuan . '<br>';
+                }
+                $data_harga .= '<div class="text-muted text-size-small">Tgl terima: ' . format_indo($row->tanggal_hrg_barang) . '</div>';
             }
 
             $detail = '<a href="#"><i class="icon-eye8 text-black" title="Detail"></i></a>';
@@ -40,7 +45,7 @@ class Harga extends CI_Controller
             $rows[] = $no . '.';
             $rows[] = $result->nama_barang;
             $rows[] = '';
-            $rows[] = $row != null ? $data_harga : '<div class="text-muted text-size-small">Harga belum diaktifkan</div>';
+            $rows[] = $row != null ? rtrim($data_harga, '') : '<div class="text-muted text-size-small">Harga belum diaktifkan</div>';
             $rows[] = status_span($result->status_barang, 'aktif');
             $rows[] = $detail . '&nbsp;' . $histori;
             $data[] = $rows;

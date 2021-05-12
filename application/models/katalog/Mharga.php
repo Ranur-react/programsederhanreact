@@ -61,6 +61,14 @@ class Mharga extends CI_Model
         endif;
         return $query;
     }
+    public function harga_terakhir_aktif($id = null)
+    {
+        return $this->db->from('harga_detail')
+            ->join('barang_satuan', 'satuan_hrg_detail=id_brg_satuan')
+            ->join('satuan', 'satuan_brg_satuan=id_satuan')
+            ->where(['harga_hrg_detail' => $id, 'aktif_hrg_detail' => 1])
+            ->get()->result();
+    }
 }
 
 /* End of file Mharga.php */
