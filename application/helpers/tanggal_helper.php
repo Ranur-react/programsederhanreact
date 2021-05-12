@@ -67,3 +67,43 @@ if (!function_exists('format_indo')) {
         return $tanggal . ' ' . $bulan . ' ' . $tahun;
     }
 }
+
+if (!function_exists('format_tglin_timestamp')) {
+    function format_tglin_timestamp($tgl)
+    {
+        // $inttime = date('Y-m-d H:i:s', $tgl);
+        $tglBaru = explode(" ", $tgl);
+        $tglBaru1 = $tglBaru[0];
+        $tglBaru2 = $tglBaru[1];
+        $tglBarua = explode("-", $tglBaru1);
+
+        $tgl = $tglBarua[2];
+        $bln = $tglBarua[1];
+        $thn = $tglBarua[0];
+
+        $bln = bulan($bln);
+        $ubahTanggal = "$tgl $bln $thn";
+
+        return $ubahTanggal;
+    }
+}
+
+if (!function_exists('sort_jam_timestamp')) {
+    function sort_jam_timestamp($tgl)
+    {
+        // $inttime = date('Y-m-d H:i:s', $tgl);
+        $tglBaru = explode(" ", $tgl);
+        $tglBaru1 = $tglBaru[0];
+        $tglBaru2 = $tglBaru[1];
+        $tglBarua = explode("-", $tglBaru1);
+
+        $tgl = $tglBarua[2];
+        $bln = $tglBarua[1];
+        $thn = $tglBarua[0];
+
+        $bln = bulan($bln);
+        $ubahTanggal = "$tglBaru2 ";
+
+        return substr($ubahTanggal, 0, 5);
+    }
+}
