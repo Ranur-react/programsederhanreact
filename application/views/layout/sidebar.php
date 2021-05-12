@@ -24,7 +24,7 @@
             </li>
         </ul>
     </li>
-    <li class="treeview <?= $urls == 'satuan' || $urls == 'kategori' || $urls == 'barang' ? 'active' : null ?>">
+    <li class="treeview <?= $urls == 'satuan' || $urls == 'kategori' || $urls == 'barang' || $urls == 'harga' ? 'active' : null ?>">
         <a href="#">
             <i class="fas fa-boxes"></i> <span>Katalog</span>
             <span class="pull-right-container">
@@ -40,6 +40,9 @@
             </li>
             <li class="<?= $urls == 'barang' ? 'active' : null ?>">
                 <a href="<?= site_url('barang') ?>"><i class="fa fa-angle-double-right"></i> Barang</a>
+            </li>
+            <li class="<?= $urls == 'harga' ? 'active' : null ?>">
+                <a href="<?= site_url('harga') ?>"><i class="fa fa-angle-double-right"></i> Harga Jual</a>
             </li>
         </ul>
     </li>
