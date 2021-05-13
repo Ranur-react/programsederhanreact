@@ -1,3 +1,4 @@
+<?php error_reporting(E_ALL ^ E_NOTICE); ?>
 <!DOCTYPE html>
 <html>
 
@@ -72,7 +73,7 @@
     </style>
 </head>
 
-<body class="hold-transition skin-blue">
+<body class="hold-transition skin-blue<?= $sidebar == 'collapse' ? ' sidebar-collapse' : '' ?>">
     <div class="wrapper">
         <header class="main-header">
             <a href="<?= site_url() ?>" class="logo">
