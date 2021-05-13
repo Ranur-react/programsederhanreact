@@ -38,7 +38,7 @@ class Harga extends CI_Controller
             }
 
             $detail = '<a href="javascript:void(0)" onclick="detail(\'' . $result->id_barang . '\')"><i class="icon-eye8 text-black" title="Detail"></i></a>';
-            $histori = '<a href="#"><i class="icon-history text-green" title="Riwayat Harga"></i></a>';
+            $histori = '<a href="' . site_url('harga/histori/' . $result->id_barang) . '"><i class="icon-history text-green" title="Histori Harga"></i></a>';
 
             $no++;
             $rows = array();
@@ -68,6 +68,15 @@ class Harga extends CI_Controller
             'data' => $data
         ];
         $this->template->modal_info('katalog/harga/detail', $view);
+    }
+    public function histori($id = null)
+    {
+        $data = [
+            'title' => 'Histori Harga Jual',
+            'small' => '',
+            'links' => '<li><a href="' . site_url('harga') . '">Harga Jual</a></li><li class="active">Histori</li>'
+        ];
+        $this->template->dashboard('katalog/harga/histori', $data);
     }
 }
 
