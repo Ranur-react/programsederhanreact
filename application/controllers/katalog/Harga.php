@@ -27,9 +27,9 @@ class Harga extends CI_Controller
         $data = array();
         $no = $_GET['start'];
         foreach ($results as $result) {
-            $row = $this->Mharga->terima_terakhir_aktif($result->id_barang, 1);
+            $row = $this->Mharga->data_terima($result->id_barang, 1, 1);
             if ($row != null) {
-                $harga_terakhir = $this->Mharga->harga_terakhir_aktif($row->id_hrg_barang);
+                $harga_terakhir = $this->Mharga->harga_satuan($row->id_hrg_barang, 1);
                 $data_harga = '';
                 foreach ($harga_terakhir as $value) {
                     $data_harga .= rupiah($value->jual_hrg_detail) . '&nbsp;' . $value->singkatan_satuan . '<br>';
@@ -61,7 +61,7 @@ class Harga extends CI_Controller
     public function detail()
     {
         $kode = $this->input->get('kode');
-        $data = $this->Mharga->data_harga_aktif($kode);
+        $data = $this->Mharga->data_harga($kode, 1, 1);
         $view = [
             'name' => 'Daftar harga jual barang',
             'modallg' => 1,
