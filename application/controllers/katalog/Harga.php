@@ -74,9 +74,17 @@ class Harga extends CI_Controller
         $data = [
             'title' => 'Histori Harga Jual',
             'small' => '',
-            'links' => '<li><a href="' . site_url('harga') . '">Harga Jual</a></li><li class="active">Histori</li>'
+            'links' => '<li><a href="' . site_url('harga') . '">Harga Jual</a></li><li class="active">Histori</li>',
+            'sidebar' => 'collapse',
+            'kode' => $id
         ];
         $this->template->dashboard('katalog/harga/histori', $data);
+    }
+    public function data_terima()
+    {
+        $kode = $this->input->get('kode');
+        $d['data'] = $this->Mharga->data_harga($kode, 0, 1);
+        $this->load->view('katalog/harga/data', $d);
     }
 }
 

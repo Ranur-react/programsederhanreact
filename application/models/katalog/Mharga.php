@@ -107,7 +107,7 @@ class Mharga extends CI_Model
             $rows['created_at'] = sort_jam_timestamp($row_terima['created_at']) . ' ' . format_tglin_timestamp($row_terima['created_at']);
             $rows['barang'] = $result->nama_barang;
             $rows['default'] = $result->default_hrg_detail;
-            if ($aktif == 1) :
+            if ($default == 1) :
                 // Tampilkan data harga satuan yang aktif
                 $result_harga = $this->harga_satuan($id_harga, 1);
             else :

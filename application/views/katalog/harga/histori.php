@@ -6,59 +6,28 @@
             </h3>
         </div>
         <div class="box-body">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="detail-card">
-                        <div class="detail-body">
-                            <div class="detail-header">
-                                <h4>Barang1</h4>
-                                <h5><span class="me-1">20210512-00001</span><span class="me-1">12-05-2021</span>dari: Supplier 1
-                                    <span class="detail-date pull-right"><i class="fa fa-clock-o"></i> 12-05-2021</span>
-                                </h5>
-                            </div>
-                            <div class="detail-item with-border">
-                                <div class="item-title">Kilogram
-                                    <span class="pull-right">1.000 Kg</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="detail-card">
-                        <div class="detail-body">
-                            <div class="detail-header">
-                                <h4>Barang2</h4>
-                                <h5><span class="me-1">20210512-00001</span><span class="me-1">12-05-2021</span>dari: Supplier 1
-                                    <span class="detail-date pull-right"><i class="fa fa-clock-o"></i> 12-05-2021</span>
-                                </h5>
-                            </div>
-                            <div class="detail-item with-border">
-                                <div class="item-title">Kilogram
-                                    <span class="pull-right">1.000 Kg</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="detail-card">
-                        <div class="detail-body">
-                            <div class="detail-header">
-                                <h4>Barang3</h4>
-                                <h5><span class="me-1">20210512-00001</span><span class="me-1">12-05-2021</span>dari: Supplier 1
-                                    <span class="detail-date pull-right"><i class="fa fa-clock-o"></i> 12-05-2021</span>
-                                </h5>
-                            </div>
-                            <div class="detail-item with-border">
-                                <div class="item-title">Kilogram
-                                    <span class="pull-right">1.000 Kg</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <input type="hidden" id="kode" value="<?= $kode; ?>">
+            <div id="data"></div>
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        data_terima();
+    });
+
+    function data_terima() {
+        var kode = $('#kode').val();
+        $('#data').html('<p class="text-center m-t-0 m-b-2 text-red"><b><i class="fa fa-refresh animation-rotate"></i> Loading...</b></p>');
+        $.ajax({
+            url: "<?= site_url('harga/data-terima') ?>",
+            method: "GET",
+            data: {
+                kode: kode
+            },
+            success: function(resp) {
+                $('#data').html(resp);
+            }
+        });
+    }
+</script>
