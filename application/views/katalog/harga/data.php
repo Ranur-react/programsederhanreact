@@ -12,7 +12,7 @@
                 <div class="detail-body<?= $result['default'] == '1' ? ' active' : '' ?>">
                     <div class="detail-header">
                         <h4><?= $result['barang']; ?></h4>
-                        <h5><span class="me-1">id_terima: <?= $result['id_terima'] . ' id_harga: ' . $result['id_harga']; ?></span><span class="me-1"><?= $result['tanggal']; ?></span>dari: <?= $result['supplier']; ?>
+                        <h5><span class="me-1"><?= $result['id_terima']; ?></span><span class="me-1"><?= $result['tanggal']; ?></span>dari: <?= $result['supplier']; ?>
                             <span class="detail-date pull-right"><i class="fa fa-clock-o"></i> <?= $result['created_at'] ?></span>
                         </h5>
                     </div>
@@ -25,9 +25,24 @@
                                 <div class="item-title">
                                     <?= $rh['satuan']; ?>
                                     <span class="pull-right">
-                                        <span class="me-2"><?= $rh['id_detail'] ?> <?= rupiah($rh['harga']) . ' ' . $rh['singkatan']; ?></span>
+                                        <span class="me-2"><?= rupiah($rh['harga']) . ' ' . $rh['singkatan']; ?></span>
                                         <a href="javascript:void(0)">
                                             <i class="icon-pencil7 text-green" title="Edit"></i>
+                                        </a>
+                                    </span>
+                                </div>
+                            </div>
+                        <?php } ?>
+                        <?php
+                        $result_satuan = $result['data_satuan'];
+                        foreach ($result_satuan as $rs) {
+                        ?>
+                            <div class="detail-item with-border" id="detail-satuan<?= $rs['id_satuan']; ?>">
+                                <div class="item-title">
+                                    <?= $rs['nama_satuan']; ?>
+                                    <span class="pull-right">
+                                        <a href="javascript:void(0)">
+                                            <i class="icon-plus-circle2 text-black" title="Tambah"></i>
                                         </a>
                                     </span>
                                 </div>

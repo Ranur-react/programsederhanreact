@@ -124,6 +124,16 @@ class Mharga extends CI_Model
                 $row_harga[] = $rows_harga;
             }
             $rows['data_harga'] = $row_harga;
+            // Panggil data satuan yang belum diinputkan
+            $result_satuan = $this->db->query("SELECT * FROM barang_satuan JOIN satuan ON satuan_brg_satuan=id_satuan WHERE barang_brg_satuan='$id' AND id_brg_satuan NOT IN (SELECT satuan_hrg_detail FROM harga_detail WHERE harga_hrg_detail='$id_harga')")->result();
+            $rows_satuan = array();
+            $row_satuan = array();
+            foreach ($result_satuan as $rs) {
+                $rows_satuan['id_satuan'] = $rs->id_brg_satuan;
+                $rows_satuan['nama_satuan'] = $rs->nama_satuan;
+                $row_satuan[] = $rows_satuan;
+            }
+            $rows['data_satuan'] = $row_satuan;
             $data[] = $rows;
         }
         return $data;
