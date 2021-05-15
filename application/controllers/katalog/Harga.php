@@ -96,6 +96,16 @@ class Harga extends CI_Controller
         );
         echo json_encode($json);
     }
+    public function edit_harga()
+    {
+        $kode = $this->input->get('id_detail');
+        $data = [
+            'name' => 'Edit Harga Jual',
+            'post' => 'harga/update-harga',
+            'class' => 'form_create'
+        ];
+        $this->template->modal_form('katalog/harga/edit', $data);
+    }
 }
 
 /* End of file Harga.php */

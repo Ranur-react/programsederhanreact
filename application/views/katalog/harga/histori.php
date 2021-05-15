@@ -11,6 +11,7 @@
         </div>
     </div>
 </div>
+<div id="tampil_modal"></div>
 <script>
     $(document).ready(function() {
         data_terima();
@@ -43,6 +44,20 @@
             success: function(resp) {
                 data_terima();
                 toastr.success(resp.message);
+            }
+        });
+    }
+
+    function edit_harga(id_detail) {
+        $.ajax({
+            url: "<?= site_url('harga/edit-harga') ?>",
+            type: "GET",
+            data: {
+                id_detail: id_detail
+            },
+            success: function(resp) {
+                $("#tampil_modal").html(resp);
+                $("#modal_create").modal('show');
             }
         });
     }

@@ -67,6 +67,7 @@ $route['harga/detail'] = 'katalog/harga/detail';
 $route['harga/histori/(:num)'] = 'katalog/harga/histori/$1';
 $route['harga/data-terima'] = 'katalog/harga/data_terima';
 $route['harga/add-satuan'] = 'katalog/harga/add_satuan';
+$route['harga/edit-harga'] = 'katalog/harga/edit_harga';
 
 
 // menu permintaan
