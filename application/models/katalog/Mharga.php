@@ -197,6 +197,30 @@ class Mharga extends CI_Model
         $data['aktif'] = $query->aktif_hrg_detail;
         return $data;
     }
+    public function update_harga($post)
+    {
+        if (isset($post['default'])) {
+            $this->db->where('harga_hrg_detail', $post['idharga'])->update('harga_detail', ['default_hrg_detail' => 0]);
+            $default = 1;
+        } else {
+            $default = 0;
+        }
+        if (isset($post['aktif'])) {
+            $aktif = 1;
+        } else {
+            if (isset($post['default'])) {
+                $aktif = 1;
+            } else {
+                $aktif = 0;
+            }
+        }
+        $data = [
+            'jual_hrg_detail' => convert_uang($post['harga']),
+            'aktif_hrg_detail' => $aktif,
+            'default_hrg_detail' => $default
+        ];
+        return $this->db->where('id_hrg_detail', $post['iddetail'])->update('harga_detail', $data);
+    }
 }
 
 /* End of file Mharga.php */

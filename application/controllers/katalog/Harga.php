@@ -107,6 +107,30 @@ class Harga extends CI_Controller
         ];
         $this->template->modal_form('katalog/harga/edit', $data);
     }
+    public function update_harga()
+    {
+        $this->form_validation->set_rules('harga', 'Harga', 'required|greater_than[0]');
+        $this->form_validation->set_message('required', errorRequired());
+        $this->form_validation->set_message('greater_than', greater_than());
+        $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
+        if ($this->form_validation->run() == TRUE) {
+            $post = $this->input->post(null, TRUE);
+            $this->Mharga->update_harga($post);
+            $json = array(
+                'status' => "0100",
+                'message' => 'Data harga jual satuan berhasil dirubah'
+            );
+        } else {
+            $json = array(
+                'status' => "0101",
+                'message' => 'Data harga jual satuan gagal dirubah'
+            );
+            foreach ($_POST as $key => $value) {
+                $json['pesan'][$key] = form_error($key);
+            }
+        }
+        echo json_encode($json);
+    }
 }
 
 /* End of file Harga.php */
