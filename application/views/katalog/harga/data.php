@@ -26,6 +26,8 @@
                                     <?= $rh['satuan']; ?>
                                     <span class="pull-right">
                                         <span class="me-2"><?= rupiah($rh['harga']) . ' ' . $rh['singkatan']; ?></span>
+                                        <small class="text-muted me-1"><i class="fa fa-clock-o<?= $rh['default'] == 1 ? ' text-green' : ''; ?>"></i> Default</small>
+                                        <small class="text-muted me-1"><i class="fa fa-clock-o<?= $rh['aktif'] == 1 ? ' text-red' : ''; ?>"></i> Aktif</small>
                                         <a href="javascript:void(0)">
                                             <i class="icon-pencil7 text-green" title="Edit"></i>
                                         </a>
