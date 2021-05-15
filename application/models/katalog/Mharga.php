@@ -118,6 +118,8 @@ class Mharga extends CI_Model
                 $rows_harga['id_detail'] = $rh->id_hrg_detail;
                 $rows_harga['satuan'] = $rh->nama_satuan;
                 $rows_harga['singkatan'] = $rh->singkatan_satuan;
+                $rows_harga['default'] = $rh->default_hrg_detail;
+                $rows_harga['aktif'] = $rh->aktif_hrg_detail;
                 $rows_harga['harga'] = $rh->jual_hrg_detail;
                 $row_harga[] = $rows_harga;
             }
@@ -169,6 +171,31 @@ class Mharga extends CI_Model
             'aktif_hrg_detail' => 0
         );
         return $this->db->insert('harga_detail', $data);
+    }
+    public function show_terima($id = null)
+    {
+        $query = $this->db->query("SELECT * FROM harga_detail JOIN barang_satuan ON satuan_hrg_detail=id_brg_satuan JOIN barang ON barang_brg_satuan=id_barang JOIN harga_barang ON harga_hrg_detail=id_hrg_barang
+        JOIN penerimaan_harga ON id_hrg_barang=barang_terima_harga
+        JOIN penerimaan_detail ON detail_terima_harga=id_detail JOIN penerimaan ON terima_detail=id_terima JOIN penerimaan_supplier ON id_terima=id_terima_supplier
+        JOIN permintaan ON id_minta_supplier=id_permintaan
+        JOIN supplier ON supplier_permintaan=id_supplier
+        WHERE id_hrg_detail='$id' LIMIT 1")->row();
+        return $query;
+    }
+    public function show_harga($id = null)
+    {
+        $data_terima = $this->show_terima($id);
+        $query = $this->db->where('id_hrg_detail', $id)->get('harga_detail')->row();
+        $data['barang'] = $data_terima->nama_barang;
+        $data['id_terima'] = $data_terima->id_terima;
+        $data['tanggal'] = format_indo($data_terima->tanggal_terima);
+        $data['created_at'] = sort_jam_timestamp($data_terima->created_at) . ' ' . format_tglin_timestamp($data_terima->created_at);
+        $data['id_harga'] = $query->harga_hrg_detail;
+        $data['id_detail'] = $query->id_hrg_detail;
+        $data['harga'] = rupiah($query->jual_hrg_detail);
+        $data['default'] = $query->default_hrg_detail;
+        $data['aktif'] = $query->aktif_hrg_detail;
+        return $data;
     }
 }
 

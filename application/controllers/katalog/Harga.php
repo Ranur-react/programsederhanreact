@@ -102,7 +102,8 @@ class Harga extends CI_Controller
         $data = [
             'name' => 'Edit Harga Jual',
             'post' => 'harga/update-harga',
-            'class' => 'form_create'
+            'class' => 'form_create',
+            'data' => $this->Mharga->show_harga($kode)
         ];
         $this->template->modal_form('katalog/harga/edit', $data);
     }
