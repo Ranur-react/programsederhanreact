@@ -30,4 +30,20 @@
             }
         });
     }
+
+    function add_satuan(id_satuan, id_harga) {
+        $.ajax({
+            url: "<?= site_url('harga/add-satuan') ?>",
+            type: "GET",
+            dataType: "json",
+            data: {
+                id_satuan: id_satuan,
+                id_harga: id_harga
+            },
+            success: function(resp) {
+                data_terima();
+                toastr.success(resp.message);
+            }
+        });
+    }
 </script>

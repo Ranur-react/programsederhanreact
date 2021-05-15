@@ -159,6 +159,17 @@ class Mharga extends CI_Model
         $query = $this->db->query($query)->result();
         return $query;
     }
+    public function add_satuan($id_satuan, $id_harga)
+    {
+        $data = array(
+            'harga_hrg_detail' => $id_harga,
+            'satuan_hrg_detail' => $id_satuan,
+            'jual_hrg_detail' => 0,
+            'default_hrg_detail' => 0,
+            'aktif_hrg_detail' => 0
+        );
+        return $this->db->insert('harga_detail', $data);
+    }
 }
 
 /* End of file Mharga.php */

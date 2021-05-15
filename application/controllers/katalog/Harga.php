@@ -86,6 +86,16 @@ class Harga extends CI_Controller
         $d['data'] = $this->Mharga->array_penerimaan($kode, 0, 0, 0);
         $this->load->view('katalog/harga/data', $d);
     }
+    public function add_satuan()
+    {
+        $id_satuan = $this->input->get('id_satuan');
+        $id_harga = $this->input->get('id_harga');
+        $this->Mharga->add_satuan($id_satuan, $id_harga);
+        $json = array(
+            'message' => 'Satuan telah ditambahkan'
+        );
+        echo json_encode($json);
+    }
 }
 
 /* End of file Harga.php */
