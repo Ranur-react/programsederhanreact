@@ -82,20 +82,42 @@ class Mtmp_edit extends CI_Model
     }
     public function store($post)
     {
-        $query = $this->db->from('penerimaan_supplier')->where(['id_terima_supplier' => $post['idterima'], 'id_minta_supplier' => $post['idminta']])->count_all_results();
+        $idterima = $post['idterima'];
+        $terima = $this->Mpenerimaan->show($idterima);
+        $barang = $this->show_minta($post['iddetail']);
+        $query = $this->db->from('penerimaan_supplier')->where(['id_terima_supplier' => $idterima, 'id_minta_supplier' => $post['idminta']])->count_all_results();
         if ($query == 0) {
-            $this->db->insert('penerimaan_supplier', ['id_terima_supplier' => $post['idterima'], 'id_minta_supplier' => $post['idminta']]);
+            $this->db->insert('penerimaan_supplier', ['id_terima_supplier' => $idterima, 'id_minta_supplier' => $post['idminta']]);
         }
         $data = [
-            'terima_detail' => $post['idterima'],
+            'terima_detail' => $idterima,
             'minta_detail' => $post['iddetail'],
             'harga_detail' => convert_uang($post['harga']),
             'jumlah_detail' => convert_uang($post['jumlah'])
         ];
-        $store = $this->db->insert('penerimaan_detail', $data);
-        $this->update_total($post['idterima']);
-        $this->Mpenerimaan->UpdateStatusPermintaan($post['idterima']);
-        return $store;
+        $this->db->insert('penerimaan_detail', $data);
+        $id_detail_terima = $this->db->insert_id();
+        $this->db->insert('harga_barang', [
+            'tanggal_hrg_barang' => $terima['tanggal_terima']
+        ]);
+        $id_harga = $this->db->insert_id();
+        $this->db->insert('penerimaan_harga', [
+            'detail_terima_harga' => $id_detail_terima,
+            'barang_terima_harga' => $id_harga
+        ]);
+        $data_satuan = $this->db->where('barang_brg_satuan', $barang['id_barang'])->get('barang_satuan')->result();
+        foreach ($data_satuan as $ds) {
+            $this->db->insert('harga_detail', [
+                'harga_hrg_detail' => $id_harga,
+                'satuan_hrg_detail' => $ds->id_brg_satuan,
+                'jual_hrg_detail' => 0,
+                'default_hrg_detail' => 0,
+                'aktif_hrg_detail' => 0,
+            ]);
+        }
+        $this->update_total($idterima);
+        $this->Mpenerimaan->UpdateStatusPermintaan($idterima);
+        return true;
     }
     public function update($post)
     {
