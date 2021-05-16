@@ -59,9 +59,12 @@ class Mpenerimaan extends CI_Model
     }
     public function store($kode, $post)
     {
+        $nosurat = $this->nosurat();
         $total = $this->db->select('SUM(harga*jumlah) AS total')->where('user', id_user())->get('tmp_penerimaan')->row();
         $data_terima = [
             'id_terima' => $kode,
+            'nourut_terima' => $nosurat['nourut'],
+            'nosurat_terima' => $nosurat['nosurat'],
             'gudang_terima' => $post['gudang'],
             'tanggal_terima' => date("Y-m-d", strtotime($post['tanggal'])),
             'total_terima' => $total->total,
