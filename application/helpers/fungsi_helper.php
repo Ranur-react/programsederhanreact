@@ -114,3 +114,22 @@ if (!function_exists('convert_uang')) {
         return $text;
     }
 }
+
+if (!function_exists('zerobefore')) {
+    function zerobefore($lenght)
+    {
+        $count = strlen($lenght);
+        if ($count == 1) :
+            $nomor = '0000' . $lenght;
+        elseif ($count == 2) :
+            $nomor = '000' . $lenght;
+        elseif ($count == 3) :
+            $nomor = '00' . $lenght;
+        elseif ($count == 4) :
+            $nomor = '0' . $lenght;
+        else :
+            $nomor = $lenght;
+        endif;
+        return $nomor;
+    }
+}
