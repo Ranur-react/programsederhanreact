@@ -48,6 +48,25 @@ class Mpermintaan extends CI_Model
         }
         return $kode;
     }
+    public function nosurat()
+    {
+        $query = $this->db->query("SELECT nourut_permintaan FROM permintaan WHERE DATE_FORMAT(tanggal_permintaan,'%Y-%m') = DATE_FORMAT(NOW(),'%Y-%m') ORDER BY nourut_permintaan DESC LIMIT 1");
+        if ($query->num_rows() <> 0) {
+            $data = $query->row();
+            $nourut = intval($data->nourut_permintaan) + 1;
+            $array = array(
+                'nourut' => $nourut,
+                'nosurat' => zerobefore($nourut) . '/PO/BM/' . KonDecRomawi(date('n')) . '/' . format_tahun(date("Y-m-d"))
+            );
+        } else {
+            $nourut = 1;
+            $array = array(
+                'nourut' => $nourut,
+                'nosurat' => zerobefore($nourut) . '/PO/BM/' . KonDecRomawi(date('n')) . '/' . format_tahun(date("Y-m-d"))
+            );
+        }
+        return $array;
+    }
     public function store($kode, $post)
     {
         $total = $this->db->select('SUM(harga*jumlah) AS total')->where('user', id_user())->get('tmp_permintaan')->row();

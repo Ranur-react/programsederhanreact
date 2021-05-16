@@ -69,7 +69,8 @@ class Permintaan extends CI_Controller
             'title' => 'Permintaan',
             'small' => 'Tambah Data Permintaan Barang',
             'links' => '<li><a href="' . site_url('permintaan') . '">Permintaan</a></li><li class="active">Tambah</li>',
-            'supplier' => $this->Msupplier->getall()
+            'supplier' => $this->Msupplier->getall(),
+            'nomor' => $this->Mpermintaan->nosurat()
         ];
         $this->template->dashboard('pembelian/permintaan/tambah', $data);
     }
