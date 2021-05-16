@@ -51,7 +51,7 @@ class Permintaan extends CI_Controller
             $hapus = '<a href="javascript:void(0)" onclick="hapus(\'' . $d['id_permintaan'] . '\')"><i class="icon-trash text-red" data-toggle="tooltip" data-original-title="Hapus"></i></a>';
             $output['data'][] = array(
                 $no . '.',
-                $d['id_permintaan'],
+                $d['nosurat_permintaan'],
                 $d['nama_supplier'],
                 format_biasa($d['tanggal_permintaan']),
                 akuntansi($d['total_permintaan']),
@@ -69,7 +69,8 @@ class Permintaan extends CI_Controller
             'title' => 'Permintaan',
             'small' => 'Tambah Data Permintaan Barang',
             'links' => '<li><a href="' . site_url('permintaan') . '">Permintaan</a></li><li class="active">Tambah</li>',
-            'supplier' => $this->Msupplier->getall()
+            'supplier' => $this->Msupplier->getall(),
+            'nomor' => $this->Mpermintaan->nosurat()
         ];
         $this->template->dashboard('pembelian/permintaan/tambah', $data);
     }
