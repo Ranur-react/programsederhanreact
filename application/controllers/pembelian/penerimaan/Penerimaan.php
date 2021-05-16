@@ -51,7 +51,7 @@ class Penerimaan extends CI_Controller
             $hapus = '<a href="javascript:void(0)" onclick="hapus(\'' . $d['id_terima'] . '\')"><i class="icon-trash text-red" data-toggle="tooltip" data-original-title="Hapus"></i></a>';
             $output['data'][] = array(
                 $no . '.',
-                $d['id_terima'],
+                $d['nosurat_terima'],
                 $d['nama'],
                 $d['nama_gudang'],
                 format_biasa($d['tanggal_terima']),
