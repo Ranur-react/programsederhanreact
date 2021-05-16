@@ -2,7 +2,7 @@
     <div class="detail-body">
         <div class="detail-header">
             <h4><?= $data['barang']; ?></h4>
-            <h5><span class="me-1"><?= $data['id_terima']; ?></span><span class="me-1"><?= $data['tanggal']; ?></span>dari: Supplier 1 <span class="detail-date pull-right"><i class="fa fa-clock-o"></i> <?= $data['created_at'] ?></span>
+            <h5><span class="me-1"><?= $data['nomor']; ?></span><span class="me-1"><?= $data['tanggal']; ?></span>dari: Supplier 1 <span class="detail-date pull-right"><i class="fa fa-clock-o"></i> <?= $data['created_at'] ?></span>
             </h5>
         </div>
     </div>

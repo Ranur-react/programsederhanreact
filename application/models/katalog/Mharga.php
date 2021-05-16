@@ -99,6 +99,7 @@ class Mharga extends CI_Model
             $row_terima = $this->Mpenerimaan->show($id_terima);
             $rows = array();
             $rows['id_terima'] = $row_terima['id_terima'];
+            $rows['nomor'] = $row_terima['nosurat_terima'];
             $rows['id_harga'] = $id_harga;
             $rows['supplier'] = $row_terima['nama_supplier'];
             $rows['tanggal'] = format_indo($row_terima['tanggal_terima']);
@@ -188,6 +189,7 @@ class Mharga extends CI_Model
         $query = $this->db->where('id_hrg_detail', $id)->get('harga_detail')->row();
         $data['barang'] = $data_terima->nama_barang;
         $data['id_terima'] = $data_terima->id_terima;
+        $data['nomor'] = $data_terima->nosurat_terima;
         $data['tanggal'] = format_indo($data_terima->tanggal_terima);
         $data['created_at'] = sort_jam_timestamp($data_terima->created_at) . ' ' . format_tglin_timestamp($data_terima->created_at);
         $data['id_harga'] = $query->harga_hrg_detail;

@@ -29,12 +29,13 @@ class Harga extends CI_Controller
         foreach ($results as $result) {
             $row = $this->Mharga->query_penerimaan($result->id_barang, 1, 0, 1);
             if ($row != null) {
+                $terima = $this->db->where('id_terima', $row->terima_detail)->get('penerimaan')->row();
                 $harga_terakhir = $this->Mharga->query_harga_satuan($row->id_hrg_barang, 1);
                 $data_harga = '';
                 foreach ($harga_terakhir as $value) {
                     $data_harga .= rupiah($value->jual_hrg_detail) . '&nbsp;' . $value->singkatan_satuan . '<br>';
                 }
-                $data_harga .= '<div class="text-muted text-size-small">Tgl terima: ' . format_indo($row->tanggal_hrg_barang) . '</div>';
+                $data_harga .= '<div class="text-muted text-size-small">No: ' . $terima->nosurat_terima . ' Tgl: ' . format_indo($row->tanggal_hrg_barang) . '</div>';
             }
 
             $detail = '<a href="javascript:void(0)" onclick="detail(\'' . $result->id_barang . '\')"><i class="icon-eye8 text-black" title="Detail"></i></a>';
