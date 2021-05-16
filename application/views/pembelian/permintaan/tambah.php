@@ -4,6 +4,7 @@
             <h3 class="box-title">
                 <a class="text-back" href="<?= site_url('permintaan') ?>" title="Kembali"><i class="icon-arrow-left8" style="font-size: 24px"></i></a> Tambah Permintaan Barang
             </h3>
+            <h3 class="box-title pull-right">No: <?= $nomor['nosurat']; ?></h3>
         </div>
         <?= form_open('permintaan/store', ['id' => 'form_create']) ?>
         <div class="box-body">

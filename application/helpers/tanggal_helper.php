@@ -67,3 +67,13 @@ if (!function_exists('format_indo')) {
         return $tanggal . ' ' . $bulan . ' ' . $tahun;
     }
 }
+
+if (!function_exists('format_tahun')) {
+    function format_tahun($tgl)
+    {
+        $ubah  = gmdate($tgl, time() + 60 * 60 * 8);
+        $pecah = explode("-", $ubah);
+        $tahun = $pecah[0];
+        return $tahun;
+    }
+}
