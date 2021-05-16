@@ -107,3 +107,13 @@ if (!function_exists('sort_jam_timestamp')) {
         return substr($ubahTanggal, 0, 5);
     }
 }
+
+if (!function_exists('format_tahun')) {
+    function format_tahun($tgl)
+    {
+        $ubah  = gmdate($tgl, time() + 60 * 60 * 8);
+        $pecah = explode("-", $ubah);
+        $tahun = $pecah[0];
+        return $tahun;
+    }
+}

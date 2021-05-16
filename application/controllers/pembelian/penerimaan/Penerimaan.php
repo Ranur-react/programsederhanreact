@@ -51,7 +51,7 @@ class Penerimaan extends CI_Controller
             $hapus = '<a href="javascript:void(0)" onclick="hapus(\'' . $d['id_terima'] . '\')"><i class="icon-trash text-red" data-toggle="tooltip" data-original-title="Hapus"></i></a>';
             $output['data'][] = array(
                 $no . '.',
-                $d['id_terima'],
+                $d['nosurat_terima'],
                 $d['nama'],
                 $d['nama_gudang'],
                 format_biasa($d['tanggal_terima']),
@@ -71,7 +71,8 @@ class Penerimaan extends CI_Controller
             'small' => 'Tambah Data Penerimaan Barang',
             'links' => '<li><a href="' . site_url('penerimaan') . '">Penerimaan</a></li><li class="active">Tambah</li>',
             'sidebar' => 'collapse',
-            'gudang' => $this->Mgudang->getall()
+            'gudang' => $this->Mgudang->getall(),
+            'nomor' => $this->Mpenerimaan->nosurat()
         ];
         $this->template->dashboard('pembelian/penerimaan/tambah', $data);
     }
@@ -128,7 +129,7 @@ class Penerimaan extends CI_Controller
         $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
         if ($this->form_validation->run() == TRUE) {
             $kode = $post['kode'];
-            $tmp_data = $this->Mtmp_edit->tampil_data($kode);
+            $tmp_data = $this->Mtmp_edit->data_tmp($kode);
             if (count($tmp_data) > 0) :
                 $this->Mpenerimaan->update($kode, $post);
                 $json = array(

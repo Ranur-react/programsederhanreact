@@ -17,6 +17,24 @@
                     <div id="data_supplier"></div>
                 </div>
                 <div class="col-md-6">
+                    <div class="panel panel-default m-y-1">
+                        <div class="panel-body panel-body-custom">
+                            <div class="row">
+                                <div class="col-lg-12 col-xs-12 ">
+                                    <div class="row">
+                                        <div class="col-md-2"><b>Nomor</b> <span class="value">:</span></div>
+                                        <div class="col-md-10"><?= $data['nosurat_terima'] ?></div>
+                                        <div class="col-md-2"><b>Tanggal Terima</b> <span class="value">:</span></div>
+                                        <div class="col-md-10"> <?= format_indo($data['tanggal_terima']) ?></div>
+                                        <div class="col-md-2"><b>Supplier</b> <span class="value">:</span></div>
+                                        <div class="col-md-10"><?= $data['nama_supplier'] ?></div>
+                                        <div class="col-md-2"><b>Gudang</b> <span class="value">:</span></div>
+                                        <div class="col-md-10"><?= $data['nama_gudang'] ?></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <thead>
