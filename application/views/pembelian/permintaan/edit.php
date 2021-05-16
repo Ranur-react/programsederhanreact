@@ -8,6 +8,24 @@
         <?= form_open('permintaan/update', ['id' => 'form_create']) ?>
         <input type="hidden" name="kode" id="kode" value="<?= $data['id_permintaan'] ?>">
         <div class="box-body">
+            <div class="panel panel-default m-y-1">
+                <div class="panel-body panel-body-custom">
+                    <div class="row">
+                        <div class="col-lg-12 col-xs-12 ">
+                            <div class="row">
+                                <div class="col-md-2"><b>Kepada</b> <span class="value">:</span></div>
+                                <div class="col-md-10"><?= $data['nama_supplier'] ?></div>
+                                <div class="col-md-2"><b>Nomor</b> <span class="value">:</span></div>
+                                <div class="col-md-10"> <?= $data['nosurat_permintaan'] ?></div>
+                                <div class="col-md-2"><b>Tanggal</b> <span class="value">:</span></div>
+                                <div class="col-md-10"><?= format_indo($data['tanggal_permintaan']) ?></div>
+                                <div class="col-md-2"><b>Status</b> <span class="value">:</span></div>
+                                <div class="col-md-10"><?= status_label($data['status_permintaan'], 'permintaan') ?></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
@@ -26,7 +44,7 @@
                 </table>
             </div>
             <div class="row">
-                <div class="col-lg-3 col-sm-6 col-md-6">
+                <div class="col-lg-4">
                     <div class="form-group">
                         <label for="tanggal">Tanggal</label>
                         <div class="input-group date">
@@ -36,7 +54,7 @@
                         <div id="tanggal"></div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-sm-6 col-md-6">
+                <div class="col-lg-4">
                     <div class="form-group">
                         <label for="pemasok">Pilih Supplier</label>
                         <select class="form-control select2" name="supplier" data-placeholder="Pilih Supplier" style="width: 100%;">

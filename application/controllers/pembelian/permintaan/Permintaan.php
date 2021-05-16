@@ -51,7 +51,7 @@ class Permintaan extends CI_Controller
             $hapus = '<a href="javascript:void(0)" onclick="hapus(\'' . $d['id_permintaan'] . '\')"><i class="icon-trash text-red" data-toggle="tooltip" data-original-title="Hapus"></i></a>';
             $output['data'][] = array(
                 $no . '.',
-                $d['id_permintaan'],
+                $d['nosurat_permintaan'],
                 $d['nama_supplier'],
                 format_biasa($d['tanggal_permintaan']),
                 akuntansi($d['total_permintaan']),
