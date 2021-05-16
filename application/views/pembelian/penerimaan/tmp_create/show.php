@@ -5,7 +5,7 @@
                 <div class="col-lg-12 col-xs-12 ">
                     <div class="row">
                         <div class="col-lg-2 col-xs-4"><b>Nomor</b> <span class="value">:</span></div>
-                        <div class="col-lg-10 col-xs-8"><?= $data['id_permintaan'] ?></div>
+                        <div class="col-lg-10 col-xs-8"><?= $data['nosurat_permintaan'] ?></div>
                         <div class="col-lg-2 col-xs-4"><b>Supplier</b> <span class="value">:</span></div>
                         <div class="col-lg-10 col-xs-8"><?= $data['nama_supplier'] ?></div>
                         <div class="col-lg-2 col-xs-4"><b>Tanggal</b> <span class="value">:</span></div>
