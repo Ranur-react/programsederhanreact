@@ -141,6 +141,11 @@ class Mtmp_edit extends CI_Model
             ->where(['permintaan_detail' => $idminta, 'terima_detail' => $idterima])
             ->where_not_in('penerimaan_detail.id_detail', $kode)
             ->count_all_results();
+        $data_harga = $this->db->where('detail_terima_harga', $kode)->get('penerimaan_harga')->row();
+        $id_harga = $data_harga->barang_terima_harga;
+        $this->db->where('detail_terima_harga', $kode)->delete('penerimaan_harga');
+        $this->db->where('harga_hrg_detail', $id_harga)->delete('harga_detail');
+        $this->db->where('id_hrg_barang', $id_harga)->delete('harga_barang');
         if ($check > 0) :
             $this->db->where('id_detail', $kode)->delete('penerimaan_detail');
             $this->Mpenerimaan->UpdateStatusPermintaan($idterima);
