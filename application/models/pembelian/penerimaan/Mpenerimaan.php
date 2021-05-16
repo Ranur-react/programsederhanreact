@@ -147,10 +147,15 @@ class Mpenerimaan extends CI_Model
     }
     public function update($kode, $post)
     {
+        $tanggal = date("Y-m-d", strtotime($post['tanggal']));
+        $data_harga = $this->Mtmp_edit->data_harga($kode);
+        foreach ($data_harga as $dh) {
+            $this->db->where('id_hrg_barang', $dh->id_hrg_barang)->update('harga_barang', ['tanggal_hrg_barang' => $tanggal]);
+        }
         $total = $this->Mtmp_edit->get_total($kode);
         $data = array(
             'gudang_terima' => $post['gudang'],
-            'tanggal_terima' => date("Y-m-d", strtotime($post['tanggal'])),
+            'tanggal_terima' => $tanggal,
             'total_terima' => $total
         );
         return $this->db->where('id_terima', $kode)->update('penerimaan', $data);
