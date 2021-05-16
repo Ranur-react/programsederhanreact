@@ -71,7 +71,8 @@ class Penerimaan extends CI_Controller
             'small' => 'Tambah Data Penerimaan Barang',
             'links' => '<li><a href="' . site_url('penerimaan') . '">Penerimaan</a></li><li class="active">Tambah</li>',
             'sidebar' => 'collapse',
-            'gudang' => $this->Mgudang->getall()
+            'gudang' => $this->Mgudang->getall(),
+            'nomor' => $this->Mpenerimaan->nosurat()
         ];
         $this->template->dashboard('pembelian/penerimaan/tambah', $data);
     }
