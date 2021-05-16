@@ -29,7 +29,8 @@ class Mpermintaan extends CI_Model
             ->join('supplier', 'supplier_permintaan=id_supplier')
             ->join('users', 'user_permintaan=id_user')
             ->order_by('id_permintaan', 'DESC')
-            ->like('nama_supplier', $search)
+            ->like('nosurat_permintaan', $search)
+            ->or_like('nama_supplier', $search)
             ->get();
         return $sql;
     }
