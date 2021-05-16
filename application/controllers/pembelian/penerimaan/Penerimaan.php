@@ -129,7 +129,7 @@ class Penerimaan extends CI_Controller
         $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
         if ($this->form_validation->run() == TRUE) {
             $kode = $post['kode'];
-            $tmp_data = $this->Mtmp_edit->tampil_data($kode);
+            $tmp_data = $this->Mtmp_edit->data_tmp($kode);
             if (count($tmp_data) > 0) :
                 $this->Mpenerimaan->update($kode, $post);
                 $json = array(
