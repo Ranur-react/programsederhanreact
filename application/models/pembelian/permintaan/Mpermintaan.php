@@ -69,9 +69,12 @@ class Mpermintaan extends CI_Model
     }
     public function store($kode, $post)
     {
+        $nosurat = $this->nosurat();
         $total = $this->db->select('SUM(harga*jumlah) AS total')->where('user', id_user())->get('tmp_permintaan')->row();
         $data_permintaan = [
             'id_permintaan' => $kode,
+            'nourut_permintaan' => $nosurat['nourut'],
+            'nosurat_permintaan' => $nosurat['nosurat'],
             'supplier_permintaan' => $post['supplier'],
             'tanggal_permintaan' => date("Y-m-d", strtotime($post['tanggal'])),
             'total_permintaan' => $total->total,
