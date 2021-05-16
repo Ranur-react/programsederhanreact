@@ -1,7 +1,7 @@
 <table class="table table-bordered dataTable table-hover nowrap no-footer">
     <tr>
-        <th class="bg-gray color-palette" width="180px">No Terima</th>
-        <td><?= $data['id_terima'] ?></td>
+        <th class="bg-gray color-palette" width="180px">Nomor</th>
+        <td><?= $data['nosurat_terima'] ?></td>
     </tr>
     <tr>
         <th class="bg-gray color-palette">Supplier</th>
