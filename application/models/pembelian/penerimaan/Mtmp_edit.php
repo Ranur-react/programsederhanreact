@@ -56,6 +56,14 @@ class Mtmp_edit extends CI_Model
             ->order_by('penerimaan_detail.id_detail', 'ASC')
             ->get()->result_array();
     }
+    public function data_harga($kode)
+    {
+        return $this->db->from('penerimaan_detail')
+            ->join('penerimaan_harga', 'id_detail=detail_terima_harga')
+            ->join('harga_barang', 'barang_terima_harga=id_hrg_barang')
+            ->where('terima_detail', $kode)
+            ->get()->result();
+    }
     public function show($kode)
     {
         return $this->db->select('terima_detail,permintaan_detail.permintaan_detail AS id_minta,nama_barang,nama_satuan,singkatan_satuan,penerimaan_detail.id_detail AS id_detail_terima,penerimaan_detail.harga_detail AS harga_terima,penerimaan_detail.jumlah_detail AS jumlah_terima,permintaan_detail.harga_detail AS harga_minta,permintaan_detail.jumlah_detail AS jumlah_minta')
@@ -82,20 +90,42 @@ class Mtmp_edit extends CI_Model
     }
     public function store($post)
     {
-        $query = $this->db->from('penerimaan_supplier')->where(['id_terima_supplier' => $post['idterima'], 'id_minta_supplier' => $post['idminta']])->count_all_results();
+        $idterima = $post['idterima'];
+        $terima = $this->Mpenerimaan->show($idterima);
+        $barang = $this->show_minta($post['iddetail']);
+        $query = $this->db->from('penerimaan_supplier')->where(['id_terima_supplier' => $idterima, 'id_minta_supplier' => $post['idminta']])->count_all_results();
         if ($query == 0) {
-            $this->db->insert('penerimaan_supplier', ['id_terima_supplier' => $post['idterima'], 'id_minta_supplier' => $post['idminta']]);
+            $this->db->insert('penerimaan_supplier', ['id_terima_supplier' => $idterima, 'id_minta_supplier' => $post['idminta']]);
         }
         $data = [
-            'terima_detail' => $post['idterima'],
+            'terima_detail' => $idterima,
             'minta_detail' => $post['iddetail'],
             'harga_detail' => convert_uang($post['harga']),
             'jumlah_detail' => convert_uang($post['jumlah'])
         ];
-        $store = $this->db->insert('penerimaan_detail', $data);
-        $this->update_total($post['idterima']);
-        $this->Mpenerimaan->UpdateStatusPermintaan($post['idterima']);
-        return $store;
+        $this->db->insert('penerimaan_detail', $data);
+        $id_detail_terima = $this->db->insert_id();
+        $this->db->insert('harga_barang', [
+            'tanggal_hrg_barang' => $terima['tanggal_terima']
+        ]);
+        $id_harga = $this->db->insert_id();
+        $this->db->insert('penerimaan_harga', [
+            'detail_terima_harga' => $id_detail_terima,
+            'barang_terima_harga' => $id_harga
+        ]);
+        $data_satuan = $this->db->where('barang_brg_satuan', $barang['id_barang'])->get('barang_satuan')->result();
+        foreach ($data_satuan as $ds) {
+            $this->db->insert('harga_detail', [
+                'harga_hrg_detail' => $id_harga,
+                'satuan_hrg_detail' => $ds->id_brg_satuan,
+                'jual_hrg_detail' => 0,
+                'default_hrg_detail' => 0,
+                'aktif_hrg_detail' => 0,
+            ]);
+        }
+        $this->update_total($idterima);
+        $this->Mpenerimaan->UpdateStatusPermintaan($idterima);
+        return true;
     }
     public function update($post)
     {
@@ -119,6 +149,11 @@ class Mtmp_edit extends CI_Model
             ->where(['permintaan_detail' => $idminta, 'terima_detail' => $idterima])
             ->where_not_in('penerimaan_detail.id_detail', $kode)
             ->count_all_results();
+        $data_harga = $this->db->where('detail_terima_harga', $kode)->get('penerimaan_harga')->row();
+        $id_harga = $data_harga->barang_terima_harga;
+        $this->db->where('detail_terima_harga', $kode)->delete('penerimaan_harga');
+        $this->db->where('harga_hrg_detail', $id_harga)->delete('harga_detail');
+        $this->db->where('id_hrg_barang', $id_harga)->delete('harga_barang');
         if ($check > 0) :
             $this->db->where('id_detail', $kode)->delete('penerimaan_detail');
             $this->Mpenerimaan->UpdateStatusPermintaan($idterima);

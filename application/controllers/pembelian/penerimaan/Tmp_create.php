@@ -44,7 +44,7 @@ class Tmp_create extends CI_Controller
             $pilih = '<a href="javascript:void(0)" onclick="pilih(\'' . $d['id_permintaan'] . '\')" class="btn btn-success btn-xs">Pilih <i class="icon-arrow-right8"></i></a>';
             $output['data'][] = array(
                 $no . '.',
-                $d['id_permintaan'],
+                $d['nosurat_permintaan'],
                 $d['nama_supplier'],
                 format_biasa($d['tanggal_permintaan']),
                 akuntansi($d['total_permintaan']),

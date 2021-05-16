@@ -20,7 +20,7 @@ class Mpenerimaan extends CI_Model
     }
     public function cari_data($search)
     {
-        $query = $this->db->query("SELECT *,(SELECT nama_supplier FROM penerimaan_supplier,permintaan,supplier WHERE id_terima=id_terima_supplier AND id_minta_supplier=id_permintaan AND supplier_permintaan=id_supplier) AS nama FROM penerimaan JOIN gudang ON gudang_terima=id_gudang JOIN users ON user_terima=id_user WHERE id_terima LIKE '%$search%' ESCAPE '!' OR nama_gudang LIKE '%$search%' ESCAPE '!' OR (SELECT nama_supplier FROM penerimaan_supplier,permintaan,supplier WHERE id_terima=id_terima_supplier AND id_minta_supplier=id_permintaan AND supplier_permintaan=id_supplier) LIKE '%$search%' ESCAPE '!' ORDER BY id_terima DESC");
+        $query = $this->db->query("SELECT *,(SELECT nama_supplier FROM penerimaan_supplier,permintaan,supplier WHERE id_terima=id_terima_supplier AND id_minta_supplier=id_permintaan AND supplier_permintaan=id_supplier) AS nama FROM penerimaan JOIN gudang ON gudang_terima=id_gudang JOIN users ON user_terima=id_user WHERE nosurat_terima LIKE '%$search%' ESCAPE '!' OR nama_gudang LIKE '%$search%' ESCAPE '!' OR (SELECT nama_supplier FROM penerimaan_supplier,permintaan,supplier WHERE id_terima=id_terima_supplier AND id_minta_supplier=id_permintaan AND supplier_permintaan=id_supplier) LIKE '%$search%' ESCAPE '!' ORDER BY id_terima DESC");
         return $query;
     }
     public function kode()
@@ -38,11 +38,33 @@ class Mpenerimaan extends CI_Model
         }
         return $kode;
     }
+    public function nosurat()
+    {
+        $query = $this->db->query("SELECT nourut_terima FROM penerimaan WHERE DATE_FORMAT(tanggal_terima,'%Y-%m') = DATE_FORMAT(NOW(),'%Y-%m') ORDER BY nourut_terima DESC LIMIT 1");
+        if ($query->num_rows() <> 0) {
+            $data = $query->row();
+            $nourut = intval($data->nourut_terima) + 1;
+            $array = array(
+                'nourut' => $nourut,
+                'nosurat' => zerobefore($nourut) . '/DO/BM/' . KonDecRomawi(date('n')) . '/' . format_tahun(date("Y-m-d"))
+            );
+        } else {
+            $nourut = 1;
+            $array = array(
+                'nourut' => $nourut,
+                'nosurat' => zerobefore($nourut) . '/DO/BM/' . KonDecRomawi(date('n')) . '/' . format_tahun(date("Y-m-d"))
+            );
+        }
+        return $array;
+    }
     public function store($kode, $post)
     {
+        $nosurat = $this->nosurat();
         $total = $this->db->select('SUM(harga*jumlah) AS total')->where('user', id_user())->get('tmp_penerimaan')->row();
         $data_terima = [
             'id_terima' => $kode,
+            'nourut_terima' => $nosurat['nourut'],
+            'nosurat_terima' => $nosurat['nosurat'],
             'gudang_terima' => $post['gudang'],
             'tanggal_terima' => date("Y-m-d", strtotime($post['tanggal'])),
             'total_terima' => $total->total,
@@ -125,10 +147,15 @@ class Mpenerimaan extends CI_Model
     }
     public function update($kode, $post)
     {
+        $tanggal = date("Y-m-d", strtotime($post['tanggal']));
+        $data_harga = $this->Mtmp_edit->data_harga($kode);
+        foreach ($data_harga as $dh) {
+            $this->db->where('id_hrg_barang', $dh->id_hrg_barang)->update('harga_barang', ['tanggal_hrg_barang' => $tanggal]);
+        }
         $total = $this->Mtmp_edit->get_total($kode);
         $data = array(
             'gudang_terima' => $post['gudang'],
-            'tanggal_terima' => date("Y-m-d", strtotime($post['tanggal'])),
+            'tanggal_terima' => $tanggal,
             'total_terima' => $total
         );
         return $this->db->where('id_terima', $kode)->update('penerimaan', $data);
