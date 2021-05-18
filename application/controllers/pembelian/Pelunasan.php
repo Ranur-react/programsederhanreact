@@ -10,15 +10,26 @@ class Pelunasan extends CI_Controller
             cek_user();
         else
             redirect('logout');
+        $this->load->model('pembelian/penerimaan/Mpenerimaan');
+        $this->load->model('pembelian/Mpelunasan');
     }
     public function detail($kode)
     {
         $data = [
             'title' => 'Pelunasan',
             'small' => 'Kelola pelunasan penerimaan',
-            'links' => '<li class="active">Pelunasan</li>'
+            'links' => '<li class="active">Pelunasan</li>',
+            'data' => $this->Mpenerimaan->show($kode)
         ];
         $this->template->dashboard('pembelian/pelunasan/detail', $data);
+    }
+    public function data()
+    {
+        $idterima = $this->input->get('idterima');
+        $d['data'] = $this->Mpenerimaan->show($idterima);
+        $d['result'] = $this->Mpelunasan->show($idterima);
+        $d['bayar'] = $this->Mpelunasan->total_bayar($idterima);
+        $this->load->view('pembelian/pelunasan/data', $d);
     }
 }
 
