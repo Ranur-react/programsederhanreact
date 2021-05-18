@@ -54,12 +54,10 @@
                 "class": "text-left"
             },
             {
-                "class": "text-center",
-                "width": "100px"
+                "class": "text-center"
             },
             {
-                "class": "text-center",
-                "width": "60px"
+                "class": "text-center"
             }
         ]
     });
