@@ -132,6 +132,13 @@ $route['penerimaan/tmp-edit/edit'] = 'pembelian/penerimaan/tmp_edit/edit';
 $route['penerimaan/tmp-edit/update'] = 'pembelian/penerimaan/tmp_edit/update';
 $route['penerimaan/tmp-edit/destroy'] = 'pembelian/penerimaan/tmp_edit/destroy';
 
+// Pembayaran Penerimaan
+$route['pelunasan/detail/(:num)'] = 'pembelian/pelunasan/detail/$1';
+$route['pelunasan/data'] = 'pembelian/pelunasan/data';
+$route['pelunasan/create'] = 'pembelian/pelunasan/create';
+$route['pelunasan/store'] = 'pembelian/pelunasan/store';
+$route['pelunasan/destroy'] = 'pembelian/pelunasan/destroy';
+
 // pengaturan
 $route['roles'] = 'master/roles';
 $route['roles/create'] = 'master/roles/create';

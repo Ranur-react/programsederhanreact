@@ -46,7 +46,7 @@
             </li>
         </ul>
     </li>
-    <li class="treeview <?= $urls == 'permintaan' || $urls == 'penerimaan' ? 'active' : null ?>">
+    <li class="treeview <?= $urls == 'permintaan' || $urls == 'penerimaan' || $urls == 'pelunasan' ? 'active' : null ?>">
         <a href="#">
             <i class="fas fa-shopping-basket"></i> <span>Pembelian</span>
             <span class="pull-right-container">
@@ -57,7 +57,7 @@
             <li class="<?= $urls == 'permintaan' ? 'active' : null ?>">
                 <a href="<?= site_url('permintaan') ?>"><i class="fa fa-angle-double-right"></i> Permintaan</a>
             </li>
-            <li class="<?= $urls == 'penerimaan' ? 'active' : null ?>">
+            <li class="<?= $urls == 'penerimaan' || $urls == 'pelunasan' ? 'active' : null ?>">
                 <a href="<?= site_url('penerimaan') ?>"><i class="fa fa-angle-double-right"></i> Penerimaan</a>
             </li>
         </ul>
