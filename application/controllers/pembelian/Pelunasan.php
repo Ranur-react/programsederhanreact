@@ -43,6 +43,30 @@ class Pelunasan extends CI_Controller
         ];
         $this->template->modal_form('pembelian/pelunasan/create', $data);
     }
+    public function store()
+    {
+        $this->form_validation->set_rules('tanggal', 'Tanggal bayar', 'required');
+        $this->form_validation->set_rules('jumlah', 'Jumlah bayar', 'required');
+        $this->form_validation->set_message('required', errorRequired());
+        $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
+        if ($this->form_validation->run() == TRUE) {
+            $post = $this->input->post(null, TRUE);
+            $this->Mpelunasan->store($post);
+            $json = array(
+                'status' => '0100',
+                'message' => 'Pelunasan berhasil ditambahkan'
+            );
+        } else {
+            $json = array(
+                'status' => '0101',
+                'message' => 'Pelunasan gagal ditambahkan'
+            );
+            foreach ($_POST as $key => $value) {
+                $json['pesan'][$key] = form_error($key);
+            }
+        }
+        echo json_encode($json);
+    }
 }
 
 /* End of file Pelunasan.php */
