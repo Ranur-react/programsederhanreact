@@ -127,6 +127,7 @@ $route['pelunasan/detail/(:num)'] = 'pembelian/pelunasan/detail/$1';
 $route['pelunasan/data'] = 'pembelian/pelunasan/data';
 $route['pelunasan/create'] = 'pembelian/pelunasan/create';
 $route['pelunasan/store'] = 'pembelian/pelunasan/store';
+$route['pelunasan/destroy'] = 'pembelian/pelunasan/destroy';
 
 // pengaturan
 $route['roles'] = 'master/roles';

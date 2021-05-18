@@ -50,7 +50,7 @@
                 <td><?= $rows['info']; ?></td>
                 <td class="text-right"><?= $rows['jumlah']; ?></td>
                 <td class="text-center">
-                    <a href="javascript:void(0)"><i class="icon-trash text-red" title="Hapus"></i></a>
+                    <a href="javascript:void(0)" onclick="destroy('<?= $rows['id_bayar']; ?>')"><i class="icon-trash text-red" title="Hapus"></i></a>
                 </td>
             </tr>
         <?php $no++;

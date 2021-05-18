@@ -75,6 +75,17 @@ class Mpelunasan extends CI_Model
         $this->update_status_bayar($post['idterima']);
         return $query;
     }
+    public function destroy($kode)
+    {
+        $data = $this->db->where('id_bayar', $kode)->get('penerimaan_bayar')->row();
+        if ($data) :
+            $this->db->where('id_bayar', $kode)->delete('penerimaan_bayar');
+            $this->update_status_bayar($data->terima_bayar);
+            return "0100";
+        else :
+            return "0101";
+        endif;
+    }
 }
 
 /* End of file Mpelunasan.php */

@@ -46,6 +46,42 @@
         });
     }
 
+    function destroy(kode) {
+        Swal({
+            title: "Anda yakin?",
+            text: "Anda tidak akan dapat mengembalikan data ini!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: "Ya, hapus data ini"
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    type: "get",
+                    url: "<?= site_url('pelunasan/destroy') ?>",
+                    data: {
+                        kode: kode
+                    },
+                    dataType: "json",
+                    success: function(resp) {
+                        if (resp.status == "0100") {
+                            Swal.fire({
+                                title: 'Deleted!',
+                                text: resp.message,
+                                type: 'success'
+                            }).then((resp) => {
+                                data()
+                            })
+                        } else {
+                            toastr.error(resp.message);
+                        }
+                    }
+                });
+            }
+        })
+    }
+
     $(document).on('submit', '.form_create', function(e) {
         $.ajax({
             type: "post",

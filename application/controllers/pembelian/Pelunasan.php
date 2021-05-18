@@ -67,6 +67,23 @@ class Pelunasan extends CI_Controller
         }
         echo json_encode($json);
     }
+    public function destroy()
+    {
+        $kode = $this->input->get('kode', true);
+        $query = $this->Mpelunasan->destroy($kode);
+        if ($query == '0100') {
+            $json = array(
+                'status' => '0100',
+                'message' => 'Pelunasan berhasil dihapus'
+            );
+        } else {
+            $json = array(
+                'status' => '0101',
+                'message' => 'Pelunasan tidak bisa dihapus.'
+            );
+        }
+        echo json_encode($json);
+    }
 }
 
 /* End of file Pelunasan.php */
