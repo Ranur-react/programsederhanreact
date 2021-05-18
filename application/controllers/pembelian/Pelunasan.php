@@ -31,6 +31,18 @@ class Pelunasan extends CI_Controller
         $d['bayar'] = $this->Mpelunasan->total_bayar($idterima);
         $this->load->view('pembelian/pelunasan/data', $d);
     }
+    public function create()
+    {
+        $kode = $this->input->get('kode');
+        $data = [
+            'name' => 'Pelunasan',
+            'post' => 'pelunasan/store',
+            'class' => 'form_create',
+            'data' => $this->Mpenerimaan->show($kode),
+            'bayar' => $this->Mpelunasan->total_bayar($kode)
+        ];
+        $this->template->modal_form('pembelian/pelunasan/create', $data);
+    }
 }
 
 /* End of file Pelunasan.php */

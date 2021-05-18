@@ -27,7 +27,7 @@
         <tr>
             <th colspan="4">Histori Pelunasan Penerimaan</th>
             <td class="text-center">
-                <a href="javascript:void(0)"><i class="icon-plus-circle2 text-blue" title="Tambah"></i></a>
+                <a href="javascript:void(0)" onclick="create('<?= $data['id_terima']; ?>')"><i class="icon-plus-circle2 text-blue" title="Tambah"></i></a>
             </td>
         </tr>
         <tr>
