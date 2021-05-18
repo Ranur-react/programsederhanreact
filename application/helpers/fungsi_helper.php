@@ -30,7 +30,10 @@ if (!function_exists('status_span')) {
                 $pesan = 'Belum Bayar';
                 $class = 'status-pending transfer';
             elseif ($code == 1) :
-                $pesan = 'Sudah Bayar';
+                $pesan = 'Belum Lunas';
+                $class = 'status-suspended';
+            elseif ($code == 2) :
+                $pesan = 'Lunas';
                 $class = 'status-completed';
             endif;
         endif;
@@ -61,7 +64,10 @@ if (!function_exists('status_label')) {
                 $pesan = 'Belum Bayar';
                 $class = 'status-pending transfer';
             elseif ($code == 1) :
-                $pesan = 'Sudah Bayar';
+                $pesan = 'Belum Lunas';
+                $class = 'status-suspended';
+            elseif ($code == 2) :
+                $pesan = 'Lunas';
                 $class = 'status-completed';
             endif;
         endif;
