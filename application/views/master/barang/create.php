@@ -1,11 +1,53 @@
+<style type="text/css">
+    .upload{
+        position: relative;
+        width: auto;
+        height: auto;
+        /*text-align: center;*/
+        padding: auto;
+        /*background-color: grey;*/
+        /*color: red;*/
+    }
+    .tombolupload{
+        position: absolute;
+        top: 0;
+        /*left: 40%;*/
+        width: 100%;
+        height: 100%;
+        background-color: rgba(50,50,50,0);
+        border-color: rgba(50,50,50,0);
+        opacity: 0;
+        font-size: 24px;
+        transition: 0.5s ease;
+
+
+    }
+    .tombolupload:hover{
+        background-color: rgba(50,50,50,0);
+        border-color: rgba(50,50,50,0);
+        opacity: 0.5;
+    }
+    .tombolupload:active{
+        background-color: rgba(50,50,50,0);
+        border-radius: 20%;
+        border-color: rgba(50,50,50,0);
+        opacity: 0.1;
+    }
+    .iconUpload{
+        
+    }
+</style>
 <div class="col-xs-12">
     <?= form_open('barang/store', ['id' => 'form_create']) ?>
     <div class="nav-tabs-custom">
+<!-- NavTab Header -->
         <ul class="nav nav-tabs">
             <li class="active"><a href="#umum" data-toggle="tab">Umum</a></li>
             <li><a href="#deskripsi" data-toggle="tab">Deskripsi Barang</a></li>
             <li><a href="#kategori" data-toggle="tab">Kategori & Satuan</a></li>
+            <li><a href="#gambar" data-toggle="tab">Gambar</a></li>
         </ul>
+<!--  Isi dari NavTab -->
         <div class="tab-content">
             <div class="tab-pane active" id="umum">
                 <div class="form-group">
@@ -81,7 +123,7 @@
                     </table>
                 </div>
             </div>
-            <div class="tab-pane" id="kategori">
+            <div  class="tab-pane" id="kategori">
                 <div class="row">
                     <div class="col col-md-6">
                         <div class="form-group">
@@ -99,7 +141,27 @@
                     </div>
                 </div>
             </div>
+            <div class="tab-pane" id="gambar">
+                <div class="table-responsive">
+                    <table id="attribute" class="table table-striped table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <td class="text-left" style="width: 20%;">Satuan</td>
+                                <td class="text-left">Gambar</td>
+                                <td class="text-left">Nomor Urut</td>
+                                <td style="width: 5%;"></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        </tbody>
+                        
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
         </div>
+<!-- Akhiran isi  -->
         <div class="box-footer">
             <button type="submit" class="btn btn-success" id="store" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading..."><i class="icon-floppy-disk"></i> Simpan</button>
             <a href="<?= site_url('barang') ?>" class="btn btn-danger"><i class="fa fa-angle-double-left"></i> Kembali</a>
@@ -107,9 +169,24 @@
     </div>
     <?= form_close() ?>
 </div>
+<div id="tampil_modal"></div>
+<div id="tampil_uploadfile"></div>
 
+<?php //$this->load->view('/master/Modal/imageUpload.php') ?>
 <script>
+    let folderImagesAssets="<?= assets() ?>images/Galery/";
+      var uriSelected="";
+          //Global variabel state
+      let ImagesData=[];
+      let DataMatrix=[];
+      let lengthShow=3;
+      let StartIndex=3;
     $(document).ready(function() {
+        //GLobal Variable declartae
+         Gsatuan={};
+         TampilGambarSatuanTab();
+
+         //-----Test Global Funtions
         // menampilkan slug otomatis sesuai dengan nama barang
         $("#nama").keyup(function() {
             var Text = $(this).val();
@@ -167,10 +244,70 @@
         'select': function(item) {
             $('input[name=\'satuan\']').val('');
             $('#barang-satuan' + item['value']).remove();
+            //mengambil nilai satuan lalu menyimpan kedalam Global State variabel
+            if (!Boolean(Gsatuan[item['value']])) {
+            Gsatuan[item['value']]=[item['label'],count(Gsatuan)+1,'no_image.png'];
+            }
+            //funtions untuk tampilkan isi state ke dalam View
+            TampilGambarSatuanTab();
             $('#barang-satuan').append('<div id="barang-satuan' + item['value'] + '"><i class="fa fa-minus-circle text-red"></i> ' + item['label'] + '<input type="hidden" name="barang_satuan[]" value="' + item['value'] + '" /></div>');
         }
     });
 
+//funtions untuk menampilkan data satuan ke view 
+
+    function TampilGambarSatuanTab() {
+                $('#gambar tbody').html("");
+                for (const [key, value] of Object.entries(Gsatuan)) {
+                        // alert(value);     
+                        $('#gambar tbody').append(rowOfImages(value, key));
+                }
+    }
+        //funtions untuk mengisi ke kososngan baris pada view sesuai nilai yang di kirim
+        function  rowOfImages(v, k){
+         let a=12;
+        return   `
+                <tr id="deskripsi-row${v[1]}">
+                    <td class="text-left">
+                        ${v[0]}
+                    </td>
+                    <td class="text-left">
+                        <div class="upload">
+                                <img onmouseenter="ShowButton()" class="profile-user-img img-responsive img-circle" src="${folderImagesAssets+v[2]}" alt="User profile picture">
+                                <a class="btn btn-large btn-primary tombolupload" onclick="upload(${k})">
+                                        <i class="fa fa-upload align-middle iconUpload" ></i>
+                                </a>
+                        </div>
+                    </td>
+                    <td class="text-left">
+                        ${v[1]} 
+                    </td>
+                </tr>
+                `;
+            }
+        //funtions untuk menghitung jumlah JSON data dalam sebuah state
+        function count(obj) {
+           var count=0;
+           for(var prop in obj) {
+              if (obj.hasOwnProperty(prop)) {
+                 ++count;
+              }
+           }
+           return count;
+        }
+          //Tampilkan Modal Upload
+        const upload=(e)=>{
+            $.ajax({
+            url: "<?= site_url('upload') ?>",
+            data:"&kode="+e,
+            cache: false,
+            type: "POST",
+            success: function(resp) {
+                $("#tampil_modal").html(resp);
+                $("#modal_create").modal('show');
+            }
+        });
+        }
     // Hapus item kategori
     $('#barang-kategori').delegate('.fa-minus-circle', 'click', function() {
         $(this).parent().remove();
@@ -196,8 +333,10 @@
         deskripsi_row++;
     }
 
+
     // simpan data
     $(document).ready(function() {
+
         $('#form_create').on('submit', function(event) {
             event.preventDefault();
             $.ajax({
@@ -236,4 +375,8 @@
             })
         });
     });
+    function CloseModalAndrefresh() {
+        $("#modal_create").modal('hide');
+        TampilGambarSatuanTab();
+    }
 </script>

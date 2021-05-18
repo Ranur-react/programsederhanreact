@@ -139,3 +139,8 @@ $route['roles/store'] = 'master/roles/store';
 $route['roles/edit'] = 'master/roles/edit';
 $route['roles/update'] = 'master/roles/update';
 $route['roles/destroy'] = 'master/roles/destroy';
+
+$route['upload'] = 'master/UploadImages';
+$route['browse'] = 'master/UploadImages/choseImages';
+$route['insert'] = 'master/UploadImages/insertImages';
+$route['delete'] = 'master/UploadImages/delteImages';
