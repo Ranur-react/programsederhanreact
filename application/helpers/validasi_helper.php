@@ -37,6 +37,12 @@ if (!function_exists('errorMatches')) {
         return '{field} tidak sama. Coba masukkan ulang.';
     }
 }
+if (!function_exists('greater_than')) {
+    function greater_than()
+    {
+        return '{field} harus mengandung angka lebih dari 0.';
+    }
+}
 
 if (!function_exists('errorDestroy')) {
     function errorDestroy()

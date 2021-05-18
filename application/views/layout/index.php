@@ -1,3 +1,4 @@
+<?php error_reporting(E_ALL ^ E_NOTICE); ?>
 <!DOCTYPE html>
 <html>
 
@@ -8,12 +9,16 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="shortcut icon" href="<?= faviconApp() ?>">
     <link rel="stylesheet" href="<?= assets() ?>bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?= assets() ?>bower_components/font-awesome-5/css/all.css">
     <link rel="stylesheet" href="<?= assets() ?>bower_components/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="<?= assets() ?>bower_components/source-sans/source-sans-pro.css">
     <link rel="stylesheet" href="<?= assets() ?>bower_components/Ionicons/css/ionicons.min.css">
     <link rel="stylesheet" href="<?= assets() ?>bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
     <link rel="stylesheet" href="<?= assets() ?>bower_components/select2/dist/css/select2.min.css">
     <link rel="stylesheet" href="<?= assets() ?>plugins/bootstrap-fileinput/fileinput.min.css">
+    <link rel="stylesheet" href="<?= assets() ?>bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="<?= assets() ?>plugins/toastr/toastr.min.css">
+    <link rel="stylesheet" href="<?= assets() ?>plugins/iCheck/square/blue.css">
     <link rel="stylesheet" href="<?= assets() ?>dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="<?= assets() ?>dist/css/skins/_all-skins.min.css">
     <link rel="stylesheet" href="<?= assets() ?>bower_components/icomoon/styles.css">
@@ -30,25 +35,47 @@
     <script src="<?= assets() ?>bower_components/ckeditor/ckeditor.js"></script>
     <script src="<?= assets() ?>bower_components/select2/dist/js/select2.full.min.js"></script>
     <script src="<?= assets() ?>plugins/bootstrap-fileinput/fileinput.min.js"></script>
+    <script src="<?= assets() ?>bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
     <script src="<?= assets() ?>bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
     <script src="<?= assets() ?>bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
     <script src="<?= assets() ?>bower_components/fastclick/lib/fastclick.js"></script>
     <script src="<?= assets() ?>dist/js/adminlte.min.js"></script>
     <script src="<?= assets() ?>dist/js/demo.js"></script>
     <script src="<?= assets() ?>plugins/sweetalert2/sweetalert2.all.min.js"></script>
+    <script src="<?= assets() ?>plugins/toastr/toastr.min.js"></script>
+    <script src="<?= assets() ?>plugins/iCheck/icheck.min.js"></script>
+    <script src="<?= assets() ?>js/app.js"></script>
     <script src="<?= assets() ?>js/common.js"></script>
+    <script src="<?= assets() ?>js/currency.js"></script>
+    <style>
+        .animation-rotate {
+            -webkit-animation: spin .5s linear infinite;
+            -moz-animation: spin .5s linear infinite;
+            animation: spin .5s linear infinite;
+        }
 
+        @-moz-keyframes spin {
+            100% {
+                -moz-transform: rotate(360deg);
+            }
+        }
 
-    <script>
-        $(function() {
-            $('#data-tabel').DataTable({
-                ordering: false
-            })
-        });
-    </script>
+        @-webkit-keyframes spin {
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            100% {
+                -webkit-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+        }
+    </style>
 </head>
 
-<body class="hold-transition skin-blue">
+<body class="hold-transition skin-blue<?= $sidebar == 'collapse' ? ' sidebar-collapse' : '' ?>">
     <div class="wrapper">
         <header class="main-header">
             <a href="<?= site_url() ?>" class="logo">

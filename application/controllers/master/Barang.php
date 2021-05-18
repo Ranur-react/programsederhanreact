@@ -147,7 +147,16 @@ class Barang extends CI_Controller
         }
         echo json_encode($json);
     }
-
+    public function get_satuan()
+    {
+        $barang = $this->input->get('barang');
+        $query = $this->Mbarang->get_satuan($barang);
+        $data = '<option value="">Pilih</option>';
+        foreach ($query as $d) {
+            $data .= '<option value="' . $d['id_brg_satuan'] . '">' . $d['nama_satuan'] . '</option>';
+        }
+        echo $data;
+    }
 }
 
 /* End of file Barang.php */

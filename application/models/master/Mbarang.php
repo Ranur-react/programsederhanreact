@@ -127,9 +127,11 @@ class Mbarang extends CI_Model
             }
         }
         if (isset($post['barang_satuan'])) {
-            $this->db->where('barang_brg_satuan', $kode)->delete('barang_satuan');
             foreach ($post['barang_satuan'] as $id_satuan) {
-                $this->db->query("INSERT INTO barang_satuan SET barang_brg_satuan='$kode',satuan_brg_satuan='$id_satuan'");
+                $check = $this->db->from('barang_satuan')->where(['barang_brg_satuan' => $kode, 'satuan_brg_satuan' => $id_satuan])->count_all_results();
+                if ($check == 0) {
+                    $this->db->query("INSERT INTO barang_satuan SET barang_brg_satuan='$kode',satuan_brg_satuan='$id_satuan'");
+                }
             }
         }
         return $barang;
@@ -141,6 +143,14 @@ class Mbarang extends CI_Model
         $hapus_desc = $this->db->where('barang_brg_desc', $kode)->delete('barang_deskripsi');
         $hapus_barang = $this->db->where('id_barang', $kode)->delete('barang');
         return array($hapus_satuan, $hapus_kategori, $hapus_desc, $hapus_barang);
+    }
+    public function get_satuan($barang)
+    {
+        $query = $this->db->from('barang_satuan')
+            ->join('satuan', 'satuan_brg_satuan=id_satuan')
+            ->where('barang_brg_satuan', $barang)
+            ->get()->result_array();
+        return $query;
     }
 }
 

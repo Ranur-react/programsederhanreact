@@ -64,6 +64,7 @@ class Mpengguna extends CI_Model
             'nama_user' => $post['nama'],
             'username' => $post['username'],
             'password' => password_hash($post['password'], PASSWORD_BCRYPT),
+            'avatar_user' => make_avatar($post['nama']),
             'jenis_user' => $post['jenis'],
             'status_user' => 1
         );
@@ -118,6 +119,7 @@ class Mpengguna extends CI_Model
         else :
             $this->db->where('user_level', $kode)->delete('user_gudang');
         endif;
+        unlink(pathImage() . $data['avatar_user']);
         $this->db->where('id_user', $kode)->delete('users');
         return true;
     }

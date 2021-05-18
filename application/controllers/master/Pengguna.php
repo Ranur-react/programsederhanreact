@@ -125,6 +125,17 @@ class Pengguna extends CI_Controller
         }
         echo json_encode($json);
     }
+    public function status_pengguna($kode)
+    {
+        $query = $this->Mpengguna->show($kode);
+        if ($query['status_user'] == 1) :
+            $data = array('status_user' => 0);
+        else :
+            $data = array('status_user' => 1);
+        endif;
+        $this->db->where('id_user', $kode)->update('users', $data);
+        redirect('pengguna');
+    }
 }
 
 /* End of file Pengguna.php */
