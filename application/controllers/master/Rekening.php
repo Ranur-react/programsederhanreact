@@ -45,6 +45,16 @@ class Rekening extends CI_Controller
         }
         redirect('rekening');
     }
+    public function create()
+    {
+        $data = [
+            'name' => 'Tambah Rekening Bank',
+            'post' => '#',
+            'class' => 'form_create',
+            'bank' => $this->Mrekening->fetch_bank()
+        ];
+        $this->template->modal_form('master/rekening/create', $data);
+    }
 }
 
 /* End of file Rekening.php */

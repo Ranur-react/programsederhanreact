@@ -1,7 +1,7 @@
 <div class="col-xs-12">
     <div class="box box-default">
         <div class="box-header with-border">
-            <button class="btn btn-social btn-flat btn-success btn-sm" title="Tambah Data"><i class="icon-plus3"></i> Tambah <?= $title ?></button>
+            <button class="btn btn-social btn-flat btn-success btn-sm" title="Tambah Data" onclick="create()"><i class="icon-plus3"></i> Tambah <?= $title ?></button>
             <a href="<?= site_url('rekening/sync') ?>" class="btn btn-sm btn-flat btn-social bg-purple"><i class="icon-sync"></i> Sync Bank Code</a>
         </div>
         <div class="box-body no-padding table-responsive">
@@ -37,3 +37,16 @@
         </div>
     </div>
 </div>
+<div id="tampil_modal"></div>
+<script>
+    function create() {
+        $.ajax({
+            url: "<?= site_url('rekening/create') ?>",
+            type: "GET",
+            success: function(resp) {
+                $("#tampil_modal").html(resp);
+                $("#modal_create").modal('show');
+            }
+        });
+    }
+</script>
