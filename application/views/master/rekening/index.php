@@ -2,7 +2,7 @@
     <div class="box box-default">
         <div class="box-header with-border">
             <button class="btn btn-social btn-flat btn-success btn-sm" title="Tambah Data"><i class="icon-plus3"></i> Tambah <?= $title ?></button>
-            <a href="#" class="btn btn-sm btn-flat btn-social bg-purple"><i class="icon-sync"></i> Sync Bank Code</a>
+            <a href="<?= site_url('rekening/sync') ?>" class="btn btn-sm btn-flat btn-social bg-purple"><i class="icon-sync"></i> Sync Bank Code</a>
         </div>
         <div class="box-body no-padding table-responsive">
             <table class="table-style table text-nowrap">

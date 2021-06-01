@@ -149,6 +149,7 @@ $route['roles/destroy'] = 'master/roles/destroy';
 
 // Rekening Bank
 $route['rekening'] = 'master/rekening';
+$route['rekening/sync'] = 'master/rekening/sync';
 
 $route['upload'] = 'master/UploadImages';
 $route['browse'] = 'master/UploadImages/choseImages';
