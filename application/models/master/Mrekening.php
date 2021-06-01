@@ -42,6 +42,17 @@ class Mrekening extends CI_Model
     {
         return $this->db->where('id_account', $kode)->get('account_bank')->row_array();
     }
+    public function update($post)
+    {
+        $data = array(
+            'bank_account' => $post['code'],
+            'kcb_account' => $post['cabang'],
+            'norek_account' => $post['norek'],
+            'pemilik_account' => $post['holder'],
+            'status_account' => $post['status']
+        );
+        return $this->db->where('id_account', $post['kode'])->update('account_bank', $data);
+    }
 }
 
 /* End of file Mrekening.php */

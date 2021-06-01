@@ -84,12 +84,36 @@ class Rekening extends CI_Controller
         $kode = $this->input->get('kode');
         $data = [
             'name' => 'Edit Rekening Bank',
-            'post' => '#',
+            'post' => 'rekening/update',
             'class' => 'form_create',
             'bank' => $this->Mrekening->fetch_bank(),
             'data' => $this->Mrekening->show($kode)
         ];
         $this->template->modal_form('master/rekening/edit', $data);
+    }
+    public function update()
+    {
+        $this->form_validation->set_rules('code', 'Bank', 'required');
+        $this->form_validation->set_rules('cabang', 'Kantor Cabang', 'required');
+        $this->form_validation->set_rules('norek', 'No Rekening', 'required');
+        $this->form_validation->set_rules('holder', 'Atasnama', 'required');
+        $this->form_validation->set_rules('status', 'Status', 'required');
+        $this->form_validation->set_message('required', errorRequired());
+        $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
+        if ($this->form_validation->run() == TRUE) {
+            $post = $this->input->post(null, TRUE);
+            $this->Mrekening->update($post);
+            $json = array(
+                'status' => "0100",
+                'pesan' => "Data rekening bank telah dirubah"
+            );
+        } else {
+            $json['status'] = "0111";
+            foreach ($_POST as $key => $value) {
+                $json['pesan'][$key] = form_error($key);
+            }
+        }
+        echo json_encode($json);
     }
 }
 
