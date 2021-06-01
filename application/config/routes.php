@@ -139,13 +139,16 @@ $route['pelunasan/create'] = 'pembelian/pelunasan/create';
 $route['pelunasan/store'] = 'pembelian/pelunasan/store';
 $route['pelunasan/destroy'] = 'pembelian/pelunasan/destroy';
 
-// pengaturan
+// Role
 $route['roles'] = 'master/roles';
 $route['roles/create'] = 'master/roles/create';
 $route['roles/store'] = 'master/roles/store';
 $route['roles/edit'] = 'master/roles/edit';
 $route['roles/update'] = 'master/roles/update';
 $route['roles/destroy'] = 'master/roles/destroy';
+
+// Rekening Bank
+$route['rekening'] = 'master/rekening';
 
 $route['upload'] = 'master/UploadImages';
 $route['browse'] = 'master/UploadImages/choseImages';
