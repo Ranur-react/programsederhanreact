@@ -151,6 +151,7 @@ $route['roles/destroy'] = 'master/roles/destroy';
 $route['rekening'] = 'master/rekening';
 $route['rekening/sync'] = 'master/rekening/sync';
 $route['rekening/create'] = 'master/rekening/create';
+$route['rekening/store'] = 'master/rekening/store';
 
 $route['upload'] = 'master/UploadImages';
 $route['browse'] = 'master/UploadImages/choseImages';
