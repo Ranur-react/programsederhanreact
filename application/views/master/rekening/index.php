@@ -28,7 +28,9 @@
                             <td><?= $d['norek_account'] ?></td>
                             <td><?= $d['pemilik_account'] ?></td>
                             <td width="120px">
-                                <span class="label status <?= $d['status_account'] == 1 ? 'status-active' : 'status-pending' ?>"><?= $d['status_account'] == 1 ? 'Aktif' : 'Tidak Aktif' ?></span>
+                                <a href="<?= site_url('rekening/status/' . $d['id_account']) ?>">
+                                    <span class="label status <?= $d['status_account'] == 1 ? 'status-active' : 'status-pending' ?>"><?= $d['status_account'] == 1 ? 'Aktif' : 'Tidak Aktif' ?></span>
+                                </a>
                             </td>
                         </tr>
                     <?php } ?>

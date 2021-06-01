@@ -132,6 +132,17 @@ class Rekening extends CI_Controller
         }
         echo json_encode($json);
     }
+    public function status($kode)
+    {
+        $query = $this->Mrekening->show($kode);
+        if ($query['status_account'] == 1) :
+            $data = array('status_account' => 0);
+        else :
+            $data = array('status_account' => 1);
+        endif;
+        $this->db->where('id_account', $kode)->update('account_bank', $data);
+        redirect('rekening');
+    }
 }
 
 /* End of file Rekening.php */
