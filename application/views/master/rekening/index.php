@@ -20,7 +20,7 @@
                     <?php foreach ($data as $d) { ?>
                         <tr>
                             <td class="text-center" width="100px">
-                                <a href="javascript:void(0)"><i class="icon-pencil7 text-green" data-toggle="tooltip" data-original-title="Edit"></i></a>
+                                <a href="javascript:void(0)" onclick="edit('<?= $d['id_account'] ?>')"><i class="icon-pencil7 text-green" data-toggle="tooltip" data-original-title="Edit"></i></a>
                                 <a href="javascript:void(0)"><i class="icon-trash text-red" data-toggle="tooltip" data-original-title="Hapus"></i></a>
                             </td>
                             <td><?= $d['nama_bank'] ?></td>
@@ -43,6 +43,20 @@
         $.ajax({
             url: "<?= site_url('rekening/create') ?>",
             type: "GET",
+            success: function(resp) {
+                $("#tampil_modal").html(resp);
+                $("#modal_create").modal('show');
+            }
+        });
+    }
+
+    function edit(kode) {
+        $.ajax({
+            url: "<?= site_url('rekening/edit') ?>",
+            type: "GET",
+            data: {
+                kode: kode
+            },
             success: function(resp) {
                 $("#tampil_modal").html(resp);
                 $("#modal_create").modal('show');

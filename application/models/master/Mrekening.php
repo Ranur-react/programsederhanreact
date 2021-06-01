@@ -38,6 +38,10 @@ class Mrekening extends CI_Model
         );
         return $this->db->insert('account_bank', $data);
     }
+    public function show($kode)
+    {
+        return $this->db->where('id_account', $kode)->get('account_bank')->row_array();
+    }
 }
 
 /* End of file Mrekening.php */

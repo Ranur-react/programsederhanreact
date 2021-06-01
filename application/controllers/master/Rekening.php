@@ -79,6 +79,18 @@ class Rekening extends CI_Controller
         }
         echo json_encode($json);
     }
+    public function edit()
+    {
+        $kode = $this->input->get('kode');
+        $data = [
+            'name' => 'Edit Rekening Bank',
+            'post' => '#',
+            'class' => 'form_create',
+            'bank' => $this->Mrekening->fetch_bank(),
+            'data' => $this->Mrekening->show($kode)
+        ];
+        $this->template->modal_form('master/rekening/edit', $data);
+    }
 }
 
 /* End of file Rekening.php */
