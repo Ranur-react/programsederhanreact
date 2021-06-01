@@ -53,6 +53,10 @@ class Mrekening extends CI_Model
         );
         return $this->db->where('id_account', $post['kode'])->update('account_bank', $data);
     }
+    public function destroy($kode)
+    {
+        return $this->db->simple_query("DELETE FROM account_bank WHERE id_account='$kode'");
+    }
 }
 
 /* End of file Mrekening.php */

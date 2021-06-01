@@ -154,6 +154,7 @@ $route['rekening/create'] = 'master/rekening/create';
 $route['rekening/store'] = 'master/rekening/store';
 $route['rekening/edit'] = 'master/rekening/edit';
 $route['rekening/update'] = 'master/rekening/update';
+$route['rekening/destroy'] = 'master/rekening/destroy';
 
 $route['upload'] = 'master/UploadImages';
 $route['browse'] = 'master/UploadImages/choseImages';

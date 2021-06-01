@@ -21,7 +21,7 @@
                         <tr>
                             <td class="text-center" width="100px">
                                 <a href="javascript:void(0)" onclick="edit('<?= $d['id_account'] ?>')"><i class="icon-pencil7 text-green" data-toggle="tooltip" data-original-title="Edit"></i></a>
-                                <a href="javascript:void(0)"><i class="icon-trash text-red" data-toggle="tooltip" data-original-title="Hapus"></i></a>
+                                <a href="javascript:void(0)" onclick="destroy('<?= $d['id_account'] ?>')"><i class="icon-trash text-red" data-toggle="tooltip" data-original-title="Hapus"></i></a>
                             </td>
                             <td><?= $d['nama_bank'] ?></td>
                             <td><?= $d['kcb_account'] ?></td>
@@ -62,6 +62,42 @@
                 $("#modal_create").modal('show');
             }
         });
+    }
+
+    function destroy(kode) {
+        Swal({
+            title: "Apakah kamu yakin?",
+            text: "Anda tidak akan dapat mengembalikan ini!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: "Ya, hapus data ini"
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    type: "get",
+                    url: "<?= site_url('rekening/destroy') ?>",
+                    data: {
+                        kode: kode
+                    },
+                    dataType: "json",
+                    success: function(resp) {
+                        if (resp.status == "0100") {
+                            Swal.fire({
+                                title: 'Deleted!',
+                                text: resp.message,
+                                type: 'success'
+                            }).then((resp) => {
+                                location.reload();
+                            })
+                        } else {
+                            Swal.fire('Oops...', resp.message, 'error');
+                        }
+                    }
+                });
+            }
+        })
     }
 
     $(document).on('submit', '.form_create', function(e) {
