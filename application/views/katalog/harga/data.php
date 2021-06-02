@@ -12,7 +12,7 @@
                 <div class="detail-body<?= $result['default'] == '1' ? ' active' : '' ?>">
                     <div class="detail-header">
                         <h4><?= $result['barang']; ?></h4>
-                        <h5><span class="me-1"><?= $result['id_terima']; ?></span><span class="me-1"><?= $result['tanggal']; ?></span>dari: <?= $result['supplier']; ?>
+                        <h5><span class="me-1"><?= $result['nomor']; ?></span><span class="me-1"><?= $result['tanggal']; ?></span>dari: <?= $result['supplier']; ?>
                             <span class="detail-date pull-right"><i class="fa fa-clock-o"></i> <?= $result['created_at'] ?></span>
                         </h5>
                     </div>

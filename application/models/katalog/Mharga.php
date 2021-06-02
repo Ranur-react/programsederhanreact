@@ -99,6 +99,7 @@ class Mharga extends CI_Model
             $row_terima = $this->Mpenerimaan->show($id_terima);
             $rows = array();
             $rows['id_terima'] = $row_terima['id_terima'];
+            $rows['nomor'] = $row_terima['nosurat_terima'];
             $rows['id_harga'] = $id_harga;
             $rows['supplier'] = $row_terima['nama_supplier'];
             $rows['tanggal'] = format_indo($row_terima['tanggal_terima']);
@@ -174,7 +175,7 @@ class Mharga extends CI_Model
     }
     public function show_terima($id = null)
     {
-        $query = $this->db->query("SELECT * FROM harga_detail JOIN barang_satuan ON satuan_hrg_detail=id_brg_satuan JOIN barang ON barang_brg_satuan=id_barang JOIN harga_barang ON harga_hrg_detail=id_hrg_barang
+        $query = $this->db->query("SELECT * FROM harga_detail JOIN barang_satuan ON satuan_hrg_detail=id_brg_satuan JOIN barang ON barang_brg_satuan=id_barang JOIN satuan ON satuan_brg_satuan=id_satuan JOIN harga_barang ON harga_hrg_detail=id_hrg_barang
         JOIN penerimaan_harga ON id_hrg_barang=barang_terima_harga
         JOIN penerimaan_detail ON detail_terima_harga=id_detail JOIN penerimaan ON terima_detail=id_terima JOIN penerimaan_supplier ON id_terima=id_terima_supplier
         JOIN permintaan ON id_minta_supplier=id_permintaan
@@ -182,14 +183,31 @@ class Mharga extends CI_Model
         WHERE id_hrg_detail='$id' LIMIT 1")->row();
         return $query;
     }
+    public function show_satuan($id_hrg_detail = null)
+    {
+        return $this->db->from('harga_detail')
+            ->join('harga_barang', 'harga_hrg_detail=id_hrg_barang')
+            ->join('penerimaan_harga', 'id_hrg_barang=barang_terima_harga')
+            ->join('penerimaan_detail', 'detail_terima_harga=id_detail')
+            ->join('permintaan_detail', 'minta_detail=permintaan_detail.id_detail')
+            ->join('barang_satuan', 'barang_detail=id_brg_satuan')
+            ->join('satuan', 'satuan_brg_satuan=id_satuan')
+            ->where('id_hrg_detail', $id_hrg_detail)
+            ->get()->row();
+    }
     public function show_harga($id = null)
     {
         $data_terima = $this->show_terima($id);
         $query = $this->db->where('id_hrg_detail', $id)->get('harga_detail')->row();
+        $query_satuan = $this->show_satuan($id);
         $data['barang'] = $data_terima->nama_barang;
         $data['id_terima'] = $data_terima->id_terima;
+        $data['nomor'] = $data_terima->nosurat_terima;
         $data['tanggal'] = format_indo($data_terima->tanggal_terima);
         $data['created_at'] = sort_jam_timestamp($data_terima->created_at) . ' ' . format_tglin_timestamp($data_terima->created_at);
+        $data['satuan_beli'] = $query_satuan->singkatan_satuan;
+        $data['harga_beli'] = rupiah($data_terima->harga_detail);
+        $data['satuan_jual'] = $data_terima->singkatan_satuan;
         $data['id_harga'] = $query->harga_hrg_detail;
         $data['id_detail'] = $query->id_hrg_detail;
         $data['harga'] = rupiah($query->jual_hrg_detail);
