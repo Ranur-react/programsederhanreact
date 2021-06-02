@@ -62,7 +62,9 @@ class Mkategori extends CI_Model
                 'parent_kategori' => $parent
             );
         else :
-            unlink(pathImage() . $row['icon_kategori']);
+            if ($row['icon_kategori'] != "") {
+                unlink(pathImage() . $row['icon_kategori']);
+            }
             $data = array(
                 'nama_kategori' => $post['nama'],
                 'slug_kategori' => $post['slug'],
@@ -110,10 +112,14 @@ class Mkategori extends CI_Model
     }
     public function destroy($kode)
     {
+        $data = $this->show($kode);
         $this->db->query("DELETE FROM kategori_path WHERE kategori_path='$kode'");
         $query = $this->db->query("SELECT * FROM kategori_path WHERE parent_path='$kode'")->result_array();
         foreach ($query as $result) {
             $this->destroy($result['kategori_path']);
+        }
+        if ($data['icon_kategori'] != "") {
+            unlink(pathImage() . $data['icon_kategori']);
         }
         $this->db->query("DELETE FROM kategori WHERE id_kategori='$kode'");
         return true;

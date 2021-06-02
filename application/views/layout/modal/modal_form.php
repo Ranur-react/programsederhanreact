@@ -1,5 +1,5 @@
 <?php error_reporting(E_ALL ^ E_NOTICE); ?>
-<div class="modal fade" id="modal_create">
+<div class="modal fade" <?= $backdrop == 1 ? 'data-backdrop="static"' : '' ?> id="modal_create">
     <div class="modal-dialog <?= $modallg == 1 ? 'modal-lg' : '' ?>">
         <div class="modal-content">
             <div class="modal-header">

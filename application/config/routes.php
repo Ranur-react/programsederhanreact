@@ -18,7 +18,6 @@ $route['registrasi/signup'] = 'auth/registrasi/signup';
 $route['logout'] = 'auth/logout';
 
 //menu master
-
 $route['pengguna'] = 'master/pengguna';
 $route['pengguna/create'] = 'master/pengguna/create';
 $route['pengguna/store'] = 'master/pengguna/store';
@@ -59,3 +58,96 @@ $route['barang/store'] = 'master/barang/store';
 $route['barang/edit/(:num)'] = 'master/barang/edit/$1';
 $route['barang/update'] = 'master/barang/update';
 $route['barang/destroy'] = 'master/barang/destroy';
+$route['barang/get-satuan'] = 'master/barang/get_satuan';
+
+// katalog
+$route['harga'] = 'katalog/harga';
+$route['harga/data'] = 'katalog/harga/data';
+$route['harga/detail'] = 'katalog/harga/detail';
+$route['harga/histori/(:num)'] = 'katalog/harga/histori/$1';
+$route['harga/data-terima'] = 'katalog/harga/data_terima';
+$route['harga/add-satuan'] = 'katalog/harga/add_satuan';
+$route['harga/edit-harga'] = 'katalog/harga/edit_harga';
+$route['harga/update-harga'] = 'katalog/harga/update_harga';
+
+
+// menu permintaan
+$route['permintaan'] = 'pembelian/permintaan/permintaan';
+$route['permintaan/data'] = 'pembelian/permintaan/permintaan/data';
+$route['permintaan/create'] = 'pembelian/permintaan/permintaan/create';
+$route['permintaan/store'] = 'pembelian/permintaan/permintaan/store';
+$route['permintaan/edit/(:num)'] = 'pembelian/permintaan/permintaan/edit/$1';
+$route['permintaan/update'] = 'pembelian/permintaan/permintaan/update';
+$route['permintaan/detail/(:num)'] = 'pembelian/permintaan/permintaan/detail/$1';
+$route['permintaan/info'] = 'pembelian/permintaan/permintaan/info';
+$route['permintaan/destroy'] = 'pembelian/permintaan/permintaan/destroy';
+
+$route['permintaan/tmp-create/data'] = 'pembelian/permintaan/tmp_create/data';
+$route['permintaan/tmp-create/create'] = 'pembelian/permintaan/tmp_create/create';
+$route['permintaan/tmp-create/store'] = 'pembelian/permintaan/tmp_create/store';
+$route['permintaan/tmp-create/edit'] = 'pembelian/permintaan/tmp_create/edit';
+$route['permintaan/tmp-create/update'] = 'pembelian/permintaan/tmp_create/update';
+$route['permintaan/tmp-create/destroy'] = 'pembelian/permintaan/tmp_create/destroy';
+$route['permintaan/tmp-create/batal'] = 'pembelian/permintaan/tmp_create/batal';
+
+$route['permintaan/tmp-edit/data'] = 'pembelian/permintaan/tmp_edit/data';
+$route['permintaan/tmp-edit/create'] = 'pembelian/permintaan/tmp_edit/create';
+$route['permintaan/tmp-edit/store'] = 'pembelian/permintaan/tmp_edit/store';
+$route['permintaan/tmp-edit/edit'] = 'pembelian/permintaan/tmp_edit/edit';
+$route['permintaan/tmp-edit/update'] = 'pembelian/permintaan/tmp_edit/update';
+$route['permintaan/tmp-edit/destroy'] = 'pembelian/permintaan/tmp_edit/destroy';
+$route['permintaan/tmp-edit/batal'] = 'pembelian/permintaan/tmp_edit/batal';
+
+// penerminaan
+$route['penerimaan'] = 'pembelian/penerimaan/penerimaan';
+$route['penerimaan/data'] = 'pembelian/penerimaan/penerimaan/data';
+$route['penerimaan/create'] = 'pembelian/penerimaan/penerimaan/create';
+$route['penerimaan/store'] = 'pembelian/penerimaan/penerimaan/store';
+$route['penerimaan/edit/(:num)'] = 'pembelian/penerimaan/penerimaan/edit/$1';
+$route['penerimaan/update'] = 'pembelian/penerimaan/penerimaan/update';
+$route['penerimaan/detail/(:num)'] = 'pembelian/penerimaan/penerimaan/detail/$1';
+$route['penerimaan/info'] = 'pembelian/penerimaan/penerimaan/info';
+$route['penerimaan/destroy'] = 'pembelian/penerimaan/penerimaan/destroy';
+
+$route['penerimaan/tmp-create/modal-permintaan'] = 'pembelian/penerimaan/tmp_create';
+$route['penerimaan/tmp-create/data-permintaan'] = 'pembelian/penerimaan/tmp_create/data_permintaan';
+$route['penerimaan/tmp-create/check-permintaan'] = 'pembelian/penerimaan/tmp_create/check_permintaan';
+$route['penerimaan/tmp-create/show-permintaan'] = 'pembelian/penerimaan/tmp_create/show_permintaan';
+
+$route['penerimaan/tmp-create/data'] = 'pembelian/penerimaan/tmp_create/data';
+$route['penerimaan/tmp-create/create'] = 'pembelian/penerimaan/tmp_create/create';
+$route['penerimaan/tmp-create/store'] = 'pembelian/penerimaan/tmp_create/store';
+$route['penerimaan/tmp-create/edit'] = 'pembelian/penerimaan/tmp_create/edit';
+$route['penerimaan/tmp-create/update'] = 'pembelian/penerimaan/tmp_create/update';
+$route['penerimaan/tmp-create/destroy'] = 'pembelian/penerimaan/tmp_create/destroy';
+$route['penerimaan/tmp-create/batal'] = 'pembelian/penerimaan/tmp_create/batal';
+
+$route['penerimaan/tmp-edit/data-supplier'] = 'pembelian/penerimaan/tmp_edit/data_supplier';
+$route['penerimaan/tmp-edit/check-permintaan'] = 'pembelian/penerimaan/tmp_edit/check_permintaan';
+
+$route['penerimaan/tmp-edit/data-tmp'] = 'pembelian/penerimaan/tmp_edit/data_tmp';
+$route['penerimaan/tmp-edit/create'] = 'pembelian/penerimaan/tmp_edit/create';
+$route['penerimaan/tmp-edit/store'] = 'pembelian/penerimaan/tmp_edit/store';
+$route['penerimaan/tmp-edit/edit'] = 'pembelian/penerimaan/tmp_edit/edit';
+$route['penerimaan/tmp-edit/update'] = 'pembelian/penerimaan/tmp_edit/update';
+$route['penerimaan/tmp-edit/destroy'] = 'pembelian/penerimaan/tmp_edit/destroy';
+
+// Pembayaran Penerimaan
+$route['pelunasan/detail/(:num)'] = 'pembelian/pelunasan/detail/$1';
+$route['pelunasan/data'] = 'pembelian/pelunasan/data';
+$route['pelunasan/create'] = 'pembelian/pelunasan/create';
+$route['pelunasan/store'] = 'pembelian/pelunasan/store';
+$route['pelunasan/destroy'] = 'pembelian/pelunasan/destroy';
+
+// pengaturan
+$route['roles'] = 'master/roles';
+$route['roles/create'] = 'master/roles/create';
+$route['roles/store'] = 'master/roles/store';
+$route['roles/edit'] = 'master/roles/edit';
+$route['roles/update'] = 'master/roles/update';
+$route['roles/destroy'] = 'master/roles/destroy';
+
+$route['upload'] = 'master/UploadImages';
+$route['browse'] = 'master/UploadImages/choseImages';
+$route['insert'] = 'master/UploadImages/insertImages';
+$route['delete'] = 'master/UploadImages/delteImages';
