@@ -19,7 +19,7 @@ if (!function_exists('logoApp')) {
         $CI = &get_instance();
         $CI->load->model('settings/Mconfig');
         $data = $CI->Mconfig->logoApp();
-        $image = $data->value_seting;
+        $image = assets() . $data->value_seting;
         return $image;
     }
 }
@@ -30,7 +30,7 @@ if (!function_exists('logoDashboard')) {
         $CI = &get_instance();
         $CI->load->model('settings/Mconfig');
         $data = $CI->Mconfig->logoDashboard();
-        $image = $data->value_seting;
+        $image = assets() . $data->value_seting;
         return $image;
     }
 }
@@ -42,7 +42,7 @@ if (!function_exists('faviconApp')) {
         $CI = &get_instance();
         $CI->load->model('settings/Mconfig');
         $data = $CI->Mconfig->faviconApp();
-        $image = $data->value_seting;
+        $image = assets() . $data->value_seting;
         return $image;
     }
 }
@@ -84,11 +84,11 @@ if (!function_exists('user_photo')) {
         $CI = &get_instance();
         $row = $CI->db->where('id_user', id_user())->get('users')->row_array();
         if ($row['avatar_user'] != null) {
-            return $row['avatar_user'];
+            return assets() . $row['avatar_user'];
         } else {
             $CI->load->model('settings/Mconfig');
             $data = $CI->Mconfig->noUserImage();
-            $image = $data->value_seting;
+            $image = assets() . $data->value_seting;
             return $image;
         }
     }
