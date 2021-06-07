@@ -25,6 +25,7 @@ $route['pengguna/edit'] = 'master/pengguna/edit';
 $route['pengguna/update'] = 'master/pengguna/update';
 $route['pengguna/destroy'] = 'master/pengguna/destroy';
 $route['pengguna/status-pengguna/(:num)'] = 'master/pengguna/status_pengguna/$1';
+$route['pengguna/generate-api/(:num)'] = 'master/pengguna/generate_api/$1';
 
 $route['supplier'] = 'master/supplier';
 

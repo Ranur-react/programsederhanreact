@@ -11,6 +11,7 @@
                         <th>Nama</th>
                         <th>Username</th>
                         <th>Level</th>
+                        <th class="text-center">API Key</th>
                         <th class="text-center">Status</th>
                         <th class="text-center">Action</th>
                     </tr>
@@ -29,6 +30,7 @@
                             $gudang = $data_gudang['nama_gudang'];
                         endif;
                         $level = $this->db->from($tabel)->join('role', 'role_level=id_role')->where('user_level', $kode)->get()->row_array();
+                        $api = $this->db->where('user_api', $kode)->get('user_api')->row_array();
                     ?>
                         <tr>
                             <td class="text-center" width="40px"><?= $no . '.'; ?></td>
@@ -42,6 +44,18 @@
                             <td>
                                 <?= $level['nama_role'] ?>
                                 <div class="text-muted text-size-small"><?= $gudang ?></div>
+                            </td>
+                            <td class="text-center">
+                                <?php if ($api != null) { ?>
+                                    <input type="hidden" value="<?= $api['key_api']; ?>" id="myInput">
+                                    <a href="javascript:void(0)" onclick="myFunction()">
+                                        <i class="icon-copy4 text-purple" title="Copy"></i>
+                                    </a>
+                                <?php } else { ?>
+                                    <a href="<?= site_url('pengguna/generate-api/' . $kode) ?>">
+                                        <i class="icon-plus-circle2 text-black" title="Tambah"></i>
+                                    </a>
+                                <?php } ?>
                             </td>
                             <td width="120px">
                                 <a href="<?= site_url('pengguna/status-pengguna/' . $kode) ?>">
@@ -66,6 +80,21 @@
 </div>
 <div id="tampil_modal"></div>
 <script>
+    function myFunction() {
+        /* Get the text field */
+        var copyText = document.getElementById("myInput");
+
+        /* Select the text field */
+        copyText.select();
+
+        /* Copy the text inside the text field */
+        document.execCommand("Copy");
+
+        /* Alert the copied text */
+        toastr.success("Copied!");
+        // alert("Copied the text: " + copyText.value);
+    }
+
     function tambah() {
         $.ajax({
             url: "<?= site_url('pengguna/create') ?>",
