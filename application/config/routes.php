@@ -141,6 +141,7 @@ $route['pelunasan/store'] = 'pembelian/pelunasan/store';
 $route['pelunasan/destroy'] = 'pembelian/pelunasan/destroy';
 
 $route['customer'] = 'master/customer';
+$route['customer/data'] = 'master/customer/data';
 
 // pengaturan
 $route['roles'] = 'master/roles';
