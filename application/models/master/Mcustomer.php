@@ -66,6 +66,18 @@ class Mcustomer extends CI_Model
         $data['dataBank'] = $dataBank;
         return $data;
     }
+    public function update($post)
+    {
+        $data = array(
+            'nama_customer' => $post['nama'],
+            'email_customer' => $post['email'],
+            'phone_customer' => $post['phone'],
+            'birth_customer' => date("Y-m-d", strtotime($post['birth'])),
+            'gender_customer' => $post['jenkel'],
+            'active_customer' => $post['status']
+        );
+        return $this->db->where('id_customer', $post['kode'])->update('customer', $data);
+    }
 }
 
 /* End of file Mcustomer.php */

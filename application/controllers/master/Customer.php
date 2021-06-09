@@ -64,6 +64,31 @@ class Customer extends CI_Controller
         ];
         $this->template->dashboard('master/customer/detail', $data);
     }
+    public function update()
+    {
+        $this->form_validation->set_rules('nama', 'Nama', 'trim|required|max_length[50]');
+        $this->form_validation->set_rules('email', 'Email', 'trim|required');
+        $this->form_validation->set_rules('phone', 'No Ponsel', 'trim|required');
+        $this->form_validation->set_rules('birth', 'Tanggal lahir', 'required');
+        $this->form_validation->set_rules('jenkel', 'Jenis kelamin', 'required');
+        $this->form_validation->set_rules('status', 'Status', 'required');
+        $this->form_validation->set_message('required', errorRequired());
+        $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
+        if ($this->form_validation->run() == TRUE) {
+            $post = $this->input->post(null, TRUE);
+            $this->Mcustomer->update($post);
+            $json = array(
+                'status' => '0100',
+                'message' => 'Data customer telah dirubah'
+            );
+        } else {
+            $json['status'] = '0111';
+            foreach ($_POST as $key => $value) {
+                $json['pesan'][$key] = form_error($key);
+            }
+        }
+        echo json_encode($json);
+    }
 }
 
 /* End of file Customer.php */

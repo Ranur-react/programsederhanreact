@@ -1,5 +1,5 @@
 <div class="col-xs-12">
-    <?= form_open('#', ['id' => 'form_create'], ['kode' => $data['id']]) ?>
+    <?= form_open('customer/update', ['id' => 'form_create'], ['kode' => $data['id']]) ?>
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
             <li class="active"><a href="#umum" data-toggle="tab">Umum</a></li>
@@ -100,5 +100,44 @@
             format: "dd-mm-yyyy",
             autoclose: true
         });
+    });
+
+    $('#form_create').on('submit', function(event) {
+        event.preventDefault();
+        $.ajax({
+            url: $("#form_create").attr('action'),
+            method: "POST",
+            data: $(this).serialize(),
+            dataType: "json",
+            beforeSend: function() {
+                $('#store').button('loading');
+            },
+            success: function(resp) {
+                if (resp.status == "0100") {
+                    Swal.fire({
+                        title: 'Sukses!',
+                        text: resp.message,
+                        type: 'success'
+                    }).then(okay => {
+                        if (okay) {
+                            window.location.href = "<?= site_url('customer') ?>";
+                        }
+                    });
+                } else {
+                    $.each(resp.pesan, function(key, value) {
+                        var element = $('#' + key);
+                        element.closest('div.form-group')
+                            .removeClass('has-error')
+                            .addClass(value.length > 0 ? 'has-error' : 'has-success')
+                            .find('.help-block')
+                            .remove();
+                        element.after(value);
+                    });
+                }
+            },
+            complete: function() {
+                $('#store').button('reset');
+            }
+        })
     });
 </script>
