@@ -42,7 +42,7 @@ class Customer extends CI_Controller
             $output['recordsTotal'] = $output['recordsFiltered'] = $count->num_rows();
         }
         foreach ($query->result_array() as $d) {
-            $edit = '<a href="#"><i class="icon-eye8 text-blue" title="Edit"></i></a>';
+            $edit = '<a href="' . site_url('customer/detail/' . $d['id_customer']) . '"><i class="icon-eye8 text-blue" title="Edit"></i></a>';
             $output['data'][] = array(
                 $d['nama_customer'],
                 $d['email_customer'],
@@ -53,6 +53,16 @@ class Customer extends CI_Controller
             );
         }
         echo json_encode($output);
+    }
+    public function detail($kode)
+    {
+        $data = [
+            'title' => 'Customer',
+            'small' => 'Detail Customer',
+            'links' => '<li class="active">Customer</li>',
+            'data' => $this->Mcustomer->show($kode)
+        ];
+        $this->template->dashboard('master/customer/detail', $data);
     }
 }
 
