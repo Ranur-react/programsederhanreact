@@ -3,6 +3,8 @@
     <div class="nav-tabs-custom">
         <ul class="nav nav-tabs">
             <li class="active"><a href="#umum" data-toggle="tab">Umum</a></li>
+            <li><a href="#alamat" data-toggle="tab">Alamat</a></li>
+            <li><a href="#bank" data-toggle="tab">Akun Bank</a></li>
         </ul>
         <div class="tab-content">
             <div class="tab-pane active" id="umum">
@@ -40,6 +42,48 @@
                         <option value="1" <?= $data['status'] == 1 ? 'selected' : null ?>>Enabled</option>
                         <option value="2" <?= $data['status'] == 2 ? 'selected' : null ?>>Disabled</option>
                     </select>
+                </div>
+            </div>
+            <div class="tab-pane" id="alamat">
+                <div class="row">
+                    <?php if ($data['dataAlamat'] != null) :
+                        foreach ($data['dataAlamat'] as $da) { ?>
+                            <div class="col-md-4">
+                                <div class="detail-card">
+                                    <div class="detail-body<?= $da['utama'] == '1' ? ' active' : '' ?>">
+                                        <div class="detail-header-noborder">
+                                            <h4><?= $da['penerima'] ?></h4>
+                                            <h6><?= $da['telp'] ?></h6>
+                                            <h6><?= $da['detail'] ?></h6>
+                                            <h6><?= $da['kota'] ?></h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php }
+                    else :
+                        echo '<div class="col-md-12">' . info('belum ada data alamat') . '</div>' ?>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <div class="tab-pane" id="bank">
+                <div class="row">
+                    <?php if ($data['dataBank'] != null) :
+                        foreach ($data['dataBank'] as $db) { ?>
+                            <div class="col-md-4">
+                                <div class="detail-card">
+                                    <div class="detail-body<?= $db['utama'] == '1' ? ' active' : '' ?>">
+                                        <div class="detail-header-noborder">
+                                            <h4><?= $db['bank'] ?></h4>
+                                            <h5><?= $db['norek'] ?><br>a/n <?= $db['pemilik'] ?></h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php }
+                    else :
+                        echo '<div class="col-md-12">' . info('belum ada data bank') . '</div>' ?>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
