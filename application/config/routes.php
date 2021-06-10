@@ -140,18 +140,29 @@ $route['pelunasan/create'] = 'pembelian/pelunasan/create';
 $route['pelunasan/store'] = 'pembelian/pelunasan/store';
 $route['pelunasan/destroy'] = 'pembelian/pelunasan/destroy';
 
+// Customer
 $route['customer'] = 'master/customer';
 $route['customer/data'] = 'master/customer/data';
 $route['customer/detail/(:num)'] = 'master/customer/detail/$1';
 $route['customer/update'] = 'master/customer/update';
 
-// pengaturan
+// Role
 $route['roles'] = 'master/roles';
 $route['roles/create'] = 'master/roles/create';
 $route['roles/store'] = 'master/roles/store';
 $route['roles/edit'] = 'master/roles/edit';
 $route['roles/update'] = 'master/roles/update';
 $route['roles/destroy'] = 'master/roles/destroy';
+
+// Rekening Bank
+$route['rekening'] = 'master/rekening';
+$route['rekening/sync'] = 'master/rekening/sync';
+$route['rekening/create'] = 'master/rekening/create';
+$route['rekening/store'] = 'master/rekening/store';
+$route['rekening/edit'] = 'master/rekening/edit';
+$route['rekening/update'] = 'master/rekening/update';
+$route['rekening/destroy'] = 'master/rekening/destroy';
+$route['rekening/status/(:num)'] = 'master/rekening/status/$1';
 
 $route['upload'] = 'master/UploadImages';
 $route['browse'] = 'master/UploadImages/choseImages';

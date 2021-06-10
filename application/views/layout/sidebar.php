@@ -62,7 +62,7 @@
             </li>
         </ul>
     </li>
-    <li class="treeview <?= $urls == 'pengguna' || $urls == 'roles' ? 'active' : null ?>">
+    <li class="treeview <?= $urls == 'pengguna' || $urls == 'roles' || $urls == 'rekening' ? 'active' : null ?>">
         <a href="#">
             <i class="fas fa-cog"></i> <span>Pengaturan</span>
             <span class="pull-right-container">
@@ -75,6 +75,9 @@
             </li>
             <li class="<?= $urls == 'roles' ? 'active' : null ?>">
                 <a href="<?= site_url('roles') ?>"><i class="fa fa-angle-double-right"></i> Hak Akses</a>
+            </li>
+            <li class="<?= $urls == 'rekening' ? 'active' : null ?>">
+                <a href="<?= site_url('rekening') ?>"><i class="fa fa-angle-double-right"></i> Rekening Bank</a>
             </li>
         </ul>
     </li>
