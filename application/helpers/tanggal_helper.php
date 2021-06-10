@@ -88,6 +88,24 @@ if (!function_exists('format_tglin_timestamp')) {
     }
 }
 
+if (!function_exists('format_tglen_timestamp')) {
+    function format_tglen_timestamp($tgl)
+    {
+        // $inttime = date('Y-m-d H:i:s', $tgl);
+        $tglBaru = explode(" ", $tgl);
+        $tglBaru1 = $tglBaru[0];
+        $tglBaru2 = $tglBaru[1];
+        $tglBarua = explode("-", $tglBaru1);
+
+        $tgl = $tglBarua[2];
+        $bln = $tglBarua[1];
+        $thn = $tglBarua[0];
+        $ubahTanggal = $thn . '-' . $bln . '-' . $tgl;
+
+        return $ubahTanggal;
+    }
+}
+
 if (!function_exists('sort_jam_timestamp')) {
     function sort_jam_timestamp($tgl)
     {

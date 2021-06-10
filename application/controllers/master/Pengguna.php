@@ -136,6 +136,19 @@ class Pengguna extends CI_Controller
         $this->db->where('id_user', $kode)->update('users', $data);
         redirect('pengguna');
     }
+    public function generate_api($kode)
+    {
+        $check = $this->db->from('user_api')->where('user_api', $kode)->count_all_results();
+        if ($check == 0) {
+            $data = array(
+                'user_api' => $kode,
+                'key_api' => implode('-', str_split(substr(strtolower(md5(microtime() . rand(1000, 9999))), 0, 30), 6)),
+                'status_api' => 1
+            );
+            $this->db->insert('user_api', $data);
+        }
+        redirect('pengguna');
+    }
 }
 
 /* End of file Pengguna.php */

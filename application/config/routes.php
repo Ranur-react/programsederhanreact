@@ -25,6 +25,7 @@ $route['pengguna/edit'] = 'master/pengguna/edit';
 $route['pengguna/update'] = 'master/pengguna/update';
 $route['pengguna/destroy'] = 'master/pengguna/destroy';
 $route['pengguna/status-pengguna/(:num)'] = 'master/pengguna/status_pengguna/$1';
+$route['pengguna/generate-api/(:num)'] = 'master/pengguna/generate_api/$1';
 
 $route['supplier'] = 'master/supplier';
 
@@ -138,6 +139,12 @@ $route['pelunasan/data'] = 'pembelian/pelunasan/data';
 $route['pelunasan/create'] = 'pembelian/pelunasan/create';
 $route['pelunasan/store'] = 'pembelian/pelunasan/store';
 $route['pelunasan/destroy'] = 'pembelian/pelunasan/destroy';
+
+// Customer
+$route['customer'] = 'master/customer';
+$route['customer/data'] = 'master/customer/data';
+$route['customer/detail/(:num)'] = 'master/customer/detail/$1';
+$route['customer/update'] = 'master/customer/update';
 
 // Role
 $route['roles'] = 'master/roles';
