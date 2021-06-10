@@ -49,7 +49,7 @@
             </li>
         </ul>
     </li>
-    <li class="treeview <?= $urls == 'customer' ? 'active' : null ?>">
+    <li class="treeview <?= $urls == 'customer' || $urls == 'pesanan' ? 'active' : null ?>">
         <a href="#">
             <i class="fas fa-shopping-cart"></i> <span>Penjualan</span>
             <span class="pull-right-container">
@@ -59,6 +59,9 @@
         <ul class="treeview-menu">
             <li class="<?= $urls == 'customer' ? 'active' : null ?>">
                 <a href="<?= site_url('customer') ?>"><i class="fa fa-angle-double-right"></i> Customer</a>
+            </li>
+            <li class="<?= $urls == 'pesanan' ? 'active' : null ?>">
+                <a href="<?= site_url('pesanan') ?>"><i class="fa fa-angle-double-right"></i> Pesanan</a>
             </li>
         </ul>
     </li>

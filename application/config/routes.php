@@ -146,6 +146,9 @@ $route['customer/data'] = 'master/customer/data';
 $route['customer/detail/(:num)'] = 'master/customer/detail/$1';
 $route['customer/update'] = 'master/customer/update';
 
+// Pesanan
+$route['pesanan'] = 'penjualan/pesanan/pesanan';
+
 // Role
 $route['roles'] = 'master/roles';
 $route['roles/create'] = 'master/roles/create';
