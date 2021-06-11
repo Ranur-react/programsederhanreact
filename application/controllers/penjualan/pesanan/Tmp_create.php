@@ -24,6 +24,36 @@ class Tmp_create extends CI_Controller
         ];
         $this->template->modal_form('penjualan/pesanan/tmp_create/create', $data);
     }
+    public function get_penerimaan()
+    {
+        $idbarang = $this->input->get('idbarang');
+        $terima = $this->Mtmp_create->getHargaTerima($idbarang, 'aktif');
+        $default = $this->Mtmp_create->getHargaTerima($idbarang, 'default');
+        $id_harga = $default['idharga'];
+        $harga = $this->Mtmp_create->getHarga($id_harga);
+        echo '<div class="form-group">';
+        echo '<label class="required">Tanggal Penerimaan</label>';
+        echo '<select class="form-control idharga" name="tanggal" id="tanggal">';
+        echo '<option value="">Pilih Tanggal Penerimaan</option>';
+        foreach ($terima as $t) {
+            $select = $t['idharga'] == $id_harga ? 'selected' : null;
+            echo '<option value="' . $t['idharga'] . '" ' . $select . '>' . $t['nomor'] . '</option>';
+        }
+        echo '</select>';
+        echo '<div id="tanggal"></div>';
+        echo '</div>';
+        echo '<div class="form-group">';
+        echo '<label class="required">Harga</label>';
+        echo '<select class="form-control" name="harga" id="harga">';
+        echo '<option value="">Pilih Harga</option>';
+        foreach ($harga as $h) {
+            $selecthrg = $h['default'] == 1 ? 'selected' : null;
+            echo '<option value="' . $h['idhrgdetail'] . '" ' . $selecthrg . '>' . rupiah($h['nominal']) . ' ' . $h['satuan'] . '</option>';
+        }
+        echo '</select>';
+        echo '<div id="harga"></div>';
+        echo '</div>';
+    }
 }
 
 /* End of file Tmp_create.php */

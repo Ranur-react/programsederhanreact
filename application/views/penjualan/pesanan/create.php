@@ -77,4 +77,18 @@
             }
         });
     }
+
+    $(document).on('change', '.idbarang', function(e) {
+        var idbarang = $(".idbarang").val();
+        $.ajax({
+            type: "GET",
+            url: "<?= site_url('pesanan/tmp-create/get-penerimaan') ?>",
+            data: {
+                idbarang: idbarang
+            },
+            success: function(resp) {
+                $("#list-penerimaan").html(resp);
+            }
+        });
+    });
 </script>

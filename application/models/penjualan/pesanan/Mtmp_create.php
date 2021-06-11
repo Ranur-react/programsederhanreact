@@ -40,6 +40,51 @@ class Mtmp_create extends CI_Model
         }
         return $data;
     }
+    public function getHargaTerima($idbarang, $status)
+    {
+        $sql = "SELECT * FROM penerimaan JOIN penerimaan_detail ON id_terima=terima_detail JOIN penerimaan_harga ON id_detail=detail_terima_harga JOIN harga_barang ON barang_terima_harga=id_hrg_barang JOIN harga_detail ON id_hrg_barang=harga_hrg_detail JOIN barang_satuan ON satuan_hrg_detail=id_brg_satuan JOIN satuan ON satuan_brg_satuan=id_satuan WHERE barang_brg_satuan=" . (int)$idbarang;
+        // Tampilkan penerimaan barang dengan harga barang default
+        if ($status == 'default') :
+            $sql .= " AND default_hrg_detail=1";
+        endif;
+        // Tampilkan penerimaan barang dengan harga barang aktif
+        if ($status == 'aktif') :
+            $sql .= " AND aktif_hrg_detail=1";
+        endif;
+        $sql .= " GROUP BY id_terima ORDER BY id_hrg_barang DESC";
+        if ($status == 'default') :
+            $sql .= " LIMIT 1";
+        endif;
+        if ($status == 'default') :
+            $query = $this->db->query($sql)->row();
+            $data = ['idharga' => $query->id_hrg_barang];
+        endif;
+        if ($status == 'aktif') :
+            $query = $this->db->query($sql)->result();
+            foreach ($query as $value) {
+                $data[] = [
+                    'idterima' => $value->id_terima,
+                    'idharga' => $value->id_hrg_barang,
+                    'nomor' => $value->nosurat_terima
+                ];
+            }
+        endif;
+        return $data;
+    }
+    public function getHarga($id_harga)
+    {
+        $sql = "SELECT * FROM harga_detail JOIN barang_satuan ON satuan_hrg_detail=id_brg_satuan JOIN satuan ON satuan_brg_satuan=id_satuan WHERE harga_hrg_detail=" . (int)$id_harga . " AND aktif_hrg_detail=1 ORDER BY default_hrg_detail DESC";
+        $query = $this->db->query($sql)->result();
+        foreach ($query as $value) {
+            $data[] = [
+                'idhrgdetail' => $value->id_hrg_detail,
+                'nominal' => $value->jual_hrg_detail,
+                'satuan' => $value->singkatan_satuan,
+                'default' => $value->default_hrg_detail
+            ];
+        }
+        return $data;
+    }
 }
 
 /* End of file Mtmp_create.php */
