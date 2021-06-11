@@ -24,6 +24,29 @@
                     <tbody id="data_tmp"></tbody>
                 </table>
             </div>
+            <div class="row">
+                <div class="col-lg-6 col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <label>Pilih Customer</label>
+                        <select class="form-control select2 customer" name="customer" data-placeholder="Pilih Customer">
+                            <option value=""></option>
+                            <?php foreach ($customer as $c) { ?>
+                                <option value="<?= $c['id'] ?>"><?= $c['nama'] ?></option>
+                            <?php } ?>
+                        </select>
+                        <div id="customer"></div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <label>Pilih Alamat</label>
+                        <select class="form-control select2" name="alamat" id="alamat" data-placeholder="Pilih Alamat">
+                            <option value=""></option>
+                        </select>
+                        <div id="idalamat"></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -40,6 +63,17 @@
             method: "GET",
             success: function(resp) {
                 $('#data_tmp').html(resp);
+            }
+        });
+    }
+
+    function create() {
+        $.ajax({
+            url: "<?= site_url('pesanan/tmp-create/create') ?>",
+            type: "GET",
+            success: function(resp) {
+                $("#tampil_modal").html(resp);
+                $("#modal_create").modal('show');
             }
         });
     }
