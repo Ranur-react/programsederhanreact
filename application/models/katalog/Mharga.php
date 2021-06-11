@@ -83,7 +83,7 @@ class Mharga extends CI_Model
             $query = $this->db->query($query)->result();
         else :
             // Tampilkan semua data terima diurutkan dari yang terakhir
-            $query .= " ORDER BY tanggal_hrg_barang DESC";
+            $query .= " ORDER BY id_hrg_barang DESC";
             $query = $this->db->query($query)->result();
         endif;
         return $query;
