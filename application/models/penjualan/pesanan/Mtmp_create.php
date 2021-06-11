@@ -85,6 +85,18 @@ class Mtmp_create extends CI_Model
         }
         return $data;
     }
+    public function store($post)
+    {
+        $id = $post['harga'];
+        $data = $this->db->where('id_hrg_detail', $id)->get('harga_detail')->row();
+        $data = [
+            'idhrgdetail' => $post['harga'],
+            'harga'  => $data->jual_hrg_detail,
+            'jumlah' => convert_uang($post['jumlah']),
+            'user'   => id_user()
+        ];
+        return $this->db->insert('tmp_order', $data);
+    }
 }
 
 /* End of file Mtmp_create.php */

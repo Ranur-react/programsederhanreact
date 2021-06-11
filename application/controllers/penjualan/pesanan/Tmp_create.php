@@ -71,6 +71,33 @@ class Tmp_create extends CI_Controller
         echo '<div id="harga"></div>';
         echo '</div>';
     }
+    public function store()
+    {
+        $post = $this->input->post(null, TRUE);
+        $this->form_validation->set_rules('barang', 'Barang', 'required');
+        $this->form_validation->set_rules('tanggal', 'Tanggal penerimaan', 'required');
+        $this->form_validation->set_rules('harga', 'Harga', 'required');
+        $this->form_validation->set_rules('jumlah', 'Jumlah', 'required|greater_than[0]');
+        $this->form_validation->set_message('required', errorRequired());
+        $this->form_validation->set_message('greater_than', greater_than());
+        $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
+        if ($this->form_validation->run() == TRUE) {
+            $this->Mtmp_create->store($post);
+            $json = array(
+                'status' => '0100',
+                'message' => 'Barang berhasil ditambahkan'
+            );
+        } else {
+            $json = array(
+                'status' => '0101',
+                'message' => 'Barang gagal ditambahkan'
+            );
+            foreach ($_POST as $key => $value) {
+                $json['pesan'][$key] = form_error($key);
+            }
+        }
+        echo json_encode($json);
+    }
 }
 
 /* End of file Tmp_create.php */

@@ -155,6 +155,7 @@ $route['pesanan/tmp-create'] = 'penjualan/pesanan/tmp_create';
 $route['pesanan/tmp-create/create'] = 'penjualan/pesanan/tmp_create/create';
 $route['pesanan/tmp-create/get-penerimaan'] = 'penjualan/pesanan/tmp_create/get_penerimaan';
 $route['pesanan/tmp-create/get-harga'] = 'penjualan/pesanan/tmp_create/get_harga';
+$route['pesanan/tmp-create/store'] = 'penjualan/pesanan/tmp_create/store';
 
 // Role
 $route['roles'] = 'master/roles';
