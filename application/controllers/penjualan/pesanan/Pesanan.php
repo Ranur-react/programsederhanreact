@@ -7,6 +7,7 @@ class Pesanan extends CI_Controller
     {
         parent::__construct();
         cek_user();
+        $this->load->model('master/Mcustomer');
     }
     public function index()
     {
@@ -22,7 +23,8 @@ class Pesanan extends CI_Controller
         $data = [
             'title' => 'Pesanan',
             'small' => 'Tambah Pesanan',
-            'links' => '<li><a href="' . site_url('pesanan') . '">Pesanan</a></li><li class="active">Tambah</li>'
+            'links' => '<li><a href="' . site_url('pesanan') . '">Pesanan</a></li><li class="active">Tambah</li>',
+            'customer' => $this->Mcustomer->get_all()
         ];
         $this->template->dashboard('penjualan/pesanan/create', $data);
     }
