@@ -54,6 +54,23 @@ class Tmp_create extends CI_Controller
         echo '<div id="harga"></div>';
         echo '</div>';
     }
+    public function get_harga()
+    {
+        $id_harga = $this->input->get('idharga');
+        $harga = $this->Mtmp_create->getHarga($id_harga);
+        var_dump($harga);
+        echo '<div class="form-group">';
+        echo '<label class="required">Harga</label>';
+        echo '<select class="form-control" name="harga" id="harga">';
+        echo '<option value="">Pilih Harga</option>';
+        foreach ($harga as $h) {
+            $selecthrg = $h['default'] == 1 ? 'selected' : null;
+            echo '<option value="' . $h['idhrgdetail'] . '" ' . $selecthrg . '>' . rupiah($h['nominal']) . ' ' . $h['satuan'] . '</option>';
+        }
+        echo '</select>';
+        echo '<div id="harga"></div>';
+        echo '</div>';
+    }
 }
 
 /* End of file Tmp_create.php */

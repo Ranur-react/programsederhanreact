@@ -91,4 +91,18 @@
             }
         });
     });
+
+    $(document).on('change', '.idharga', function(e) {
+        var idharga = $(".idharga").val();
+        $.ajax({
+            type: "GET",
+            url: "<?= site_url('pesanan/tmp-create/get-harga') ?>",
+            data: {
+                idharga: idharga
+            },
+            success: function(resp) {
+                $("#harga").html(resp);
+            }
+        });
+    });
 </script>
