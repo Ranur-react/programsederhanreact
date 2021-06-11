@@ -53,6 +53,7 @@
 <div id="tampil_modal"></div>
 <script>
     $(document).ready(function() {
+        $('.select2').select2();
         data_tmp();
     });
 
@@ -115,6 +116,20 @@
             },
             success: function(resp) {
                 $("#harga").html(resp);
+            }
+        });
+    });
+
+    $(document).on('change', '.customer', function(e) {
+        var idcustomer = $(".customer").val();
+        $.ajax({
+            type: "GET",
+            url: "<?= site_url('pesanan/tmp-create/get-alamat') ?>",
+            data: {
+                idcustomer: idcustomer
+            },
+            success: function(resp) {
+                $("#alamat").html(resp);
             }
         });
     });

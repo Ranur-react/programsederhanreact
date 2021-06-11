@@ -109,6 +109,16 @@ class Tmp_create extends CI_Controller
         }
         echo json_encode($json);
     }
+    public function get_alamat()
+    {
+        $idcustomer = $this->input->get('idcustomer');
+        $query = $this->db->where('customer_alamat', $idcustomer)->get('customer_alamat')->result_array();
+        $data = '<option value=""></option>';
+        foreach ($query as $row) {
+            $data .= '<option value="' . $row['id_alamat'] . '">' . $row['penerima_alamat'] . ' - ' . $row['detail_alamat'] . '</option>';
+        }
+        echo $data;
+    }
 }
 
 /* End of file Tmp_create.php */
