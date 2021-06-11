@@ -53,7 +53,6 @@ if (!function_exists('status_span')) {
                 $pesan = 'Sampai Tujuan';
                 $class = 'status-accepted';
             endif;
-
         endif;
         $span = '<span class="label status ' . $class . '">' . $pesan . '</span>';
         return $span;
@@ -87,6 +86,23 @@ if (!function_exists('status_label')) {
             elseif ($code == 2) :
                 $pesan = 'Lunas';
                 $class = 'status-completed';
+            endif;
+        elseif ($jenis == 'order') :
+            if ($code == 0) :
+                $pesan = 'Belum Bayar';
+                $class = 'status-unpaid';
+            elseif ($code == 1) :
+                $pesan = 'Menunggu Konfirmasi';
+                $class = 'status-suspended';
+            elseif ($code == 2) :
+                $pesan = 'Diproses';
+                $class = 'status-inprogress';
+            elseif ($code == 3) :
+                $pesan = 'Dikirim';
+                $class = 'status-delivered';
+            elseif ($code == 4) :
+                $pesan = 'Sampai Tujuan';
+                $class = 'status-accepted';
             endif;
         endif;
         $span = '<span class="label status-label ' . $class . '">' . $pesan . '</span>';
