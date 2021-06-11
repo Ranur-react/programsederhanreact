@@ -97,6 +97,10 @@ class Mtmp_create extends CI_Model
         ];
         return $this->db->insert('tmp_order', $data);
     }
+    public function destroy($kode)
+    {
+        return $this->db->where('id', $kode)->delete('tmp_order');
+    }
 }
 
 /* End of file Mtmp_create.php */

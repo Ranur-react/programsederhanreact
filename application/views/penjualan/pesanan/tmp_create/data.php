@@ -14,7 +14,7 @@ else :
             <td class="text-right"><?= rupiah($d['jumlah']) . ' ' . $d['satuan'] ?></td>
             <td><?= akuntansi($d['total']) ?></td>
             <td class="text-center">
-                <a href="javascript:void(0)"><i class="icon-trash text-red" title="Hapus Data"></i></a>
+                <a href="javascript:void(0)" onclick="destroy('<?= $d['id'] ?>')"><i class="icon-trash text-red" title="Hapus Data"></i></a>
             </td>
         </tr>
     <?php $no++;

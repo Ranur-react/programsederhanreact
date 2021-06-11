@@ -78,6 +78,19 @@
         });
     }
 
+    function destroy(kode) {
+        $.ajax({
+            url: "<?= site_url('pesanan/tmp-create/destroy') ?>",
+            type: "GET",
+            data: {
+                kode: kode
+            },
+            success: function(resp) {
+                data_tmp();
+            }
+        });
+    }
+
     $(document).on('change', '.idbarang', function(e) {
         var idbarang = $(".idbarang").val();
         $.ajax({
