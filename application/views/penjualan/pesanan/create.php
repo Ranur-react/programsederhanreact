@@ -5,6 +5,7 @@
                 <a class="text-back" href="<?= site_url('permintaan') ?>" title="Kembali"><i class="icon-arrow-left8" style="font-size: 24px"></i></a> Tambah Pesanan
             </h3>
         </div>
+        <?= form_open('pesanan/store', ['id' => 'form_create']) ?>
         <div class="box-body">
             <div class="table-responsive">
                 <table class="table table-bordered">
@@ -59,6 +60,10 @@
                 <div id="listbank"></div>
             </div>
         </div>
+        <div class="box-footer">
+            <button type="submit" class="btn btn-primary" id="store" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading..."><i class="icon-floppy-disk"></i> Simpan Pesanan</button>
+        </div>
+        <?= form_close() ?>
     </div>
 </div>
 <div id="tampil_modal"></div>
@@ -194,5 +199,44 @@
             }
         });
         return false;
+    });
+
+    $('#form_create').on('submit', function(event) {
+        event.preventDefault();
+        $.ajax({
+            url: $("#form_create").attr('action'),
+            method: "POST",
+            data: $(this).serialize(),
+            dataType: "json",
+            beforeSend: function() {
+                $('#store').button('loading');
+            },
+            success: function(resp) {
+                if (resp.status == "0100") {
+                    Swal.fire({
+                        title: 'Sukses!',
+                        text: resp.message,
+                        type: 'success'
+                    }).then(okay => {
+                        if (okay) {
+                            window.location.href = "<?= site_url('pesanan') ?>";
+                        }
+                    });
+                } else {
+                    $.each(resp.pesan, function(key, value) {
+                        var element = $('#' + key);
+                        element.closest('div.form-group')
+                            .removeClass('has-error')
+                            .addClass(value.length > 0 ? 'has-error' : 'has-success')
+                            .find('.help-block')
+                            .remove();
+                        element.after(value);
+                    });
+                }
+            },
+            complete: function() {
+                $('#store').button('reset');
+            }
+        })
     });
 </script>

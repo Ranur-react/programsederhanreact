@@ -149,6 +149,7 @@ $route['customer/update'] = 'master/customer/update';
 // Pesanan
 $route['pesanan'] = 'penjualan/pesanan/pesanan';
 $route['pesanan/create'] = 'penjualan/pesanan/pesanan/create';
+$route['pesanan/store'] = 'penjualan/pesanan/pesanan/store';
 
 // Pesanan Tmp Create
 $route['pesanan/tmp-create'] = 'penjualan/pesanan/tmp_create';
