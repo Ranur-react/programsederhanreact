@@ -19,6 +19,40 @@ class Pesanan extends CI_Controller
         ];
         $this->template->dashboard('penjualan/pesanan/index', $data);
     }
+    public function data()
+    {
+        $draw   = $_REQUEST['draw'];
+        $length = $_REQUEST['length'];
+        $start  = $_REQUEST['start'];
+        $search = $_REQUEST['search']["value"];
+        $total  = $this->Mpesanan->jumlah_data();
+        $output = array();
+        $output['draw'] = $draw;
+        $output['recordsTotal'] = $output['recordsFiltered'] = $total;
+        $output['data'] = array();
+        if ($search != "") {
+            $query = $this->Mpesanan->cari_data($search);
+        } else {
+            $query = $this->Mpesanan->tampil_data($start, $length);
+        }
+        if ($search != "") {
+            $count = $this->Mpesanan->cari_data($search);
+            $output['recordsTotal'] = $output['recordsFiltered'] = $count->num_rows();
+        }
+        foreach ($query->result_array() as $d) {
+            $detail = '<a href="javascript:void(0)"><i class="icon-eye8 text-black" data-toggle="tooltip" data-original-title="Detail"></i></a>';
+            $output['data'][] = array(
+                $d['invoice_order'],
+                format_indo(format_tglen_timestamp($d['tanggal_order'])) . ', ' . sort_jam_timestamp($d['tanggal_order']),
+                $d['nama_customer'],
+                $d['nama_metode'],
+                akuntansi($d['total_bayar']),
+                status_span($d['status_order'], 'order'),
+                $detail
+            );
+        }
+        echo json_encode($output);
+    }
     public function create()
     {
         $data = [
