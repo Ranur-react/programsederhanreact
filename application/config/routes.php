@@ -148,6 +148,7 @@ $route['customer/update'] = 'master/customer/update';
 
 // Pesanan
 $route['pesanan'] = 'penjualan/pesanan/pesanan';
+$route['pesanan/create'] = 'penjualan/pesanan/pesanan/create';
 
 // Role
 $route['roles'] = 'master/roles';

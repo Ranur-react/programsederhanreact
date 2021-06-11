@@ -17,6 +17,15 @@ class Pesanan extends CI_Controller
         ];
         $this->template->dashboard('penjualan/pesanan/index', $data);
     }
+    public function create()
+    {
+        $data = [
+            'title' => 'Pesanan',
+            'small' => 'Tambah Pesanan',
+            'links' => '<li><a href="' . site_url('pesanan') . '">Pesanan</a></li><li class="active">Tambah</li>'
+        ];
+        $this->template->dashboard('penjualan/pesanan/create', $data);
+    }
 }
 
 /* End of file Pesanan.php */
