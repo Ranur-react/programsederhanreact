@@ -19,7 +19,8 @@ class Tmp_create extends CI_Controller
             'name' => 'Tambah Barang',
             'post' => 'pesanan/tmp-create/store',
             'class' => 'form_tmp',
-            'backdrop' => 1
+            'backdrop' => 1,
+            'barang' => $this->Mtmp_create->getBarangDefault()
         ];
         $this->template->modal_form('penjualan/pesanan/tmp_create/create', $data);
     }
