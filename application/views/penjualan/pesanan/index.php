@@ -12,6 +12,7 @@
                         <th>Customer</th>
                         <th>Metode Bayar</th>
                         <th class="text-right">Total</th>
+                        <th>Konfirmasi</th>
                         <th class="text-center">Status</th>
                         <th class="text-center">Action</th>
                     </tr>
@@ -43,6 +44,9 @@
                 "class": "text-left"
             },
             {
+                "class": "text-left"
+            },
+            {
                 "class": "text-right"
             },
             {
@@ -53,4 +57,18 @@
             }
         ]
     });
+
+    function detail(kode) {
+        $.ajax({
+            url: "<?= site_url('pesanan/detail') ?>",
+            type: "GET",
+            data: {
+                kode: kode
+            },
+            success: function(resp) {
+                $("#tampil-modal").html(resp);
+                $("#modal_alert").modal('show');
+            }
+        });
+    }
 </script>

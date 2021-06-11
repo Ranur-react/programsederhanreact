@@ -40,13 +40,14 @@ class Pesanan extends CI_Controller
             $output['recordsTotal'] = $output['recordsFiltered'] = $count->num_rows();
         }
         foreach ($query->result_array() as $d) {
-            $detail = '<a href="javascript:void(0)"><i class="icon-eye8 text-black" data-toggle="tooltip" data-original-title="Detail"></i></a>';
+            $detail = '<a href="javascript:void(0)" onclick="detail(\'' . $d['id_order'] . '\')" title="Detail"><i class="icon-eye8 text-black"></i></a>';
             $output['data'][] = array(
                 $d['invoice_order'],
                 format_indo(format_tglen_timestamp($d['tanggal_order'])) . ', ' . sort_jam_timestamp($d['tanggal_order']),
                 $d['nama_customer'],
                 $d['nama_metode'],
                 akuntansi($d['total_bayar']),
+                '',
                 status_span($d['status_order'], 'order'),
                 $detail
             );
@@ -87,6 +88,18 @@ class Pesanan extends CI_Controller
             }
         }
         echo json_encode($json);
+    }
+    public function detail()
+    {
+        $kode = $this->input->get('kode');
+        $data = [
+            'name' => 'Detail Pesanan',
+            'modallg' => 1,
+            'data' => $this->Mpesanan->show($kode),
+            'produk' => $this->Mpesanan->produk($kode),
+            'pengiriman' => $this->Mpesanan->pengiriman($kode)
+        ];
+        $this->template->modal_info('penjualan/pesanan/detail', $data);
     }
 }
 

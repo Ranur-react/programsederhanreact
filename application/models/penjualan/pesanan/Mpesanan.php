@@ -139,6 +139,61 @@ class Mpesanan extends CI_Model
         }
         return $order;
     }
+    public function show($id = null)
+    {
+        $result = $this->db->from('orders')
+            ->join('customer', 'customer_order=id_customer')
+            ->join('order_bayar', 'id_order=order_bayar')
+            ->join('metode_bayar', 'id_metode=metode_bayar')
+            ->where('id_order', $id)
+            ->get()->row();
+        $data = [
+            'id' => $result->id_order,
+            'idbayar' => $result->id_bayar,
+            'nomor' => $result->invoice_order,
+            'tanggal' => $result->tanggal_order,
+            'customer' => $result->nama_customer,
+            'metode' => $result->nama_metode,
+            'status' => $result->status_order,
+            'total' => $result->total_bayar
+        ];
+        return $data;
+    }
+    public function produk($id = null)
+    {
+        $sql = "SELECT * FROM order_barang JOIN harga_detail ON idbarang_order_barang=id_hrg_detail JOIN barang_satuan ON satuan_hrg_detail=id_brg_satuan
+        JOIN barang ON barang_brg_satuan=id_barang JOIN satuan ON satuan_brg_satuan=id_satuan
+        WHERE idorder_order_barang=" . (int)$id;
+        $query = $this->db->query($sql)->result();
+        $total = 0;
+        $rows = array();
+        foreach ($query as $value) {
+            $total = $total + (($value->harga_order_barang - $value->diskon_order_barang) * $value->jumlah_order_barang);
+            $result = [
+                'produk' => $value->nama_barang,
+                'harga' => $value->harga_order_barang - $value->diskon_order_barang,
+                'jumlah' => $value->jumlah_order_barang,
+                'total' => ($value->harga_order_barang - $value->diskon_order_barang) * $value->jumlah_order_barang,
+                'note' => $value->info_order_barang
+            ];
+            $rows[] = $result;
+        }
+        $data['data'] = $rows;
+        $data['total'] = $total;
+        return $data;
+    }
+    public function pengiriman($id = null)
+    {
+        $result = $this->db->where('idorder_order_alamat', $id)->get('order_alamat')->row();
+        $data = [
+            'penerima' => $result->penerima_order_alamat,
+            'telp' => $result->phone_order_alamat,
+            'alamat' => $result->detail_order_alamat,
+            'kota' => $result->kota_order_alamat,
+            'pos' => $result->kodepos_order_alamat
+        ];
+        return $data;
+    }
 }
 
 /* End of file Mpesanan.php */
