@@ -150,6 +150,9 @@ $route['customer/update'] = 'master/customer/update';
 $route['pesanan'] = 'penjualan/pesanan/pesanan';
 $route['pesanan/create'] = 'penjualan/pesanan/pesanan/create';
 
+// Pesanan Tmp Create
+$route['pesanan/tmp-create'] = 'penjualan/pesanan/tmp_create';
+
 // Role
 $route['roles'] = 'master/roles';
 $route['roles/create'] = 'master/roles/create';
