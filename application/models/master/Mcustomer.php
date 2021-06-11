@@ -3,6 +3,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Mcustomer extends CI_Model
 {
+    public function get_all()
+    {
+        $query = $this->db->get('customer')->result();
+        foreach ($query as $value) {
+            $data[] = [
+                'id' => $value->id_customer,
+                'nama' => $value->nama_customer
+            ];
+        }
+        return $data;
+    }
     public function jumlah_data()
     {
         return $this->db->count_all_results('customer');
