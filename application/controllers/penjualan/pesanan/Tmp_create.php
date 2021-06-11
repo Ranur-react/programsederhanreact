@@ -58,7 +58,6 @@ class Tmp_create extends CI_Controller
     {
         $id_harga = $this->input->get('idharga');
         $harga = $this->Mtmp_create->getHarga($id_harga);
-        var_dump($harga);
         echo '<div class="form-group">';
         echo '<label class="required">Harga</label>';
         echo '<select class="form-control" name="harga" id="harga">';
@@ -118,6 +117,30 @@ class Tmp_create extends CI_Controller
             $data .= '<option value="' . $row['id_alamat'] . '">' . $row['penerima_alamat'] . ' - ' . $row['detail_alamat'] . '</option>';
         }
         echo $data;
+    }
+    public function get_bank()
+    {
+        $idcustomer = $this->input->get('idcustomer');
+        $idmetode = $this->input->get('idmetode');
+        $data = $this->db->from('customer_bank')
+            ->join('bank_code', 'bank_cs_bank=id_bank')
+            ->where('customer_cs_bank', $idcustomer)
+            ->get()->result_array();
+        if ($idmetode == '1') {
+            echo '';
+        } else {
+            echo '<div class="col-lg-6 col-sm-6 col-md-6">';
+            echo '<div class="form-group">';
+            echo '<label class="required">Pilih Bank</label>';
+            echo '<select class="form-control" name="bank" id="bank">';
+            echo '<option value="">Pilih Bank</option>';
+            foreach ($data as $d) {
+                echo '<option value="' . $d['id_cs_bank'] . '">' . $d['nama_bank'] . ' a/n ' . $d['pemilik_cs_bank'] . ' ' . $d['norek_cs_bank'] . '</option>';
+            }
+            echo '</select>';
+            echo '</div>';
+            echo '</div>';
+        }
     }
 }
 

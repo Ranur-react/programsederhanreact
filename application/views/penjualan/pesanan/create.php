@@ -40,12 +40,23 @@
                 <div class="col-lg-6 col-sm-6 col-md-6">
                     <div class="form-group">
                         <label>Pilih Alamat</label>
-                        <select class="form-control select2" name="alamat" id="alamat" data-placeholder="Pilih Alamat">
+                        <select class="form-control select2" name="alamat" id="idalamat" data-placeholder="Pilih Alamat">
                             <option value=""></option>
                         </select>
-                        <div id="idalamat"></div>
+                        <div id="alamat"></div>
                     </div>
                 </div>
+                <div class="col-lg-6 col-sm-6 col-md-6">
+                    <div class="form-group">
+                        <label>Metode Pembayaran</label>
+                        <select class="form-control idmetode" name="metode" id="metode">
+                            <option value="">Pilih Metode Pembayaran</option>
+                            <option value="1">COD</option>
+                            <option value="2">Transfer Bank</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="listbank"></div>
             </div>
         </div>
     </div>
@@ -129,7 +140,23 @@
                 idcustomer: idcustomer
             },
             success: function(resp) {
-                $("#alamat").html(resp);
+                $("#idalamat").html(resp);
+            }
+        });
+    });
+
+    $(document).on('change', '.idmetode', function(e) {
+        var idcustomer = $(".customer").val();
+        var idmetode = $(".idmetode").val();
+        $.ajax({
+            type: "GET",
+            url: "<?= site_url('pesanan/tmp-create/get-bank') ?>",
+            data: {
+                idcustomer: idcustomer,
+                idmetode: idmetode
+            },
+            success: function(resp) {
+                $("#listbank").html(resp);
             }
         });
     });
