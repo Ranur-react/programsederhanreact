@@ -49,11 +49,19 @@ class Mpembayaran extends CI_Model
             ->join('order_bukti_bayar', 'id_bayar=idbayar_bukti')
             ->where('order_bayar', $id)
             ->get()->row();
-        $data = [
-            'tanggal' => $result->tanggal_bukti,
-            'nilai' => $result->nilai_bukti,
-            'bukti' => $result->image_bukti
-        ];
+        if ($result != null) {
+            $data = [
+                'idorder' => $result->order_bayar,
+                'idbayar' => $result->id_bayar,
+                'idbukti' => $result->id_bukti,
+                'tanggal' => $result->tanggal_bukti,
+                'nilai' => $result->nilai_bukti,
+                'bukti' => $result->image_bukti,
+                'status' => $result->status_bukti
+            ];
+        } else {
+            $data = ['status' => false];
+        }
         return $data;
     }
 }
