@@ -49,6 +49,9 @@ if (!function_exists('status_span')) {
             elseif ($code == 3) :
                 $pesan = 'Sampai Tujuan';
                 $class = 'info-accepted';
+            elseif ($code == 4) :
+                $pesan = 'Dibatalkan';
+                $class = 'status-cancelled';
             endif;
         elseif ($jenis == 'bayar') :
             if ($code == 0) :
@@ -60,6 +63,9 @@ if (!function_exists('status_span')) {
             elseif ($code == 2) :
                 $pesan = 'Sudah Bayar';
                 $class = 'info-accepted';
+            elseif ($code == 3) :
+                $pesan = 'Dibatalkan';
+                $class = 'status-cancelled';
             endif;
         elseif ($jenis == 'confirm') :
             if ($code == 0) :
@@ -68,6 +74,9 @@ if (!function_exists('status_span')) {
             elseif ($code == 1) :
                 $pesan = 'Sudah Disetujui';
                 $class = 'info-accepted';
+            elseif ($code == 2) :
+                $pesan = 'Dibatalkan';
+                $class = 'status-cancelled';
             endif;
         endif;
         $span = '<span class="label status ' . $class . '">' . $pesan . '</span>';
@@ -116,6 +125,9 @@ if (!function_exists('status_label')) {
             elseif ($code == 3) :
                 $pesan = 'Sampai Tujuan';
                 $class = 'info-accepted';
+            elseif ($code == 4) :
+                $pesan = 'Dibatalkan';
+                $class = 'status-cancelled';
             endif;
         elseif ($jenis == 'bayar') :
             if ($code == 0) :
@@ -127,6 +139,9 @@ if (!function_exists('status_label')) {
             elseif ($code == 2) :
                 $pesan = 'Sudah Bayar';
                 $class = 'info-accepted';
+            elseif ($code == 3) :
+                $pesan = 'Dibatalkan';
+                $class = 'status-cancelled';
             endif;
         elseif ($jenis == 'confirm') :
             if ($code == 0) :
@@ -135,6 +150,9 @@ if (!function_exists('status_label')) {
             elseif ($code == 1) :
                 $pesan = 'Sudah Disetujui';
                 $class = 'info-accepted';
+            elseif ($code == 2) :
+                $pesan = 'Dibatalkan';
+                $class = 'status-cancelled';
             endif;
         endif;
         $span = '<span class="label status-label ' . $class . '">' . $pesan . '</span>';

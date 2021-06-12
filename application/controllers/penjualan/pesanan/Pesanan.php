@@ -44,6 +44,12 @@ class Pesanan extends CI_Controller
             $detail = '<a href="javascript:void(0)" onclick="detail(\'' . $d['id_order'] . '\')" title="Detail"><i class="icon-eye8 text-black"></i></a>';
             $bayar = '<a href="javascript:void(0)" onclick="bayar(\'' . $d['id_order'] . '\')" title="Konfirmasi"><i class="icon-coin-dollar text-purple"></i></a>';
             $confirm = '<a href="javascript:void(0)" class="btn btn-xs btn-danger" onclick="confirm(\'' . $d['id_order'] . '\')">Konfirmasi</a>';
+            $cancel = '<a href="javascript:void(0)" onclick="batal(\'' . $d['id_order'] . '\')" title="Batal"><i class="icon-cancel-square2 text-red"></i></a>';
+            if ($d['status_order'] == 1 or $d['status_order'] == 4) {
+                $action = $detail . '&nbsp;' . $bayar;
+            } else {
+                $action = $detail . '&nbsp;' . $bayar . '&nbsp' . $cancel;
+            }
             $output['data'][] = array(
                 $d['invoice_order'],
                 format_indo(format_tglen_timestamp($d['tanggal_order'])) . ', ' . sort_jam_timestamp($d['tanggal_order']),
@@ -53,7 +59,7 @@ class Pesanan extends CI_Controller
                 $confirm,
                 status_span($d['status_bayar'], 'bayar'),
                 status_span($d['status_order'], 'order'),
-                $detail . '&nbsp;' . $bayar
+                $action
             );
         }
         echo json_encode($output);
@@ -104,6 +110,16 @@ class Pesanan extends CI_Controller
             'pengiriman' => $this->Mpesanan->pengiriman($kode)
         ];
         $this->template->modal_info('penjualan/pesanan/detail', $data);
+    }
+    public function batal()
+    {
+        $kode = $this->input->get('kode');
+        $this->Mpesanan->batal($kode);
+        $json = array(
+            'status' => '0100',
+            'pesan' => 'Pesanan Berhasil Dibatalkan'
+        );
+        echo json_encode($json);
     }
 }
 

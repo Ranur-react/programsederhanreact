@@ -96,6 +96,16 @@ class Pembayaran extends CI_Controller
         );
         echo json_encode($json);
     }
+    public function batal()
+    {
+        $kode = $this->input->get('kode');
+        $this->Mpembayaran->batal($kode);
+        $json = array(
+            'status' => '0100',
+            'pesan' => 'Konfirmasi Pembayaran Dibatalkan'
+        );
+        echo json_encode($json);
+    }
 }
 
 /* End of file Pembayaran.php */

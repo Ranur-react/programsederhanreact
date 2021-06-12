@@ -76,6 +76,43 @@
         });
     }
 
+    function batal(kode) {
+        Swal({
+            title: "Perhatian!",
+            text: "Apakah kamu yakin untuk batalkan pesanan ini?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: "Batalkan Pesanan"
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    type: "get",
+                    url: "<?= site_url('pesanan/batal') ?>",
+                    data: {
+                        kode: kode
+                    },
+                    dataType: "json",
+                    success: function(resp) {
+                        if (resp.status == "0100") {
+                            Swal.fire({
+                                title: 'Pembatalan!',
+                                text: resp.pesan,
+                                type: 'success'
+                            }).then((resp) => {
+                                var DataTabel = $('.data_pesanan').DataTable();
+                                DataTabel.ajax.reload();
+                            })
+                        } else {
+                            Swal.fire('Oops...', resp.pesan, 'error');
+                        }
+                    }
+                });
+            }
+        })
+    }
+
     function confirm(kode) {
         $.ajax({
             url: "<?= site_url('pembayaran/confirm') ?>",
@@ -132,6 +169,38 @@
             },
             complete: function() {
                 $('#store').button('reset');
+            }
+        });
+    }
+
+    function batalConfrim(kode) {
+        $.ajax({
+            url: "<?= site_url('pembayaran/batal') ?>",
+            type: "GET",
+            dataType: 'json',
+            data: {
+                kode: kode
+            },
+            beforeSend: function() {
+                $('#batal').button('loading');
+            },
+            success: function(resp) {
+                if (resp.status == "0100") {
+                    Swal.fire({
+                        title: 'Sukses!',
+                        text: resp.pesan,
+                        type: 'success'
+                    }).then(okay => {
+                        if (okay) {
+                            $("#modal_alert").modal('hide');
+                            var DataTabel = $('.data_pesanan').DataTable();
+                            DataTabel.ajax.reload();
+                        }
+                    });
+                }
+            },
+            complete: function() {
+                $('#batal').button('reset');
             }
         });
     }

@@ -152,6 +152,7 @@ $route['pesanan/data'] = 'penjualan/pesanan/pesanan/data';
 $route['pesanan/create'] = 'penjualan/pesanan/pesanan/create';
 $route['pesanan/store'] = 'penjualan/pesanan/pesanan/store';
 $route['pesanan/detail'] = 'penjualan/pesanan/pesanan/detail';
+$route['pesanan/batal'] = 'penjualan/pesanan/pesanan/batal';
 
 // Pesanan Tmp Create
 $route['pesanan/tmp-create'] = 'penjualan/pesanan/tmp_create';
@@ -168,6 +169,7 @@ $route['pembayaran/confirm'] = 'penjualan/pembayaran/confirm';
 $route['pembayaran/store'] = 'penjualan/pembayaran/store';
 $route['pembayaran/detail'] = 'penjualan/pembayaran/detail';
 $route['pembayaran/approve'] = 'penjualan/pembayaran/approve';
+$route['pembayaran/batal'] = 'penjualan/pembayaran/batal';
 
 // Role
 $route['roles'] = 'master/roles';

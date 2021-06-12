@@ -43,11 +43,19 @@ class Mpembayaran extends CI_Model
         );
         return $this->db->where('id_bayar', $idbayar)->update('order_bayar', $data);
     }
+    public function status_confirm($idbukti = null, $code = null)
+    {
+        $data = array(
+            'status_bukti' => $code
+        );
+        return $this->db->where('id_bukti', $idbukti)->update('order_bukti_bayar', $data);
+    }
     public function show($id = null)
     {
         $result = $this->db->from('order_bayar')
             ->join('order_bukti_bayar', 'id_bayar=idbayar_bukti')
             ->where('order_bayar', $id)
+            ->where_in('status_bukti', [0, 1])
             ->get()->row();
         if ($result != null) {
             $data = [
@@ -60,7 +68,7 @@ class Mpembayaran extends CI_Model
                 'status' => $result->status_bukti
             ];
         } else {
-            $data = ['status' => false];
+            $data = ['status' => null];
         }
         return $data;
     }
@@ -69,7 +77,13 @@ class Mpembayaran extends CI_Model
         $data = $this->show($id);
         $this->create_status($data['idbayar'], 2);
         $this->Mpesanan->create_status($data['idorder'], 1);
-        return $this->db->where('id_bukti', $data['idbukti'])->update('order_bukti_bayar', ['status_bukti' => 1]);
+        return $this->status_confirm($data['idbukti'], 1);
+    }
+    public function batal($id = null)
+    {
+        $data = $this->db->where('id_bukti', $id)->get('order_bukti_bayar')->row_array();
+        $this->create_status($data['idbayar_bukti'], 0);
+        return $this->status_confirm($id, 2);
     }
 }
 
