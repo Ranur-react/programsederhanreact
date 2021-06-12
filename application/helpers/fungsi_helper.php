@@ -38,20 +38,28 @@ if (!function_exists('status_span')) {
             endif;
         elseif ($jenis == 'order') :
             if ($code == 0) :
+                $pesan = 'Belum Diproses';
+                $class = 'status-pending';
+            elseif ($code == 1) :
+                $pesan = 'Dalam Pengemasan';
+                $class = 'status-inprogress';
+            elseif ($code == 2) :
+                $pesan = 'Dikirim';
+                $class = 'status-delivered';
+            elseif ($code == 3) :
+                $pesan = 'Sampai Tujuan';
+                $class = 'status-accepted';
+            endif;
+        elseif ($jenis == 'bayar') :
+            if ($code == 0) :
                 $pesan = 'Belum Bayar';
                 $class = 'status-unpaid';
             elseif ($code == 1) :
                 $pesan = 'Menunggu Konfirmasi';
-                $class = 'status-suspended';
+                $class = 'status-pending transfer';
             elseif ($code == 2) :
-                $pesan = 'Diproses';
-                $class = 'status-inprogress';
-            elseif ($code == 3) :
-                $pesan = 'Dikirim';
-                $class = 'status-delivered';
-            elseif ($code == 4) :
-                $pesan = 'Sampai Tujuan';
-                $class = 'status-accepted';
+                $pesan = 'Sudah Bayar';
+                $class = 'status-paid';
             endif;
         endif;
         $span = '<span class="label status ' . $class . '">' . $pesan . '</span>';
@@ -89,20 +97,28 @@ if (!function_exists('status_label')) {
             endif;
         elseif ($jenis == 'order') :
             if ($code == 0) :
+                $pesan = 'Belum Diproses';
+                $class = 'status-pending';
+            elseif ($code == 1) :
+                $pesan = 'Dalam Pengemasan';
+                $class = 'status-inprogress';
+            elseif ($code == 2) :
+                $pesan = 'Dikirim';
+                $class = 'status-delivered';
+            elseif ($code == 3) :
+                $pesan = 'Sampai Tujuan';
+                $class = 'status-accepted';
+            endif;
+        elseif ($jenis == 'bayar') :
+            if ($code == 0) :
                 $pesan = 'Belum Bayar';
                 $class = 'status-unpaid';
             elseif ($code == 1) :
                 $pesan = 'Menunggu Konfirmasi';
-                $class = 'status-suspended';
+                $class = 'status-pending transfer';
             elseif ($code == 2) :
-                $pesan = 'Diproses';
-                $class = 'status-inprogress';
-            elseif ($code == 3) :
-                $pesan = 'Dikirim';
-                $class = 'status-delivered';
-            elseif ($code == 4) :
-                $pesan = 'Sampai Tujuan';
-                $class = 'status-accepted';
+                $pesan = 'Sudah Bayar';
+                $class = 'status-paid';
             endif;
         endif;
         $span = '<span class="label status-label ' . $class . '">' . $pesan . '</span>';
