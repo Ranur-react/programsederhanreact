@@ -163,6 +163,9 @@ $route['pesanan/tmp-create/destroy'] = 'penjualan/pesanan/tmp_create/destroy';
 $route['pesanan/tmp-create/get-alamat'] = 'penjualan/pesanan/tmp_create/get_alamat';
 $route['pesanan/tmp-create/get-bank'] = 'penjualan/pesanan/tmp_create/get_bank';
 
+// Pembayaran
+$route['pembayaran/confirm'] = 'penjualan/pembayaran/confirm';
+
 // Role
 $route['roles'] = 'master/roles';
 $route['roles/create'] = 'master/roles/create';

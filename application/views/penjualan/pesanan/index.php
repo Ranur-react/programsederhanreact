@@ -71,4 +71,18 @@
             }
         });
     }
+
+    function confirm(kode) {
+        $.ajax({
+            url: "<?= site_url('pembayaran/confirm') ?>",
+            type: "GET",
+            data: {
+                kode: kode
+            },
+            success: function(resp) {
+                $("#tampil-modal").html(resp);
+                $("#modal_create").modal('show');
+            }
+        });
+    }
 </script>

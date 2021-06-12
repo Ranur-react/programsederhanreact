@@ -41,13 +41,14 @@ class Pesanan extends CI_Controller
         }
         foreach ($query->result_array() as $d) {
             $detail = '<a href="javascript:void(0)" onclick="detail(\'' . $d['id_order'] . '\')" title="Detail"><i class="icon-eye8 text-black"></i></a>';
+            $confirm = '<a href="javascript:void(0)" class="btn btn-xs btn-danger" onclick="confirm(\'' . $d['id_order'] . '\')">Konfirmasi</a>';
             $output['data'][] = array(
                 $d['invoice_order'],
                 format_indo(format_tglen_timestamp($d['tanggal_order'])) . ', ' . sort_jam_timestamp($d['tanggal_order']),
                 $d['nama_customer'],
                 $d['nama_metode'],
                 akuntansi($d['total_bayar']),
-                '',
+                $confirm,
                 status_span($d['status_order'], 'order'),
                 $detail
             );
