@@ -49,7 +49,7 @@
         </tr>
         <tr>
             <td colspan="2" class="text-center">
-                <button type="button" class="btn btn-success" id="store" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading..."><i class="icon-checkmark-circle"></i> Setujui Pembayaran</button>
+                <button type="button" class="btn btn-success" id="store" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading..." onclick="approve('<?= $bayar['idorder'] ?>')"><i class="icon-checkmark-circle"></i> Setujui Pembayaran</button>
             </td>
         </tr>
     <?php } else { ?>

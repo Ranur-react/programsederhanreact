@@ -104,6 +104,38 @@
         });
     }
 
+    function approve(kode) {
+        $.ajax({
+            url: "<?= site_url('pembayaran/approve') ?>",
+            type: "GET",
+            dataType: 'json',
+            data: {
+                kode: kode
+            },
+            beforeSend: function() {
+                $('#store').button('loading');
+            },
+            success: function(resp) {
+                if (resp.status == "0100") {
+                    Swal.fire({
+                        title: 'Sukses!',
+                        text: resp.pesan,
+                        type: 'success'
+                    }).then(okay => {
+                        if (okay) {
+                            $("#modal_alert").modal('hide');
+                            var DataTabel = $('.data_pesanan').DataTable();
+                            DataTabel.ajax.reload();
+                        }
+                    });
+                }
+            },
+            complete: function() {
+                $('#store').button('reset');
+            }
+        });
+    }
+
     $(document).on('submit', '.form_create', function(e) {
         event.preventDefault();
         var formData = new FormData($(".form_create")[0]);

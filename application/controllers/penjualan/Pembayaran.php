@@ -86,6 +86,16 @@ class Pembayaran extends CI_Controller
         ];
         $this->template->modal_info('penjualan/pembayaran/detail', $data);
     }
+    public function approve()
+    {
+        $kode = $this->input->get('kode');
+        $this->Mpembayaran->approve($kode);
+        $json = array(
+            'status' => '0100',
+            'pesan' => 'Konfirmasi Pembayaran Disetujui'
+        );
+        echo json_encode($json);
+    }
 }
 
 /* End of file Pembayaran.php */
