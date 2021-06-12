@@ -146,6 +146,29 @@ $route['customer/data'] = 'master/customer/data';
 $route['customer/detail/(:num)'] = 'master/customer/detail/$1';
 $route['customer/update'] = 'master/customer/update';
 
+// Pesanan
+$route['pesanan'] = 'penjualan/pesanan/pesanan';
+$route['pesanan/data'] = 'penjualan/pesanan/pesanan/data';
+$route['pesanan/create'] = 'penjualan/pesanan/pesanan/create';
+$route['pesanan/store'] = 'penjualan/pesanan/pesanan/store';
+$route['pesanan/detail'] = 'penjualan/pesanan/pesanan/detail';
+
+// Pesanan Tmp Create
+$route['pesanan/tmp-create'] = 'penjualan/pesanan/tmp_create';
+$route['pesanan/tmp-create/create'] = 'penjualan/pesanan/tmp_create/create';
+$route['pesanan/tmp-create/get-penerimaan'] = 'penjualan/pesanan/tmp_create/get_penerimaan';
+$route['pesanan/tmp-create/get-harga'] = 'penjualan/pesanan/tmp_create/get_harga';
+$route['pesanan/tmp-create/store'] = 'penjualan/pesanan/tmp_create/store';
+$route['pesanan/tmp-create/destroy'] = 'penjualan/pesanan/tmp_create/destroy';
+$route['pesanan/tmp-create/get-alamat'] = 'penjualan/pesanan/tmp_create/get_alamat';
+$route['pesanan/tmp-create/get-bank'] = 'penjualan/pesanan/tmp_create/get_bank';
+
+// Pembayaran
+$route['pembayaran/confirm'] = 'penjualan/pembayaran/confirm';
+$route['pembayaran/store'] = 'penjualan/pembayaran/store';
+$route['pembayaran/detail'] = 'penjualan/pembayaran/detail';
+$route['pembayaran/approve'] = 'penjualan/pembayaran/approve';
+
 // Role
 $route['roles'] = 'master/roles';
 $route['roles/create'] = 'master/roles/create';
