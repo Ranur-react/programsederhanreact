@@ -168,6 +168,7 @@ $route['pembayaran/confirm'] = 'penjualan/pembayaran/confirm';
 $route['pembayaran/store'] = 'penjualan/pembayaran/store';
 $route['pembayaran/detail'] = 'penjualan/pembayaran/detail';
 $route['pembayaran/approve'] = 'penjualan/pembayaran/approve';
+$route['pembayaran/batal'] = 'penjualan/pembayaran/batal';
 
 // Role
 $route['roles'] = 'master/roles';

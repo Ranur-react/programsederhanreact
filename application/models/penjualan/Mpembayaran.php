@@ -72,6 +72,12 @@ class Mpembayaran extends CI_Model
         $this->Mpesanan->create_status($data['idorder'], 1);
         return $this->db->where('id_bukti', $data['idbukti'])->update('order_bukti_bayar', ['status_bukti' => 1]);
     }
+    public function batal($id = null)
+    {
+        $data = $this->db->where('id_bukti', $id)->get('order_bukti_bayar')->row_array();
+        $this->create_status($data['idbayar_bukti'], 0);
+        return $this->db->where('id_bukti', $id)->update('order_bukti_bayar', ['status_bukti' => 2]);
+    }
 }
 
 /* End of file Mpembayaran.php */
