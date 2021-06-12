@@ -4,7 +4,11 @@
         <td><?= $data['nomor'] ?></td>
     </tr>
     <tr>
-        <th class="bg-gray color-palette">Status</th>
+        <th class="bg-gray color-palette">Status Bayar</th>
+        <td><?= status_label($data['status_bayar'], 'bayar') ?></td>
+    </tr>
+    <tr>
+        <th class="bg-gray color-palette">Status Order</th>
         <td><?= status_label($data['status'], 'order') ?></td>
     </tr>
     <tr>
@@ -53,8 +57,8 @@
     <div class="col-sm-6 invoice-col">
         Pembayaran
         <address>
-            Total Harga (<?= count($produk['data']) ?> Barang) : <strong><?= rupiah($produk['total']) ?></strong><br>
-            Total Bayar: <strong><?= rupiah($data['total']) ?></strong><br>
+            Total Harga (<?= count($produk['data']) ?> Barang) : <strong><?= 'Rp ' . rupiah($produk['total']) ?></strong><br>
+            Total Bayar: <strong><?= 'Rp ' . rupiah($data['total']) ?></strong><br>
             Metode Pembayaran: <strong><?= $data['metode'] ?></strong>
         </address>
     </div>

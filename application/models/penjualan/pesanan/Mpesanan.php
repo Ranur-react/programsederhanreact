@@ -155,6 +155,7 @@ class Mpesanan extends CI_Model
             'customer' => $result->nama_customer,
             'metode' => $result->nama_metode,
             'status' => $result->status_order,
+            'status_bayar' => $result->status_bayar,
             'total' => $result->total_bayar
         ];
         return $data;

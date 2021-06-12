@@ -15,7 +15,8 @@ class Pesanan extends CI_Controller
         $data = [
             'title' => 'Pesanan',
             'small' => 'Daftar Pesanan',
-            'links' => '<li class="active">Pesanan</li>'
+            'links' => '<li class="active">Pesanan</li>',
+            'sidebar' => 'collapse'
         ];
         $this->template->dashboard('penjualan/pesanan/index', $data);
     }
@@ -49,6 +50,7 @@ class Pesanan extends CI_Controller
                 $d['nama_metode'],
                 akuntansi($d['total_bayar']),
                 $confirm,
+                status_span($d['status_bayar'], 'bayar'),
                 status_span($d['status_order'], 'order'),
                 $detail
             );

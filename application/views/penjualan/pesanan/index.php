@@ -13,7 +13,8 @@
                         <th>Metode Bayar</th>
                         <th class="text-right">Total</th>
                         <th>Konfirmasi</th>
-                        <th class="text-center">Status</th>
+                        <th class="text-center">Status Bayar</th>
+                        <th class="text-center">Status Order</th>
                         <th class="text-center">Action</th>
                     </tr>
                 </thead>
@@ -48,6 +49,9 @@
             },
             {
                 "class": "text-right"
+            },
+            {
+                "class": "text-left"
             },
             {
                 "class": "text-left"
