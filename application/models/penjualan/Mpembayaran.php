@@ -3,6 +3,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Mpembayaran extends CI_Model
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('penjualan/pesanan/Mpesanan');
+    }
     public function kode()
     {
         $query = $this->db
@@ -28,6 +33,7 @@ class Mpembayaran extends CI_Model
             'image_bukti'   => $link,
             'status_bukti' => 0
         ];
+        $this->Mpesanan->create_status($post['idorder'], 1);
         return $this->db->insert('order_bukti_bayar', $data);
     }
 }

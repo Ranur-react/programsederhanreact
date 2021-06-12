@@ -194,6 +194,13 @@ class Mpesanan extends CI_Model
         ];
         return $data;
     }
+    public function create_status($idorder = null, $code = null)
+    {
+        $data = array(
+            'status_order' => $code
+        );
+        return $this->db->where('id_order', $idorder)->update('orders', $data);
+    }
 }
 
 /* End of file Mpesanan.php */
