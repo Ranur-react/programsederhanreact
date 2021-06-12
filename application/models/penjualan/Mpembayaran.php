@@ -33,8 +33,15 @@ class Mpembayaran extends CI_Model
             'image_bukti'   => $link,
             'status_bukti' => 0
         ];
-        $this->Mpesanan->create_status($post['idorder'], 1);
+        $this->create_status($post['idbayar'], 1);
         return $this->db->insert('order_bukti_bayar', $data);
+    }
+    public function create_status($idbayar = null, $code = null)
+    {
+        $data = array(
+            'status_bayar' => $code
+        );
+        return $this->db->where('id_bayar', $idbayar)->update('order_bayar', $data);
     }
 }
 
