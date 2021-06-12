@@ -42,6 +42,7 @@ class Pesanan extends CI_Controller
         }
         foreach ($query->result_array() as $d) {
             $detail = '<a href="javascript:void(0)" onclick="detail(\'' . $d['id_order'] . '\')" title="Detail"><i class="icon-eye8 text-black"></i></a>';
+            $bayar = '<a href="javascript:void(0)" onclick="bayar(\'' . $d['id_order'] . '\')" title="Konfirmasi"><i class="icon-coin-dollar text-purple"></i></a>';
             $confirm = '<a href="javascript:void(0)" class="btn btn-xs btn-danger" onclick="confirm(\'' . $d['id_order'] . '\')">Konfirmasi</a>';
             $output['data'][] = array(
                 $d['invoice_order'],
@@ -52,7 +53,7 @@ class Pesanan extends CI_Controller
                 $confirm,
                 status_span($d['status_bayar'], 'bayar'),
                 status_span($d['status_order'], 'order'),
-                $detail
+                $detail . '&nbsp;' . $bayar
             );
         }
         echo json_encode($output);

@@ -166,6 +166,7 @@ $route['pesanan/tmp-create/get-bank'] = 'penjualan/pesanan/tmp_create/get_bank';
 // Pembayaran
 $route['pembayaran/confirm'] = 'penjualan/pembayaran/confirm';
 $route['pembayaran/store'] = 'penjualan/pembayaran/store';
+$route['pembayaran/detail'] = 'penjualan/pembayaran/detail';
 
 // Role
 $route['roles'] = 'master/roles';

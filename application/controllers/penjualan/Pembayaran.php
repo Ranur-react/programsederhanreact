@@ -75,6 +75,17 @@ class Pembayaran extends CI_Controller
         }
         echo json_encode($json);
     }
+    public function detail()
+    {
+        $kode = $this->input->get('kode');
+        $data = [
+            'name' => 'Detail Pembayaran Pesanan',
+            'modallg' => 1,
+            'data' => $this->Mpesanan->show($kode),
+            'bayar' => $this->Mpembayaran->show($kode)
+        ];
+        $this->template->modal_info('penjualan/pembayaran/detail', $data);
+    }
 }
 
 /* End of file Pembayaran.php */

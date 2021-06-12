@@ -90,6 +90,20 @@
         });
     }
 
+    function bayar(kode) {
+        $.ajax({
+            url: "<?= site_url('pembayaran/detail') ?>",
+            type: "GET",
+            data: {
+                kode: kode
+            },
+            success: function(resp) {
+                $("#tampil-modal").html(resp);
+                $("#modal_alert").modal('show');
+            }
+        });
+    }
+
     $(document).on('submit', '.form_create', function(e) {
         event.preventDefault();
         var formData = new FormData($(".form_create")[0]);

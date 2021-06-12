@@ -43,6 +43,19 @@ class Mpembayaran extends CI_Model
         );
         return $this->db->where('id_bayar', $idbayar)->update('order_bayar', $data);
     }
+    public function show($id = null)
+    {
+        $result = $this->db->from('order_bayar')
+            ->join('order_bukti_bayar', 'id_bayar=idbayar_bukti')
+            ->where('order_bayar', $id)
+            ->get()->row();
+        $data = [
+            'tanggal' => $result->tanggal_bukti,
+            'nilai' => $result->nilai_bukti,
+            'bukti' => $result->image_bukti
+        ];
+        return $data;
+    }
 }
 
 /* End of file Mpembayaran.php */
