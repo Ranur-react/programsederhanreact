@@ -27,7 +27,7 @@
         <th class="bg-gray color-palette">Metode Pembayaran</th>
         <td><?= $data['metode'] ?></td>
     </tr>
-    <?php if ($bayar['status'] != false) { ?>
+    <?php if ($bayar['status'] != null) { ?>
         <tr>
             <th class="bg-gray color-palette text-center" colspan="2">Validasi Konfirmasi Pembayaran</th>
         </tr>
@@ -47,11 +47,13 @@
             <th class="bg-gray color-palette">Status Konfirmasi</th>
             <td><?= status_label($bayar['status'], 'confirm') ?></td>
         </tr>
-        <tr>
-            <td colspan="2" class="text-center">
-                <button type="button" class="btn btn-success" id="store" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading..." onclick="approve('<?= $bayar['idorder'] ?>')"><i class="icon-checkmark-circle"></i> Setujui Pembayaran</button>
-            </td>
-        </tr>
+        <?php if ($bayar['status'] == 0) { ?>
+            <tr>
+                <td colspan="2" class="text-center">
+                    <button type="button" class="btn btn-success" id="store" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading..." onclick="approve('<?= $bayar['idorder'] ?>')"><i class="icon-checkmark-circle"></i> Setujui Pembayaran</button>
+                </td>
+            </tr>
+        <?php } ?>
     <?php } else { ?>
         <tr>
             <th class="bg-gray color-palette disabled text-center" colspan="2">Customer belum melakukan konfirmasi pembayaran</th>

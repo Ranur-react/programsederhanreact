@@ -48,6 +48,7 @@ class Mpembayaran extends CI_Model
         $result = $this->db->from('order_bayar')
             ->join('order_bukti_bayar', 'id_bayar=idbayar_bukti')
             ->where('order_bayar', $id)
+            ->where_in('status_bukti', [0, 1])
             ->get()->row();
         if ($result != null) {
             $data = [
@@ -60,7 +61,7 @@ class Mpembayaran extends CI_Model
                 'status' => $result->status_bukti
             ];
         } else {
-            $data = ['status' => false];
+            $data = ['status' => null];
         }
         return $data;
     }
