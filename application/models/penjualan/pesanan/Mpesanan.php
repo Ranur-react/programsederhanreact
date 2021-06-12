@@ -3,6 +3,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Mpesanan extends CI_Model
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('penjualan/Mpembayaran');
+    }
     public function jumlah_data()
     {
         return $this->db->count_all_results('orders');
@@ -201,6 +206,16 @@ class Mpesanan extends CI_Model
             'status_order' => $code
         );
         return $this->db->where('id_order', $idorder)->update('orders', $data);
+    }
+    public function batal($id = null)
+    {
+        $data = $this->show($id);
+        $confirm = $this->db->where('idbayar_bukti', $data['idbayar'])->where_in('status_bukti', [0, 1])->get('order_bukti_bayar')->row();
+        if ($confirm != null) :
+            $this->Mpembayaran->status_confirm($confirm->id_bukti, 2);
+        endif;
+        $this->Mpembayaran->create_status($data['idbayar'], 3);
+        $this->create_status($id, 4);
     }
 }
 

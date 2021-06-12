@@ -76,6 +76,43 @@
         });
     }
 
+    function batal(kode) {
+        Swal({
+            title: "Perhatian!",
+            text: "Apakah kamu yakin untuk batalkan pesanan ini?",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: "Batalkan Pesanan"
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    type: "get",
+                    url: "<?= site_url('pesanan/batal') ?>",
+                    data: {
+                        kode: kode
+                    },
+                    dataType: "json",
+                    success: function(resp) {
+                        if (resp.status == "0100") {
+                            Swal.fire({
+                                title: 'Pembatalan!',
+                                text: resp.pesan,
+                                type: 'success'
+                            }).then((resp) => {
+                                var DataTabel = $('.data_pesanan').DataTable();
+                                DataTabel.ajax.reload();
+                            })
+                        } else {
+                            Swal.fire('Oops...', resp.pesan, 'error');
+                        }
+                    }
+                });
+            }
+        })
+    }
+
     function confirm(kode) {
         $.ajax({
             url: "<?= site_url('pembayaran/confirm') ?>",
