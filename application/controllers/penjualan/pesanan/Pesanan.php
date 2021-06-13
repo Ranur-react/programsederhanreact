@@ -45,7 +45,7 @@ class Pesanan extends CI_Controller
             $bayar = '<a href="javascript:void(0)" onclick="bayar(\'' . $d['id_order'] . '\')" title="Konfirmasi"><i class="icon-coin-dollar text-purple"></i></a>';
             $confirm = '<a href="javascript:void(0)" class="btn btn-xs btn-danger" onclick="confirm(\'' . $d['id_order'] . '\')">Konfirmasi</a>';
             $cancel = '<a href="javascript:void(0)" onclick="batal(\'' . $d['id_order'] . '\')" title="Batal"><i class="icon-cancel-square2 text-red"></i></a>';
-            if ($d['status_order'] == 1 or $d['status_order'] == 4) {
+            if ($d['status_order'] == 2 or $d['status_order'] == 5) {
                 $action = $detail . '&nbsp;' . $bayar;
             } else {
                 $action = $detail . '&nbsp;' . $bayar . '&nbsp' . $cancel;

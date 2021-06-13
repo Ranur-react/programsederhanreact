@@ -215,7 +215,7 @@ class Mpesanan extends CI_Model
             $this->Mpembayaran->status_confirm($confirm->id_bukti, 2);
         endif;
         $this->Mpembayaran->create_status($data['idbayar'], 3);
-        $this->create_status($id, 4);
+        $this->create_status($id, 5);
     }
 }
 

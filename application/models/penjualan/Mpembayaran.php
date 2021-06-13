@@ -76,7 +76,7 @@ class Mpembayaran extends CI_Model
     {
         $data = $this->show($id);
         $this->create_status($data['idbayar'], 2);
-        $this->Mpesanan->create_status($data['idorder'], 1);
+        $this->Mpesanan->create_status($data['idorder'], 2);
         return $this->status_confirm($data['idbukti'], 1);
     }
     public function batal($id = null)
