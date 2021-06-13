@@ -41,15 +41,18 @@ if (!function_exists('status_span')) {
                 $pesan = 'Belum Diproses';
                 $class = 'info-pending';
             elseif ($code == 1) :
-                $pesan = 'Dalam Pengemasan';
+                $pesan = 'Menunggu Konfirmasi';
                 $class = 'info-inprogress';
             elseif ($code == 2) :
+                $pesan = 'Dalam Pengemasan';
+                $class = 'info-inprogress';
+            elseif ($code == 3) :
                 $pesan = 'Dikirim';
                 $class = 'info-delivered';
-            elseif ($code == 3) :
+            elseif ($code == 4) :
                 $pesan = 'Sampai Tujuan';
                 $class = 'info-accepted';
-            elseif ($code == 4) :
+            elseif ($code == 5) :
                 $pesan = 'Dibatalkan';
                 $class = 'status-cancelled';
             endif;
@@ -117,15 +120,18 @@ if (!function_exists('status_label')) {
                 $pesan = 'Belum Diproses';
                 $class = 'info-pending';
             elseif ($code == 1) :
-                $pesan = 'Dalam Pengemasan';
+                $pesan = 'Menunggu Konfirmasi';
                 $class = 'info-inprogress';
             elseif ($code == 2) :
+                $pesan = 'Dalam Pengemasan';
+                $class = 'info-inprogress';
+            elseif ($code == 3) :
                 $pesan = 'Dikirim';
                 $class = 'info-delivered';
-            elseif ($code == 3) :
+            elseif ($code == 4) :
                 $pesan = 'Sampai Tujuan';
                 $class = 'info-accepted';
-            elseif ($code == 4) :
+            elseif ($code == 5) :
                 $pesan = 'Dibatalkan';
                 $class = 'status-cancelled';
             endif;
