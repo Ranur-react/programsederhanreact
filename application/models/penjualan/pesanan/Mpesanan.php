@@ -95,7 +95,7 @@ class Mpesanan extends CI_Model
             'nourut_order' => $nosurat['nourut'],
             'invoice_order' => $nosurat['nosurat'],
             'customer_order' => $post['customer'],
-            'status_order' => 0
+            'status_order' => $post['metode'] == 1 ? 1 : 0
         ];
         $order = $this->db->insert('orders', $data_order);
         $queryAlamat = $this->db->where('id_alamat', $post['alamat'])->get('customer_alamat')->row();
@@ -159,6 +159,7 @@ class Mpesanan extends CI_Model
             'tanggal' => $result->tanggal_order,
             'customer' => $result->nama_customer,
             'metode' => $result->nama_metode,
+            'idmetode' => $result->metode_bayar,
             'status' => $result->status_order,
             'status_bayar' => $result->status_bayar,
             'total' => $result->total_bayar
@@ -206,6 +207,10 @@ class Mpesanan extends CI_Model
             'status_order' => $code
         );
         return $this->db->where('id_order', $idorder)->update('orders', $data);
+    }
+    public function confirm($id = null)
+    {
+        return $this->create_status($id, 2);
     }
     public function batal($id = null)
     {

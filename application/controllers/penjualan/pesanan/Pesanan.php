@@ -111,6 +111,16 @@ class Pesanan extends CI_Controller
         ];
         $this->template->modal_info('penjualan/pesanan/detail', $data);
     }
+    public function confirm()
+    {
+        $kode = $this->input->get('kode');
+        $this->Mpesanan->confirm($kode);
+        $json = array(
+            'status' => '0100',
+            'pesan' => 'Pembayaran dengan Metode COD Disetujui'
+        );
+        echo json_encode($json);
+    }
     public function batal()
     {
         $kode = $this->input->get('kode');
