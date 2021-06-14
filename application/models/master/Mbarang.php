@@ -95,6 +95,19 @@ class Mbarang extends CI_Model
                 $this->db->query("INSERT INTO barang_satuan SET barang_brg_satuan='$kode',satuan_brg_satuan='$id_satuan'");
             }
         }
+        $queryGambar = $this->db->where('user', id_user())->get('tmp_gambar')->result_array();
+        foreach ($queryGambar as $qg) {
+            $this->db->insert(
+                'barang_gambar',
+                array(
+                    'barang_brg_gambar' => $kode,
+                    'satuan_brg_gambar' => $qg['idsatuan'],
+                    'url_brg_gambar' => $qg['gambar'],
+                    'sort_order' => $qg['nourut']
+                )
+            );
+        }
+        $this->db->where('user', id_user())->delete('tmp_gambar');
         return $barang;
     }
     public function show($kode)

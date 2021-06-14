@@ -59,6 +59,11 @@ $route['barang/edit/(:num)'] = 'master/barang/edit/$1';
 $route['barang/update'] = 'master/barang/update';
 $route['barang/destroy'] = 'master/barang/destroy';
 $route['barang/get-satuan'] = 'master/barang/get_satuan';
+// Upload Gambar Barang
+$route['barang/load-gambar'] = 'master/barang/load_gambar';
+$route['barang/create-gambar'] = 'master/barang/create_gambar';
+$route['barang/store-gambar'] = 'master/barang/store_gambar';
+$route['barang/destroy-gambar'] = 'master/barang/destroy_gambar';
 
 // katalog
 $route['harga'] = 'katalog/harga';

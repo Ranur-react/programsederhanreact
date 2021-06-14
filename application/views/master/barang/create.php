@@ -1,53 +1,12 @@
-<style type="text/css">
-    .upload{
-        position: relative;
-        width: auto;
-        height: auto;
-        /*text-align: center;*/
-        padding: auto;
-        /*background-color: grey;*/
-        /*color: red;*/
-    }
-    .tombolupload{
-        position: absolute;
-        top: 0;
-        /*left: 40%;*/
-        width: 100%;
-        height: 100%;
-        background-color: rgba(50,50,50,0);
-        border-color: rgba(50,50,50,0);
-        opacity: 0;
-        font-size: 24px;
-        transition: 0.5s ease;
-
-
-    }
-    .tombolupload:hover{
-        background-color: rgba(50,50,50,0);
-        border-color: rgba(50,50,50,0);
-        opacity: 0.5;
-    }
-    .tombolupload:active{
-        background-color: rgba(50,50,50,0);
-        border-radius: 20%;
-        border-color: rgba(50,50,50,0);
-        opacity: 0.1;
-    }
-    .iconUpload{
-        
-    }
-</style>
 <div class="col-xs-12">
     <?= form_open('barang/store', ['id' => 'form_create']) ?>
     <div class="nav-tabs-custom">
-<!-- NavTab Header -->
         <ul class="nav nav-tabs">
             <li class="active"><a href="#umum" data-toggle="tab">Umum</a></li>
             <li><a href="#deskripsi" data-toggle="tab">Deskripsi Barang</a></li>
             <li><a href="#kategori" data-toggle="tab">Kategori & Satuan</a></li>
             <li><a href="#gambar" data-toggle="tab">Gambar</a></li>
         </ul>
-<!--  Isi dari NavTab -->
         <div class="tab-content">
             <div class="tab-pane active" id="umum">
                 <div class="form-group">
@@ -123,7 +82,7 @@
                     </table>
                 </div>
             </div>
-            <div  class="tab-pane" id="kategori">
+            <div class="tab-pane" id="kategori">
                 <div class="row">
                     <div class="col col-md-6">
                         <div class="form-group">
@@ -143,25 +102,23 @@
             </div>
             <div class="tab-pane" id="gambar">
                 <div class="table-responsive">
-                    <table id="attribute" class="table table-striped table-bordered table-hover">
+                    <table class="table table-striped table-bordered table-hover">
                         <thead>
                             <tr>
                                 <td class="text-left" style="width: 20%;">Satuan</td>
                                 <td class="text-left">Gambar</td>
-                                <td class="text-left">Nomor Urut</td>
-                                <td style="width: 5%;"></td>
+                                <td style="width: 5%;" class="text-center">
+                                    <a href="javascript:void(0)" onclick="tambahGambar()">
+                                        <i class="icon-plus-circle2 text-blue" title="Tambah Gambar"></i>
+                                    </a>
+                                </td>
                             </tr>
                         </thead>
-                        <tbody>
-                            
-                        </tbody>
-                        
-                        </tfoot>
+                        <tbody id="bodygambar" style="cursor: all-scroll;"></tbody>
                     </table>
                 </div>
             </div>
         </div>
-<!-- Akhiran isi  -->
         <div class="box-footer">
             <button type="submit" class="btn btn-success" id="store" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading..."><i class="icon-floppy-disk"></i> Simpan</button>
             <a href="<?= site_url('barang') ?>" class="btn btn-danger"><i class="fa fa-angle-double-left"></i> Kembali</a>
@@ -170,23 +127,31 @@
     <?= form_close() ?>
 </div>
 <div id="tampil_modal"></div>
-<div id="tampil_uploadfile"></div>
-
-<?php //$this->load->view('/master/Modal/imageUpload.php') ?>
 <script>
-    let folderImagesAssets="<?= assets() ?>images/Galery/";
-      var uriSelected="";
-          //Global variabel state
-      let ImagesData=[];
-      let DataMatrix=[];
-      let lengthShow=3;
-      let StartIndex=3;
     $(document).ready(function() {
-        //GLobal Variable declartae
-         Gsatuan={};
-         TampilGambarSatuanTab();
+        load_gambar();
+        $('tbody[id=\'bodygambar\']').sortable({
+            placeholder: "ui-state-highlight",
+            update: function(event, ui) {
+                var page_id_array = new Array();
+                $('tbody tr').each(function() {
+                    page_id_array.push($(this).attr('id'));
+                });
 
-         //-----Test Global Funtions
+                $.ajax({
+                    url: "<?= site_url('barang/load-gambar') ?>",
+                    method: "POST",
+                    data: {
+                        page_id_array: page_id_array,
+                        action: 'nocreate'
+                    },
+                    success: function() {
+                        load_gambar();
+                    }
+                })
+            }
+        });
+
         // menampilkan slug otomatis sesuai dengan nama barang
         $("#nama").keyup(function() {
             var Text = $(this).val();
@@ -244,70 +209,10 @@
         'select': function(item) {
             $('input[name=\'satuan\']').val('');
             $('#barang-satuan' + item['value']).remove();
-            //mengambil nilai satuan lalu menyimpan kedalam Global State variabel
-            if (!Boolean(Gsatuan[item['value']])) {
-            Gsatuan[item['value']]=[item['label'],count(Gsatuan)+1,'no_image.png'];
-            }
-            //funtions untuk tampilkan isi state ke dalam View
-            TampilGambarSatuanTab();
             $('#barang-satuan').append('<div id="barang-satuan' + item['value'] + '"><i class="fa fa-minus-circle text-red"></i> ' + item['label'] + '<input type="hidden" name="barang_satuan[]" value="' + item['value'] + '" /></div>');
         }
     });
 
-//funtions untuk menampilkan data satuan ke view 
-
-    function TampilGambarSatuanTab() {
-                $('#gambar tbody').html("");
-                for (const [key, value] of Object.entries(Gsatuan)) {
-                        // alert(value);     
-                        $('#gambar tbody').append(rowOfImages(value, key));
-                }
-    }
-        //funtions untuk mengisi ke kososngan baris pada view sesuai nilai yang di kirim
-        function  rowOfImages(v, k){
-         let a=12;
-        return   `
-                <tr id="deskripsi-row${v[1]}">
-                    <td class="text-left">
-                        ${v[0]}
-                    </td>
-                    <td class="text-left">
-                        <div class="upload">
-                                <img onmouseenter="ShowButton()" class="profile-user-img img-responsive img-circle" src="${folderImagesAssets+v[2]}" alt="User profile picture">
-                                <a class="btn btn-large btn-primary tombolupload" onclick="upload(${k})">
-                                        <i class="fa fa-upload align-middle iconUpload" ></i>
-                                </a>
-                        </div>
-                    </td>
-                    <td class="text-left">
-                        ${v[1]} 
-                    </td>
-                </tr>
-                `;
-            }
-        //funtions untuk menghitung jumlah JSON data dalam sebuah state
-        function count(obj) {
-           var count=0;
-           for(var prop in obj) {
-              if (obj.hasOwnProperty(prop)) {
-                 ++count;
-              }
-           }
-           return count;
-        }
-          //Tampilkan Modal Upload
-        const upload=(e)=>{
-            $.ajax({
-            url: "<?= site_url('upload') ?>",
-            data:"&kode="+e,
-            cache: false,
-            type: "POST",
-            success: function(resp) {
-                $("#tampil_modal").html(resp);
-                $("#modal_create").modal('show');
-            }
-        });
-        }
     // Hapus item kategori
     $('#barang-kategori').delegate('.fa-minus-circle', 'click', function() {
         $(this).parent().remove();
@@ -316,6 +221,101 @@
     // Hapus item satuan
     $('#barang-satuan').delegate('.fa-minus-circle', 'click', function() {
         $(this).parent().remove();
+    });
+
+    // Tampilkan gambar dari tmp
+    function load_gambar() {
+        $.ajax({
+            url: "<?= site_url('barang/load-gambar') ?>",
+            method: "POST",
+            data: {
+                action: 'create'
+            },
+            dataType: 'json',
+            success: function(data) {
+                var html = '';
+                if (data == 0) {
+                    html += '<tr>';
+                    html += '<td colspan="8">Belum ada data</td>';
+                    html += '</tr>';
+                } else {
+                    for (var count = 0; count < data.length; count++) {
+                        html += '<tr id="' + data[count].id + '">';
+                        html += '<td>' + data[count].satuan + '</td>';
+                        html += '<td><img src="' + data[count].gambar + '" width="100" height="100" /></td>';
+                        html += '<td class="text-center" width="100px">';
+                        html += '<a class="text-red" href="javascript:void(0)" onclick="destroyGambar(' + data[count].id + ')"><i class="ace-icon icon-trash bigger-120"></i></a>';
+                        html += '</td>';
+                        html += '</tr>';
+                    }
+                }
+                $('tbody[id=\'bodygambar\']').html(html);
+            }
+        })
+    }
+
+    function tambahGambar() {
+        $.ajax({
+            url: "<?= site_url('barang/create-gambar') ?>",
+            type: "GET",
+            data: {
+                action: 'create'
+            },
+            success: function(resp) {
+                $("#tampil_modal").html(resp);
+                $("#modal_create").modal('show');
+            }
+        });
+    }
+
+    function destroyGambar(kode) {
+        $.ajax({
+            url: "<?= site_url('barang/destroy-gambar') ?>",
+            type: "GET",
+            data: {
+                action: 'create',
+                kode: kode
+            },
+            success: function(resp) {
+                load_gambar();
+            }
+        });
+    }
+
+    $(document).on('submit', '.form_create', function(e) {
+        event.preventDefault();
+        var formData = new FormData($(".form_create")[0]);
+        $.ajax({
+            url: $(".form_create").attr('action'),
+            dataType: 'json',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            beforeSend: function() {
+                $('.store_data').button('loading');
+            },
+            success: function(resp) {
+                if (resp.status == "0100") {
+                    load_gambar();
+                    $("#modal_create").modal('hide');
+                } else {
+                    $("#pesan_gambar").html(resp.error);
+                    $.each(resp.pesan, function(key, value) {
+                        var element = $('#' + key);
+                        element.closest('div.form-group')
+                            .removeClass('has-error')
+                            .addClass(value.length > 0 ? 'has-error' : 'has-success')
+                            .find('.help-block')
+                            .remove();
+                        element.after(value);
+                    });
+                }
+            },
+            complete: function() {
+                $('.store_data').button('reset');
+            }
+        })
     });
 
     // tambah inputan otomatis untuk deskripsi barang
@@ -333,10 +333,8 @@
         deskripsi_row++;
     }
 
-
     // simpan data
     $(document).ready(function() {
-
         $('#form_create').on('submit', function(event) {
             event.preventDefault();
             $.ajax({
@@ -355,7 +353,7 @@
                             text: resp.pesan,
                             type: "success",
                         }).then(function() {
-                            location.reload();
+                            window.location.href = "<?= site_url('barang') ?>";
                         }));
                     } else {
                         $.each(resp.pesan, function(key, value) {
@@ -375,8 +373,4 @@
             })
         });
     });
-    function CloseModalAndrefresh() {
-        $("#modal_create").modal('hide');
-        TampilGambarSatuanTab();
-    }
 </script>

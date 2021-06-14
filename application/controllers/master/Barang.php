@@ -11,6 +11,7 @@ class Barang extends CI_Controller
         else
             redirect('logout');
         $this->load->model('master/Mbarang');
+        $this->load->model('master/Msatuan');
     }
     public function index()
     {
@@ -156,6 +157,128 @@ class Barang extends CI_Controller
             $data .= '<option value="' . $d['id_brg_satuan'] . '">' . $d['nama_satuan'] . '</option>';
         }
         echo $data;
+    }
+    public function load_gambar()
+    {
+        $action = $this->input->post('action');
+        $urut   = $this->input->post('page_id_array');
+        if ($action == 'create') {
+            $query = $this->db->from('tmp_gambar')
+                ->join('satuan', 'idsatuan=id_satuan')
+                ->where('user', id_user())
+                ->order_by('nourut', 'asc')
+                ->get()->result_array();
+            if ($query == null) {
+                $data = [(int)0];
+            } else {
+                foreach ($query as $row) {
+                    $data[] = [
+                        'id' => $row['id'],
+                        'satuan' => $row['nama_satuan'],
+                        'gambar' => assets() . $row['gambar'],
+                        'nourut' => $row['nourut']
+                    ];
+                }
+            }
+            echo json_encode($data);
+        }
+        if ($action == 'nocreate') {
+            for ($count = 0; $count < count($urut); $count++) {
+                $this->db->set('nourut', ($count + 1));
+                $this->db->where('id', $urut[$count]);
+                $this->db->update('tmp_gambar');
+            }
+        }
+    }
+    public function create_gambar()
+    {
+        $action = $this->input->get('action');
+        $kode = $this->input->get('kode');
+        if ($action == 'create') {
+            $data = ['action' => 'create', 'kode' => 0];
+        }
+        $data = [
+            'name' => 'Upload Gambar',
+            'post' => 'barang/store-gambar',
+            'class' => 'form_create',
+            'multipart' => 1,
+            'satuan' => $this->Msatuan->getall(),
+            'data' => $data
+        ];
+        $this->template->modal_form('master/barang/create-gambar', $data);
+    }
+    public function store_gambar()
+    {
+        $this->form_validation->set_rules('satuan', 'Satuan', 'required');
+        $this->form_validation->set_message('required', errorRequired());
+        $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
+        if ($this->form_validation->run() == TRUE) {
+            $post = $this->input->post(null, TRUE);
+            $types = array('image/jpeg', 'image/pjpeg', 'image/png', 'image/x-png', 'image/svg+xml');
+            $mime = get_mime_by_extension($_FILES['gambar']['name']);
+            if (isset($_FILES['gambar']['name']) && $_FILES['gambar']['name'] != "") {
+                if (in_array($mime, $types)) {
+                    $config['upload_path'] = pathImage() . 'images/produk';
+                    $config['allowed_types'] = 'jpg|jpeg|png|svg';
+                    $config['max_size'] = 819200;
+                    $config['encrypt_name'] = TRUE;
+                    $this->load->library('upload', $config);
+                    $this->upload->initialize($config);
+                    if ($this->upload->do_upload('gambar')) {
+                        $data['upload_data'] = $this->upload->data('file_name');
+                        $link = 'images/produk/' . $data['upload_data'];
+                    }
+                    if ($_FILES['gambar']['size'] > 819200) {
+                        $json = array(
+                            "status" => "0101",
+                            "error" => "<div class='text-red'>Ukuran file tidak boleh melebihi 800KB</div>"
+                        );
+                    } else {
+                        if ($post['action'] == 'create') {
+                            $count = $this->db->from('tmp_gambar')->where('user', id_user())->order_by('nourut', 'DESC')->limit(1)->get()->row_array();
+                            $nomor = $count['nourut'] + 1;
+                            $data = array(
+                                'idsatuan' => $post['satuan'],
+                                'gambar' => $link,
+                                'nourut' => $nomor,
+                                'user' => id_user()
+                            );
+                            $this->db->insert('tmp_gambar', $data);
+                        }
+                        $json = array(
+                            'status' => "0100",
+                            'pesan' => "Data gambar telah disimpan"
+                        );
+                    }
+                } else {
+                    $json = array(
+                        "status" => "0101",
+                        "error" => "<div class='text-red'>Harap unggah file yang hanya berekstensi .jpeg / .jpg / .png.</div>"
+                    );
+                }
+            } else {
+                $json = array(
+                    "status" => "0101",
+                    "error" => "<div class='text-red'>Harap unggah file yang hanya berekstensi .jpeg / .jpg / .png.</div>"
+                );
+            }
+        } else {
+            $json['status'] = "0101";
+            foreach ($_POST as $key => $value) {
+                $json['pesan'][$key] = form_error($key);
+            }
+        }
+        echo json_encode($json);
+    }
+    public function destroy_gambar()
+    {
+        $kode = $this->input->get('kode');
+        $action = $this->input->get('action');
+        if ($action == 'create') {
+            $data = $this->db->where('id', $kode)->get('tmp_gambar')->row_array();
+            unlink(pathImage() . $data['gambar']);
+            return $this->db->where('id', $kode)->delete('tmp_gambar');
+        }
     }
 }
 
