@@ -189,6 +189,34 @@ class Barang extends CI_Controller
                 $this->db->update('tmp_gambar');
             }
         }
+        if ($action == 'update') {
+            $kode = $this->input->post('kode');
+            $query = $this->db->from('barang_gambar')
+                ->join('satuan', 'satuan_brg_gambar=id_satuan')
+                ->where('barang_brg_gambar', $kode)
+                ->order_by('sort_order', 'asc')
+                ->get()->result_array();
+            if ($query == null) {
+                $data = [(int)0];
+            } else {
+                foreach ($query as $row) {
+                    $data[] = [
+                        'id' => $row['id_brg_gambar'],
+                        'satuan' => $row['nama_satuan'],
+                        'gambar' => assets() . $row['url_brg_gambar'],
+                        'nourut' => $row['sort_order']
+                    ];
+                }
+            }
+            echo json_encode($data);
+        }
+        if ($action == 'noupdate') {
+            for ($count = 0; $count < count($urut); $count++) {
+                $this->db->set('sort_order', ($count + 1));
+                $this->db->where('id_brg_gambar', $urut[$count]);
+                $this->db->update('barang_gambar');
+            }
+        }
     }
     public function create_gambar()
     {
@@ -196,6 +224,8 @@ class Barang extends CI_Controller
         $kode = $this->input->get('kode');
         if ($action == 'create') {
             $data = ['action' => 'create', 'kode' => 0];
+        } else {
+            $data = ['action' => 'update', 'kode' => $kode];
         }
         $data = [
             'name' => 'Upload Gambar',
@@ -244,6 +274,16 @@ class Barang extends CI_Controller
                                 'user' => id_user()
                             );
                             $this->db->insert('tmp_gambar', $data);
+                        } else if ($post['action'] == 'update') {
+                            $count = $this->db->from('barang_gambar')->where('barang_brg_gambar', $post['kode'])->order_by('sort_order', 'DESC')->limit(1)->get()->row_array();
+                            $nomor = $count['sort_order'] + 1;
+                            $data = array(
+                                'barang_brg_gambar' => $post['kode'],
+                                'satuan_brg_gambar' => $post['satuan'],
+                                'url_brg_gambar' => $link,
+                                'sort_order' => $nomor
+                            );
+                            $this->db->insert('barang_gambar', $data);
                         }
                         $json = array(
                             'status' => "0100",
@@ -278,6 +318,10 @@ class Barang extends CI_Controller
             $data = $this->db->where('id', $kode)->get('tmp_gambar')->row_array();
             unlink(pathImage() . $data['gambar']);
             return $this->db->where('id', $kode)->delete('tmp_gambar');
+        } else {
+            $data = $this->db->where('id_brg_gambar', $kode)->get('barang_gambar')->row_array();
+            unlink(pathImage() . $data['url_brg_gambar']);
+            return $this->db->where('id_brg_gambar', $kode)->delete('barang_gambar');
         }
     }
 }
