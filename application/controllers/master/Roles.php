@@ -34,18 +34,17 @@ class Roles extends CI_Controller
     public function store()
     {
         $this->form_validation->set_rules('nama', 'Hak akses', 'required');
-        $this->form_validation->set_rules('jenis', 'Jenis hak akses', 'required');
         $this->form_validation->set_message('required', errorRequired());
         $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
         if ($this->form_validation->run() == TRUE) {
             $post = $this->input->post(null, TRUE);
             $this->Mroles->store($post);
             $json = array(
-                'status' => "0100",
-                'pesan' => "Data hak akses telah disimpan"
+                'status' => '0100',
+                'pesan' => 'Data hak akses telah disimpan'
             );
         } else {
-            $json['status'] = "0111";
+            $json['status'] = '0111';
             foreach ($_POST as $key => $value) {
                 $json['pesan'][$key] = form_error($key);
             }
@@ -66,18 +65,17 @@ class Roles extends CI_Controller
     public function update()
     {
         $this->form_validation->set_rules('nama', 'Hak akses', 'required');
-        $this->form_validation->set_rules('jenis', 'Jenis hak akses', 'required');
         $this->form_validation->set_message('required', errorRequired());
         $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
         if ($this->form_validation->run() == TRUE) {
             $post = $this->input->post(null, TRUE);
             $this->Mroles->update($post);
             $json = array(
-                'status' => "0100",
-                'pesan' => "Data hak akses telah dirubah"
+                'status' => '0100',
+                'pesan' => 'Data hak akses telah dirubah'
             );
         } else {
-            $json['status'] = "0111";
+            $json['status'] = '0111';
             foreach ($_POST as $key => $value) {
                 $json['pesan'][$key] = form_error($key);
             }
@@ -90,13 +88,13 @@ class Roles extends CI_Controller
         $action = $this->Mroles->destroy($kode);
         if ($action) {
             $json = array(
-                'status' => "0100",
-                "message" => successDestroy()
+                'status' => '0100',
+                'message' => successDestroy()
             );
         } else {
             $json = array(
-                'status' => "0101",
-                "message" => errorDestroy()
+                'status' => '0101',
+                'message' => errorDestroy()
             );
         }
         echo json_encode($json);
