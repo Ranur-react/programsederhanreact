@@ -26,7 +26,7 @@ class Mroles extends CI_Model
         $data = array(
             'id_role' => $this->kode(),
             'nama_role' => $post['nama'],
-            'jenis_role' => $post['jenis']
+            'jenis_role' => 0
         );
         return $this->db->insert($this->tabel, $data);
     }
@@ -37,8 +37,7 @@ class Mroles extends CI_Model
     public function update($post)
     {
         $data = array(
-            'nama_role' => $post['nama'],
-            'jenis_role' => $post['jenis']
+            'nama_role' => $post['nama']
         );
         return $this->db->where('id_role', $post['kode'])->update($this->tabel, $data);
     }
