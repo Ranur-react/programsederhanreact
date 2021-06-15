@@ -7,10 +7,6 @@ class Mpengguna extends CI_Model
     {
         return $this->db->get('users')->result_array();
     }
-    public function get_level($jenis)
-    {
-        return $this->db->where('jenis_role', $jenis)->get('role')->result_array();
-    }
     public function kode()
     {
         $query = $this->db
@@ -59,21 +55,22 @@ class Mpengguna extends CI_Model
     public function store($post)
     {
         $kode = $this->kode();
+        $row = $this->db->where('id_role', $post['role'])->get('role')->row_array();
         $data = array(
             'id_user' => $kode,
             'nama_user' => $post['nama'],
             'username' => $post['username'],
             'password' => password_hash($post['password'], PASSWORD_BCRYPT),
             'avatar_user' => make_avatar($post['nama']),
-            'jenis_user' => $post['jenis'],
+            'jenis_user' => $row['jenis_role'],
             'status_user' => 1
         );
         $users = $this->db->insert('users', $data);
-        if ($post['jenis'] == 1) :
+        if ($row['jenis_role'] == 1) :
             $data_office = array(
                 'id_level' => $this->kode_office(),
                 'user_level' => $kode,
-                'role_level' => $post['level']
+                'role_level' => $post['role']
             );
             $office = $this->db->insert('user_office', $data_office);
             return array($users, $office);
@@ -82,7 +79,7 @@ class Mpengguna extends CI_Model
                 'id_level' => $this->kode_gudang(),
                 'user_level' => $kode,
                 'gudang_level' => $post['gudang'],
-                'role_level' => $post['level']
+                'role_level' => $post['role']
             );
             $gudang = $this->db->insert('user_gudang', $data_gudang);
             return array($users, $gudang);
