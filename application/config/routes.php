@@ -157,6 +157,7 @@ $route['pesanan/data'] = 'penjualan/pesanan/pesanan/data';
 $route['pesanan/create'] = 'penjualan/pesanan/pesanan/create';
 $route['pesanan/store'] = 'penjualan/pesanan/pesanan/store';
 $route['pesanan/detail'] = 'penjualan/pesanan/pesanan/detail';
+$route['pesanan/confirm'] = 'penjualan/pesanan/pesanan/confirm';
 $route['pesanan/batal'] = 'penjualan/pesanan/pesanan/batal';
 
 // Pesanan Tmp Create
