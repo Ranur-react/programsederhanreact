@@ -68,5 +68,5 @@
     </div>
 </div>
 <div class="text-center">
-    <button type="button" class="btn btn-success"><i class="icon-plus-circle2"></i> Tambahkan pesanan dalam proses pengiriman</button>
+    <button type="button" class="btn btn-success" id="store" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading..." onclick="store('<?= $data['id'] ?>')"><i class="icon-plus-circle2"></i> Tambahkan pesanan dalam proses pengiriman</button>
 </div>

@@ -3,6 +3,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Mpengiriman extends CI_Model
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('penjualan/pesanan/Mpesanan');
+    }
     public function jumlah_data()
     {
         return $this->db->from('orders')->where_in('status_order', [2, 3, 4])->count_all_results();
@@ -32,6 +37,15 @@ class Mpengiriman extends CI_Model
             ->or_like("DATE_FORMAT(tanggal_order,'%d-%m-%Y')", $search)
             ->get();
         return $sql;
+    }
+    public function store($id = null)
+    {
+        $data = [
+            'idorder_kirim' => $id,
+            'iduser_kirim'  => id_user()
+        ];
+        $this->db->insert('pengiriman', $data);
+        return $this->Mpesanan->create_status($id, 3);
     }
 }
 

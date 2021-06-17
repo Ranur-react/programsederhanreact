@@ -76,6 +76,16 @@ class Pengiriman extends CI_Controller
         ];
         $this->template->modal_info('penjualan/pengiriman/create', $data);
     }
+    public function store()
+    {
+        $kode = $this->input->get('kode');
+        $this->Mpengiriman->store($kode);
+        $json = array(
+            'status' => '0100',
+            'pesan' => 'Proses pesanan berhasil ditambahkan dalam pengiriman'
+        );
+        echo json_encode($json);
+    }
 }
 
 /* End of file Pengiriman.php */
