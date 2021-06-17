@@ -62,6 +62,28 @@ class Mpengiriman extends CI_Model
     {
         return $this->db->where('idorder_kirim', $id)->get('pengiriman')->row_array();
     }
+    public function storeterima($post)
+    {
+        $data = [
+            'idkirim_terima' => $post['idkirim'],
+            'penerima_terima'  => $post['nama'],
+            'relasi_terima'  => $post['relasi'],
+            'note_terima'  => $post['note'],
+            'user_terima'  => id_user()
+        ];
+        $this->db->insert('pengiriman_terima', $data);
+        if ($post['idmetode'] == 1) :
+            $this->db->insert(
+                'pengiriman_bayar',
+                [
+                    'idkirim_bayar' => $post['idkirim'],
+                    'nilai_bayar' => $post['nilai']
+                ]
+            );
+            $this->Mpembayaran->create_status($post['idbayar'], 2);
+        endif;
+        return $this->Mpesanan->create_status($post['idorder'], 4);
+    }
 }
 
 /* End of file Mpengiriman.php */

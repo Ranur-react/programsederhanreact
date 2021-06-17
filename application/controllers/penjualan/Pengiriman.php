@@ -91,13 +91,55 @@ class Pengiriman extends CI_Controller
         $kode = $this->input->get('kode');
         $data = [
             'name' => 'Detail Penerima',
-            'post' => '#',
+            'post' => 'pengiriman/storeterima',
             'class' => 'form_create',
             'data' => $this->Mpengiriman->show($kode),
             'relasi' => $this->Mpengiriman->relasi(),
             'pesanan' => $this->Mpesanan->show($kode),
         ];
         $this->template->modal_form('penjualan/pengiriman/terima', $data);
+    }
+    public function storeterima()
+    {
+        $post = $this->input->post(null, TRUE);
+        $this->form_validation->set_rules('nama', 'Nama penerima', 'required');
+        $this->form_validation->set_rules('relasi', 'Relasi dengan penerima', 'required');
+        if ($post['idmetode'] == 1) :
+            $this->form_validation->set_rules('nilai', 'Jumlah bayar', 'callback_bayar_check[' . $post['idbayar'] . ']');
+        endif;
+        $this->form_validation->set_message('required', errorRequired());
+        $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
+        if ($this->form_validation->run() == TRUE) {
+            $this->Mpengiriman->storeterima($post);
+            $json = array(
+                'status' => '0100',
+                'message' => 'Pesanan telah sampai ketujuan'
+            );
+        } else {
+            $json = array(
+                'status' => '0101',
+                'message' => 'Penerimaan pesanan gagal disimpan'
+            );
+            foreach ($_POST as $key => $value) {
+                $json['pesan'][$key] = form_error($key);
+            }
+        }
+        echo json_encode($json);
+    }
+    public function bayar_check($nilai, $idbayar)
+    {
+        $data = $this->db->where('id_bayar', $idbayar)->get('order_bayar')->row();
+        if ($nilai == null) {
+            $this->form_validation->set_message('bayar_check', 'Jumlah bayar tidak boleh kosong');
+            return false;
+        } else {
+            if ($data->total_bayar == convert_uang($nilai)) {
+                return true;
+            } else {
+                $this->form_validation->set_message('bayar_check', 'Jumlah bayar tidak sesuai');
+                return false;
+            }
+        }
     }
 }
 
