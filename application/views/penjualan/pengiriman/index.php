@@ -54,4 +54,18 @@
             }
         ]
     });
+
+    function detail(kode) {
+        $.ajax({
+            url: "<?= site_url('pesanan/detail') ?>",
+            type: "GET",
+            data: {
+                kode: kode
+            },
+            success: function(resp) {
+                $("#tampil-modal").html(resp);
+                $("#modal_alert").modal('show');
+            }
+        });
+    }
 </script>
