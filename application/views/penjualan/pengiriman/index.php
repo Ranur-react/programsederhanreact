@@ -114,4 +114,18 @@
             }
         });
     }
+
+    function terima(kode) {
+        $.ajax({
+            url: "<?= site_url('pengiriman/terima') ?>",
+            type: "GET",
+            data: {
+                kode: kode
+            },
+            success: function(resp) {
+                $("#tampil-modal").html(resp);
+                $("#modal_create").modal('show');
+            }
+        });
+    }
 </script>

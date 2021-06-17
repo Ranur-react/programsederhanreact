@@ -7,6 +7,7 @@ class Mpengiriman extends CI_Model
     {
         parent::__construct();
         $this->load->model('penjualan/pesanan/Mpesanan');
+        $this->load->model('penjualan/Mpembayaran');
     }
     public function jumlah_data()
     {
@@ -46,6 +47,20 @@ class Mpengiriman extends CI_Model
         ];
         $this->db->insert('pengiriman', $data);
         return $this->Mpesanan->create_status($id, 3);
+    }
+    public function relasi()
+    {
+        $data = array(
+            1 => 'Yang bersangkutan',
+            2 => 'Keluarga',
+            3 => 'Teman',
+            4 => 'Lainnya'
+        );
+        return $data;
+    }
+    public function show($id = null)
+    {
+        return $this->db->where('idorder_kirim', $id)->get('pengiriman')->row_array();
     }
 }
 

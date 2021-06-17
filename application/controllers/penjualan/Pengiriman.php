@@ -86,6 +86,19 @@ class Pengiriman extends CI_Controller
         );
         echo json_encode($json);
     }
+    public function terima()
+    {
+        $kode = $this->input->get('kode');
+        $data = [
+            'name' => 'Detail Penerima',
+            'post' => '#',
+            'class' => 'form_create',
+            'data' => $this->Mpengiriman->show($kode),
+            'relasi' => $this->Mpengiriman->relasi(),
+            'pesanan' => $this->Mpesanan->show($kode),
+        ];
+        $this->template->modal_form('penjualan/pengiriman/terima', $data);
+    }
 }
 
 /* End of file Pengiriman.php */

@@ -182,6 +182,7 @@ $route['pengiriman'] = 'penjualan/pengiriman';
 $route['pengiriman/data'] = 'penjualan/pengiriman/data';
 $route['pengiriman/create'] = 'penjualan/pengiriman/create';
 $route['pengiriman/store'] = 'penjualan/pengiriman/store';
+$route['pengiriman/terima'] = 'penjualan/pengiriman/terima';
 
 // Role
 $route['roles'] = 'master/roles';
