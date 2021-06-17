@@ -18,3 +18,40 @@
         </div>
     </div>
 </div>
+<div id="tampil-modal"></div>
+<script>
+    $(".data_kirim").DataTable({
+        ordering: false,
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: "<?= base_url('pengiriman/data') ?>",
+            type: 'GET',
+        },
+        "columns": [{
+                "class": "text-left"
+            },
+            {
+                "class": "text-left"
+            },
+            {
+                "class": "text-left"
+            },
+            {
+                "class": "text-left"
+            },
+            {
+                "class": "text-left"
+            },
+            {
+                "class": "text-right"
+            },
+            {
+                "class": "text-left"
+            },
+            {
+                "class": "text-center"
+            }
+        ]
+    });
+</script>
