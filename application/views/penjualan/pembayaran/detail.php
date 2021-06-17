@@ -63,9 +63,15 @@
         <?php }
     } else { ?>
         <tr>
-            <td colspan="2" class="text-center">
-                <button type="button" class="btn btn-success" id="store" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading..." onclick="confirmOrder('<?= $data['id'] ?>')"><i class="icon-checkmark-circle"></i> Setujui Pembayaran dengan Metode COD</button>
-            </td>
+            <?php if ($data['status_bayar'] == 0 and $data['status'] == 2) { ?>
+                <th class="status-accepted color-palette disabled text-center" colspan="2">Pembayaran dengan metode COD telah disetujui</th>
+            <?php } elseif ($data['status_bayar'] == 0 and $data['status'] == 3) { ?>
+                <th class="status-accepted color-palette disabled text-center" colspan="2">Pembayaran dengan metode COD telah disetujui</th>
+            <?php } else { ?>
+                <td colspan="2" class="text-center">
+                    <button type="button" class="btn btn-success" id="store" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading..." onclick="confirmOrder('<?= $data['id'] ?>')"><i class="icon-checkmark-circle"></i> Setujui Pembayaran dengan Metode COD</button>
+                </td>
+            <?php } ?>
         </tr>
     <?php } ?>
 </table>
