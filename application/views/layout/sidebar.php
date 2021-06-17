@@ -65,6 +65,11 @@
             </li>
         </ul>
     </li>
+    <li class="<?= $urls == 'pengiriman' ? 'active' : null ?>">
+        <a href="<?= site_url('pengiriman') ?>">
+            <i class="fas fa-shipping-fast"></i> <span>Pengiriman</span>
+        </a>
+    </li>
     <li class="treeview <?= $urls == 'pengguna' || $urls == 'roles' || $urls == 'rekening' ? 'active' : null ?>">
         <a href="#">
             <i class="fas fa-cog"></i> <span>Pengaturan</span>

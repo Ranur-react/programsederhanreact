@@ -177,6 +177,9 @@ $route['pembayaran/detail'] = 'penjualan/pembayaran/detail';
 $route['pembayaran/approve'] = 'penjualan/pembayaran/approve';
 $route['pembayaran/batal'] = 'penjualan/pembayaran/batal';
 
+// Pengiriman
+$route['pengiriman'] = 'penjualan/pengiriman';
+
 // Role
 $route['roles'] = 'master/roles';
 $route['roles/create'] = 'master/roles/create';
