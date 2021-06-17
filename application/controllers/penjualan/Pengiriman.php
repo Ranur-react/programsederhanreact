@@ -7,6 +7,7 @@ class Pengiriman extends CI_Controller
     {
         parent::__construct();
         cek_user();
+        $this->load->model('penjualan/pesanan/Mpesanan');
         $this->load->model('penjualan/Mpengiriman');
     }
     public function index()
@@ -62,6 +63,18 @@ class Pengiriman extends CI_Controller
             );
         }
         echo json_encode($output);
+    }
+    public function create()
+    {
+        $kode = $this->input->get('kode');
+        $data = [
+            'name' => 'Detail pengiriman pesanan',
+            'modallg' => 1,
+            'data' => $this->Mpesanan->show($kode),
+            'produk' => $this->Mpesanan->produk($kode),
+            'pengiriman' => $this->Mpesanan->pengiriman($kode)
+        ];
+        $this->template->modal_info('penjualan/pengiriman/create', $data);
     }
 }
 

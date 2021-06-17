@@ -180,6 +180,7 @@ $route['pembayaran/batal'] = 'penjualan/pembayaran/batal';
 // Pengiriman
 $route['pengiriman'] = 'penjualan/pengiriman';
 $route['pengiriman/data'] = 'penjualan/pengiriman/data';
+$route['pengiriman/create'] = 'penjualan/pengiriman/create';
 
 // Role
 $route['roles'] = 'master/roles';

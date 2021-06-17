@@ -68,4 +68,18 @@
             }
         });
     }
+
+    function create(kode) {
+        $.ajax({
+            url: "<?= site_url('pengiriman/create') ?>",
+            type: "GET",
+            data: {
+                kode: kode
+            },
+            success: function(resp) {
+                $("#tampil-modal").html(resp);
+                $("#modal_alert").modal('show');
+            }
+        });
+    }
 </script>
