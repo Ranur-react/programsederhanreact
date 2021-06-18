@@ -91,16 +91,20 @@ class Mpengiriman extends CI_Model
             ->where('idorder_kirim', $id)
             ->get()->row();
         $relasi = $this->relasi();
-        foreach ($relasi as $key => $value) {
-            if ($key == $result->relasi_terima) :
-                $data = array(
-                    'penerima' => $result->penerima_terima,
-                    'relasi' => $value
-                );
-            endif;
+        if ($result != null) {
+            foreach ($relasi as $key => $value) {
+                if ($key == $result->relasi_terima) :
+                    $data = array(
+                        'penerima' => $result->penerima_terima,
+                        'relasi' => $value
+                    );
+                endif;
+            }
+            return $data;
+        } else {
+            return '0101';
         }
-        return $data;
-        // var_dump($data);
+        // var_dump($result);
         // exit;
     }
 }

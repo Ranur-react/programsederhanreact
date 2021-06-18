@@ -62,11 +62,15 @@
             Telp: <?= $pengiriman['telp'] ?><br>
         </address>
     </div>
-    <div class="col-sm-6 invoice-col">
-        Detail Penerima
-        <address>
-            Nama Penerima : <strong><?= $terima['penerima'] ?></strong><br>
-            Relasi: <strong><?= $terima['relasi'] ?></strong>
-        </address>
-    </div>
+    <?php if ($terima != '0101') { ?>
+        <div class="col-sm-6 invoice-col">
+            Detail Penerima
+            <address>
+                Nama Penerima : <strong><?= $terima['penerima'] ?></strong><br>
+                Relasi: <strong><?= $terima['relasi'] ?></strong>
+            </address>
+        </div>
+    <?php } else { ?>
+        <div class="col-sm-6 invoice-col"><i>Pesanan belum diterima oleh customer</i></div>
+    <?php } ?>
 </div>
