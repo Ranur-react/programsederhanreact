@@ -84,6 +84,25 @@ class Mpengiriman extends CI_Model
         endif;
         return $this->Mpesanan->create_status($post['idorder'], 4);
     }
+    public function show_terima($id = null)
+    {
+        $result = $this->db->from('pengiriman')
+            ->join('pengiriman_terima', 'id_kirim=idkirim_terima')
+            ->where('idorder_kirim', $id)
+            ->get()->row();
+        $relasi = $this->relasi();
+        foreach ($relasi as $key => $value) {
+            if ($key == $result->relasi_terima) :
+                $data = array(
+                    'penerima' => $result->penerima_terima,
+                    'relasi' => $value
+                );
+            endif;
+        }
+        return $data;
+        // var_dump($data);
+        // exit;
+    }
 }
 
 /* End of file Mpengiriman.php */

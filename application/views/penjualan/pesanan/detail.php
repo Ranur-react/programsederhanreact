@@ -19,6 +19,14 @@
         <th class="bg-gray color-palette">Tanggal Pembelian</th>
         <td><?= format_indo(format_tglen_timestamp($data['tanggal'])) . ', ' . sort_jam_timestamp($data['tanggal']) ?></td>
     </tr>
+    <tr>
+        <th class="bg-gray color-palette">Metode Bayar</th>
+        <td><?= $data['metode'] ?></td>
+    </tr>
+    <tr>
+        <th class="bg-gray color-palette">Total Bayar</th>
+        <td><?= 'Rp ' . rupiah($data['total']) ?></td>
+    </tr>
 </table>
 <div class="table-responsive">
     <table class="table table-bordered dataTable table-hover nowrap no-footer">
@@ -55,11 +63,10 @@
         </address>
     </div>
     <div class="col-sm-6 invoice-col">
-        Pembayaran
+        Detail Penerima
         <address>
-            Total Harga (<?= count($produk['data']) ?> Barang) : <strong><?= 'Rp ' . rupiah($produk['total']) ?></strong><br>
-            Total Bayar: <strong><?= 'Rp ' . rupiah($data['total']) ?></strong><br>
-            Metode Pembayaran: <strong><?= $data['metode'] ?></strong>
+            Nama Penerima : <strong><?= $terima['penerima'] ?></strong><br>
+            Relasi: <strong><?= $terima['relasi'] ?></strong>
         </address>
     </div>
 </div>
