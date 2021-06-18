@@ -177,6 +177,14 @@ $route['pembayaran/detail'] = 'penjualan/pembayaran/detail';
 $route['pembayaran/approve'] = 'penjualan/pembayaran/approve';
 $route['pembayaran/batal'] = 'penjualan/pembayaran/batal';
 
+// Pengiriman
+$route['pengiriman'] = 'penjualan/pengiriman';
+$route['pengiriman/data'] = 'penjualan/pengiriman/data';
+$route['pengiriman/create'] = 'penjualan/pengiriman/create';
+$route['pengiriman/store'] = 'penjualan/pengiriman/store';
+$route['pengiriman/terima'] = 'penjualan/pengiriman/terima';
+$route['pengiriman/storeterima'] = 'penjualan/pengiriman/storeterima';
+
 // Role
 $route['roles'] = 'master/roles';
 $route['roles/create'] = 'master/roles/create';

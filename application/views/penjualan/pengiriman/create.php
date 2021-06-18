@@ -20,12 +20,8 @@
         <td><?= format_indo(format_tglen_timestamp($data['tanggal'])) . ', ' . sort_jam_timestamp($data['tanggal']) ?></td>
     </tr>
     <tr>
-        <th class="bg-gray color-palette">Metode Bayar</th>
-        <td><?= $data['metode'] ?></td>
-    </tr>
-    <tr>
-        <th class="bg-gray color-palette">Total Bayar</th>
-        <td><?= 'Rp ' . rupiah($data['total']) ?></td>
+        <th class="bg-gray color-palette">User Input</th>
+        <td><?= user_profile() ?></td>
     </tr>
 </table>
 <div class="table-responsive">
@@ -63,10 +59,14 @@
         </address>
     </div>
     <div class="col-sm-6 invoice-col">
-        Detail Penerima
+        Pembayaran
         <address>
-            Nama Penerima : <strong><?= $terima['penerima'] ?></strong><br>
-            Relasi: <strong><?= $terima['relasi'] ?></strong>
+            Total Harga (<?= count($produk['data']) ?> Barang) : <strong><?= 'Rp ' . rupiah($produk['total']) ?></strong><br>
+            Total Bayar: <strong><?= 'Rp ' . rupiah($data['total']) ?></strong><br>
+            Metode Pembayaran: <strong><?= $data['metode'] ?></strong>
         </address>
     </div>
+</div>
+<div class="text-center">
+    <button type="button" class="btn btn-success" id="store" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Loading..." onclick="store('<?= $data['id'] ?>')"><i class="icon-plus-circle2"></i> Tambahkan pesanan dalam proses pengiriman</button>
 </div>

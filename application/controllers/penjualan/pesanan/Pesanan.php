@@ -9,6 +9,7 @@ class Pesanan extends CI_Controller
         cek_user();
         $this->load->model('master/Mcustomer');
         $this->load->model('penjualan/pesanan/Mpesanan');
+        $this->load->model('penjualan/Mpengiriman');
     }
     public function index()
     {
@@ -45,10 +46,16 @@ class Pesanan extends CI_Controller
             $bayar = '<a href="javascript:void(0)" onclick="bayar(\'' . $d['id_order'] . '\')" title="Konfirmasi"><i class="icon-coin-dollar text-purple"></i></a>';
             $confirm = '<a href="javascript:void(0)" class="btn btn-xs btn-danger" onclick="confirm(\'' . $d['id_order'] . '\')">Konfirmasi</a>';
             $cancel = '<a href="javascript:void(0)" onclick="batal(\'' . $d['id_order'] . '\')" title="Batal"><i class="icon-cancel-square2 text-red"></i></a>';
-            if ($d['status_order'] == 2 or $d['status_order'] == 5) {
-                $action = $detail . '&nbsp;' . $bayar;
-            } else {
+            if ($d['status_order'] == 0) {
                 $action = $detail . '&nbsp;' . $bayar . '&nbsp' . $cancel;
+            } elseif ($d['status_order'] == 1) {
+                $action = $detail . '&nbsp;' . $bayar . '&nbsp' . $cancel;
+            } elseif ($d['status_order'] == 2) {
+                $action = $detail . '&nbsp;' . $bayar;
+            } elseif ($d['status_order'] == 3) {
+                $action = $detail . '&nbsp;' . $bayar;
+            } elseif ($d['status_order'] == 4 or $d['status_order'] == 5) {
+                $action = $detail;
             }
             $output['data'][] = array(
                 $d['invoice_order'],
@@ -107,7 +114,8 @@ class Pesanan extends CI_Controller
             'modallg' => 1,
             'data' => $this->Mpesanan->show($kode),
             'produk' => $this->Mpesanan->produk($kode),
-            'pengiriman' => $this->Mpesanan->pengiriman($kode)
+            'pengiriman' => $this->Mpesanan->pengiriman($kode),
+            'terima' => $this->Mpengiriman->show_terima($kode)
         ];
         $this->template->modal_info('penjualan/pesanan/detail', $data);
     }
