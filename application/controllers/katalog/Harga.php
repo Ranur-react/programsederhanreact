@@ -33,7 +33,7 @@ class Harga extends CI_Controller
                 $harga_terakhir = $this->Mharga->query_harga_satuan($row->id_hrg_barang, 1);
                 $data_harga = '';
                 foreach ($harga_terakhir as $value) {
-                    $data_harga .= rupiah($value->jual_hrg_detail) . '&nbsp;' . $value->singkatan_satuan . '<br>';
+                    $data_harga .= 'Rp ' . rupiah($value->jual_hrg_detail) . '&nbsp;/' . $value->berat_hrg_detail . ' ' . $value->singkatan_satuan . '<br>';
                 }
                 $data_harga .= '<div class="text-muted text-size-small">No: ' . $terima->nosurat_terima . ' Tgl: ' . format_indo($row->tanggal_hrg_barang) . '</div>';
             }
@@ -110,6 +110,7 @@ class Harga extends CI_Controller
     }
     public function update_harga()
     {
+        $this->form_validation->set_rules('berat', 'Berat', 'required|greater_than[0]');
         $this->form_validation->set_rules('harga', 'Harga', 'required|greater_than[0]');
         $this->form_validation->set_message('required', errorRequired());
         $this->form_validation->set_message('greater_than', greater_than());

@@ -15,8 +15,9 @@ if ($data != null) {
                 foreach ($result_harga as $rh) {
                 ?>
                     <div class="detail-item with-border">
-                        <div class="item-title"><?= $rh['satuan']; ?>
-                            <span class="pull-right"><?= rupiah($rh['harga']) . ' ' . $rh['singkatan']; ?></span>
+                        <div class="item-title">
+                            <?= rupiah($rh['berat']) . ' ' . $rh['satuan']; ?><span style="padding-left:5px;color: rgba(0,0,0,.54)"><?= $rh['berat'] == 0 ? '(Berat belum dirubah)' : null ?></span>
+                            <span class="pull-right">Rp <?= rupiah($rh['harga']); ?></span>
                         </div>
                     </div>
                 <?php } ?>

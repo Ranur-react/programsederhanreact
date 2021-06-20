@@ -121,6 +121,7 @@ class Mharga extends CI_Model
                 $rows_harga['singkatan'] = $rh->singkatan_satuan;
                 $rows_harga['default'] = $rh->default_hrg_detail;
                 $rows_harga['aktif'] = $rh->aktif_hrg_detail;
+                $rows_harga['berat'] = $rh->berat_hrg_detail;
                 $rows_harga['harga'] = $rh->jual_hrg_detail;
                 $row_harga[] = $rows_harga;
             }
@@ -210,6 +211,7 @@ class Mharga extends CI_Model
         $data['satuan_jual'] = $data_terima->singkatan_satuan;
         $data['id_harga'] = $query->harga_hrg_detail;
         $data['id_detail'] = $query->id_hrg_detail;
+        $data['berat'] = rupiah($query->berat_hrg_detail);
         $data['harga'] = rupiah($query->jual_hrg_detail);
         $data['default'] = $query->default_hrg_detail;
         $data['aktif'] = $query->aktif_hrg_detail;
@@ -233,6 +235,7 @@ class Mharga extends CI_Model
             }
         }
         $data = [
+            'berat_hrg_detail' => convert_uang($post['berat']),
             'jual_hrg_detail' => convert_uang($post['harga']),
             'aktif_hrg_detail' => $aktif,
             'default_hrg_detail' => $default
