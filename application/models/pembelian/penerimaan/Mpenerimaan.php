@@ -97,6 +97,7 @@ class Mpenerimaan extends CI_Model
                 $this->db->insert('harga_detail', [
                     'harga_hrg_detail' => $id_harga,
                     'satuan_hrg_detail' => $ds->id_brg_satuan,
+                    'berat_hrg_detail' => 0,
                     'jual_hrg_detail' => 0,
                     'default_hrg_detail' => 0,
                     'aktif_hrg_detail' => 0,
