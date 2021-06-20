@@ -23,9 +23,9 @@
                         ?>
                             <div class="detail-item with-border">
                                 <div class="item-title">
-                                    <?= $rh['satuan']; ?>
+                                    <?= rupiah($rh['berat']) . ' ' . $rh['satuan']; ?><span style="padding-left:5px;color: rgba(0,0,0,.54)"><?= $rh['berat'] == 0 ? '(Berat belum dirubah)' : null ?></span>
                                     <span class="pull-right">
-                                        <span class="me-2"><?= rupiah($rh['harga']) . ' ' . $rh['singkatan']; ?></span>
+                                        <span class="me-2">Rp <?= rupiah($rh['harga']); ?></span>
                                         <small class="text-muted me-1"><i class="fa fa-clock-o<?= $rh['default'] == 1 ? ' text-green' : ''; ?>"></i> Default</small>
                                         <small class="text-muted me-1"><i class="fa fa-clock-o<?= $rh['aktif'] == 1 ? ' text-red' : ''; ?>"></i> Aktif</small>
                                         <a href="javascript:void(0)" onclick="edit_harga('<?= $rh['id_detail']; ?>')">

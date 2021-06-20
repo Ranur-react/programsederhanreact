@@ -31,7 +31,15 @@
     </div>
 </div>
 <div class="form-group">
-    <label>Harga Jual ( per <?= $data['satuan_jual']; ?> )</label>
+    <label>Berat</label>
+    <div class="input-group">
+        <input type="text" name="berat" id="keyberat" class="form-control" value="<?= $data['berat']; ?>">
+        <span class="input-group-addon"><?= $data['satuan_jual']; ?></span>
+    </div>
+    <div id="berat"></div>
+</div>
+<div class="form-group">
+    <label>Harga Jual</label>
     <input type="text" name="harga" id="harga" class="form-control" value="<?= $data['harga'] ?>">
 </div>
 <script>
@@ -43,6 +51,10 @@
         });
     });
     $(function() {
+        $('#keyberat').keyup(function(e) {
+            var nilai = formatRupiah($(this).val(), '');
+            $(this).val(nilai);
+        });
         $('#harga').keyup(function(e) {
             var nilai = formatRupiah($(this).val(), '');
             $(this).val(nilai);
