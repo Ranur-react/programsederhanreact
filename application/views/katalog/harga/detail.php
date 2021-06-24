@@ -5,9 +5,10 @@ if ($data != null) {
         <div class="detail-card">
             <div class="detail-body">
                 <div class="detail-header">
+                    <span class="detail-date pull-right"><i class="fa fa-clock-o"></i> <?= $result['created_at'] ?></span>
                     <h4><?= $result['barang']; ?></h4>
                     <h5><span class="me-1"><?= $result['nomor']; ?></span><span class="me-1"><?= $result['tanggal']; ?></span>dari: <?= $result['supplier']; ?>
-                        <span class="detail-date pull-right"><i class="fa fa-clock-o"></i> <?= $result['created_at']; ?></span>
+                        <span class="pull-right">Harga beli: Rp <?= $result['harga_beli'] . '/' . $result['satuan_beli'] ?></span>
                     </h5>
                 </div>
                 <?php

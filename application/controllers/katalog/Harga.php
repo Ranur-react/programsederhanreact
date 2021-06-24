@@ -110,8 +110,8 @@ class Harga extends CI_Controller
     }
     public function update_harga()
     {
-        $this->form_validation->set_rules('berat', 'Berat', 'required|greater_than[0]');
-        $this->form_validation->set_rules('harga', 'Harga', 'required|greater_than[0]');
+        $this->form_validation->set_rules('berat', 'Berat', 'required');
+        $this->form_validation->set_rules('harga', 'Harga', 'required');
         $this->form_validation->set_message('required', errorRequired());
         $this->form_validation->set_message('greater_than', greater_than());
         $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
