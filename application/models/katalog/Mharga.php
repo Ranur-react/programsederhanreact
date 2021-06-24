@@ -59,7 +59,7 @@ class Mharga extends CI_Model
     }
     public function query_penerimaan($id = null, $default = null, $aktif = null, $limit = null)
     {
-        $query = "SELECT * FROM barang JOIN barang_satuan ON id_barang=barang_brg_satuan JOIN permintaan_detail ON id_brg_satuan=barang_detail
+        $query = "SELECT * FROM barang JOIN barang_satuan ON id_barang=barang_brg_satuan JOIN satuan ON satuan_brg_satuan=id_satuan JOIN permintaan_detail ON id_brg_satuan=barang_detail
         JOIN penerimaan_detail ON minta_detail=permintaan_detail.id_detail JOIN penerimaan_harga
         ON detail_terima_harga=penerimaan_detail.id_detail JOIN harga_barang ON barang_terima_harga=id_hrg_barang";
         if ($limit == 1) :
@@ -105,6 +105,8 @@ class Mharga extends CI_Model
             $rows['tanggal'] = format_indo($row_terima['tanggal_terima']);
             $rows['created_at'] = sort_jam_timestamp($row_terima['created_at']) . ' ' . format_tglin_timestamp($row_terima['created_at']);
             $rows['barang'] = $result->nama_barang;
+            $rows['satuan_beli'] = $result->singkatan_satuan;
+            $rows['harga_beli'] = rupiah($result->harga_detail);
             $rows['default'] = $this->query_harga_default($id_harga);
             if ($aktif == 1) :
                 // Tampilkan data harga satuan yang aktif
@@ -204,6 +206,7 @@ class Mharga extends CI_Model
         $data['barang'] = $data_terima->nama_barang;
         $data['id_terima'] = $data_terima->id_terima;
         $data['nomor'] = $data_terima->nosurat_terima;
+        $data['supplier'] = $data_terima->nama_supplier;
         $data['tanggal'] = format_indo($data_terima->tanggal_terima);
         $data['created_at'] = sort_jam_timestamp($data_terima->created_at) . ' ' . format_tglin_timestamp($data_terima->created_at);
         $data['satuan_beli'] = $query_satuan->singkatan_satuan;
