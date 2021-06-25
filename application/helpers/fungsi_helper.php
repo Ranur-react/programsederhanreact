@@ -211,6 +211,23 @@ if (!function_exists('convert_uang')) {
     }
 }
 
+if (!function_exists('convert_stok')) {
+    function convert_stok($satuan, $jumlah)
+    {
+        if ($satuan == 1) :
+            // Konversi jumlah dari satuan Kg ke satuan gram
+            $nilai = 1000 * $jumlah;
+        elseif ($satuan == 3) :
+            // Konversi jumlah dari satuan gram tetap pada satuan gram
+            $nilai = 1 * $jumlah;
+        else :
+            // Tidak terjadi konversi pada jumlah
+            $nilai = $jumlah;
+        endif;
+        return $nilai;
+    }
+}
+
 if (!function_exists('zerobefore')) {
     function zerobefore($lenght)
     {
