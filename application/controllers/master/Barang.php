@@ -12,6 +12,7 @@ class Barang extends CI_Controller
             redirect('logout');
         $this->load->model('master/Mbarang');
         $this->load->model('master/Msatuan');
+        $this->load->model('katalog/Mharga');
     }
     public function index()
     {
@@ -47,6 +48,14 @@ class Barang extends CI_Controller
         $no = 1;
         foreach ($query->result_array() as $d) {
             $kode = $d['id_barang'];
+            // Menampilkan stok barang dari penerimaan terakhir
+            $stok = $this->Mharga->query_penerimaan($kode, 0, 0, 1);
+            if ($stok != null) {
+                $terima_akhir = $this->db->where('id_terima', $stok->terima_detail)->get('penerimaan')->row();
+                $row_stok = $stok != null ? convert_satuan($stok->id_satuan, $stok->stok_detail) . ' ' . $stok->singkatan_satuan : 0;
+                $row_terima = '<div class="text-muted text-size-small">No: ' . $terima_akhir->nosurat_terima . ' Tgl: ' . format_indo($terima_akhir->tanggal_terima) . '</div>';
+            }
+            // Menampilkan data kategori per barang
             $data_kategori = $this->Mbarang->barang_kategori($kode);
             $result = '';
             foreach ($data_kategori as $data_kategori) {
@@ -57,9 +66,9 @@ class Barang extends CI_Controller
             $output['data'][] = array(
                 $no . '.',
                 $d['nama_barang'],
+                $stok != null ? $row_stok . '<br>' . $row_terima : 0,
                 '',
-                '',
-                rtrim($result, ''),
+                rtrim($result, '<br>'),
                 status_span($d['status_barang'], 'aktif'),
                 $edit . '&nbsp;' . $hapus
             );

@@ -72,6 +72,8 @@ class Mharga extends CI_Model
         // Tampilkan harga satuan dengan status default
         if ($default == 1) :
             $query .= " AND default_hrg_detail='1'";
+        elseif ($default == 0 && $limit == 1) :
+            $query .= " AND default_hrg_detail='0'";
         endif;
         if ($limit == 1) :
             // Tampilkan harga satuan terakhir
