@@ -30,6 +30,9 @@ class Harga extends CI_Controller
             $row = $this->Mharga->query_penerimaan($result->id_barang, 1, 0, 1);
             if ($row != null) {
                 $terima = $this->db->where('id_terima', $row->terima_detail)->get('penerimaan')->row();
+                // Menampilkan stok barang dari penerimaan terakhir dengan status default aktif
+                $row_stok = $row != null ? convert_satuan($row->id_satuan, $row->stok_detail) . ' ' . $row->singkatan_satuan : 0;
+                // Menampilkan harga jual dari penerimaan terakhir dengan status default aktif
                 $harga_terakhir = $this->Mharga->query_harga_satuan($row->id_hrg_barang, 1);
                 $data_harga = '';
                 foreach ($harga_terakhir as $value) {
@@ -45,7 +48,7 @@ class Harga extends CI_Controller
             $rows = array();
             $rows[] = $no . '.';
             $rows[] = $result->nama_barang;
-            $rows[] = '';
+            $rows[] = $row != null ? $row_stok : 0;
             $rows[] = $row != null ? rtrim($data_harga, '') : '<div class="text-muted text-size-small">Harga belum diaktifkan</div>';
             $rows[] = status_span($result->status_barang, 'aktif');
             $rows[] = $detail . '&nbsp;' . $histori;
