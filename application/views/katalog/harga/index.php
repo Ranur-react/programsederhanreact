@@ -53,7 +53,12 @@
                 {
                     "class": "text-center"
                 }
-            ]
+            ],
+            "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                if (aData[2] == '0') {
+                    $('td', nRow).css('background-color', '#f2dede');
+                }
+            }
         });
     });
 
