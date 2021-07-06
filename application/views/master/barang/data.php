@@ -22,43 +22,48 @@
 </div>
 <div id="tampil_modal"></div>
 <script>
-    $(".tabel_barang").DataTable({
-        ordering: false,
-        processing: true,
-        serverSide: true,
-        ajax: {
-            url: "<?= base_url('barang/data') ?>",
-            type: 'GET',
-        },
-        "columns": [{
-                "class": "text-center"
+    $(document).ready(function() {
+        table = $('.tabel_barang').DataTable({
+            "ordering": false,
+            "processing": true,
+            "serverSide": true,
+            "order": [],
+            "ajax": {
+                "url": "<?= base_url('barang/data') ?>",
+                "type": "GET"
             },
-            {
-                "class": "text-left"
-            },
-            {
-                "class": "text-left"
-            },
-            {
-                "class": "text-left"
-            },
-            {
-                "class": "text-left"
-            },
-            {
-                "class": "text-center",
-                "width": "100px"
-            },
-            {
-                "class": "text-center",
-                "width": "60px"
+            "columnDefs": [{
+                "targets": [0],
+                "orderable": false,
+            }],
+            "columns": [{
+                    "class": "text-center"
+                },
+                {
+                    "class": "text-left"
+                },
+                {
+                    "class": "text-left"
+                },
+                {
+                    "class": "text-left"
+                },
+                {
+                    "class": "text-left"
+                },
+                {
+                    "class": "text-center"
+                },
+                {
+                    "class": "text-center"
+                }
+            ],
+            "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                if (aData[2] == '0') {
+                    $('td', nRow).css('background-color', '#f2dede');
+                }
             }
-        ],
-        "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
-            if (aData[2] == '0') {
-                $('td', nRow).css('background-color', '#f2dede');
-            }
-        }
+        });
     });
 
     function hapus(kode) {

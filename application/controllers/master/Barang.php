@@ -19,35 +19,17 @@ class Barang extends CI_Controller
         $data = [
             'title' => 'Barang',
             'small' => 'Menampilkan dan mengelola data barang',
-            'links' => '<li class="active">Barang</li>',
-            'data' => $this->Mbarang->fetch_all()
+            'links' => '<li class="active">Barang</li>'
         ];
         $this->template->dashboard('master/barang/data', $data);
     }
     public function data()
     {
-        $draw   = $_REQUEST['draw'];
-        $length = $_REQUEST['length'];
-        $start  = $_REQUEST['start'];
-        $search = $_REQUEST['search']["value"];
-        $status = '';
-        $total  = $this->Mbarang->jumlah_data();
-        $output = array();
-        $output['draw'] = $draw;
-        $output['recordsTotal'] = $output['recordsFiltered'] = $total;
-        $output['data'] = array();
-        if ($search != "") {
-            $query = $this->Mbarang->cari_data($search, $status);
-        } else {
-            $query = $this->Mbarang->tampil_data($start, $length, $status);
-        }
-        if ($search != "") {
-            $count = $this->Mbarang->cari_data($search, $status);
-            $output['recordsTotal'] = $output['recordsFiltered'] = $count->num_rows();
-        }
-        $no = 1;
-        foreach ($query->result_array() as $d) {
-            $kode = $d['id_barang'];
+        $results = $this->Mbarang->get_all();
+        $data = array();
+        $no = $_GET['start'];
+        foreach ($results as $result) {
+            $kode = $result->id_barang;
             // Menampilkan stok barang dari penerimaan terakhir
             $stok = $this->Mharga->query_penerimaan($kode, 0, 0, 1);
             if ($stok != null) {
@@ -55,26 +37,44 @@ class Barang extends CI_Controller
                 $row_stok = $stok != null ? convert_satuan($stok->id_satuan, $stok->stok_detail) . ' ' . $stok->singkatan_satuan : 0;
                 $row_terima = '<div class="text-muted text-size-small">No: ' . $terima_akhir->nosurat_terima . ' Tgl: ' . format_indo($terima_akhir->tanggal_terima) . '</div>';
             }
+            // Menampilkan harga jual dari penerimaan terakhir dengan status default aktif
+            $row = $this->Mharga->query_penerimaan($kode, 1, 0, 1);
+            if ($row != null) {
+                $terima = $this->db->where('id_terima', $row->terima_detail)->get('penerimaan')->row();
+                $harga_terakhir = $this->Mharga->query_harga_satuan($row->id_hrg_barang, 1);
+                $data_harga = '';
+                foreach ($harga_terakhir as $value) {
+                    $data_harga .= 'Rp ' . rupiah($value->jual_hrg_detail) . '&nbsp;/' . $value->berat_hrg_detail . ' ' . $value->singkatan_satuan . '<br>';
+                }
+                $data_harga .= '<div class="text-muted text-size-small">No: ' . $terima->nosurat_terima . ' Tgl: ' . format_indo($row->tanggal_hrg_barang) . '</div>';
+            }
             // Menampilkan data kategori per barang
             $data_kategori = $this->Mbarang->barang_kategori($kode);
-            $result = '';
+            $row_kategori = '';
             foreach ($data_kategori as $data_kategori) {
-                $result .= $data_kategori['nama_kategori'] . '<br>';
+                $row_kategori .= $data_kategori['nama_kategori'] . '<br>';
             }
-            $edit = '<a href="' . site_url('barang/edit/' . $d['id_barang']) . '"><i class="icon-pencil7 text-green" data-toggle="tooltip" data-original-title="Edit"></i></a>';
-            $hapus = '<a href="javascript:void(0)" onclick="hapus(\'' . $d['id_barang'] . '\')"><i class="icon-trash text-red" data-toggle="tooltip" data-original-title="Hapus"></i></a>';
-            $output['data'][] = array(
-                $no . '.',
-                $d['nama_barang'],
-                $stok != null ? $row_stok . '<br>' . $row_terima : 0,
-                '',
-                rtrim($result, '<br>'),
-                status_span($d['status_barang'], 'aktif'),
-                $edit . '&nbsp;' . $hapus
-            );
+
+            $edit = '<a href="' . site_url('barang/edit/' . $result->id_barang) . '"><i class="icon-pencil7 text-green" data-toggle="tooltip" data-original-title="Edit"></i></a>';
+            $hapus = '<a href="javascript:void(0)" onclick="hapus(\'' . $result->id_barang . '\')"><i class="icon-trash text-red" data-toggle="tooltip" data-original-title="Hapus"></i></a>';
             $no++;
+            $rows = array();
+            $rows[] = $no . '.';
+            $rows[] = $result->nama_barang;
+            $rows[] = $stok != null ? $row_stok . '<br>' . $row_terima : 0;
+            $rows[] =  $row != null ? rtrim($data_harga, '') : '<div class="text-muted text-size-small">Harga belum diaktifkan</div>';
+            $rows[] = rtrim($row_kategori, '<br>');
+            $rows[] = status_span($result->status_barang, 'aktif');
+            $rows[] = $edit . '&nbsp;' . $hapus;
+            $data[] = $rows;
         }
-        echo json_encode($output);
+        $json = array(
+            "draw" => $_GET['draw'],
+            "recordsTotal" => $this->Mharga->count_all(),
+            "recordsFiltered" => $this->Mharga->count_filtered(),
+            "data" => $data,
+        );
+        echo json_encode($json);
     }
     public function create()
     {
