@@ -8,8 +8,8 @@
                 <thead>
                     <tr>
                         <th class="text-center">No.</th>
-                        <th>Nama</th>
-                        <th>Icon</th>
+                        <th>Kategori</th>
+                        <th>Image</th>
                         <th class="text-center">Action</th>
                     </tr>
                 </thead>
