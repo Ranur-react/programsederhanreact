@@ -72,6 +72,8 @@ class Mharga extends CI_Model
         // Tampilkan harga satuan dengan status default
         if ($default == 1) :
             $query .= " AND default_hrg_detail='1'";
+        elseif ($default == 0 && $limit == 1) :
+            $query .= " AND default_hrg_detail='0'";
         endif;
         if ($limit == 1) :
             // Tampilkan harga satuan terakhir
@@ -107,6 +109,7 @@ class Mharga extends CI_Model
             $rows['barang'] = $result->nama_barang;
             $rows['satuan_beli'] = $result->singkatan_satuan;
             $rows['harga_beli'] = rupiah($result->harga_detail);
+            $rows['jumlah_beli'] = rupiah($result->jumlah_detail);
             $rows['default'] = $this->query_harga_default($id_harga);
             if ($aktif == 1) :
                 // Tampilkan data harga satuan yang aktif

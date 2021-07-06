@@ -177,9 +177,13 @@ class Mpesanan extends CI_Model
         foreach ($query as $value) {
             $total = $total + (($value->harga_order_barang - $value->diskon_order_barang) * $value->jumlah_order_barang);
             $result = [
+                'id_hrg_detail' => $value->id_hrg_detail,
+                'id_satuan' => $value->satuan_brg_satuan,
+                'id_brg_satuan' => $value->id_brg_satuan,
                 'produk' => $value->nama_barang,
                 'harga' => $value->harga_order_barang - $value->diskon_order_barang,
-                'jumlah' => $value->jumlah_order_barang,
+                'jumlah' => (int)$value->jumlah_order_barang,
+                'berat' => (int)$value->berat_hrg_detail,
                 'total' => ($value->harga_order_barang - $value->diskon_order_barang) * $value->jumlah_order_barang,
                 'note' => $value->info_order_barang
             ];

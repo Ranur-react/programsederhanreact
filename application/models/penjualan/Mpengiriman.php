@@ -41,6 +41,20 @@ class Mpengiriman extends CI_Model
     }
     public function store($id = null)
     {
+        $produk = $this->Mpesanan->produk($id);
+        foreach ($produk['data'] as $d) {
+            $berat = $d['jumlah'] * $d['berat'];
+            $convert_stok = convert_stok($d['id_satuan'], $berat);
+            $data_stok = $this->db->from('harga_detail')
+                ->join('penerimaan_harga', 'harga_hrg_detail=barang_terima_harga')
+                ->join('penerimaan_detail', 'detail_terima_harga=id_detail')
+                ->where('id_hrg_detail', $d['id_hrg_detail'])
+                ->get()->row_array();
+            $update = array(
+                'stok_detail' => $data_stok['stok_detail'] - $convert_stok
+            );
+            $this->db->where('id_detail', $data_stok['id_detail'])->update('penerimaan_detail', $update);
+        }
         $data = [
             'idorder_kirim' => $id,
             'iduser_kirim'  => id_user()
