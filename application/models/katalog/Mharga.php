@@ -109,6 +109,7 @@ class Mharga extends CI_Model
             $rows['barang'] = $result->nama_barang;
             $rows['satuan_beli'] = $result->singkatan_satuan;
             $rows['harga_beli'] = rupiah($result->harga_detail);
+            $rows['jumlah_beli'] = rupiah($result->jumlah_detail);
             $rows['default'] = $this->query_harga_default($id_harga);
             if ($aktif == 1) :
                 // Tampilkan data harga satuan yang aktif

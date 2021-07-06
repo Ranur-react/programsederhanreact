@@ -1,8 +1,5 @@
 <div class="col-xs-12">
     <div class="box box-widget">
-        <div class="box-header with-border">
-            <h3 class="box-title">Data Harga Jual Barang</h3>
-        </div>
         <div class="box-body table-responsive">
             <table class="table table-bordered table-striped list_data">
                 <thead>
