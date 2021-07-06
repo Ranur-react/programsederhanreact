@@ -43,6 +43,11 @@
             {
                 "class": "text-center"
             }
-        ]
+        ],
+        "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+            if (aData[3] == '0') {
+                $('td', nRow).css('background-color', '#f2dede');
+            }
+        }
     });
 </script>
