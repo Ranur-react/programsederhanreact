@@ -11,3 +11,23 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function() {
+        load_data();
+    });
+
+    function load_data() {
+        var kode = $('#kode').val();
+        $('#data').html('<p class="text-center m-t-0 m-b-2 text-red"><b><i class="fa fa-refresh animation-rotate"></i> Loading...</b></p>');
+        $.ajax({
+            url: "<?= site_url('stok-barang/data-terima') ?>",
+            method: "GET",
+            data: {
+                kode: kode
+            },
+            success: function(resp) {
+                $('#data').html(resp);
+            }
+        });
+    }
+</script>

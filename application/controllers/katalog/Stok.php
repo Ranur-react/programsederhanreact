@@ -9,6 +9,7 @@ class Stok extends CI_Controller
         cek_user();
         $this->load->model('master/Mbarang');
         $this->load->model('katalog/Mharga');
+        $this->load->model('katalog/Mstok');
     }
     public function index()
     {
@@ -69,6 +70,12 @@ class Stok extends CI_Controller
             'kode' => $kode
         ];
         $this->template->dashboard('katalog/stok/detail', $data);
+    }
+    public function data_terima()
+    {
+        $kode = $this->input->get('kode');
+        $d['data'] = $this->Mstok->data_penerimaan($kode);
+        $this->load->view('katalog/stok/data', $d);
     }
 }
 
