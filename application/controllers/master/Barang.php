@@ -70,8 +70,8 @@ class Barang extends CI_Controller
         }
         $json = array(
             "draw" => $_GET['draw'],
-            "recordsTotal" => $this->Mharga->count_all(),
-            "recordsFiltered" => $this->Mharga->count_filtered(),
+            "recordsTotal" => $this->Mbarang->count_all(),
+            "recordsFiltered" => $this->Mbarang->count_filtered(),
             "data" => $data,
         );
         echo json_encode($json);

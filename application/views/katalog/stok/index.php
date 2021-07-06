@@ -16,3 +16,33 @@
         </div>
     </div>
 </div>
+<script>
+    $(".tabel_stok").DataTable({
+        ordering: false,
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: "<?= base_url('stok-barang/data') ?>",
+            type: 'GET',
+        },
+        "columns": [{
+                "class": "text-center"
+            },
+            {
+                "class": "text-left"
+            },
+            {
+                "class": "text-left"
+            },
+            {
+                "class": "text-left"
+            },
+            {
+                "class": "text-center"
+            },
+            {
+                "class": "text-center"
+            }
+        ]
+    });
+</script>
