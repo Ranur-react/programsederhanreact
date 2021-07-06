@@ -24,12 +24,20 @@ class Stok extends CI_Controller
         $data = array();
         $no = $_GET['start'];
         foreach ($results as $result) {
+            $kode = $result->id_barang;
+            // Menampilkan data satuan per barang
+            $data_satuan = $this->Mbarang->barang_satuan($kode);
+            $row_satuan = '';
+            foreach ($data_satuan as $data_satuan) {
+                $row_satuan .= $data_satuan['nama_satuan'] . '<br>';
+            }
+
             $detail = '<a href="javascript:void(0)"><i class="icon-eye8 text-black" data-toggle="tooltip" data-original-title="Detail"></i></a>';
             $no++;
             $rows = array();
             $rows[] = $no . '.';
             $rows[] = $result->nama_barang;
-            $rows[] = '';
+            $rows[] = rtrim($row_satuan, '<br>');
             $rows[] = '';
             $rows[] = status_span($result->status_barang, 'aktif');
             $rows[] = $detail;
