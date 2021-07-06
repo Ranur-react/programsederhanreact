@@ -40,7 +40,7 @@ class Stok extends CI_Controller
                 $row_terima = '<div class="text-muted text-size-small">No: ' . $terima_akhir->nosurat_terima . ' Tgl: ' . format_indo($terima_akhir->tanggal_terima) . '</div>';
             }
 
-            $detail = '<a href="javascript:void(0)"><i class="icon-eye8 text-black" data-toggle="tooltip" data-original-title="Detail"></i></a>';
+            $detail = '<a href="' . site_url('stok-barang/detail/' . $result->id_barang) . '"><i class="icon-eye8 text-black" title="Detail"></i></a>';
             $no++;
             $rows = array();
             $rows[] = $no . '.';
@@ -58,6 +58,17 @@ class Stok extends CI_Controller
             "data" => $data,
         );
         echo json_encode($json);
+    }
+    public function detail($kode)
+    {
+        $data = [
+            'title' => 'Stok Barang',
+            'small' => 'Menampilkan detail stok barang',
+            'links' => '<li>Stok Barang</li><li class="active">Detail</li>',
+            'sidebar' => 'collapse',
+            'kode' => $kode
+        ];
+        $this->template->dashboard('katalog/stok/detail', $data);
     }
 }
 

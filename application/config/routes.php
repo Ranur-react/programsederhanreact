@@ -79,6 +79,7 @@ $route['harga/update-harga'] = 'katalog/harga/update_harga';
 // Stok Barang
 $route['stok-barang'] = 'katalog/stok';
 $route['stok-barang/data'] = 'katalog/stok/data';
+$route['stok-barang/detail/(:num)'] = 'katalog/stok/detail/$1';
 
 // menu permintaan
 $route['permintaan'] = 'pembelian/permintaan/permintaan';
