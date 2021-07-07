@@ -43,15 +43,30 @@ class Mrekening extends CI_Model
     {
         return $this->db->where('id_account', $kode)->get('account_bank')->row_array();
     }
-    public function update($post)
+    public function update($post, $link)
     {
-        $data = array(
-            'bank_account' => $post['code'],
-            'kcb_account' => $post['cabang'],
-            'norek_account' => $post['norek'],
-            'pemilik_account' => $post['holder'],
-            'status_account' => $post['status']
-        );
+        $row = $this->show($post['kode']);
+        if ($link == '') :
+            $data = array(
+                'bank_account' => $post['code'],
+                'kcb_account' => $post['cabang'],
+                'norek_account' => $post['norek'],
+                'pemilik_account' => $post['holder'],
+                'status_account' => $post['status']
+            );
+        else :
+            if ($row['logo_account'] != "") {
+                unlink(pathImage() . $row['logo_account']);
+            }
+            $data = array(
+                'bank_account' => $post['code'],
+                'kcb_account' => $post['cabang'],
+                'norek_account' => $post['norek'],
+                'pemilik_account' => $post['holder'],
+                'logo_account' => $link,
+                'status_account' => $post['status']
+            );
+        endif;
         return $this->db->where('id_account', $post['kode'])->update('account_bank', $data);
     }
     public function destroy($kode)
