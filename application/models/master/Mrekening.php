@@ -71,6 +71,10 @@ class Mrekening extends CI_Model
     }
     public function destroy($kode)
     {
+        $data = $this->show($kode);
+        if ($data['logo_account'] != "") {
+            unlink(pathImage() . $data['logo_account']);
+        }
         return $this->db->simple_query("DELETE FROM account_bank WHERE id_account='$kode'");
     }
 }
