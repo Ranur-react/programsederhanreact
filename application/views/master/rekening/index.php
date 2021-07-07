@@ -103,12 +103,15 @@
     }
 
     $(document).on('submit', '.form_create', function(e) {
+        event.preventDefault();
+        var formData = new FormData($(".form_create")[0]);
         $.ajax({
-            type: "post",
-            url: $(this).attr('action'),
-            data: $(this).serialize(),
-            dataType: "json",
-            cache: false,
+            url: $(".form_create").attr('action'),
+            dataType: 'json',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
             beforeSend: function() {
                 $('.store_data').button('loading');
             },
@@ -136,7 +139,6 @@
             complete: function() {
                 $('.store_data').button('reset');
             }
-        });
-        return false;
+        })
     });
 </script>

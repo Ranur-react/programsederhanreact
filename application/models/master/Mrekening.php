@@ -26,7 +26,7 @@ class Mrekening extends CI_Model
         }
         return $kode;
     }
-    public function store($post)
+    public function store($post, $link)
     {
         $data = array(
             'id_account' => $this->kode(),
@@ -34,6 +34,7 @@ class Mrekening extends CI_Model
             'kcb_account' => $post['cabang'],
             'norek_account' => $post['norek'],
             'pemilik_account' => $post['holder'],
+            'logo_account' => $link,
             'status_account' => $post['status']
         );
         return $this->db->insert('account_bank', $data);
