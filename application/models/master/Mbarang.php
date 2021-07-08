@@ -3,35 +3,58 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Mbarang extends CI_Model
 {
+    var $tabel = 'barang';
+    var $id = 'id_barang';
+    var $column_order = array(null, 'nama_barang');
+    var $column_search = array('nama_barang');
+    var $order = array('nama_barang' => 'asc');
+
+    public function _get_data_query()
+    {
+        $this->db->from($this->tabel);
+        $i = 0;
+        foreach ($this->column_search as $item) {
+            if ($_GET['search']['value']) {
+                if ($i === 0) {
+                    $this->db->group_start();
+                    $this->db->like($item, $_GET['search']['value']);
+                } else {
+                    $this->db->or_like($item, $_GET['search']['value']);
+                }
+                if (count($this->column_search) - 1 == $i)
+                    $this->db->group_end();
+            }
+            $i++;
+        }
+        if (isset($_GET['order'])) {
+            $this->db->order_by($this->column_order[$_GET['order']['0']['column']], $_GET['order']['0']['dir']);
+        } else if (isset($this->order)) {
+            $order = $this->order;
+            $this->db->order_by(key($order), $order[key($order)]);
+        }
+    }
+    public function get_all()
+    {
+        $this->_get_data_query();
+        if ($_GET['length'] != -1)
+            $this->db->limit($_GET['length'], $_GET['start']);
+        $query = $this->db->get();
+        return $query->result();
+    }
+    public function count_all()
+    {
+        $this->db->from($this->tabel);
+        return $this->db->count_all_results();
+    }
+    public function count_filtered()
+    {
+        $this->_get_data_query();
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
     public function fetch_all()
     {
         return $this->db->order_by('nama_barang', 'ASC')->get('barang')->result_array();
-    }
-    public function jumlah_data()
-    {
-        return $this->db->count_all_results("barang");
-    }
-    public function tampil_data($start, $length, $status = '')
-    {
-        $sql = $this->db->from('barang');
-        if ($status != '') {
-            $sql = $this->db->where('status_barang', $status);
-        }
-        $sql = $this->db->limit($length, $start);
-        $sql = $this->db->get();
-        return $sql;
-    }
-    public function cari_data($search, $status = '')
-    {
-        $sql = $this->db
-            ->from('barang')
-            ->order_by('nama_barang', 'ASC')
-            ->like('nama_barang', $search);
-        if ($status != '') {
-            $sql = $this->db->where('status_barang', $status);
-        }
-        $sql = $this->db->get();
-        return $sql;
     }
     public function barang_desc($kode)
     {
@@ -95,6 +118,19 @@ class Mbarang extends CI_Model
                 $this->db->query("INSERT INTO barang_satuan SET barang_brg_satuan='$kode',satuan_brg_satuan='$id_satuan'");
             }
         }
+        $queryGambar = $this->db->where('user', id_user())->get('tmp_gambar')->result_array();
+        foreach ($queryGambar as $qg) {
+            $this->db->insert(
+                'barang_gambar',
+                array(
+                    'barang_brg_gambar' => $kode,
+                    'satuan_brg_gambar' => $qg['idsatuan'],
+                    'url_brg_gambar' => $qg['gambar'],
+                    'sort_order' => $qg['nourut']
+                )
+            );
+        }
+        $this->db->where('user', id_user())->delete('tmp_gambar');
         return $barang;
     }
     public function show($kode)

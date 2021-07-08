@@ -80,7 +80,7 @@ class Mpenerimaan extends CI_Model
                 'minta_detail' => $d['iddetail'],
                 'harga_detail' => $d['harga'],
                 'jumlah_detail' => $d['jumlah'],
-                'stok_detail' => $d['jumlah']
+                'stok_detail' => convert_stok($d['id_satuan'], $d['jumlah_detail'])
             ];
             $this->db->insert('penerimaan_detail', $data_detail);
             $id_detail_terima = $this->db->insert_id();
@@ -97,6 +97,7 @@ class Mpenerimaan extends CI_Model
                 $this->db->insert('harga_detail', [
                     'harga_hrg_detail' => $id_harga,
                     'satuan_hrg_detail' => $ds->id_brg_satuan,
+                    'berat_hrg_detail' => 0,
                     'jual_hrg_detail' => 0,
                     'default_hrg_detail' => 0,
                     'aktif_hrg_detail' => 0,

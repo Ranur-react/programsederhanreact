@@ -5,7 +5,7 @@
             <i class="icon icon-home4"></i> <span>Dashboard</span>
         </a>
     </li>
-    <li class="treeview <?= $urls == 'satuan' || $urls == 'kategori' || $urls == 'barang' || $urls == 'harga' ? 'active' : null ?>">
+    <li class="treeview <?= $urls == 'satuan' || $urls == 'kategori' || $urls == 'barang' || $urls == 'harga' || $urls == 'stok-barang' ? 'active' : null ?>">
         <a href="#">
             <i class="fas fa-boxes"></i> <span>Katalog</span>
             <span class="pull-right-container">
@@ -24,6 +24,9 @@
             </li>
             <li class="<?= $urls == 'harga' ? 'active' : null ?>">
                 <a href="<?= site_url('harga') ?>"><i class="fa fa-angle-double-right"></i> Harga Jual</a>
+            </li>
+            <li class="<?= $urls == 'stok-barang' ? 'active' : null ?>">
+                <a href="<?= site_url('stok-barang') ?>"><i class="fa fa-angle-double-right"></i> Stok Barang</a>
             </li>
         </ul>
     </li>
@@ -64,6 +67,11 @@
                 <a href="<?= site_url('pesanan') ?>"><i class="fa fa-angle-double-right"></i> Pesanan</a>
             </li>
         </ul>
+    </li>
+    <li class="<?= $urls == 'pengiriman' ? 'active' : null ?>">
+        <a href="<?= site_url('pengiriman') ?>">
+            <i class="fas fa-shipping-fast"></i> <span>Pengiriman</span>
+        </a>
     </li>
     <li class="treeview <?= $urls == 'pengguna' || $urls == 'roles' || $urls == 'rekening' ? 'active' : null ?>">
         <a href="#">

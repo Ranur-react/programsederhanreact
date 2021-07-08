@@ -5,6 +5,12 @@
         </div>
         <div class="box-body no-padding table-responsive">
             <table class="table-style table text-nowrap">
+                <thead>
+                    <tr>
+                        <th class="text-center">Action</th>
+                        <th>Hak Akses</th>
+                    </tr>
+                </thead>
                 <tbody>
                     <?php foreach ($data as $d) { ?>
                         <tr>
@@ -12,12 +18,7 @@
                                 <a href="javascript:void(0)" onclick="edit('<?= $d['id_role'] ?>')"><i class="icon-pencil7 text-green" data-toggle="tooltip" data-original-title="Edit"></i></a>
                                 <a href="javascript:void(0)" onclick="destroy('<?= $d['id_role'] ?>')"><i class="icon-trash text-red" data-toggle="tooltip" data-original-title="Hapus"></i></a>
                             </td>
-                            <td>
-                                <?= $d['nama_role'] ?>
-                                <div class="text-muted text-size-small">
-                                    <span class="status-mark <?= $d['jenis_role'] == '1' ? 'border-success' : 'border-danger' ?> position-left"></span><?= $d['jenis_role'] == '1' ? 'Back Office' : 'Gudang' ?>
-                                </div>
-                            </td>
+                            <td><?= $d['nama_role'] ?></td>
                         </tr>
                     <?php } ?>
                 </tbody>

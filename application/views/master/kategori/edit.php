@@ -16,7 +16,7 @@
     <div id="pesan_gambar"></div>
 </div>
 <div class="form-group">
-    <label>Sub Kategori</label>
+    <label>Parent</label>
     <select class="form-control select2" name="parent" data-placeholder="Pilih Kategori" style="width: 100%;">
         <option value=""></option>
         <option value="0" <?= $data['parent_kategori'] == '0' ? 'selected' : null ?>>None</option>

@@ -12,20 +12,34 @@
                 <div class="detail-body<?= $result['default'] == '1' ? ' active' : '' ?>">
                     <div class="detail-header">
                         <h4><?= $result['barang']; ?></h4>
-                        <h5><span class="me-1"><?= $result['nomor']; ?></span><span class="me-1"><?= $result['tanggal']; ?></span>dari: <?= $result['supplier']; ?>
+                        <h5><span class="me-1"><?= $result['nomor']; ?></span>dari: <?= $result['supplier']; ?>
                             <span class="detail-date pull-right"><i class="fa fa-clock-o"></i> <?= $result['created_at'] ?></span>
                         </h5>
                     </div>
                     <div id="detail-item<?= $result['id_harga']; ?>">
+                        <div class="detail-item with-border">
+                            <div class="item-title">Harga Beli
+                                <span class="pull-right">
+                                    <span>Rp <?= $result['harga_beli'] . '/' . $result['satuan_beli'] ?></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="detail-item with-border">
+                            <div class="item-title">Jumlah Beli
+                                <span class="pull-right">
+                                    <span><?= $result['jumlah_beli'] . ' ' . $result['satuan_beli'] ?></span>
+                                </span>
+                            </div>
+                        </div>
                         <?php
                         $result_harga = $result['data_harga'];
                         foreach ($result_harga as $rh) {
                         ?>
                             <div class="detail-item with-border">
                                 <div class="item-title">
-                                    <?= $rh['satuan']; ?>
+                                    <?= rupiah($rh['berat']) . ' ' . $rh['satuan']; ?><span style="padding-left:5px;color: rgba(0,0,0,.54)"><?= $rh['berat'] == 0 ? '(Berat belum dirubah)' : null ?></span>
                                     <span class="pull-right">
-                                        <span class="me-2"><?= rupiah($rh['harga']) . ' ' . $rh['singkatan']; ?></span>
+                                        <span class="me-2">Rp <?= rupiah($rh['harga']); ?></span>
                                         <small class="text-muted me-1"><i class="fa fa-clock-o<?= $rh['default'] == 1 ? ' text-green' : ''; ?>"></i> Default</small>
                                         <small class="text-muted me-1"><i class="fa fa-clock-o<?= $rh['aktif'] == 1 ? ' text-red' : ''; ?>"></i> Aktif</small>
                                         <a href="javascript:void(0)" onclick="edit_harga('<?= $rh['id_detail']; ?>')">

@@ -26,7 +26,7 @@ class Mrekening extends CI_Model
         }
         return $kode;
     }
-    public function store($post)
+    public function store($post, $link)
     {
         $data = array(
             'id_account' => $this->kode(),
@@ -34,6 +34,7 @@ class Mrekening extends CI_Model
             'kcb_account' => $post['cabang'],
             'norek_account' => $post['norek'],
             'pemilik_account' => $post['holder'],
+            'logo_account' => $link,
             'status_account' => $post['status']
         );
         return $this->db->insert('account_bank', $data);
@@ -42,19 +43,38 @@ class Mrekening extends CI_Model
     {
         return $this->db->where('id_account', $kode)->get('account_bank')->row_array();
     }
-    public function update($post)
+    public function update($post, $link)
     {
-        $data = array(
-            'bank_account' => $post['code'],
-            'kcb_account' => $post['cabang'],
-            'norek_account' => $post['norek'],
-            'pemilik_account' => $post['holder'],
-            'status_account' => $post['status']
-        );
+        $row = $this->show($post['kode']);
+        if ($link == '') :
+            $data = array(
+                'bank_account' => $post['code'],
+                'kcb_account' => $post['cabang'],
+                'norek_account' => $post['norek'],
+                'pemilik_account' => $post['holder'],
+                'status_account' => $post['status']
+            );
+        else :
+            if ($row['logo_account'] != "") {
+                unlink(pathImage() . $row['logo_account']);
+            }
+            $data = array(
+                'bank_account' => $post['code'],
+                'kcb_account' => $post['cabang'],
+                'norek_account' => $post['norek'],
+                'pemilik_account' => $post['holder'],
+                'logo_account' => $link,
+                'status_account' => $post['status']
+            );
+        endif;
         return $this->db->where('id_account', $post['kode'])->update('account_bank', $data);
     }
     public function destroy($kode)
     {
+        $data = $this->show($kode);
+        if ($data['logo_account'] != "") {
+            unlink(pathImage() . $data['logo_account']);
+        }
         return $this->db->simple_query("DELETE FROM account_bank WHERE id_account='$kode'");
     }
 }

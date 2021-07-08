@@ -60,6 +60,11 @@ $route['barang/edit/(:num)'] = 'master/barang/edit/$1';
 $route['barang/update'] = 'master/barang/update';
 $route['barang/destroy'] = 'master/barang/destroy';
 $route['barang/get-satuan'] = 'master/barang/get_satuan';
+// Upload Gambar Barang
+$route['barang/load-gambar'] = 'master/barang/load_gambar';
+$route['barang/create-gambar'] = 'master/barang/create_gambar';
+$route['barang/store-gambar'] = 'master/barang/store_gambar';
+$route['barang/destroy-gambar'] = 'master/barang/destroy_gambar';
 
 // katalog
 $route['harga'] = 'katalog/harga';
@@ -71,6 +76,11 @@ $route['harga/add-satuan'] = 'katalog/harga/add_satuan';
 $route['harga/edit-harga'] = 'katalog/harga/edit_harga';
 $route['harga/update-harga'] = 'katalog/harga/update_harga';
 
+// Stok Barang
+$route['stok-barang'] = 'katalog/stok';
+$route['stok-barang/data'] = 'katalog/stok/data';
+$route['stok-barang/detail/(:num)'] = 'katalog/stok/detail/$1';
+$route['stok-barang/data-terima'] = 'katalog/stok/data_terima';
 
 // menu permintaan
 $route['permintaan'] = 'pembelian/permintaan/permintaan';
@@ -171,6 +181,14 @@ $route['pembayaran/store'] = 'penjualan/pembayaran/store';
 $route['pembayaran/detail'] = 'penjualan/pembayaran/detail';
 $route['pembayaran/approve'] = 'penjualan/pembayaran/approve';
 $route['pembayaran/batal'] = 'penjualan/pembayaran/batal';
+
+// Pengiriman
+$route['pengiriman'] = 'penjualan/pengiriman';
+$route['pengiriman/data'] = 'penjualan/pengiriman/data';
+$route['pengiriman/create'] = 'penjualan/pengiriman/create';
+$route['pengiriman/store'] = 'penjualan/pengiriman/store';
+$route['pengiriman/terima'] = 'penjualan/pengiriman/terima';
+$route['pengiriman/storeterima'] = 'penjualan/pengiriman/storeterima';
 
 // Role
 $route['roles'] = 'master/roles';

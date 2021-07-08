@@ -27,23 +27,17 @@
                         else :
                             $tabel = 'user_gudang';
                             $data_gudang = $this->db->from($tabel)->join('role', 'role_level=id_role')->join('gudang', 'gudang_level=id_gudang')->where('user_level', $kode)->get()->row_array();
-                            $gudang = $data_gudang['nama_gudang'];
+                            $gudang = '<div class="text-muted text-size-small"><span class="status-mark position-left"></span>' . $data_gudang['nama_gudang'] . '</div>';
                         endif;
                         $level = $this->db->from($tabel)->join('role', 'role_level=id_role')->where('user_level', $kode)->get()->row_array();
                         $api = $this->db->where('user_api', $kode)->get('user_api')->row_array();
                     ?>
                         <tr>
                             <td class="text-center" width="40px"><?= $no . '.'; ?></td>
-                            <td>
-                                <?= $d['nama_user'] ?>
-                                <div class="text-muted text-size-small">
-                                    <span class="status-mark <?= $d['jenis_user'] == 1 ? 'border-success' : 'border-danger' ?> position-left"></span><?= $d['jenis_user'] == 1 ? 'Back Office' : 'Gudang' ?>
-                                </div>
-                            </td>
+                            <td><?= $d['nama_user'] ?></td>
                             <td><?= $d['username'] ?></td>
                             <td>
-                                <?= $level['nama_role'] ?>
-                                <div class="text-muted text-size-small"><?= $gudang ?></div>
+                                <?= $level['nama_role'] . '' . $gudang ?>
                             </td>
                             <td class="text-center">
                                 <?php if ($api != null) { ?>
@@ -106,27 +100,13 @@
         });
     }
 
-    function get_level() {
-        var jenis = $("#jenis").val();
-        $.ajax({
-            type: "GET",
-            url: "<?= site_url('master/pengguna/get_level') ?>",
-            data: {
-                jenis: jenis
-            },
-            success: function(data) {
-                $("#level").html(data);
-            }
-        });
-    }
-
     function get_gudang() {
-        var jenis = $('#jenis').val();
+        var role = $('#role').val();
         $.ajax({
             url: "<?= site_url('master/pengguna/get_gudang') ?>",
             method: "GET",
             data: {
-                jenis: jenis
+                role: role
             },
             success: function(data) {
                 $('#get_gudang').html(data);

@@ -11,17 +11,12 @@
     <input type="password" name="password" id="password" class="form-control">
 </div>
 <div class="form-group">
-    <label>Jenis Pengguna</label>
-    <select name="jenis" id="jenis" class="form-control" onchange="get_level();get_gudang()">
+    <label>Hak Akses</label>
+    <select name="role" id="role" class="form-control" onchange="get_gudang()">
         <option value="">Pilih</option>
-        <option value="1">Back Office</option>
-        <option value="2">Gudang</option>
-    </select>
-</div>
-<div class="form-group">
-    <label>Level</label>
-    <select name="level" id="level" class="form-control">
-        <option value="">Pilih</option>
+        <?php foreach ($role as $r) { ?>
+            <option value="<?= $r['id_role'] ?>"><?= $r['nama_role'] ?></option>
+        <?php } ?>
     </select>
 </div>
 <div id="get_gudang"></div>
