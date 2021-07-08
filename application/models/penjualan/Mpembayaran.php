@@ -30,6 +30,8 @@ class Mpembayaran extends CI_Model
             'idbayar_bukti' => $post['idbayar'],
             'tanggal_bukti'  => date("Y-m-d", strtotime($post['tanggal'])),
             'nilai_bukti' => convert_uang($post['nilai']),
+            'pemilik_bukti' => $post['pemilik'],
+            'norek_bukti' => $post['norek'],
             'image_bukti'   => $link,
             'status_bukti' => 0
         ];

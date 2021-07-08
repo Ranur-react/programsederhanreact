@@ -25,6 +25,8 @@ class Pembayaran extends CI_Controller
     {
         $this->form_validation->set_rules('tanggal', 'Tanggal transfer', 'required');
         $this->form_validation->set_rules('nilai', 'Jumlah transfer', 'required');
+        $this->form_validation->set_rules('pemilik', 'Atasnama', 'required');
+        $this->form_validation->set_rules('norek', 'No Rekening', 'required');
         $this->form_validation->set_message('required', errorRequired());
         $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
         if ($this->form_validation->run() == TRUE) {
