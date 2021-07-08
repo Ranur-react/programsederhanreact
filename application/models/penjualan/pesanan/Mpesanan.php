@@ -122,12 +122,9 @@ class Mpesanan extends CI_Model
         ];
         $this->db->insert('order_bayar', $dataBayar);
         if ($post['metode'] == 2) {
-            $queryBank = $this->db->where('id_cs_bank', $post['bank'])->get('customer_bank')->row();
             $dataBank = [
                 'idbayar_bayar_bank' => $kodebayar,
-                'bankcs_bayar_bank' => $queryBank->bank_cs_bank,
-                'pemilik_bayar_bank' => $queryBank->pemilik_cs_bank,
-                'norek_bayar_bank' => $queryBank->norek_cs_bank
+                'bankcs_bayar_bank' => $post['bank']
             ];
             $this->db->insert('order_bayar_bank', $dataBank);
         }
