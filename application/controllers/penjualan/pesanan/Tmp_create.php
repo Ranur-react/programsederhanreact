@@ -120,11 +120,10 @@ class Tmp_create extends CI_Controller
     }
     public function get_bank()
     {
-        $idcustomer = $this->input->get('idcustomer');
         $idmetode = $this->input->get('idmetode');
-        $data = $this->db->from('customer_bank')
-            ->join('bank_code', 'bank_cs_bank=id_bank')
-            ->where('customer_cs_bank', $idcustomer)
+        $data = $this->db->from('account_bank')
+            ->join('bank_code', 'bank_account=id_bank')
+            ->where('status_account', 1)
             ->get()->result_array();
         if ($idmetode == '1') {
             echo '';
@@ -135,7 +134,7 @@ class Tmp_create extends CI_Controller
             echo '<select class="form-control" name="bank" id="bank">';
             echo '<option value="">Pilih Bank</option>';
             foreach ($data as $d) {
-                echo '<option value="' . $d['id_cs_bank'] . '">' . $d['nama_bank'] . ' a/n ' . $d['pemilik_cs_bank'] . ' ' . $d['norek_cs_bank'] . '</option>';
+                echo '<option value="' . $d['id_account'] . '">' . $d['nama_bank'] . ' a/n ' . $d['pemilik_account'] . ' ' . $d['norek_account'] . '</option>';
             }
             echo '</select>';
             echo '</div>';
