@@ -66,6 +66,8 @@ class Mpembayaran extends CI_Model
                 'idbukti' => $result->id_bukti,
                 'tanggal' => $result->tanggal_bukti,
                 'nilai' => $result->nilai_bukti,
+                'pemilik' => $result->pemilik_bukti,
+                'norek' => $result->norek_bukti,
                 'bukti' => $result->image_bukti,
                 'status' => $result->status_bukti
             ];
