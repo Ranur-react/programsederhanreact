@@ -12,6 +12,14 @@
     <input type="text" name="nilai" id="nilai" class="form-control" placeholder="Jumlah Transfer">
 </div>
 <div class="form-group">
+    <label class="required">Atasnama</label>
+    <input type="text" name="pemilik" id="pemilik" class="form-control" placeholder="Atasmama">
+</div>
+<div class="form-group">
+    <label class="required">No Rekening</label>
+    <input type="text" name="norek" id="norek" class="form-control" placeholder="No Rekening">
+</div>
+<div class="form-group">
     <label>Bukti Transfer</label>
     <input id="upload_image" name="gambar" type="file">
     <div id="pesan_gambar"></div>

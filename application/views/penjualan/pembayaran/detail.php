@@ -33,6 +33,14 @@
                 <th class="bg-gray color-palette text-center" colspan="2">Validasi Konfirmasi Pembayaran</th>
             </tr>
             <tr>
+                <th class="bg-gray color-palette">Atasnama</th>
+                <td><?= $bayar['pemilik'] ?></td>
+            </tr>
+            <tr>
+                <th class="bg-gray color-palette">No Rekening</th>
+                <td><?= $bayar['norek'] ?></td>
+            </tr>
+            <tr>
                 <th class="bg-gray color-palette">Tanggal Transfer</th>
                 <td><?= format_indo($bayar['tanggal']) ?></td>
             </tr>

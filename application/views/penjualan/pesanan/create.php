@@ -151,13 +151,11 @@
     });
 
     $(document).on('change', '.idmetode', function(e) {
-        var idcustomer = $(".customer").val();
         var idmetode = $(".idmetode").val();
         $.ajax({
             type: "GET",
             url: "<?= site_url('pesanan/tmp-create/get-bank') ?>",
             data: {
-                idcustomer: idcustomer,
                 idmetode: idmetode
             },
             success: function(resp) {
