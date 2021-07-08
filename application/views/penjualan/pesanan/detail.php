@@ -57,7 +57,7 @@
     <div class="col-sm-6 invoice-col">
         Pembayaran
         <address>
-            Total Harga (<?= count($produk['data']) ?> Barang) : <strong><?= 'Rp ' . rupiah($produk['total']) ?></strong><br>
+            Total Harga (<?= count($produk['data']) ?> Item) : <strong><?= 'Rp ' . rupiah($produk['total']) ?></strong><br>
             Total Bayar: <strong><?= 'Rp ' . rupiah($data['total']) ?></strong><br>
             Metode Pembayaran: <strong><?= $data['metode'] ?></strong>
         </address>
