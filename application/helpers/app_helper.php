@@ -95,6 +95,21 @@ if (!function_exists('user_photo')) {
 }
 
 // role user
+if (!function_exists('idrole_user')) {
+    function idrole_user()
+    {
+        $CI = &get_instance();
+        $row = $CI->db->where('id_user', id_user())->get('users')->row_array();
+        if ($row['jenis_user'] == 1) :
+            $result = $CI->db->from('role')
+                ->join('user_office', 'id_role=role_level')
+                ->where('user_level', id_user())
+                ->get()->row_array();
+            $role = $result['id_role'];
+        endif;
+        return $role;
+    }
+}
 if (!function_exists('role_user')) {
     function role_user()
     {
