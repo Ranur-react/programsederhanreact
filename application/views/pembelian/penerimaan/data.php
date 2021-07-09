@@ -22,6 +22,7 @@
         </div>
     </div>
 </div>
+<div id="tampil_modal"></div>
 <script>
     $(".tabel_penerimaan").DataTable({
         ordering: false,
@@ -53,15 +54,27 @@
                 "class": "text-left"
             },
             {
-                "class": "text-center",
-                "width": "100px"
+                "class": "text-center"
             },
             {
-                "class": "text-center",
-                "width": "60px"
+                "class": "text-center"
             }
         ]
     });
+
+    function info(kode) {
+        $.ajax({
+            url: "<?= site_url('penerimaan/info') ?>",
+            type: "GET",
+            data: {
+                kode: kode
+            },
+            success: function(resp) {
+                $("#tampil_modal").html(resp);
+                $("#modal_alert").modal('show');
+            }
+        });
+    }
 
     function hapus(kode) {
         Swal({

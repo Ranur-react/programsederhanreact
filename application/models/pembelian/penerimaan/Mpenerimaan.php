@@ -20,7 +20,7 @@ class Mpenerimaan extends CI_Model
     }
     public function cari_data($search)
     {
-        $query = $this->db->query("SELECT *,(SELECT nama_supplier FROM penerimaan_supplier,permintaan,supplier WHERE id_terima=id_terima_supplier AND id_minta_supplier=id_permintaan AND supplier_permintaan=id_supplier) AS nama FROM penerimaan JOIN gudang ON gudang_terima=id_gudang JOIN users ON user_terima=id_user WHERE id_terima LIKE '%$search%' ESCAPE '!' OR nama_gudang LIKE '%$search%' ESCAPE '!' OR (SELECT nama_supplier FROM penerimaan_supplier,permintaan,supplier WHERE id_terima=id_terima_supplier AND id_minta_supplier=id_permintaan AND supplier_permintaan=id_supplier) LIKE '%$search%' ESCAPE '!' ORDER BY id_terima DESC");
+        $query = $this->db->query("SELECT *,(SELECT nama_supplier FROM penerimaan_supplier,permintaan,supplier WHERE id_terima=id_terima_supplier AND id_minta_supplier=id_permintaan AND supplier_permintaan=id_supplier) AS nama FROM penerimaan JOIN gudang ON gudang_terima=id_gudang JOIN users ON user_terima=id_user WHERE nosurat_terima LIKE '%$search%' ESCAPE '!' OR nama_gudang LIKE '%$search%' ESCAPE '!' OR (SELECT nama_supplier FROM penerimaan_supplier,permintaan,supplier WHERE id_terima=id_terima_supplier AND id_minta_supplier=id_permintaan AND supplier_permintaan=id_supplier) LIKE '%$search%' ESCAPE '!' ORDER BY id_terima DESC");
         return $query;
     }
     public function kode()
@@ -38,11 +38,33 @@ class Mpenerimaan extends CI_Model
         }
         return $kode;
     }
+    public function nosurat()
+    {
+        $query = $this->db->query("SELECT nourut_terima FROM penerimaan WHERE DATE_FORMAT(tanggal_terima,'%Y-%m') = DATE_FORMAT(NOW(),'%Y-%m') ORDER BY nourut_terima DESC LIMIT 1");
+        if ($query->num_rows() <> 0) {
+            $data = $query->row();
+            $nourut = intval($data->nourut_terima) + 1;
+            $array = array(
+                'nourut' => $nourut,
+                'nosurat' => zerobefore($nourut) . '/DO/BM/' . KonDecRomawi(date('n')) . '/' . format_tahun(date("Y-m-d"))
+            );
+        } else {
+            $nourut = 1;
+            $array = array(
+                'nourut' => $nourut,
+                'nosurat' => zerobefore($nourut) . '/DO/BM/' . KonDecRomawi(date('n')) . '/' . format_tahun(date("Y-m-d"))
+            );
+        }
+        return $array;
+    }
     public function store($kode, $post)
     {
+        $nosurat = $this->nosurat();
         $total = $this->db->select('SUM(harga*jumlah) AS total')->where('user', id_user())->get('tmp_penerimaan')->row();
         $data_terima = [
             'id_terima' => $kode,
+            'nourut_terima' => $nosurat['nourut'],
+            'nosurat_terima' => $nosurat['nosurat'],
             'gudang_terima' => $post['gudang'],
             'tanggal_terima' => date("Y-m-d", strtotime($post['tanggal'])),
             'total_terima' => $total->total,
@@ -52,13 +74,35 @@ class Mpenerimaan extends CI_Model
         $terima = $this->db->insert('penerimaan', $data_terima);
         $data_tmp = $this->Mtmp_create->data();
         foreach ($data_tmp as $d) {
+            $id_barang = $d['id_barang'];
             $data_detail = [
                 'terima_detail' => $kode,
                 'minta_detail' => $d['iddetail'],
                 'harga_detail' => $d['harga'],
-                'jumlah_detail' => $d['jumlah']
+                'jumlah_detail' => $d['jumlah'],
+                'stok_detail' => convert_stok($d['id_satuan'], $d['jumlah_detail'])
             ];
             $this->db->insert('penerimaan_detail', $data_detail);
+            $id_detail_terima = $this->db->insert_id();
+            $this->db->insert('harga_barang', [
+                'tanggal_hrg_barang' => date("Y-m-d", strtotime($post['tanggal']))
+            ]);
+            $id_harga = $this->db->insert_id();
+            $this->db->insert('penerimaan_harga', [
+                'detail_terima_harga' => $id_detail_terima,
+                'barang_terima_harga' => $id_harga
+            ]);
+            $data_satuan = $this->db->where('barang_brg_satuan', $id_barang)->get('barang_satuan')->result();
+            foreach ($data_satuan as $ds) {
+                $this->db->insert('harga_detail', [
+                    'harga_hrg_detail' => $id_harga,
+                    'satuan_hrg_detail' => $ds->id_brg_satuan,
+                    'berat_hrg_detail' => 0,
+                    'jual_hrg_detail' => 0,
+                    'default_hrg_detail' => 0,
+                    'aktif_hrg_detail' => 0,
+                ]);
+            }
         }
         $data_supplier = $this->db->from('tmp_penerimaan')->group_by('permintaan')->get()->result_array();
         foreach ($data_supplier as $s) {
@@ -104,10 +148,15 @@ class Mpenerimaan extends CI_Model
     }
     public function update($kode, $post)
     {
+        $tanggal = date("Y-m-d", strtotime($post['tanggal']));
+        $data_harga = $this->Mtmp_edit->data_harga($kode);
+        foreach ($data_harga as $dh) {
+            $this->db->where('id_hrg_barang', $dh->id_hrg_barang)->update('harga_barang', ['tanggal_hrg_barang' => $tanggal]);
+        }
         $total = $this->Mtmp_edit->get_total($kode);
         $data = array(
             'gudang_terima' => $post['gudang'],
-            'tanggal_terima' => date("Y-m-d", strtotime($post['tanggal'])),
+            'tanggal_terima' => $tanggal,
             'total_terima' => $total
         );
         return $this->db->where('id_terima', $kode)->update('penerimaan', $data);
@@ -116,6 +165,20 @@ class Mpenerimaan extends CI_Model
     {
         $data = $this->show($kode);
         if ($data['status_terima'] == 0) :
+            // ambil data harga jual barang berdasarkan penerimaan barang
+            $check_hrg = $this->db->from('penerimaan_detail')
+                ->join('penerimaan_harga', 'id_detail=detail_terima_harga')
+                ->where('terima_detail', $kode)
+                ->get()->result();
+            foreach ($check_hrg as $ch) {
+                $id_hrg = $ch->barang_terima_harga;
+                // hapus data penerimaan harga
+                $this->db->where('barang_terima_harga', $id_hrg)->delete('penerimaan_harga');
+                // hapus data harga jual persatuan
+                $this->db->where('harga_hrg_detail', $id_hrg)->delete('harga_detail');
+                // hapus data harga jual
+                $this->db->where('id_hrg_barang', $id_hrg)->delete('harga_barang');
+            }
             $this->db->where('terima_detail', $kode)->delete('penerimaan_detail');
             $this->UpdateStatusPermintaan($kode);
             $this->db->where('id_terima_supplier', $kode)->delete('penerimaan_supplier');

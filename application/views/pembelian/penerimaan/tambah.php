@@ -4,6 +4,7 @@
             <h3 class="box-title">
                 <a class="text-back" href="<?= site_url('penerimaan') ?>" title="Kembali"><i class="icon-arrow-left8" style="font-size: 24px"></i></a> Tambah Penerimaan Barang
             </h3>
+            <h3 class="box-title pull-right">No: <?= $nomor['nosurat']; ?></h3>
         </div>
         <?= form_open('penerimaan/store', ['id' => 'form_create']) ?>
         <input type="hidden" name="id_permintaan" id="id_permintaan">

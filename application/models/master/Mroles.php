@@ -30,9 +30,9 @@ class Mroles extends CI_Model
         );
         return $this->db->insert($this->tabel, $data);
     }
-    public function show($kode)
+    public function show($id = null)
     {
-        return $this->db->where('id_role', $kode)->get($this->tabel)->row_array();
+        return $this->db->where('id_role', $id)->get($this->tabel)->row_array();
     }
     public function update($post)
     {

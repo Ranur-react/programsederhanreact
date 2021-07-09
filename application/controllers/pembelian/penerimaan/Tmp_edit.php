@@ -6,13 +6,95 @@ class Tmp_edit extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        if ($this->session->userdata('status_login') == "sessDashboard")
+            cek_user();
+        else
+            redirect('logout');
+        $this->load->model('pembelian/penerimaan/Mpenerimaan');
         $this->load->model('pembelian/penerimaan/Mtmp_edit');
     }
-    public function data()
+    public function data_supplier()
     {
         $kode = $this->input->get('kode');
-        $d['data'] = $this->Mtmp_edit->tampil_data($kode);
-        $this->load->view('pembelian/penerimaan/tmp_edit/data', $d);
+        $d['data'] = $this->Mtmp_edit->data_supplier($kode);
+        $this->load->view('pembelian/penerimaan/tmp_edit/data_supplier', $d);
+    }
+    public function check_permintaan()
+    {
+        $id_terima = $this->input->get('id_terima');
+        $id_minta = $this->input->get('id_minta');
+        $data = $this->Mtmp_edit->check_permintaan($id_terima, $id_minta);
+        if ($data == '0100') :
+            $json = array(
+                'status' => '0100'
+            );
+        elseif ($data == '0101') :
+            $json = array(
+                'status' => '0101',
+                'pesan' => 'Supplier yang dipilih tidak sama.'
+            );
+        else :
+            $json = array(
+                'status' => '0102',
+                'pesan' => 'Data permintaan telah diinputkan sebelumnya.'
+            );
+        endif;
+        echo json_encode($json);
+    }
+    public function data_tmp()
+    {
+        $kode = $this->input->get('kode');
+        $d['data'] = $this->Mtmp_edit->data_tmp($kode);
+        $this->load->view('pembelian/penerimaan/tmp_edit/data_tmp', $d);
+    }
+    public function create()
+    {
+        $id_detail = $this->input->get('id_detail');
+        $id_terima = $this->input->get('id_terima');
+        $data = [
+            'name' => 'Tambah Barang',
+            'post' => 'penerimaan/tmp-edit/store',
+            'class' => 'form_tmp',
+            'backdrop' => 1,
+            'terima' => $this->Mpenerimaan->show($id_terima),
+            'data' => $this->Mtmp_edit->show_minta($id_detail)
+        ];
+        $this->template->modal_form('pembelian/penerimaan/tmp_edit/create', $data);
+    }
+    public function store()
+    {
+        $post = $this->input->post(null, TRUE);
+        $cek_user = $this->db->from('penerimaan_detail')->where('minta_detail', $post['iddetail'])->count_all_results();
+        if ($cek_user > 0) :
+            $json = array(
+                'status' => "0100",
+                'count' => $cek_user,
+                'message' => 'Barang sudah ditambahkan, silahkan update jika ingin melakukan perubahan.'
+            );
+        else :
+            $this->form_validation->set_rules('harga', 'Harga', 'required|greater_than[0]');
+            $this->form_validation->set_rules('jumlah', 'Jumlah', 'required|greater_than[0]');
+            $this->form_validation->set_message('required', errorRequired());
+            $this->form_validation->set_message('greater_than', greater_than());
+            $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
+            if ($this->form_validation->run() == TRUE) {
+                $this->Mtmp_edit->store($post);
+                $json = array(
+                    'status' => "0100",
+                    'count' => 0,
+                    'message' => 'Barang berhasil ditambahkan'
+                );
+            } else {
+                $json = array(
+                    'status' => "0101",
+                    'message' => 'Barang gagal ditambahkan'
+                );
+                foreach ($_POST as $key => $value) {
+                    $json['pesan'][$key] = form_error($key);
+                }
+            }
+        endif;
+        echo json_encode($json);
     }
     public function edit()
     {
@@ -37,12 +119,13 @@ class Tmp_edit extends CI_Controller
             $post = $this->input->post(null, TRUE);
             $this->Mtmp_edit->update($post);
             $json = array(
-                'status' => "0100",
+                'status' => '0100',
+                'count' => 0,
                 'message' => 'Data barang berhasil dirubah'
             );
         } else {
             $json = array(
-                'status' => "0101",
+                'status' => '0101',
                 'message' => 'Data barang gagal dirubah'
             );
             foreach ($_POST as $key => $value) {
@@ -55,10 +138,10 @@ class Tmp_edit extends CI_Controller
     {
         $kode = $this->input->get('kode', true);
         $action = $this->Mtmp_edit->destroy($kode);
-        if ($action == true) {
-            $json['status'] = "0100";
+        if ($action == '0100') {
+            $json['status'] = '0100';
         } else {
-            $json['status'] = "0101";
+            $json['status'] = '0101';
         }
         echo json_encode($json);
     }

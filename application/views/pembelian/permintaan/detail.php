@@ -10,14 +10,14 @@
                         <div class="row">
                             <div class="col-lg-12 col-xs-12 ">
                                 <div class="row">
-                                    <div class="col-lg-3 col-xs-4"><b>Kepada</b> <span class="value">:</span></div>
-                                    <div class="col-lg-9 col-xs-8"><?= $data['nama_supplier'] ?></div>
-                                    <div class="col-lg-3 col-xs-4"><b>NO Permintaan</b> <span class="value">:</span></div>
-                                    <div class="col-lg-9 col-xs-8"> <?= $data['id_permintaan'] ?></div>
-                                    <div class="col-lg-3 col-xs-4"><b>Tanggal</b> <span class="value">:</span></div>
-                                    <div class="col-lg-9 col-xs-8"><?= format_indo($data['tanggal_permintaan']) ?></div>
-                                    <div class="col-lg-3 col-xs-4"><b>Status</b> <span class="value">:</span></div>
-                                    <div class="col-lg-3 col-xs-4"><?= status_label($data['status_permintaan'], 'permintaan') ?></div>
+                                    <div class="col-md-2"><b>Kepada</b> <span class="value">:</span></div>
+                                    <div class="col-md-10"><?= $data['nama_supplier'] ?></div>
+                                    <div class="col-md-2"><b>Nomor</b> <span class="value">:</span></div>
+                                    <div class="col-md-10"> <?= $data['nosurat_permintaan'] ?></div>
+                                    <div class="col-md-2"><b>Tanggal</b> <span class="value">:</span></div>
+                                    <div class="col-md-10"><?= format_indo($data['tanggal_permintaan']) ?></div>
+                                    <div class="col-md-2"><b>Status</b> <span class="value">:</span></div>
+                                    <div class="col-md-10"><?= status_label($data['status_permintaan'], 'permintaan') ?></div>
                                 </div>
                             </div>
                         </div>
