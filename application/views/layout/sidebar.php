@@ -1,4 +1,7 @@
-<?= $urls = $this->uri->segment(1) ?>
+<?php
+$urls = $this->uri->segment(1);
+$urls2 = $this->uri->segment(2)
+?>
 <ul class="sidebar-menu" data-widget="tree">
     <li class="<?= $urls == null || $urls == 'welcome' ? 'active' : null ?>">
         <a href="<?= site_url('welcome') ?>">
@@ -72,6 +75,31 @@
         <a href="<?= site_url('pengiriman') ?>">
             <i class="fas fa-shipping-fast"></i> <span>Pengiriman</span>
         </a>
+    </li>
+    <li class="treeview <?= $urls == 'laporan' ? 'active' : null ?>">
+        <a href="#">
+            <i class="fas fa-sticky-note"></i> <span>Laporan</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+            </span>
+        </a>
+        <ul class="treeview-menu">
+            <li class="<?= $urls == 'laporan' && $urls2 == 'barang' ? 'active' : null ?>">
+                <a href="<?= site_url('laporan/barang') ?>"><i class="fa fa-angle-double-right"></i> Barang</a>
+            </li>
+            <li class="<?= $urls == 'laporan' && $urls2 == 'supplier' ? 'active' : null ?>">
+                <a href="<?= site_url('laporan/supplier') ?>"><i class="fa fa-angle-double-right"></i> Supplier</a>
+            </li>
+            <li class="<?= $urls == 'laporan' && $urls2 == 'penjualan' ? 'active' : null ?>">
+                <a href="<?= site_url('laporan/penjualan') ?>"><i class="fa fa-angle-double-right"></i> Penjualan</a>
+            </li>
+            <li class="<?= $urls == 'pesanan' ? 'active' : null ?>">
+                <a href="#"><i class="fa fa-angle-double-right"></i> Laporan Data Penerimaan</a>
+            </li>
+            <li class="<?= $urls == 'pesanan' ? 'active' : null ?>">
+                <a href="#"><i class="fa fa-angle-double-right"></i> Laporan Permintaan</a>
+            </li>
+        </ul>
     </li>
     <li class="treeview <?= $urls == 'pengguna' || $urls == 'roles' || $urls == 'rekening' ? 'active' : null ?>">
         <a href="#">
