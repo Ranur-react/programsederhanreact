@@ -15,16 +15,18 @@ class Penjualan extends CI_Controller
 			'title' => 'Laporan Penjualan',
 			'menu'  => 'Laporan Penjualan',
 			'small' => '',
-			'links' => '<li class="active">Laporan</li>'
+			'links' => '<li>Laporan</li><li class="active">Penjualan</li>'
 		];
 		$this->template->dashboard('laporan/penjualan/index', $data);
 	}
-
 	public function cetak()
 	{
-		$data['data'] = $this->Mpenjualan->shows();
-		$this->load->view('laporan/penjualan/cetak',$data);
-
-
+		$data = [
+			'title' => 'Laporan Data Penjualan',
+			'data' => $this->Mpenjualan->fetch_all()
+		];
+		$this->template->laporan('laporan/penjualan/all', $data);
 	}
 }
+
+/* End of file Penjualan.php */
