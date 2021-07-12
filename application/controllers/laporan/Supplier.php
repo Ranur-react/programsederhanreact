@@ -15,16 +15,18 @@ class Supplier extends CI_Controller
 			'title' => 'Laporan Supplier',
 			'menu'  => 'Laporan Supplier',
 			'small' => '',
-			'links' => '<li class="active">Laporan</li>'
+			'links' => '<li>Laporan</li><li class="active">Supplier</li>'
 		];
 		$this->template->dashboard('laporan/supplier/index', $data);
 	}
-
 	public function cetak()
 	{
-		$data['data'] = $this->Msupplier->shows();
-		$this->load->view('laporan/supplier/cetak',$data);
-
-
+		$data = [
+			'title' => 'Laporan Data Supplier',
+			'data' => $this->Msupplier->fetch_all()
+		];
+		$this->template->laporan('laporan/supplier/all', $data);
 	}
 }
+
+/* End of file Supplier.php */
