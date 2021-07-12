@@ -90,14 +90,14 @@ $urls2 = $this->uri->segment(2)
             <li class="<?= $urls == 'laporan' && $urls2 == 'supplier' ? 'active' : null ?>">
                 <a href="<?= site_url('laporan/supplier') ?>"><i class="fa fa-angle-double-right"></i> Supplier</a>
             </li>
+            <li class="<?= $urls == 'laporan' && $urls2 == 'permintaan' ? 'active' : null ?>">
+                <a href="<?= site_url('laporan/permintaan') ?>"><i class="fa fa-angle-double-right"></i> Permintaan</a>
+            </li>
+            <li class="<?= $urls == 'laporan' && $urls2 == 'penerimaan' ? 'active' : null ?>">
+                <a href="<?= site_url('laporan/penerimaan') ?>"><i class="fa fa-angle-double-right"></i> Penerimaan</a>
+            </li>
             <li class="<?= $urls == 'laporan' && $urls2 == 'penjualan' ? 'active' : null ?>">
                 <a href="<?= site_url('laporan/penjualan') ?>"><i class="fa fa-angle-double-right"></i> Penjualan</a>
-            </li>
-            <li class="<?= $urls == 'pesanan' ? 'active' : null ?>">
-                <a href="#"><i class="fa fa-angle-double-right"></i> Laporan Data Penerimaan</a>
-            </li>
-            <li class="<?= $urls == 'pesanan' ? 'active' : null ?>">
-                <a href="#"><i class="fa fa-angle-double-right"></i> Laporan Permintaan</a>
             </li>
         </ul>
     </li>
