@@ -78,7 +78,7 @@ $urls2 = $this->uri->segment(2)
     </li>
     <li class="treeview <?= $urls == 'laporan' ? 'active' : null ?>">
         <a href="#">
-            <i class="fas fa-sticky-note"></i> <span>Laporan</span>
+            <i class="icon-file-presentation2"></i> <span>Laporan</span>
             <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
             </span>
