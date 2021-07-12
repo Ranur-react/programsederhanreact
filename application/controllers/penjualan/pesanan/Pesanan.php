@@ -139,6 +139,15 @@ class Pesanan extends CI_Controller
         );
         echo json_encode($json);
     }
+    public function invoice($kode)
+    {
+        $data = [
+            'data' => $this->Mpesanan->show($kode),
+            'produk' => $this->Mpesanan->produk($kode),
+            'pengiriman' => $this->Mpesanan->pengiriman($kode),
+        ];
+        $this->load->view('penjualan/pesanan/invoice', $data);
+    }
 }
 
 /* End of file Pesanan.php */

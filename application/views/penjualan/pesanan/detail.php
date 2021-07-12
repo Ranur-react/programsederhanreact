@@ -1,7 +1,10 @@
 <table class="table table-bordered dataTable table-hover nowrap no-footer">
     <tr>
         <th class="bg-gray color-palette" width="130px">Nomor Invoice</th>
-        <td><?= $data['nomor'] ?></td>
+        <td>
+            <?= $data['nomor'] ?><div class="separate"></div>
+            <a href="<?= site_url('pesanan/invoice/' . $data['id']) ?>" style="color: rgb(255, 87, 34)" target="_blank">Cetak</a>
+        </td>
     </tr>
     <tr>
         <th class="bg-gray color-palette">Status Bayar</th>

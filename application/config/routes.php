@@ -60,6 +60,7 @@ $route['barang/edit/(:num)'] = 'master/barang/edit/$1';
 $route['barang/update'] = 'master/barang/update';
 $route['barang/destroy'] = 'master/barang/destroy';
 $route['barang/get-satuan'] = 'master/barang/get_satuan';
+
 // Upload Gambar Barang
 $route['barang/load-gambar'] = 'master/barang/load_gambar';
 $route['barang/create-gambar'] = 'master/barang/create_gambar';
@@ -164,6 +165,7 @@ $route['pesanan/store'] = 'penjualan/pesanan/pesanan/store';
 $route['pesanan/detail'] = 'penjualan/pesanan/pesanan/detail';
 $route['pesanan/confirm'] = 'penjualan/pesanan/pesanan/confirm';
 $route['pesanan/batal'] = 'penjualan/pesanan/pesanan/batal';
+$route['pesanan/invoice/(:num)'] = 'penjualan/pesanan/pesanan/invoice/$1';
 
 // Pesanan Tmp Create
 $route['pesanan/tmp-create'] = 'penjualan/pesanan/tmp_create';
