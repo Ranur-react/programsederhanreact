@@ -106,6 +106,12 @@ if (!function_exists('idrole_user')) {
                 ->where('user_level', id_user())
                 ->get()->row_array();
             $role = $result['id_role'];
+        else :
+            $result = $CI->db->from('role')
+                ->join('user_gudang', 'id_role=role_level')
+                ->where('user_level', id_user())
+                ->get()->row_array();
+            $role = $result['id_role'];
         endif;
         return $role;
     }
