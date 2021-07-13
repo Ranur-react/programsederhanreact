@@ -27,6 +27,14 @@ class Barang extends CI_Controller
 		];
 		$this->template->laporan('laporan/barang/all', $data);
 	}
+	public function stok()
+	{
+		$data = [
+			'title' => 'Laporan Stok Barang',
+			'data' => $this->Mbarang->fetch_all()
+		];
+		$this->template->laporan('laporan/barang/stok', $data);
+	}
 }
 
 /* End of file Barang.php */
