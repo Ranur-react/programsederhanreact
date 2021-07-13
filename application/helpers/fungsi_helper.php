@@ -269,3 +269,20 @@ if (!function_exists('zerobefore')) {
         return $nomor;
     }
 }
+
+if (!function_exists('relasi')) {
+    function relasi($kode)
+    {
+        $data = array(
+            1 => 'Yang bersangkutan',
+            2 => 'Keluarga',
+            3 => 'Teman',
+            4 => 'Lainnya'
+        );
+        foreach ($data as $key => $value) {
+            if ($key == $kode) :
+                return $value;
+            endif;
+        }
+    }
+}

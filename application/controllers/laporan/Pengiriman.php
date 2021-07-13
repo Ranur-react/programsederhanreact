@@ -27,6 +27,14 @@ class Pengiriman extends CI_Controller
         ];
         $this->template->laporan('laporan/pengiriman/all', $data);
     }
+    public function terima()
+    {
+        $data = [
+            'title' => 'Laporan Pesanan Diterima',
+            'data' => $this->Mpengiriman->get_terima()
+        ];
+        $this->template->laporan('laporan/pengiriman/terima', $data);
+    }
 }
 
 /* End of file Pengiriman.php */

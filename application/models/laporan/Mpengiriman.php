@@ -46,6 +46,46 @@ class Mpengiriman extends CI_Model
         }
         return $data;
     }
+    public function get_terima()
+    {
+        $query_order = $this->db->from('pengiriman_terima')
+            ->join('pengiriman', 'id_kirim=idkirim_terima')
+            ->join('orders', 'idorder_kirim=id_order')
+            ->join('order_alamat', 'id_order=idorder_order_alamat')
+            ->join('customer', 'customer_order=id_customer')
+            ->order_by('id_order', 'desc')
+            ->get()->result();
+        $data = array();
+        $result = array();
+        foreach ($query_order as $qo) {
+            $result = [
+                'id' => $qo->id_order,
+                'invoice' => $qo->invoice_order,
+                'tanggal_beli' => $qo->tanggal_order,
+                'tanggal_terima' => $qo->tanggal_terima,
+                'customer' => $qo->nama_customer,
+                'penerima' => $qo->penerima_terima,
+                'relasi' => $qo->relasi_terima
+            ];
+            $query_produk = $this->Mpenjualan->query_produk($qo->invoice_order);
+            $resultProduk = array();
+            $dataProduk = array();
+            foreach ($query_produk as $rowProduk) {
+                $resultProduk = [
+                    'produk' => $rowProduk->nama_barang,
+                    'singkat' => $rowProduk->singkatan_satuan,
+                    'harga' => $rowProduk->harga_order_barang - $rowProduk->diskon_order_barang,
+                    'jumlah' => $rowProduk->jumlah_order_barang,
+                    'berat' => $rowProduk->berat_hrg_detail . ' ' . $rowProduk->singkatan_satuan,
+                    'total' => ($rowProduk->harga_order_barang - $rowProduk->diskon_order_barang) * $rowProduk->jumlah_order_barang
+                ];
+                $dataProduk[] = $resultProduk;
+            }
+            $result['produk'] = $dataProduk;
+            $data[] = $result;
+        }
+        return $data;
+    }
 }
 
 /* End of file Mpengiriman.php */
