@@ -91,6 +91,9 @@ $urls2 = $this->uri->segment(2)
                 <li class="<?= $urls == 'laporan' && $urls2 == 'supplier' ? 'active' : null ?>">
                     <a href="<?= site_url('laporan/supplier') ?>"><i class="fa fa-angle-double-right"></i> Supplier</a>
                 </li>
+                <li class="<?= $urls == 'laporan' && $urls2 == 'gudang' ? 'active' : null ?>">
+                    <a href="<?= site_url('laporan/gudang') ?>"><i class="fa fa-angle-double-right"></i> Gudang</a>
+                </li>
                 <li class="<?= $urls == 'laporan' && $urls2 == 'permintaan' ? 'active' : null ?>">
                     <a href="<?= site_url('laporan/permintaan') ?>"><i class="fa fa-angle-double-right"></i> Permintaan</a>
                 </li>
@@ -99,6 +102,9 @@ $urls2 = $this->uri->segment(2)
                 </li>
                 <li class="<?= $urls == 'laporan' && $urls2 == 'penjualan' ? 'active' : null ?>">
                     <a href="<?= site_url('laporan/penjualan') ?>"><i class="fa fa-angle-double-right"></i> Penjualan</a>
+                </li>
+                <li class="<?= $urls == 'laporan' && $urls2 == 'pengiriman' ? 'active' : null ?>">
+                    <a href="<?= site_url('laporan/pengiriman') ?>"><i class="fa fa-angle-double-right"></i> Pengiriman</a>
                 </li>
             </ul>
         </li>
