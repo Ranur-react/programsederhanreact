@@ -181,6 +181,7 @@ class Mpesanan extends CI_Model
                 'harga' => $value->harga_order_barang - $value->diskon_order_barang,
                 'jumlah' => (int)$value->jumlah_order_barang,
                 'berat' => (int)$value->berat_hrg_detail,
+                'singkat' => $value->singkatan_satuan,
                 'total' => ($value->harga_order_barang - $value->diskon_order_barang) * $value->jumlah_order_barang,
                 'note' => $value->info_order_barang
             ];
