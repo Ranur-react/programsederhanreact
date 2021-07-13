@@ -8,14 +8,14 @@
                         <div class="css-k0nmra">
                             <img class="css-mnywuz" src="<?= assets() ?>images/report.png">
                             <div class="css-porh3">
-                                <h3 data-id="lblProfileName">Data Barang</h3>
+                                <h3 data-id="lblProfileName">Data Pengiriman</h3>
                             </div>
                             <div class="css-1bmrgqt"></div>
                         </div>
                     </div>
                 </div>
                 <div class="css-1bo6mi5">
-                    <a href="<?= site_url('laporan/barang/cetak') ?>" target="_blank" class="css-w954na-unf-btn e1ggruw00"><span>Lihat Laporan</span></a>
+                    <a href="<?= site_url('laporan/pengiriman/cetak') ?>" target="_blank" class="css-w954na-unf-btn e1ggruw00"><span>Lihat Laporan</span></a>
                 </div>
             </div>
         </div>
@@ -26,14 +26,14 @@
                         <div class="css-k0nmra">
                             <img class="css-mnywuz" src="<?= assets() ?>images/report.png">
                             <div class="css-porh3">
-                                <h3 data-id="lblProfileName">Stok Barang</h3>
+                                <h3 data-id="lblProfileName">Pesanan Diterima</h3>
                             </div>
                             <div class="css-1bmrgqt"></div>
                         </div>
                     </div>
                 </div>
                 <div class="css-1bo6mi5">
-                    <a href="<?= site_url('laporan/barang/stok') ?>" target="_blank" class="css-w954na-unf-btn e1ggruw00"><span>Lihat Laporan</span></a>
+                    <a href="<?= site_url('laporan/pengiriman/terima') ?>" target="_blank" class="css-w954na-unf-btn e1ggruw00"><span>Lihat Laporan</span></a>
                 </div>
             </div>
         </div>
