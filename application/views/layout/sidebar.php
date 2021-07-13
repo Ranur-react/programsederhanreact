@@ -102,6 +102,9 @@ $urls2 = $this->uri->segment(2)
             <li class="<?= $urls == 'laporan' && $urls2 == 'penjualan' ? 'active' : null ?>">
                 <a href="<?= site_url('laporan/penjualan') ?>"><i class="fa fa-angle-double-right"></i> Penjualan</a>
             </li>
+            <li class="<?= $urls == 'laporan' && $urls2 == 'pengiriman' ? 'active' : null ?>">
+                <a href="<?= site_url('laporan/pengiriman') ?>"><i class="fa fa-angle-double-right"></i> Pengiriman</a>
+            </li>
         </ul>
     </li>
     <li class="treeview <?= $urls == 'pengguna' || $urls == 'roles' || $urls == 'rekening' ? 'active' : null ?>">
