@@ -16,7 +16,7 @@
         <option value="">-- Pilih Tahun --</option>
         <?php
         $now = date('Y');
-        for ($a = 2020; $a <= $now; $a++) {
+        for ($a = 2021; $a <= $now; $a++) {
             echo "<option value='$a'>$a</option>";
         } ?>
     </select>

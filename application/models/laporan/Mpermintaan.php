@@ -113,6 +113,20 @@ class Mpermintaan extends CI_Model
         }
         return $data;
     }
+    public function pertahun($tahun)
+    {
+        $data = array();
+        foreach (array_bulan() as $key => $value) {
+            $sql = $this->db->query("SELECT count(id_permintaan) as jumlah,sum(total_permintaan) as total FROM permintaan WHERE DATE_FORMAT(tanggal_permintaan,'%c')='$key' AND DATE_FORMAT(tanggal_permintaan,'%Y')='$tahun'")->row();
+            $result = [
+                'bulan' => $value,
+                'jumlah' => $sql->jumlah,
+                'total' => $sql->total
+            ];
+            $data[] = $result;
+        }
+        return $data;
+    }
 }
 
 /* End of file Mpermintaan.php */

@@ -69,6 +69,25 @@ class Permintaan extends CI_Controller
         ];
         $this->template->laporan('laporan/permintaan/cetak_perbulan', $data);
     }
+    public function modal_pertahun()
+    {
+        $data = [
+            'name' => 'Permintaan Pertahun',
+            'post' => 'laporan/permintaan/cetak_pertahun',
+            'class' => 'form_report'
+        ];
+        $this->template->modal_report('laporan/permintaan/modal_pertahun', $data);
+    }
+    public function cetak_pertahun()
+    {
+        $tahun = $this->input->post('tahun', true);
+        $data = [
+            'title' => 'Laporan Permintaan Barang Pertahun',
+            'tahun' => $tahun,
+            'data' => $this->Mpermintaan->pertahun($tahun)
+        ];
+        $this->template->laporan('laporan/permintaan/cetak_pertahun', $data);
+    }
 }
 
 /* End of file Permintaan.php */
