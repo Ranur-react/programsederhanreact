@@ -27,6 +27,27 @@ class Penerimaan extends CI_Controller
         ];
         $this->template->laporan('laporan/penerimaan/all', $data);
     }
+    public function modal_perperiode()
+    {
+        $data = [
+            'name' => 'Penerimaan Perperiode',
+            'post' => 'laporan/penerimaan/cetak_perperiode',
+            'class' => 'form_report'
+        ];
+        $this->template->modal_report('laporan/penerimaan/modal_perperiode', $data);
+    }
+    public function cetak_perperiode()
+    {
+        $awal = date("Y-m-d", strtotime($this->input->post('awal')));
+        $akhir = date("Y-m-d", strtotime($this->input->post('akhir')));
+        $data = [
+            'title' => 'Laporan Penerimaan Barang Perperiode',
+            'awal' => $awal,
+            'akhir' => $akhir,
+            'data' => $this->Mpenerimaan->perperiode($awal, $akhir)
+        ];
+        $this->template->laporan('laporan/penerimaan/cetak_perperiode', $data);
+    }
 }
 
 /* End of file Penerimaan.php */
