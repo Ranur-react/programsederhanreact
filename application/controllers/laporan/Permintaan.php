@@ -27,6 +27,15 @@ class Permintaan extends CI_Controller
         ];
         $this->template->laporan('laporan/permintaan/all', $data);
     }
+    public function modal_perperiode()
+    {
+        $data = [
+            'name' => 'Permintaan Perperiode',
+            'post' => 'kategori/store',
+            'class' => 'form_report'
+        ];
+        $this->template->modal_report('laporan/permintaan/modal_perperiode', $data);
+    }
 }
 
 /* End of file Permintaan.php */
