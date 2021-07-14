@@ -107,6 +107,20 @@ class Mpenerimaan extends CI_Model
         }
         return $data;
     }
+    public function pertahun($tahun)
+    {
+        $data = array();
+        foreach (array_bulan() as $key => $value) {
+            $sql = $this->db->query("SELECT count(id_terima) as jumlah,sum(total_terima) as total FROM penerimaan WHERE DATE_FORMAT(tanggal_terima,'%c')='$key' AND DATE_FORMAT(tanggal_terima,'%Y')='$tahun'")->row();
+            $result = [
+                'bulan' => $value,
+                'jumlah' => $sql->jumlah,
+                'total' => $sql->total
+            ];
+            $data[] = $result;
+        }
+        return $data;
+    }
 }
 
 /* End of file Mpenerimaan.php */
