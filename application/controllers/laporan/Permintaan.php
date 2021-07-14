@@ -31,10 +31,22 @@ class Permintaan extends CI_Controller
     {
         $data = [
             'name' => 'Permintaan Perperiode',
-            'post' => 'kategori/store',
+            'post' => 'laporan/permintaan/cetak_perperiode',
             'class' => 'form_report'
         ];
         $this->template->modal_report('laporan/permintaan/modal_perperiode', $data);
+    }
+    public function cetak_perperiode()
+    {
+        $awal = date("Y-m-d", strtotime($this->input->post('awal')));
+        $akhir = date("Y-m-d", strtotime($this->input->post('akhir')));
+        $data = [
+            'title' => 'Laporan Permintaan Barang Perperiode',
+            'awal' => $awal,
+            'akhir' => $akhir,
+            'data' => $this->Mpermintaan->perperiode($awal, $akhir)
+        ];
+        $this->template->laporan('laporan/permintaan/cetak_perperiode', $data);
     }
 }
 
