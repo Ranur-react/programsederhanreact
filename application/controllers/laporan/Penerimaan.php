@@ -48,6 +48,27 @@ class Penerimaan extends CI_Controller
         ];
         $this->template->laporan('laporan/penerimaan/cetak_perperiode', $data);
     }
+    public function modal_perbulan()
+    {
+        $data = [
+            'name' => 'Penerimaan Perbulan',
+            'post' => 'laporan/penerimaan/cetak_perbulan',
+            'class' => 'form_report'
+        ];
+        $this->template->modal_report('laporan/penerimaan/modal_perbulan', $data);
+    }
+    public function cetak_perbulan()
+    {
+        $bulan = $this->input->post('bulan', true);
+        $tahun = $this->input->post('tahun', true);
+        $data = [
+            'title' => 'Laporan Penerimaan Barang Perbulan',
+            'bulan' => $bulan,
+            'tahun' => $tahun,
+            'data' => $this->Mpenerimaan->perbulan($bulan, $tahun)
+        ];
+        $this->template->laporan('laporan/penerimaan/cetak_perbulan', $data);
+    }
 }
 
 /* End of file Penerimaan.php */
