@@ -1,12 +1,12 @@
 <table class="tabel-header" style="border-bottom: 1px solid #000; padding-bottom: 5px; margin-bottom: 15px;">
     <tr>
-        <td>Tanggal : <?= format_indo($awal) . ' s/d ' . format_indo($akhir) ?></td>
+        <td>Bulan : <?= bulan($bulan) . ' ' . $tahun ?></td>
     </tr>
 </table>
 <?php if ($data == null) : ?>
     <table class="tabel-header">
         <tr>
-            <td align="center">Data Permintaan Barang Perperiode Tidak Ditemukan</td>
+            <td align="center">Data Permintaan Barang Perbulan Tidak Ditemukan</td>
         </tr>
     </table>
 <?php else : ?>
