@@ -44,6 +44,14 @@ if (!function_exists('bulan')) {
     }
 }
 
+if (!function_exists('array_bulan')) {
+    function array_bulan()
+    {
+        $data = array(1 => "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
+        return $data;
+    }
+}
+
 if (!function_exists('format_biasa')) {
     function format_biasa($tgl)
     {

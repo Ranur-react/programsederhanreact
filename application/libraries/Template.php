@@ -31,6 +31,11 @@ class Template
         $data['body'] = $this->_ci->load->view($form, $data, true);
         $this->_ci->load->view('layout/modal/modal_info', $data);
     }
+    function modal_report($form, $data)
+    {
+        $data['body'] = $this->_ci->load->view($form, $data, true);
+        $this->_ci->load->view('layout/modal/modal_report', $data);
+    }
     function laporan($template, $data = null)
     {
         $data['content'] = $this->_ci->load->view($template, $data, true);

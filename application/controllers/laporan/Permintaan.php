@@ -27,6 +27,67 @@ class Permintaan extends CI_Controller
         ];
         $this->template->laporan('laporan/permintaan/all', $data);
     }
+    public function modal_perperiode()
+    {
+        $data = [
+            'name' => 'Permintaan Perperiode',
+            'post' => 'laporan/permintaan/cetak_perperiode',
+            'class' => 'form_report'
+        ];
+        $this->template->modal_report('laporan/permintaan/modal_perperiode', $data);
+    }
+    public function cetak_perperiode()
+    {
+        $awal = date("Y-m-d", strtotime($this->input->post('awal')));
+        $akhir = date("Y-m-d", strtotime($this->input->post('akhir')));
+        $data = [
+            'title' => 'Laporan Permintaan Barang Perperiode',
+            'awal' => $awal,
+            'akhir' => $akhir,
+            'data' => $this->Mpermintaan->perperiode($awal, $akhir)
+        ];
+        $this->template->laporan('laporan/permintaan/cetak_perperiode', $data);
+    }
+    public function modal_perbulan()
+    {
+        $data = [
+            'name' => 'Permintaan Perbulan',
+            'post' => 'laporan/permintaan/cetak_perbulan',
+            'class' => 'form_report'
+        ];
+        $this->template->modal_report('laporan/permintaan/modal_perbulan', $data);
+    }
+    public function cetak_perbulan()
+    {
+        $bulan = $this->input->post('bulan', true);
+        $tahun = $this->input->post('tahun', true);
+        $data = [
+            'title' => 'Laporan Permintaan Barang Perbulan',
+            'bulan' => $bulan,
+            'tahun' => $tahun,
+            'data' => $this->Mpermintaan->perbulan($bulan, $tahun)
+        ];
+        $this->template->laporan('laporan/permintaan/cetak_perbulan', $data);
+    }
+    public function modal_pertahun()
+    {
+        $data = [
+            'name' => 'Permintaan Pertahun',
+            'post' => 'laporan/permintaan/cetak_pertahun',
+            'class' => 'form_report'
+        ];
+        $this->template->modal_report('laporan/permintaan/modal_pertahun', $data);
+    }
+    public function cetak_pertahun()
+    {
+        $tahun = $this->input->post('tahun', true);
+        $data = [
+            'title' => 'Laporan Permintaan Barang Pertahun',
+            'tahun' => $tahun,
+            'data' => $this->Mpermintaan->pertahun($tahun)
+        ];
+        $this->template->laporan('laporan/permintaan/cetak_pertahun', $data);
+    }
 }
 
 /* End of file Permintaan.php */
