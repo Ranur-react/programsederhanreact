@@ -54,7 +54,7 @@
 </head>
 
 <body>
-    <table class="tabel-header">
+    <table class="tabel-header" style="padding-bottom: 15px;">
         <tbody>
             <tr style="text-align: right;">
                 <td rowspan="3" style="width: 20%">
