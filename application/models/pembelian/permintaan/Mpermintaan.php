@@ -29,7 +29,8 @@ class Mpermintaan extends CI_Model
             ->join('supplier', 'supplier_permintaan=id_supplier')
             ->join('users', 'user_permintaan=id_user')
             ->order_by('id_permintaan', 'DESC')
-            ->like('nama_supplier', $search)
+            ->like('nosurat_permintaan', $search)
+            ->or_like('nama_supplier', $search)
             ->get();
         return $sql;
     }
@@ -48,11 +49,33 @@ class Mpermintaan extends CI_Model
         }
         return $kode;
     }
+    public function nosurat()
+    {
+        $query = $this->db->query("SELECT nourut_permintaan FROM permintaan WHERE DATE_FORMAT(tanggal_permintaan,'%Y-%m') = DATE_FORMAT(NOW(),'%Y-%m') ORDER BY nourut_permintaan DESC LIMIT 1");
+        if ($query->num_rows() <> 0) {
+            $data = $query->row();
+            $nourut = intval($data->nourut_permintaan) + 1;
+            $array = array(
+                'nourut' => $nourut,
+                'nosurat' => zerobefore($nourut) . '/PO/BM/' . KonDecRomawi(date('n')) . '/' . format_tahun(date("Y-m-d"))
+            );
+        } else {
+            $nourut = 1;
+            $array = array(
+                'nourut' => $nourut,
+                'nosurat' => zerobefore($nourut) . '/PO/BM/' . KonDecRomawi(date('n')) . '/' . format_tahun(date("Y-m-d"))
+            );
+        }
+        return $array;
+    }
     public function store($kode, $post)
     {
+        $nosurat = $this->nosurat();
         $total = $this->db->select('SUM(harga*jumlah) AS total')->where('user', id_user())->get('tmp_permintaan')->row();
         $data_permintaan = [
             'id_permintaan' => $kode,
+            'nourut_permintaan' => $nosurat['nourut'],
+            'nosurat_permintaan' => $nosurat['nosurat'],
             'supplier_permintaan' => $post['supplier'],
             'tanggal_permintaan' => date("Y-m-d", strtotime($post['tanggal'])),
             'total_permintaan' => $total->total,

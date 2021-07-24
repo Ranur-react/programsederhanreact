@@ -46,18 +46,20 @@ class Penerimaan extends CI_Controller
         }
         $no = 1;
         foreach ($query->result_array() as $d) {
-            $edit = '<a href="' . site_url('penerimaan/edit/' . $d['id_terima']) . '"><i class="icon-pencil7 text-green" data-toggle="tooltip" data-original-title="Edit"></i></a>';
-            $hapus = '<a href="javascript:void(0)" onclick="hapus(\'' . $d['id_terima'] . '\')"><i class="icon-trash text-red" data-toggle="tooltip" data-original-title="Hapus"></i></a>';
+            $bayar = '<a href="' . site_url('pelunasan/detail/' . $d['id_terima']) . '"><i class="icon-coin-dollar text-purple" title="Bayar"></i></a>';
+            $info = '<a href="javascript:void(0)" onclick="info(\'' . $d['id_terima'] . '\')"><i class="icon-eye8 text-blue" title="Info"></i></a>';
+            $edit = '<a href="' . site_url('penerimaan/edit/' . $d['id_terima']) . '"><i class="icon-pencil7 text-green" title="Edit"></i></a>';
+            $hapus = '<a href="javascript:void(0)" onclick="hapus(\'' . $d['id_terima'] . '\')"><i class="icon-trash text-red" title="Hapus"></i></a>';
             $output['data'][] = array(
                 $no . '.',
-                $d['id_terima'],
+                $d['nosurat_terima'],
                 $d['nama'],
                 $d['nama_gudang'],
                 format_biasa($d['tanggal_terima']),
                 akuntansi($d['total_terima']),
                 $d['nama_user'],
                 status_span($d['status_terima'], 'penerimaan'),
-                $edit . '&nbsp;' . $hapus
+                $bayar . '&nbsp;' . $info . '&nbsp;' . $edit . '&nbsp;' . $hapus
             );
             $no++;
         }
@@ -69,7 +71,9 @@ class Penerimaan extends CI_Controller
             'title' => 'Penerimaan',
             'small' => 'Tambah Data Penerimaan Barang',
             'links' => '<li><a href="' . site_url('penerimaan') . '">Penerimaan</a></li><li class="active">Tambah</li>',
-            'gudang' => $this->Mgudang->getall()
+            'sidebar' => 'collapse',
+            'gudang' => $this->Mgudang->getall(),
+            'nomor' => $this->Mpenerimaan->nosurat()
         ];
         $this->template->dashboard('pembelian/penerimaan/tambah', $data);
     }
@@ -87,7 +91,7 @@ class Penerimaan extends CI_Controller
                 $this->Mpenerimaan->store($kode, $post);
                 $json = array(
                     'status' => "0100",
-                    'kode' => 1,
+                    'kode' => $kode,
                     'message' => 'Form tambah penerimaan barang berhasil dibuat.'
                 );
             else :
@@ -111,6 +115,7 @@ class Penerimaan extends CI_Controller
             'title' => 'Penerimaan',
             'small' => 'Edit Data Penerimaan Barang',
             'links' => '<li><a href="' . site_url('penerimaan') . '">Penerimaan</a></li><li class="active">Edit</li>',
+            'sidebar' => 'collapse',
             'gudang' => $this->Mgudang->getall(),
             'data' => $this->Mpenerimaan->show($kode)
         ];
@@ -125,7 +130,7 @@ class Penerimaan extends CI_Controller
         $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
         if ($this->form_validation->run() == TRUE) {
             $kode = $post['kode'];
-            $tmp_data = $this->Mtmp_edit->tampil_data($kode);
+            $tmp_data = $this->Mtmp_edit->data_tmp($kode);
             if (count($tmp_data) > 0) :
                 $this->Mpenerimaan->update($kode, $post);
                 $json = array(
@@ -155,9 +160,20 @@ class Penerimaan extends CI_Controller
             'small' => 'Detail Penerimaan barang',
             'links' => '<li><a href="' . site_url('penerimaan') . '">Penerimaan</a></li><li class="active">Detail</li>',
             'data' => $this->Mpenerimaan->show($kode),
-            'barang' => $this->Mtmp_edit->tampil_data($kode)
+            'barang' => $this->Mtmp_edit->data_tmp($kode)
         ];
         $this->template->dashboard('pembelian/penerimaan/detail', $data);
+    }
+    public function info()
+    {
+        $kode = $this->input->get('kode');
+        $data = [
+            'name' => 'Detail Penerimaan Barang',
+            'modallg' => 1,
+            'data' => $this->Mpenerimaan->show($kode),
+            'barang' => $this->Mtmp_edit->data_tmp($kode)
+        ];
+        $this->template->modal_info('pembelian/penerimaan/info', $data);
     }
     public function destroy()
     {

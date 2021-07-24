@@ -10,6 +10,7 @@ class Pengguna extends CI_Controller
             cek_user();
         else
             redirect('logout');
+        $this->load->model('master/Mroles');
         $this->load->model('master/Mgudang');
         $this->load->model('master/Mpengguna');
     }
@@ -28,25 +29,27 @@ class Pengguna extends CI_Controller
         $data = [
             'name' => 'Tambah Pengguna',
             'post' => 'pengguna/store',
-            'class' => 'form_create'
+            'class' => 'form_create',
+            'role' => $this->Mroles->fetch_all()
         ];
         $this->template->modal_form('master/pengguna/create', $data);
     }
-    public function get_level()
-    {
-        $jenis = $this->input->get('jenis');
-        $result = $this->Mpengguna->get_level($jenis);
-        $data = '<option value="">Pilih</option>';
-        foreach ($result as $d) {
-            $data .= '<option value="' . $d['id_role'] . '">' . $d['nama_role'] . '</option>';
-        }
-        echo $data;
-    }
     public function get_gudang()
     {
-        $d['jenis'] = $this->input->get('jenis');
-        $d['data'] = $this->Mgudang->getall();
-        $this->load->view('master/pengguna/get_gudang', $d);
+        $role = $this->input->get('role');
+        $row = $this->Mroles->show($role);
+        if ($row['jenis_role'] == 2) :
+            $gudang = $this->Mgudang->getall();
+            echo '<div class="form-group">';
+            echo '<label>Gudang</label>';
+            echo '<select name="gudang" id="gudang" class="form-control">';
+            echo '<option value="">Pilih</option>';
+            foreach ($gudang as $d) {
+                echo '<option value="' . $d['id_gudang'] . '">' . $d['nama_gudang'] . '</option>';
+            }
+            echo '</select>';
+            echo '</div>';
+        endif;
     }
     public function store()
     {
@@ -54,9 +57,9 @@ class Pengguna extends CI_Controller
         $this->form_validation->set_rules('nama', 'Nama lengkap', 'trim|required');
         $this->form_validation->set_rules('username', 'Username', 'trim|required');
         $this->form_validation->set_rules('password', 'Password', 'required');
-        $this->form_validation->set_rules('jenis', 'Jenis pengguna', 'required');
-        $this->form_validation->set_rules('level', 'Level', 'required');
-        if ($post['jenis'] == 2) :
+        $this->form_validation->set_rules('role', 'Hak akses', 'required');
+        $row = $this->Mroles->show($post['role']);
+        if ($row['jenis_role'] == 2) :
             $this->form_validation->set_rules('gudang', 'Gudang', 'required');
         endif;
         $this->form_validation->set_message('required', errorRequired());
@@ -134,6 +137,19 @@ class Pengguna extends CI_Controller
             $data = array('status_user' => 1);
         endif;
         $this->db->where('id_user', $kode)->update('users', $data);
+        redirect('pengguna');
+    }
+    public function generate_api($kode)
+    {
+        $check = $this->db->from('user_api')->where('user_api', $kode)->count_all_results();
+        if ($check == 0) {
+            $data = array(
+                'user_api' => $kode,
+                'key_api' => implode('-', str_split(substr(strtolower(md5(microtime() . rand(1000, 9999))), 0, 30), 6)),
+                'status_api' => 1
+            );
+            $this->db->insert('user_api', $data);
+        }
         redirect('pengguna');
     }
 }

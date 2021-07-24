@@ -10,6 +10,7 @@ class Mtmp_edit extends CI_Model
             ->join('barang', 'barang_brg_satuan=id_barang')
             ->join('satuan', 'satuan_brg_satuan=id_satuan')
             ->where('permintaan_detail', $kode)
+            ->order_by('id_detail')
             ->get()->result_array();
     }
     public function get_total($kode)

@@ -118,7 +118,9 @@ class Mkategori extends CI_Model
         foreach ($query as $result) {
             $this->destroy($result['kategori_path']);
         }
-        unlink(pathImage() . $data['icon_kategori']);
+        if ($data['icon_kategori'] != "") {
+            unlink(pathImage() . $data['icon_kategori']);
+        }
         $this->db->query("DELETE FROM kategori WHERE id_kategori='$kode'");
         return true;
     }

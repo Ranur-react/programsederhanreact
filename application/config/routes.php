@@ -18,7 +18,6 @@ $route['registrasi/signup'] = 'auth/registrasi/signup';
 $route['logout'] = 'auth/logout';
 
 //menu master
-
 $route['pengguna'] = 'master/pengguna';
 $route['pengguna/create'] = 'master/pengguna/create';
 $route['pengguna/store'] = 'master/pengguna/store';
@@ -26,6 +25,7 @@ $route['pengguna/edit'] = 'master/pengguna/edit';
 $route['pengguna/update'] = 'master/pengguna/update';
 $route['pengguna/destroy'] = 'master/pengguna/destroy';
 $route['pengguna/status-pengguna/(:num)'] = 'master/pengguna/status_pengguna/$1';
+$route['pengguna/generate-api/(:num)'] = 'master/pengguna/generate_api/$1';
 
 $route['supplier'] = 'master/supplier';
 
@@ -60,6 +60,28 @@ $route['barang/edit/(:num)'] = 'master/barang/edit/$1';
 $route['barang/update'] = 'master/barang/update';
 $route['barang/destroy'] = 'master/barang/destroy';
 $route['barang/get-satuan'] = 'master/barang/get_satuan';
+
+// Upload Gambar Barang
+$route['barang/load-gambar'] = 'master/barang/load_gambar';
+$route['barang/create-gambar'] = 'master/barang/create_gambar';
+$route['barang/store-gambar'] = 'master/barang/store_gambar';
+$route['barang/destroy-gambar'] = 'master/barang/destroy_gambar';
+
+// katalog
+$route['harga'] = 'katalog/harga';
+$route['harga/data'] = 'katalog/harga/data';
+$route['harga/detail'] = 'katalog/harga/detail';
+$route['harga/histori/(:num)'] = 'katalog/harga/histori/$1';
+$route['harga/data-terima'] = 'katalog/harga/data_terima';
+$route['harga/add-satuan'] = 'katalog/harga/add_satuan';
+$route['harga/edit-harga'] = 'katalog/harga/edit_harga';
+$route['harga/update-harga'] = 'katalog/harga/update_harga';
+
+// Stok Barang
+$route['stok-barang'] = 'katalog/stok';
+$route['stok-barang/data'] = 'katalog/stok/data';
+$route['stok-barang/detail/(:num)'] = 'katalog/stok/detail/$1';
+$route['stok-barang/data-terima'] = 'katalog/stok/data_terima';
 
 // menu permintaan
 $route['permintaan'] = 'pembelian/permintaan/permintaan';
@@ -96,6 +118,7 @@ $route['penerimaan/store'] = 'pembelian/penerimaan/penerimaan/store';
 $route['penerimaan/edit/(:num)'] = 'pembelian/penerimaan/penerimaan/edit/$1';
 $route['penerimaan/update'] = 'pembelian/penerimaan/penerimaan/update';
 $route['penerimaan/detail/(:num)'] = 'pembelian/penerimaan/penerimaan/detail/$1';
+$route['penerimaan/info'] = 'pembelian/penerimaan/penerimaan/info';
 $route['penerimaan/destroy'] = 'pembelian/penerimaan/penerimaan/destroy';
 
 $route['penerimaan/tmp-create/modal-permintaan'] = 'pembelian/penerimaan/tmp_create';
@@ -111,7 +134,83 @@ $route['penerimaan/tmp-create/update'] = 'pembelian/penerimaan/tmp_create/update
 $route['penerimaan/tmp-create/destroy'] = 'pembelian/penerimaan/tmp_create/destroy';
 $route['penerimaan/tmp-create/batal'] = 'pembelian/penerimaan/tmp_create/batal';
 
-$route['penerimaan/tmp-edit/data'] = 'pembelian/penerimaan/tmp_edit/data';
+$route['penerimaan/tmp-edit/data-supplier'] = 'pembelian/penerimaan/tmp_edit/data_supplier';
+$route['penerimaan/tmp-edit/check-permintaan'] = 'pembelian/penerimaan/tmp_edit/check_permintaan';
+
+$route['penerimaan/tmp-edit/data-tmp'] = 'pembelian/penerimaan/tmp_edit/data_tmp';
+$route['penerimaan/tmp-edit/create'] = 'pembelian/penerimaan/tmp_edit/create';
+$route['penerimaan/tmp-edit/store'] = 'pembelian/penerimaan/tmp_edit/store';
 $route['penerimaan/tmp-edit/edit'] = 'pembelian/penerimaan/tmp_edit/edit';
 $route['penerimaan/tmp-edit/update'] = 'pembelian/penerimaan/tmp_edit/update';
 $route['penerimaan/tmp-edit/destroy'] = 'pembelian/penerimaan/tmp_edit/destroy';
+
+// Pembayaran Penerimaan
+$route['pelunasan/detail/(:num)'] = 'pembelian/pelunasan/detail/$1';
+$route['pelunasan/data'] = 'pembelian/pelunasan/data';
+$route['pelunasan/create'] = 'pembelian/pelunasan/create';
+$route['pelunasan/store'] = 'pembelian/pelunasan/store';
+$route['pelunasan/destroy'] = 'pembelian/pelunasan/destroy';
+
+// Customer
+$route['customer'] = 'master/customer';
+$route['customer/data'] = 'master/customer/data';
+$route['customer/detail/(:num)'] = 'master/customer/detail/$1';
+$route['customer/update'] = 'master/customer/update';
+
+// Pesanan
+$route['pesanan'] = 'penjualan/pesanan/pesanan';
+$route['pesanan/data'] = 'penjualan/pesanan/pesanan/data';
+$route['pesanan/create'] = 'penjualan/pesanan/pesanan/create';
+$route['pesanan/store'] = 'penjualan/pesanan/pesanan/store';
+$route['pesanan/detail'] = 'penjualan/pesanan/pesanan/detail';
+$route['pesanan/confirm'] = 'penjualan/pesanan/pesanan/confirm';
+$route['pesanan/batal'] = 'penjualan/pesanan/pesanan/batal';
+$route['pesanan/invoice/(:num)'] = 'penjualan/pesanan/pesanan/invoice/$1';
+
+// Pesanan Tmp Create
+$route['pesanan/tmp-create'] = 'penjualan/pesanan/tmp_create';
+$route['pesanan/tmp-create/create'] = 'penjualan/pesanan/tmp_create/create';
+$route['pesanan/tmp-create/get-penerimaan'] = 'penjualan/pesanan/tmp_create/get_penerimaan';
+$route['pesanan/tmp-create/get-harga'] = 'penjualan/pesanan/tmp_create/get_harga';
+$route['pesanan/tmp-create/store'] = 'penjualan/pesanan/tmp_create/store';
+$route['pesanan/tmp-create/destroy'] = 'penjualan/pesanan/tmp_create/destroy';
+$route['pesanan/tmp-create/get-alamat'] = 'penjualan/pesanan/tmp_create/get_alamat';
+$route['pesanan/tmp-create/get-bank'] = 'penjualan/pesanan/tmp_create/get_bank';
+
+// Pembayaran
+$route['pembayaran/confirm'] = 'penjualan/pembayaran/confirm';
+$route['pembayaran/store'] = 'penjualan/pembayaran/store';
+$route['pembayaran/detail'] = 'penjualan/pembayaran/detail';
+$route['pembayaran/approve'] = 'penjualan/pembayaran/approve';
+$route['pembayaran/batal'] = 'penjualan/pembayaran/batal';
+
+// Pengiriman
+$route['pengiriman'] = 'penjualan/pengiriman';
+$route['pengiriman/data'] = 'penjualan/pengiriman/data';
+$route['pengiriman/create'] = 'penjualan/pengiriman/create';
+$route['pengiriman/store'] = 'penjualan/pengiriman/store';
+$route['pengiriman/terima'] = 'penjualan/pengiriman/terima';
+$route['pengiriman/storeterima'] = 'penjualan/pengiriman/storeterima';
+
+// Role
+$route['roles'] = 'master/roles';
+$route['roles/create'] = 'master/roles/create';
+$route['roles/store'] = 'master/roles/store';
+$route['roles/edit'] = 'master/roles/edit';
+$route['roles/update'] = 'master/roles/update';
+$route['roles/destroy'] = 'master/roles/destroy';
+
+// Rekening Bank
+$route['rekening'] = 'master/rekening';
+$route['rekening/sync'] = 'master/rekening/sync';
+$route['rekening/create'] = 'master/rekening/create';
+$route['rekening/store'] = 'master/rekening/store';
+$route['rekening/edit'] = 'master/rekening/edit';
+$route['rekening/update'] = 'master/rekening/update';
+$route['rekening/destroy'] = 'master/rekening/destroy';
+$route['rekening/status/(:num)'] = 'master/rekening/status/$1';
+
+$route['upload'] = 'master/UploadImages';
+$route['browse'] = 'master/UploadImages/choseImages';
+$route['insert'] = 'master/UploadImages/insertImages';
+$route['delete'] = 'master/UploadImages/delteImages';
