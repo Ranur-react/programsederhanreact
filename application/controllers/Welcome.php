@@ -6,10 +6,7 @@ class Welcome extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		if ($this->session->userdata('status_login') == "sessDashboard")
-			cek_user();
-		else
-			redirect('logout');
+		cek_user();
 	}
 	public function index()
 	{

@@ -12,8 +12,7 @@ class Login extends CI_Controller
         if ($this->session->userdata('status_login') == "sessDashboard") {
             redirect('welcome');
         } else {
-            $check_remember = $this->remember_token();
-            if ($check_remember == '0100') :
+            if (remember_token() == '0100') :
                 redirect('welcome');
             else :
                 $data = [
@@ -88,23 +87,6 @@ class Login extends CI_Controller
                 return FALSE;
             }
         }
-    }
-    public function remember_token()
-    {
-        if (get_cookie('remember_bm_dashboard')) :
-            $id_user = decrypt_url(get_cookie('remember_bm_dashboard'));
-            $data = $this->Mlogin->check_remember($id_user);
-            if ($data != null) :
-                $this->session->set_userdata('masuk', TRUE);
-                $this->session->set_userdata('status_login', 'sessDashboard');
-                $this->session->set_userdata('kode', $data['id_user']);
-                return '0100';
-            else :
-                return '0101';
-            endif;
-        else :
-            return '0101';
-        endif;
     }
 }
 
