@@ -11,6 +11,14 @@ if (!function_exists('assets')) {
     }
 }
 
+if (!function_exists('assets_js')) {
+    function assets_js()
+    {
+        $link = base_url() . 'src/';
+        return $link;
+    }
+}
+
 if (!function_exists('pathImage')) {
     function pathImage()
     {
