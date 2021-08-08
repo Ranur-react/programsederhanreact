@@ -13,6 +13,9 @@
     <link rel="stylesheet" href="<?= assets() ?>bower_components/Ionicons/css/ionicons.min.css">
     <link rel="stylesheet" href="<?= assets() ?>dist/css/AdminLTE.min.css">
     @provide(style)
+    <script>
+        var BASE_URL = "<?= base_url(); ?>";
+    </script>
 </head>
 
 <body class="hold-transition login-page">
