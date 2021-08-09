@@ -14,7 +14,7 @@ if (!function_exists('assets')) {
 if (!function_exists('assets_js')) {
     function assets_js()
     {
-        $link = base_url() . 'src/';
+        $link = base_url() . 'src/js/';
         return $link;
     }
 }
