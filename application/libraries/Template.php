@@ -14,7 +14,7 @@ class Template
     function dashboard($template, $data = null)
     {
         $data['content'] = $this->_ci->load->view($template, $data, true);
-        $this->_ci->parser->parse('layout/index', $data);
+        $this->_ci->parser->parse('layout/extends', $data);
     }
     function modal_form($form, $data)
     {

@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{title}</title>
+    <title><?= $title ?></title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="shortcut icon" href="<?= faviconApp() ?>">
     <link rel="stylesheet" href="<?= assets() ?>bower_components/bootstrap/dist/css/bootstrap.min.css">
@@ -13,66 +13,11 @@
     <link rel="stylesheet" href="<?= assets() ?>bower_components/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="<?= assets() ?>bower_components/source-sans/source-sans-pro.css">
     <link rel="stylesheet" href="<?= assets() ?>bower_components/Ionicons/css/ionicons.min.css">
-    <link rel="stylesheet" href="<?= assets() ?>bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
-    <link rel="stylesheet" href="<?= assets() ?>bower_components/select2/dist/css/select2.min.css">
-    <link rel="stylesheet" href="<?= assets() ?>plugins/bootstrap-fileinput/fileinput.min.css">
-    <link rel="stylesheet" href="<?= assets() ?>bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
-    <link rel="stylesheet" href="<?= assets() ?>plugins/toastr/toastr.min.css">
-    <link rel="stylesheet" href="<?= assets() ?>plugins/iCheck/square/blue.css">
+    <link rel="stylesheet" href="<?= assets() ?>bower_components/icomoon/styles.css">
     <link rel="stylesheet" href="<?= assets() ?>dist/css/AdminLTE.min.css">
     <link rel="stylesheet" href="<?= assets() ?>dist/css/skins/_all-skins.min.css">
-    <link rel="stylesheet" href="<?= assets() ?>bower_components/icomoon/styles.css">
     <link rel="stylesheet" href="<?= assets() ?>css/style.css">
-
-    <script src="<?= assets() ?>bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="<?= assets() ?>bower_components/jquery-ui/jquery-ui.min.js"></script>
-    <script>
-        $.widget.bridge('uibutton', $.ui.button);
-    </script>
-    <script src="<?= assets() ?>bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="<?= assets() ?>bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="<?= assets() ?>bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-    <script src="<?= assets() ?>bower_components/ckeditor/ckeditor.js"></script>
-    <script src="<?= assets() ?>bower_components/select2/dist/js/select2.full.min.js"></script>
-    <script src="<?= assets() ?>plugins/bootstrap-fileinput/fileinput.min.js"></script>
-    <script src="<?= assets() ?>bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
-    <script src="<?= assets() ?>bower_components/jquery-sparkline/dist/jquery.sparkline.min.js"></script>
-    <script src="<?= assets() ?>bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-    <script src="<?= assets() ?>bower_components/fastclick/lib/fastclick.js"></script>
-    <script src="<?= assets() ?>dist/js/adminlte.min.js"></script>
-    <script src="<?= assets() ?>dist/js/demo.js"></script>
-    <script src="<?= assets() ?>plugins/sweetalert2/sweetalert2.all.min.js"></script>
-    <script src="<?= assets() ?>plugins/toastr/toastr.min.js"></script>
-    <script src="<?= assets() ?>plugins/iCheck/icheck.min.js"></script>
-    <script src="<?= assets() ?>js/app.js"></script>
-    <script src="<?= assets() ?>js/common.js"></script>
-    <script src="<?= assets() ?>js/currency.js"></script>
-    <style>
-        .animation-rotate {
-            -webkit-animation: spin .5s linear infinite;
-            -moz-animation: spin .5s linear infinite;
-            animation: spin .5s linear infinite;
-        }
-
-        @-moz-keyframes spin {
-            100% {
-                -moz-transform: rotate(360deg);
-            }
-        }
-
-        @-webkit-keyframes spin {
-            100% {
-                -webkit-transform: rotate(360deg);
-            }
-        }
-
-        @keyframes spin {
-            100% {
-                -webkit-transform: rotate(360deg);
-                transform: rotate(360deg);
-            }
-        }
-    </style>
+    @provide(style)
 </head>
 
 <body class="hold-transition skin-blue<?= $sidebar == 'collapse' ? ' sidebar-collapse' : '' ?>">
@@ -99,18 +44,32 @@
         </aside>
         <div class="content-wrapper">
             <section class="content-header">
-                <h1>{title} <small>{small}</small></h1>
+                <h1><?= $title ?> <small><?= $small ?></small></h1>
                 <ol class="breadcrumb">
                     <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                    {links}
+                    <?= $links ?>
                 </ol>
             </section>
             <section class="content">
-                <div class="row">{content}</div>
+                <div class="row">
+                    @provide(content)
+                </div>
             </section>
         </div>
         <?php $this->load->view('layout/footer') ?>
     </div>
+
+    <script src="<?= assets() ?>bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="<?= assets() ?>bower_components/jquery-ui/jquery-ui.min.js"></script>
+    <script>
+        $.widget.bridge('uibutton', $.ui.button);
+    </script>
+    <script src="<?= assets() ?>bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="<?= assets() ?>bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="<?= assets() ?>bower_components/fastclick/lib/fastclick.js"></script>
+    <script src="<?= assets() ?>dist/js/adminlte.min.js"></script>
+    <script src="<?= assets() ?>dist/js/demo.js"></script>
+    @provide(script)
 </body>
 
 </html>
