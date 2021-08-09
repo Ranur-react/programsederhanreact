@@ -18,6 +18,10 @@ class Mlogin extends CI_Model
         $this->db->set('last_login', 'NOW()', FALSE);
         return $this->db->where('id_user', $id)->update($this->tabel, $data);
     }
+    public function user_logout($id = null)
+    {
+        return $this->db->where('id_user', $id)->update($this->tabel, ['login_user' => 0]);
+    }
 }
 
 /* End of file Mlogin.php */
