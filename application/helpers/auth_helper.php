@@ -1,8 +1,8 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 // cek session user dan remember me
-if (!function_exists('cek_user')) {
-    function cek_user()
+if (!function_exists('check_logged_in')) {
+    function check_logged_in()
     {
         $CI = &get_instance();
         if ($CI->session->userdata('status_login') != 'sessDashboard') :
