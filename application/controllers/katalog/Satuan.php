@@ -10,17 +10,32 @@ class Satuan extends CI_Controller
             cek_user();
         else
             redirect('logout');
-        $this->load->model('master/Msatuan');
+        $this->load->model('katalog/Msatuan');
     }
     public function index()
     {
         $data = [
             'title' => 'Satuan',
             'small' => 'Menampilkan dan mengelola data satuan',
-            'links' => '<li class="active">Satuan</li>',
-            'data' => $this->Msatuan->getall()
+            'links' => '<li class="active">Satuan</li>'
         ];
-        $this->template->dashboard('master/satuan/data', $data);
+        $this->template->dashboard('katalog/satuan/index', $data);
+    }
+    public function data()
+    {
+        $query = $this->Msatuan->fetch_all();
+        if ($query == null) {
+            $data = (int)0;
+        } else {
+            foreach ($query as $row) {
+                $data[] = [
+                    'id' => $row['id_satuan'],
+                    'nama' => $row['nama_satuan'],
+                    'singkatan' => $row['singkatan_satuan']
+                ];
+            }
+        }
+        echo json_encode($data);
     }
     public function create()
     {
@@ -29,7 +44,7 @@ class Satuan extends CI_Controller
             'post' => 'satuan/store',
             'class' => 'form_create'
         ];
-        $this->template->modal_form('master/satuan/create', $data);
+        $this->template->modal_form('katalog/satuan/create', $data);
     }
     public function store()
     {
@@ -41,11 +56,15 @@ class Satuan extends CI_Controller
             $post = $this->input->post(null, TRUE);
             $this->Msatuan->store($post);
             $json = array(
-                'status' => "0100",
-                'pesan' => "Data satuan telah disimpan"
+                'status' => '0100',
+                'token' => $this->security->get_csrf_hash(),
+                'pesan' => 'Data satuan telah disimpan'
             );
         } else {
-            $json['status'] = "0111";
+            $json = array(
+                'status' => '0101',
+                'token' => $this->security->get_csrf_hash()
+            );
             foreach ($_POST as $key => $value) {
                 $json['pesan'][$key] = form_error($key);
             }
@@ -61,7 +80,7 @@ class Satuan extends CI_Controller
             'class' => 'form_create',
             'data' => $this->Msatuan->show($kode)
         ];
-        $this->template->modal_form('master/satuan/edit', $data);
+        $this->template->modal_form('katalog/satuan/edit', $data);
     }
     public function update()
     {
@@ -73,11 +92,15 @@ class Satuan extends CI_Controller
             $post = $this->input->post(null, TRUE);
             $this->Msatuan->update($post);
             $json = array(
-                'status' => "0100",
-                'pesan' => "Data satuan telah dirubah"
+                'status' => '0100',
+                'token' => $this->security->get_csrf_hash(),
+                'pesan' => 'Data satuan telah dirubah'
             );
         } else {
-            $json['status'] = "0111";
+            $json = array(
+                'status' => '0101',
+                'token' => $this->security->get_csrf_hash()
+            );
             foreach ($_POST as $key => $value) {
                 $json['pesan'][$key] = form_error($key);
             }
@@ -90,13 +113,13 @@ class Satuan extends CI_Controller
         $action = $this->Msatuan->destroy($kode);
         if ($action) {
             $json = array(
-                'status' => "0100",
-                "message" => successDestroy()
+                'status' => '0100',
+                'msg' => successDestroy()
             );
         } else {
             $json = array(
-                'status' => "0101",
-                "message" => errorDestroy()
+                'status' => '0101',
+                'msg' => errorDestroy()
             );
         }
         echo json_encode($json);

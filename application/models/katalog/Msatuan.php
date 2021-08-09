@@ -1,10 +1,12 @@
 <?php
+defined('BASEPATH') or exit('No direct script access allowed');
+
 class Msatuan extends CI_Model
 {
     var $tabel = 'satuan';
     var $id = 'id_satuan';
 
-    public function getall()
+    public function fetch_all()
     {
         return $this->db->get($this->tabel)->result_array();
     }
@@ -54,3 +56,5 @@ class Msatuan extends CI_Model
         return $this->db->like('nama_satuan', $filter_nama)->get('satuan')->result_array();
     }
 }
+
+/* End of file Msatuan.php */

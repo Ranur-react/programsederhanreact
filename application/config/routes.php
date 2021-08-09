@@ -17,6 +17,18 @@ $route['registrasi/signup'] = 'auth/registrasi/signup';
 // proses logout
 $route['logout'] = 'auth/logout';
 
+/** Menu Katalog
+ * Sub Menu Satuan
+ */
+$route['satuan'] = 'katalog/satuan';
+$route['satuan/data'] = 'katalog/satuan/data';
+$route['satuan/create'] = 'katalog/satuan/create';
+$route['satuan/store'] = 'katalog/satuan/store';
+$route['satuan/edit'] = 'katalog/satuan/edit';
+$route['satuan/update'] = 'katalog/satuan/update';
+$route['satuan/destroy'] = 'katalog/satuan/destroy';
+$route['satuan/satuan_by_nama'] = 'katalog/satuan/satuan_by_nama';
+
 //menu master
 $route['pengguna'] = 'master/pengguna';
 $route['pengguna/create'] = 'master/pengguna/create';
@@ -28,14 +40,6 @@ $route['pengguna/status-pengguna/(:num)'] = 'master/pengguna/status_pengguna/$1'
 $route['pengguna/generate-api/(:num)'] = 'master/pengguna/generate_api/$1';
 
 $route['supplier'] = 'master/supplier';
-
-$route['satuan'] = 'master/satuan';
-$route['satuan/create'] = 'master/satuan/create';
-$route['satuan/store'] = 'master/satuan/store';
-$route['satuan/edit'] = 'master/satuan/edit';
-$route['satuan/update'] = 'master/satuan/update';
-$route['satuan/destroy'] = 'master/satuan/destroy';
-$route['satuan/satuan_by_nama'] = 'master/satuan/satuan_by_nama';
 
 $route['kategori'] = 'master/kategori';
 $route['kategori/create'] = 'master/kategori/create';
