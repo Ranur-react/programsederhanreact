@@ -11,7 +11,7 @@ class Welcome extends CI_Controller
 	public function index()
 	{
 		$data = [
-			'title' => 'Dashboard | ' . nameApp(),
+			'title' => 'Dashboard',
 			'menu'  => 'Dashboard',
 			'small' => nameApp(),
 			'links' => '<li class="active">Dashboard</li>'

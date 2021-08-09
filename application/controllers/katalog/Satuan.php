@@ -13,7 +13,6 @@ class Satuan extends CI_Controller
     {
         $data = [
             'title' => 'Satuan',
-            'small' => 'Menampilkan dan mengelola data satuan',
             'links' => '<li class="active">Satuan</li>'
         ];
         $this->template->dashboard('katalog/satuan/index', $data);
