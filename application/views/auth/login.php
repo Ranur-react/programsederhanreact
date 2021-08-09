@@ -1,3 +1,8 @@
+@section(style)
+<link rel="stylesheet" href="<?= assets() ?>plugins/iCheck/square/blue.css">
+<link rel="stylesheet" href="<?= assets() ?>css/login.css">
+@endsection
+@section(content)
 <div class="login-box">
     <div class="login-box-body">
         <div class="login-logo">
@@ -32,44 +37,10 @@
         <?= form_close() ?>
     </div>
 </div>
-<script>
-    $(document).ready(function() {
-        $('input').iCheck({
-            checkboxClass: 'icheckbox_square-blue',
-            radioClass: 'iradio_square-blue',
-            increaseArea: '20%'
-        });
-        $('#form_signin').on('submit', function(event) {
-            event.preventDefault();
-            $.ajax({
-                url: $(this).attr('action'),
-                type: "POST",
-                data: $(this).serialize(),
-                dataType: "json",
-                beforeSend: function() {
-                    $('#btn_signin').button('loading');
-                },
-                success: function(data) {
-                    if (data.status == "0101") {
-                        if (data.username_error != '') {
-                            $('#username_error').html(data.username_error);
-                        } else {
-                            $('#username_error').html('');
-                        }
-                        if (data.password_error != '') {
-                            $('#password_error').html(data.password_error);
-                        } else {
-                            $('#password_error').html('');
-                        }
-                    } else {
-                        window.location.href = "<?= site_url('welcome') ?>";
-                    }
-                    $('.btn_signin').button('reset');
-                },
-                complete: function() {
-                    $('#btn_signin').button('reset');
-                }
-            })
-        });
-    });
-</script>
+@endsection
+@section(script)
+<script src="<?= assets() ?>plugins/iCheck/icheck.min.js"></script>
+<script src="<?= assets() ?>plugins/sweetalert2/sweetalert2.all.min.js"></script>
+<script src="<?= assets_js() ?>common.js"></script>
+<script src="<?= assets_js() ?>auth/login.js"></script>
+@endsection

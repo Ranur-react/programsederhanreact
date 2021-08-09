@@ -30,24 +30,29 @@ class Login extends CI_Controller
         $this->form_validation->set_rules('username', 'Username', 'callback_username_check[' . $check_user->num_rows() . ']');
         $this->form_validation->set_rules('password', 'Password', 'callback_password_check[' . $username . ']');
         if ($this->form_validation->run()) {
-            $value = $check_user->row_array();
+            $data = $check_user->row_array();
             $this->session->set_userdata('masuk', TRUE);
             if ($this->session->userdata('masuk') == TRUE) {
-                $this->session->set_userdata('status_login', 'sessDashboard');
-                $this->session->set_userdata('kode', $value['id_user']);
                 $id_user = encrypt_url(id_user());
+                $this->Mlogin->user_online($data['id_user']);
+                $this->session->set_userdata('status_login', 'sessDashboard');
+                $this->session->set_userdata('kode', $data['id_user']);
                 if (!empty($this->input->post("remember"))) {
                     set_cookie("remember_bm_dashboard",  $id_user, 60 * 60 * 24 * 365);
                 } else {
                     set_cookie("remember_bm_dashboard", "");
                 }
+                $json = [
+                    'status' => '0100',
+                    'token' => $this->security->get_csrf_hash()
+                ];
             } else {
                 $this->session->sess_destroy();
             }
-            $json = ['status' => "0100"];
         } else {
             $json = array(
-                'status' => "0101",
+                'status' => '0101',
+                'token' => $this->security->get_csrf_hash(),
                 'username_error' => form_error('username'),
                 'password_error' => form_error('password')
             );
