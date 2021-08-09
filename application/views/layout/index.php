@@ -18,6 +18,9 @@
     <link rel="stylesheet" href="<?= assets() ?>dist/css/skins/_all-skins.min.css">
     <link rel="stylesheet" href="<?= assets() ?>css/style.css">
     @provide(style)
+    <script>
+        var BASE_URL = "<?= base_url(); ?>";
+    </script>
 </head>
 
 <body class="hold-transition skin-blue<?= $sidebar == 'collapse' ? ' sidebar-collapse' : '' ?>">
