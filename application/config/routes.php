@@ -28,6 +28,15 @@ $route['satuan/edit'] = 'katalog/satuan/edit';
 $route['satuan/update'] = 'katalog/satuan/update';
 $route['satuan/destroy'] = 'katalog/satuan/destroy';
 $route['satuan/satuan_by_nama'] = 'katalog/satuan/satuan_by_nama';
+/** Sub Menu Kategori */
+$route['kategori'] = 'katalog/kategori';
+$route['kategori/data'] = 'katalog/kategori/data';
+$route['kategori/create'] = 'katalog/kategori/create';
+$route['kategori/store'] = 'katalog/kategori/store';
+$route['kategori/edit'] = 'katalog/kategori/edit';
+$route['kategori/update'] = 'katalog/kategori/update';
+$route['kategori/destroy'] = 'katalog/kategori/destroy';
+$route['kategori/kategori_by_nama'] = 'katalog/kategori/kategori_by_nama';
 
 //menu master
 $route['pengguna'] = 'master/pengguna';
@@ -40,14 +49,6 @@ $route['pengguna/status-pengguna/(:num)'] = 'master/pengguna/status_pengguna/$1'
 $route['pengguna/generate-api/(:num)'] = 'master/pengguna/generate_api/$1';
 
 $route['supplier'] = 'master/supplier';
-
-$route['kategori'] = 'master/kategori';
-$route['kategori/create'] = 'master/kategori/create';
-$route['kategori/store'] = 'master/kategori/store';
-$route['kategori/edit'] = 'master/kategori/edit';
-$route['kategori/update'] = 'master/kategori/update';
-$route['kategori/destroy'] = 'master/kategori/destroy';
-$route['kategori/kategori_by_nama'] = 'master/kategori/kategori_by_nama';
 
 $route['gudang'] = 'master/gudang';
 $route['gudang/create'] = 'master/gudang/create';

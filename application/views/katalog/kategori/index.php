@@ -1,46 +1,63 @@
+@section(style)
+<link rel="stylesheet" href="<?= assets() ?>bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+<link rel="stylesheet" href="<?= assets() ?>plugins/bootstrap-fileinput/fileinput.min.css">
+@endsection
+@section(content)
 <div class="col-xs-12">
     <div class="box box-default">
         <div class="box-header with-border">
-            <button class="btn btn-social btn-flat btn-success btn-sm" onclick="tambah()"><i class="icon-plus3"></i> Tambah <?= $title ?></button>
+            <button class="btn btn-social btn-flat btn-success btn-sm" onclick="create()"><i class="icon-plus3"></i> Tambah <?= $title ?></button>
         </div>
         <div class="box-body table-responsive">
-            <table class="table table-bordered table-striped" id="data-tabel">
+            <table class="table table-bordered table-striped data_kategori">
                 <thead>
                     <tr>
-                        <th class="text-center">No.</th>
+                        <th class="text-center" width="40px">No.</th>
                         <th>Kategori</th>
-                        <th>Image</th>
-                        <th class="text-center">Action</th>
+                        <th class="text-center">Image</th>
+                        <th class="text-center" width="60px">Action</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <?php $no = 1;
-                    foreach ($data as $d) { ?>
-                        <tr>
-                            <td class="text-center" width="40px"><?= $no . '.'; ?></td>
-                            <td><?= $d['nama'] ?></td>
-                            <td></td>
-                            <td class="text-center" width="60px">
-                                <a href="javascript:void(0)" onclick="edit('<?= $d['id'] ?>')">
-                                    <i class="icon-pencil7 text-green" data-toggle="tooltip" data-original-title="Edit"></i>
-                                </a>
-                                <a href="javascript:void(0)" onclick="hapus('<?= $d['id'] ?>')">
-                                    <i class="icon-trash text-red" data-toggle="tooltip" data-original-title="Hapus"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    <?php $no++;
-                    } ?>
-                </tbody>
+                <tbody></tbody>
             </table>
         </div>
     </div>
 </div>
 <div id="tampil_modal"></div>
+@endsection
+@section(script)
+<script src="<?= assets() ?>bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="<?= assets() ?>bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+<script src="<?= assets() ?>plugins/bootstrap-fileinput/fileinput.min.js"></script>
+<script src="<?= assets() ?>plugins/sweetalert2/sweetalert2.all.min.js"></script>
+<script src="<?= assets_js() ?>common.js"></script>
 <script>
-    function tambah() {
+    $(".data_kategori").DataTable({
+        ordering: false,
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: BASE_URL + "kategori/data",
+            type: 'GET',
+        },
+        "columns": [{
+                "class": "text-center"
+            },
+            {
+                "class": "text-left"
+            },
+            {
+                "class": "text-center"
+            },
+            {
+                "class": "text-center"
+            }
+        ]
+    });
+
+    function create() {
         $.ajax({
-            url: "<?= site_url('kategori/create') ?>",
+            url: BASE_URL + 'kategori/create',
             type: "GET",
             success: function(resp) {
                 $("#tampil_modal").html(resp);
@@ -51,7 +68,7 @@
 
     function edit(kode) {
         $.ajax({
-            url: "<?= site_url('kategori/edit') ?>",
+            url: BASE_URL + 'kategori/edit',
             type: "GET",
             data: {
                 kode: kode
@@ -63,35 +80,32 @@
         });
     }
 
-    function hapus(kode) {
-        Swal({
+    function destroy(kode) {
+        Swal.fire({
             title: "Apakah kamu yakin?",
             text: "Anda tidak akan dapat mengembalikan ini!",
-            type: 'warning',
+            icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: "Ya, hapus data ini"
         }).then((result) => {
-            if (result.value) {
+            if (result.isConfirmed) {
                 $.ajax({
                     type: "get",
-                    url: "<?= site_url('kategori/destroy') ?>",
+                    url: BASE_URL + 'kategori/destroy',
+                    dataType: "json",
                     data: {
                         kode: kode
                     },
-                    dataType: "json",
                     success: function(resp) {
                         if (resp.status == "0100") {
-                            Swal.fire({
-                                title: 'Deleted!',
-                                text: resp.message,
-                                type: 'success'
-                            }).then((resp) => {
-                                location.reload();
-                            })
+                            Swal.fire('Deleted!', resp.msg, 'success').then((resp) => {
+                                var DataTabel = $('.data_kategori').DataTable();
+                                DataTabel.ajax.reload();
+                            });
                         } else {
-                            Swal.fire('Oops...', resp.message, 'error');
+                            Swal.fire('Oops...', resp.msg, 'error');
                         }
                     }
                 });
@@ -113,14 +127,13 @@
                 $('.store_data').button('loading');
             },
             success: function(resp) {
+                resetToken(resp.token);
                 if (resp.status == "0100") {
-                    localStorage.setItem("swal", swal({
-                        title: "Sukses!",
-                        text: resp.pesan,
-                        type: "success",
-                    }).then(function() {
-                        location.reload();
-                    }));
+                    Swal.fire('Sukses', resp.msg, 'success', ).then((resp) => {
+                        $("#modal_create").modal('hide');
+                        var DataTabel = $('.data_kategori').DataTable();
+                        DataTabel.ajax.reload();
+                    });
                 } else {
                     $("#pesan_gambar").html(resp.error);
                     $.each(resp.pesan, function(key, value) {
@@ -140,3 +153,4 @@
         })
     });
 </script>
+@endsection

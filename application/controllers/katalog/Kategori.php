@@ -6,21 +6,50 @@ class Kategori extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        if ($this->session->userdata('status_login') == "sessDashboard")
-            cek_user();
-        else
-            redirect('logout');
-        $this->load->model('master/Mkategori');
+        check_logged_in();
+        $this->load->model('katalog/Mkategori');
     }
     public function index()
     {
         $data = [
             'title' => 'Kategori',
-            'small' => 'Menampilkan dan mengelola data kategori',
-            'links' => '<li class="active">Kategori</li>',
-            'data' => $this->Mkategori->fetch_all()
+            'links' => '<li class="active">Kategori</li>'
         ];
-        $this->template->dashboard('master/kategori/data', $data);
+        $this->template->dashboard('katalog/kategori/index', $data);
+    }
+    public function data()
+    {
+        $draw   = $_REQUEST['draw'];
+        $length = $_REQUEST['length'];
+        $start  = $_REQUEST['start'];
+        $search = $_REQUEST['search']["value"];
+        $total  = $this->Mkategori->count_all();
+        $output = array();
+        $output['draw'] = $draw;
+        $output['recordsTotal'] = $output['recordsFiltered'] = $total;
+        $output['data'] = array();
+        if ($search != "") {
+            $query = $this->Mkategori->search_data($search);
+        } else {
+            $query = $this->Mkategori->fetch_all($start, $length);
+        }
+        if ($search != "") {
+            $count = $this->Mkategori->search_data($search);
+            $output['recordsTotal'] = $output['recordsFiltered'] = $count->num_rows();
+        }
+        $no = 1;
+        foreach ($query->result_array() as $d) {
+            $edit = '<a href="javascript:void(0)" onclick="edit(\'' . $d['id'] . '\')"><i class="icon-pencil7 text-green" title="Edit"></i></a>';
+            $hapus = '<a href="javascript:void(0)" onclick="destroy(\'' . $d['id'] . '\')"><i class="icon-trash text-red" title="Hapus"></i></a>';
+            $output['data'][] = array(
+                $no . '.',
+                $d['nama'],
+                $d['image'] != '' ? '<img src="' . assets() . $d['image'] . '" alt="' . $d['nama'] . '">' : '',
+                $edit . '&nbsp;' . $hapus
+            );
+            $no++;
+        }
+        echo json_encode($output);
     }
     public function create()
     {
@@ -29,9 +58,9 @@ class Kategori extends CI_Controller
             'post' => 'kategori/store',
             'class' => 'form_create',
             'multipart' => 1,
-            'parent' => $this->Mkategori->fetch_all()
+            'parent' => $this->Mkategori->get_all()
         ];
-        $this->template->modal_form('master/kategori/create', $data);
+        $this->template->modal_form('katalog/kategori/create', $data);
     }
     public function store()
     {
@@ -58,31 +87,38 @@ class Kategori extends CI_Controller
                     }
                     if ($_FILES['gambar']['size'] > 819200) {
                         $json = array(
-                            "status" => "0111",
-                            "error" => "<div class='text-red'>Ukuran file tidak boleh melebihi 800KB</div>"
+                            'status' => '0101',
+                            'token' => $this->security->get_csrf_hash(),
+                            'error' => '<div class="text-red">Ukuran file tidak boleh melebihi 800KB</div>'
                         );
                     } else {
                         $this->Mkategori->store($post, $link);
                         $json = array(
-                            'status' => "0100",
-                            'pesan' => "Data kategori telah disimpan"
+                            'status' => '0100',
+                            'token' => $this->security->get_csrf_hash(),
+                            'msg' => 'Data kategori telah disimpan'
                         );
                     }
                 } else {
                     $json = array(
-                        "status" => "0111",
-                        "error" => "<div class='text-red'>Harap unggah file yang hanya berekstensi .jpeg / .jpg / .png.</div>"
+                        'status' => '0101',
+                        'token' => $this->security->get_csrf_hash(),
+                        'error' => '<div class="text-red">Harap unggah file yang hanya berekstensi .jpeg / .jpg / .png.</div>'
                     );
                 }
             } else {
                 $this->Mkategori->store($post, $link = '');
                 $json = array(
-                    'status' => "0100",
-                    'pesan' => "Data kategori telah disimpan"
+                    'status' => '0100',
+                    'token' => $this->security->get_csrf_hash(),
+                    'msg' => 'Data kategori telah disimpan'
                 );
             }
         } else {
-            $json['status'] = "0111";
+            $json = array(
+                'status' => '0101',
+                'token' => $this->security->get_csrf_hash()
+            );
             foreach ($_POST as $key => $value) {
                 $json['pesan'][$key] = form_error($key);
             }
@@ -98,9 +134,9 @@ class Kategori extends CI_Controller
             'class' => 'form_create',
             'multipart' => 1,
             'data' => $this->Mkategori->show($kode),
-            'parent' => $this->Mkategori->fetch_all()
+            'parent' => $this->Mkategori->get_all()
         ];
-        $this->template->modal_form('master/kategori/edit', $data);
+        $this->template->modal_form('katalog/kategori/edit', $data);
     }
     public function update()
     {
@@ -127,31 +163,38 @@ class Kategori extends CI_Controller
                     }
                     if ($_FILES['gambar']['size'] > 819200) {
                         $json = array(
-                            "status" => "0111",
-                            "error" => "<div class='text-red'>Ukuran file tidak boleh melebihi 800KB</div>"
+                            'status' => '0101',
+                            'token' => $this->security->get_csrf_hash(),
+                            'error' => '<div class="text-red">Ukuran file tidak boleh melebihi 800KB</div>'
                         );
                     } else {
                         $this->Mkategori->update($post, $link);
                         $json = array(
-                            'status' => "0100",
-                            'pesan' => "Data kategori telah dirubah"
+                            'status' => '0100',
+                            'token' => $this->security->get_csrf_hash(),
+                            'msg' => 'Data kategori telah dirubah'
                         );
                     }
                 } else {
                     $json = array(
-                        "status" => "0111",
-                        "error" => "<div class='text-red'>Harap unggah file yang hanya berekstensi .jpeg / .jpg / .png.</div>"
+                        'status' => '0101',
+                        'token' => $this->security->get_csrf_hash(),
+                        'error' => '<div class="text-red">Harap unggah file yang hanya berekstensi .jpeg / .jpg / .png.</div>'
                     );
                 }
             } else {
                 $this->Mkategori->update($post, $link = '');
                 $json = array(
-                    'status' => "0100",
-                    'pesan' => "Data kategori telah dirubah"
+                    'status' => '0100',
+                    'token' => $this->security->get_csrf_hash(),
+                    'msg' => 'Data kategori telah disimpan'
                 );
             }
         } else {
-            $json['status'] = "0111";
+            $json = array(
+                'status' => '0101',
+                'token' => $this->security->get_csrf_hash()
+            );
             foreach ($_POST as $key => $value) {
                 $json['pesan'][$key] = form_error($key);
             }
@@ -162,15 +205,15 @@ class Kategori extends CI_Controller
     {
         $kode = $this->input->get('kode', true);
         $action = $this->Mkategori->destroy($kode);
-        if ($action == true) {
+        if ($action) {
             $json = array(
-                "status" => "0100",
-                "message" => successDestroy()
+                'status' => '0100',
+                'msg' => successDestroy()
             );
         } else {
             $json = array(
-                "status" => "0101",
-                "message" => errorDestroy()
+                'status' => '0101',
+                'msg' => errorDestroy()
             );
         }
         echo json_encode($json);
