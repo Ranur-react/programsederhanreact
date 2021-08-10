@@ -24,5 +24,5 @@
 @section(script)
 <script src="<?= assets() ?>plugins/sweetalert2/sweetalert2.all.min.js"></script>
 <script src="<?= assets_js() ?>common.js"></script>
-<script src="<?= assets_js() ?>master/satuan.js"></script>
+<script src="<?= assets_js() ?>katalog/satuan.js"></script>
 @endsection
