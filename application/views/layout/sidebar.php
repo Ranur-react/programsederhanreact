@@ -9,6 +9,19 @@ $urls2 = $this->uri->segment(2)
         </a>
     </li>
     <?php if (idrole_user() == 1) : ?>
+        <li class="treeview <?= in_array($urls, ['pemasok']) ? "active" : null ?>">
+            <a href="#">
+                <i class="fas fa-address-book"></i> <span>Kontak</span>
+                <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i>
+                </span>
+            </a>
+            <ul class="treeview-menu">
+                <li class="<?= $urls == 'pemasok' ? 'active' : null ?>">
+                    <a href="<?= site_url('pemasok') ?>"><i class="fa fa-angle-double-right"></i> Pemasok</a>
+                </li>
+            </ul>
+        </li>
         <li class="treeview <?= $urls == 'satuan' || $urls == 'kategori' || $urls == 'barang' || $urls == 'harga' || $urls == 'stok-barang' ? 'active' : null ?>">
             <a href="#">
                 <i class="fas fa-boxes"></i> <span>Katalog</span>
@@ -34,7 +47,7 @@ $urls2 = $this->uri->segment(2)
                 </li>
             </ul>
         </li>
-        <li class="treeview <?= $urls == 'supplier' || $urls == 'gudang' || $urls == 'permintaan' || $urls == 'penerimaan' || $urls == 'pelunasan' ? 'active' : null ?>">
+        <li class="treeview <?= $urls == 'gudang' || $urls == 'permintaan' || $urls == 'penerimaan' || $urls == 'pelunasan' ? 'active' : null ?>">
             <a href="#">
                 <i class="fas fa-shopping-basket"></i> <span>Pembelian</span>
                 <span class="pull-right-container">
@@ -42,9 +55,6 @@ $urls2 = $this->uri->segment(2)
                 </span>
             </a>
             <ul class="treeview-menu">
-                <li class="<?= $urls == 'supplier' ? 'active' : null ?>">
-                    <a href="<?= site_url('supplier') ?>"><i class="fa fa-angle-double-right"></i> Supplier</a>
-                </li>
                 <li class="<?= $urls == 'gudang' ? 'active' : null ?>">
                     <a href="<?= site_url('gudang') ?>"><i class="fa fa-angle-double-right"></i> Gudang</a>
                 </li>

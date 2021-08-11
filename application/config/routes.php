@@ -17,6 +17,17 @@ $route['registrasi/signup'] = 'auth/registrasi/signup';
 // proses logout
 $route['logout'] = 'auth/logout';
 
+/** Menu Kontak
+ * Sub Menu Pemasok
+ */
+$route['pemasok'] = 'master/pemasok';
+$route['pemasok/data'] = 'master/pemasok/data';
+$route['pemasok/create'] = 'master/pemasok/create';
+$route['pemasok/store'] = 'master/pemasok/store';
+$route['pemasok/edit'] = 'master/pemasok/edit';
+$route['pemasok/update'] = 'master/pemasok/update';
+$route['pemasok/destroy'] = 'master/pemasok/destroy';
+
 /** Menu Katalog
  * Sub Menu Satuan
  */
@@ -47,8 +58,6 @@ $route['pengguna/update'] = 'master/pengguna/update';
 $route['pengguna/destroy'] = 'master/pengguna/destroy';
 $route['pengguna/status-pengguna/(:num)'] = 'master/pengguna/status_pengguna/$1';
 $route['pengguna/generate-api/(:num)'] = 'master/pengguna/generate_api/$1';
-
-$route['supplier'] = 'master/supplier';
 
 $route['gudang'] = 'master/gudang';
 $route['gudang/create'] = 'master/gudang/create';

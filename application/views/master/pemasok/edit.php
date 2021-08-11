@@ -1,6 +1,14 @@
 <input type="hidden" name="kode" value="<?= $data['id_supplier'] ?>">
 <div class="form-group">
-	<label>Nama</label>
+	<label>Jenis Pemasok</label>
+	<select name="jenis" id="jenis" class="form-control">
+		<option value="">--Pilih--</option>
+		<option value="0" <?= $data['jenis_supplier'] == 0 ? 'selected' : '' ?>>Perorangan</option>
+		<option value="1" <?= $data['jenis_supplier'] == 1 ? 'selected' : '' ?>>Perusahaan</option>
+	</select>
+</div>
+<div class="form-group">
+	<label>Pemasok</label>
 	<input type="text" name="nama" id="nama" class="form-control" value="<?= $data['nama_supplier'] ?>">
 </div>
 <div class="form-group">
