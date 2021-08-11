@@ -11,6 +11,14 @@ if (!function_exists('status_span')) {
                 $pesan = 'Disabled';
                 $class = 'status-unpaid';
             endif;
+        elseif ($jenis == 'jenis_pemasok') :
+            if ($code == 0) :
+                $pesan = 'Perorangan';
+                $class = 'status-active';
+            else :
+                $pesan = 'Perusahaan';
+                $class = 'status-pending transfer';
+            endif;
         elseif ($jenis == 'permintaan') :
             if ($code == 1) :
                 $pesan = 'Pending';
