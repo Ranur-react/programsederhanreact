@@ -11,6 +11,14 @@ if (!function_exists('assets')) {
     }
 }
 
+if (!function_exists('assets_css')) {
+    function assets_css()
+    {
+        $link = base_url() . 'src/css/';
+        return $link;
+    }
+}
+
 if (!function_exists('assets_js')) {
     function assets_js()
     {
