@@ -197,32 +197,14 @@ $route['pengiriman/store'] = 'penjualan/pengiriman/store';
 $route['pengiriman/terima'] = 'penjualan/pengiriman/terima';
 $route['pengiriman/storeterima'] = 'penjualan/pengiriman/storeterima';
 
-// Rekening Bank
-$route['rekening'] = 'master/rekening';
-$route['rekening/sync'] = 'master/rekening/sync';
-$route['rekening/create'] = 'master/rekening/create';
-$route['rekening/store'] = 'master/rekening/store';
-$route['rekening/edit'] = 'master/rekening/edit';
-$route['rekening/update'] = 'master/rekening/update';
-$route['rekening/destroy'] = 'master/rekening/destroy';
-$route['rekening/status/(:num)'] = 'master/rekening/status/$1';
-
 $route['upload'] = 'master/UploadImages';
 $route['browse'] = 'master/UploadImages/choseImages';
 $route['insert'] = 'master/UploadImages/insertImages';
 $route['delete'] = 'master/UploadImages/delteImages';
 
 /** Menu Pengaturan
- * Sub Menu Gudang
+ * Sub Menu Hak Akses
  */
-$route['gudang'] = 'master/gudang';
-$route['gudang/data'] = 'master/gudang/data';
-$route['gudang/create'] = 'master/gudang/create';
-$route['gudang/store'] = 'master/gudang/store';
-$route['gudang/edit'] = 'master/gudang/edit';
-$route['gudang/update'] = 'master/gudang/update';
-$route['gudang/destroy'] = 'master/gudang/destroy';
-/** Sub Menu Hak Akses */
 $route['roles'] = 'master/roles';
 $route['roles/data'] = 'master/roles/data';
 $route['roles/create'] = 'master/roles/create';
@@ -230,3 +212,20 @@ $route['roles/store'] = 'master/roles/store';
 $route['roles/edit'] = 'master/roles/edit';
 $route['roles/update'] = 'master/roles/update';
 $route['roles/destroy'] = 'master/roles/destroy';
+/** Sub Menu Rekening */
+$route['rekening'] = 'master/rekening';
+$route['rekening/data'] = 'master/rekening/data';
+$route['rekening/create'] = 'master/rekening/create';
+$route['rekening/store'] = 'master/rekening/store';
+$route['rekening/edit'] = 'master/rekening/edit';
+$route['rekening/update'] = 'master/rekening/update';
+$route['rekening/destroy'] = 'master/rekening/destroy';
+$route['rekening/status/(:num)'] = 'master/rekening/status/$1';
+/** Sub Menu Gudang */
+$route['gudang'] = 'master/gudang';
+$route['gudang/data'] = 'master/gudang/data';
+$route['gudang/create'] = 'master/gudang/create';
+$route['gudang/store'] = 'master/gudang/store';
+$route['gudang/edit'] = 'master/gudang/edit';
+$route['gudang/update'] = 'master/gudang/update';
+$route['gudang/destroy'] = 'master/gudang/destroy';
