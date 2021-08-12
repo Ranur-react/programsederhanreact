@@ -6,21 +6,32 @@ class Gudang extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        if ($this->session->userdata('status_login') == "sessDashboard")
-            cek_user();
-        else
-            redirect('logout');
+        check_logged_in();
         $this->load->model('master/Mgudang');
     }
     public function index()
     {
         $data = [
             'title' => 'Gudang',
-            'small' => 'Menampilkan dan mengelola data gudang',
-            'links' => '<li class="active">Gudang</li>',
-            'data' => $this->Mgudang->getall()
+            'links' => '<li class="active">Gudang</li>'
         ];
-        $this->template->dashboard('master/gudang/data', $data);
+        $this->template->dashboard('master/gudang/index', $data);
+    }
+    public function data()
+    {
+        $query = $this->Mgudang->fetch_all();
+        if ($query == null) {
+            $data = (int)0;
+        } else {
+            foreach ($query as $row) {
+                $data[] = [
+                    'id' => $row['id_gudang'],
+                    'nama' => $row['nama_gudang'],
+                    'alamat' => $row['alamat_gudang']
+                ];
+            }
+        }
+        echo json_encode($data);
     }
     public function create()
     {
@@ -41,11 +52,15 @@ class Gudang extends CI_Controller
             $post = $this->input->post(null, TRUE);
             $this->Mgudang->store($post);
             $json = array(
-                'status' => "0100",
-                'pesan' => "Data gudang telah disimpan"
+                'status' => '0100',
+                'token' => $this->security->get_csrf_hash(),
+                'pesan' => 'Data gudang telah disimpan'
             );
         } else {
-            $json['status'] = "0111";
+            $json = array(
+                'status' => '0101',
+                'token' => $this->security->get_csrf_hash()
+            );
             foreach ($_POST as $key => $value) {
                 $json['pesan'][$key] = form_error($key);
             }
@@ -73,11 +88,15 @@ class Gudang extends CI_Controller
             $post = $this->input->post(null, TRUE);
             $this->Mgudang->update($post);
             $json = array(
-                'status' => "0100",
-                'pesan' => "Data gudang telah dirubah"
+                'status' => '0100',
+                'token' => $this->security->get_csrf_hash(),
+                'pesan' => 'Data gudang telah dirubah'
             );
         } else {
-            $json['status'] = "0111";
+            $json = array(
+                'status' => '0101',
+                'token' => $this->security->get_csrf_hash()
+            );
             foreach ($_POST as $key => $value) {
                 $json['pesan'][$key] = form_error($key);
             }
@@ -90,13 +109,13 @@ class Gudang extends CI_Controller
         $action = $this->Mgudang->destroy($kode);
         if ($action) {
             $json = array(
-                'status' => "0100",
-                "message" => successDestroy()
+                'status' => '0100',
+                'msg' => successDestroy()
             );
         } else {
             $json = array(
-                'status' => "0101",
-                "message" => errorDestroy()
+                'status' => '0101',
+                'msg' => errorDestroy()
             );
         }
         echo json_encode($json);

@@ -31,5 +31,5 @@
 <script src="<?= assets() ?>bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 <script src="<?= assets() ?>plugins/sweetalert2/sweetalert2.all.min.js"></script>
 <script src="<?= assets_js() ?>common.js"></script>
-<script src="<?= assets_js() ?>kontak/pemasok.js"></script>
+<script src="<?= assets_js() ?>master/pemasok.js"></script>
 @endsection

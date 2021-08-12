@@ -50,7 +50,7 @@ $urls2 = $this->uri->segment(2)
                 </li>
             </ul>
         </li>
-        <li class="treeview <?= $urls == 'gudang' || $urls == 'permintaan' || $urls == 'penerimaan' || $urls == 'pelunasan' ? 'active' : null ?>">
+        <li class="treeview <?= $urls == 'permintaan' || $urls == 'penerimaan' || $urls == 'pelunasan' ? 'active' : null ?>">
             <a href="#">
                 <i class="fas fa-shopping-basket"></i> <span>Pembelian</span>
                 <span class="pull-right-container">
@@ -58,9 +58,6 @@ $urls2 = $this->uri->segment(2)
                 </span>
             </a>
             <ul class="treeview-menu">
-                <li class="<?= $urls == 'gudang' ? 'active' : null ?>">
-                    <a href="<?= site_url('gudang') ?>"><i class="fa fa-angle-double-right"></i> Gudang</a>
-                </li>
                 <li class="<?= $urls == 'permintaan' ? 'active' : null ?>">
                     <a href="<?= site_url('permintaan') ?>"><i class="fa fa-angle-double-right"></i> Permintaan</a>
                 </li>
@@ -118,7 +115,7 @@ $urls2 = $this->uri->segment(2)
                 </li>
             </ul>
         </li>
-        <li class="treeview <?= $urls == 'pengguna' || $urls == 'roles' || $urls == 'rekening' ? 'active' : null ?>">
+        <li class="treeview <?= in_array($urls, ['pengguna', 'roles', 'rekening', 'gudang']) ? "active" : null ?>">
             <a href="#">
                 <i class="fas fa-cog"></i> <span>Pengaturan</span>
                 <span class="pull-right-container">
@@ -134,6 +131,9 @@ $urls2 = $this->uri->segment(2)
                 </li>
                 <li class="<?= $urls == 'rekening' ? 'active' : null ?>">
                     <a href="<?= site_url('rekening') ?>"><i class="fa fa-angle-double-right"></i> Rekening Bank</a>
+                </li>
+                <li class="<?= $urls == 'gudang' ? 'active' : null ?>">
+                    <a href="<?= site_url('gudang') ?>"><i class="fa fa-angle-double-right"></i> Gudang</a>
                 </li>
             </ul>
         </li>

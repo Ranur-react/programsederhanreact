@@ -65,13 +65,6 @@ $route['pengguna/destroy'] = 'master/pengguna/destroy';
 $route['pengguna/status-pengguna/(:num)'] = 'master/pengguna/status_pengguna/$1';
 $route['pengguna/generate-api/(:num)'] = 'master/pengguna/generate_api/$1';
 
-$route['gudang'] = 'master/gudang';
-$route['gudang/create'] = 'master/gudang/create';
-$route['gudang/store'] = 'master/gudang/store';
-$route['gudang/edit'] = 'master/gudang/edit';
-$route['gudang/update'] = 'master/gudang/update';
-$route['gudang/destroy'] = 'master/gudang/destroy';
-
 $route['barang'] = 'master/barang';
 $route['barang/data'] = 'master/barang/data';
 $route['barang/create'] = 'master/barang/create';
@@ -228,3 +221,14 @@ $route['upload'] = 'master/UploadImages';
 $route['browse'] = 'master/UploadImages/choseImages';
 $route['insert'] = 'master/UploadImages/insertImages';
 $route['delete'] = 'master/UploadImages/delteImages';
+
+/** Menu Pengaturan
+ * Sub Menu Gudang
+ */
+$route['gudang'] = 'master/gudang';
+$route['gudang/data'] = 'master/gudang/data';
+$route['gudang/create'] = 'master/gudang/create';
+$route['gudang/store'] = 'master/gudang/store';
+$route['gudang/edit'] = 'master/gudang/edit';
+$route['gudang/update'] = 'master/gudang/update';
+$route['gudang/destroy'] = 'master/gudang/destroy';
