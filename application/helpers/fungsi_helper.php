@@ -98,7 +98,15 @@ if (!function_exists('status_span')) {
 if (!function_exists('status_label')) {
     function status_label($code, $jenis)
     {
-        if ($jenis == 'permintaan') :
+        if ($jenis == 'aktif') :
+            if ($code == 1) :
+                $pesan = 'Aktif';
+                $class = 'status-active';
+            else :
+                $pesan = 'Nonaktif';
+                $class = 'status-unpaid';
+            endif;
+        elseif ($jenis == 'permintaan') :
             if ($code == 1) :
                 $pesan = 'Pending';
                 $class = 'status-pending transfer';
