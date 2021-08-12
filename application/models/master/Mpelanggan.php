@@ -1,8 +1,57 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Mcustomer extends CI_Model
+class Mpelanggan extends CI_Model
 {
+    var $tabel = 'customer';
+    var $id = 'id_supplier';
+    var $column_order = array(null, 'nama_customer', 'email_customer', 'phone_customer', 'created_at');
+    var $column_search = array('nama_customer', 'email_customer', 'phone_customer');
+    var $order = array('created_at' => 'DESC');
+
+    private function _get_data_query()
+    {
+        $this->db->from($this->tabel);
+        $i = 0;
+        foreach ($this->column_search as $item) {
+            if ($_GET['search']['value']) {
+                if ($i === 0) {
+                    $this->db->group_start();
+                    $this->db->like($item, $_GET['search']['value']);
+                } else {
+                    $this->db->or_like($item, $_GET['search']['value']);
+                }
+                if (count($this->column_search) - 1 == $i)
+                    $this->db->group_end();
+            }
+            $i++;
+        }
+        if (isset($_GET['order'])) {
+            $this->db->order_by($this->column_order[$_GET['order']['0']['column']], $_GET['order']['0']['dir']);
+        } else if (isset($this->order)) {
+            $order = $this->order;
+            $this->db->order_by(key($order), $order[key($order)]);
+        }
+    }
+    function fetch_all()
+    {
+        $this->_get_data_query();
+        if ($_GET['length'] != -1)
+            $this->db->limit($_GET['length'], $_GET['start']);
+        $query = $this->db->get();
+        return $query->result();
+    }
+    function count_filtered()
+    {
+        $this->_get_data_query();
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+    function count_all()
+    {
+        $this->db->from($this->tabel);
+        return $this->db->count_all_results();
+    }
     public function get_all()
     {
         $query = $this->db->get('customer')->result();
@@ -13,20 +62,6 @@ class Mcustomer extends CI_Model
             ];
         }
         return $data;
-    }
-    public function jumlah_data()
-    {
-        return $this->db->count_all_results('customer');
-    }
-    public function tampil_data($start, $length)
-    {
-        $query = $this->db->query("SELECT * FROM customer ORDER BY created_at DESC LIMIT $start,$length");
-        return $query;
-    }
-    public function cari_data($search)
-    {
-        $query = $this->db->query("SELECT * FROM customer WHERE nama_customer LIKE '%$search%' ESCAPE '!' OR email_customer LIKE '%$search%' ESCAPE '!' OR phone_customer LIKE '%$search%' ESCAPE '!' ORDER BY created_at DESC");
-        return $query;
     }
     public function show($id)
     {
@@ -77,18 +112,6 @@ class Mcustomer extends CI_Model
         $data['dataBank'] = $dataBank;
         return $data;
     }
-    public function update($post)
-    {
-        $data = array(
-            'nama_customer' => $post['nama'],
-            'email_customer' => $post['email'],
-            'phone_customer' => $post['phone'],
-            'birth_customer' => date("Y-m-d", strtotime($post['birth'])),
-            'gender_customer' => $post['jenkel'],
-            'active_customer' => $post['status']
-        );
-        return $this->db->where('id_customer', $post['kode'])->update('customer', $data);
-    }
 }
 
-/* End of file Mcustomer.php */
+/* End of file Mpelanggan.php */

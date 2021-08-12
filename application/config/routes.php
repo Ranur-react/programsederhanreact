@@ -27,6 +27,12 @@ $route['pemasok/store'] = 'master/pemasok/store';
 $route['pemasok/edit'] = 'master/pemasok/edit';
 $route['pemasok/update'] = 'master/pemasok/update';
 $route['pemasok/destroy'] = 'master/pemasok/destroy';
+/**
+ * Sub Menu Pelanggan
+ */
+$route['pelanggan'] = 'master/pelanggan';
+$route['pelanggan/data'] = 'master/pelanggan/data';
+$route['pelanggan/detail/(:num)'] = 'master/pelanggan/detail/$1';
 
 /** Menu Katalog
  * Sub Menu Satuan
@@ -164,12 +170,6 @@ $route['pelunasan/data'] = 'pembelian/pelunasan/data';
 $route['pelunasan/create'] = 'pembelian/pelunasan/create';
 $route['pelunasan/store'] = 'pembelian/pelunasan/store';
 $route['pelunasan/destroy'] = 'pembelian/pelunasan/destroy';
-
-// Customer
-$route['customer'] = 'master/customer';
-$route['customer/data'] = 'master/customer/data';
-$route['customer/detail/(:num)'] = 'master/customer/detail/$1';
-$route['customer/update'] = 'master/customer/update';
 
 // Pesanan
 $route['pesanan'] = 'penjualan/pesanan/pesanan';
