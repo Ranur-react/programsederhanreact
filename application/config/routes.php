@@ -27,9 +27,7 @@ $route['pemasok/store'] = 'master/pemasok/store';
 $route['pemasok/edit'] = 'master/pemasok/edit';
 $route['pemasok/update'] = 'master/pemasok/update';
 $route['pemasok/destroy'] = 'master/pemasok/destroy';
-/**
- * Sub Menu Pelanggan
- */
+/** Sub Menu Pelanggan */
 $route['pelanggan'] = 'master/pelanggan';
 $route['pelanggan/data'] = 'master/pelanggan/data';
 $route['pelanggan/detail/(:num)'] = 'master/pelanggan/detail/$1';
@@ -199,14 +197,6 @@ $route['pengiriman/store'] = 'penjualan/pengiriman/store';
 $route['pengiriman/terima'] = 'penjualan/pengiriman/terima';
 $route['pengiriman/storeterima'] = 'penjualan/pengiriman/storeterima';
 
-// Role
-$route['roles'] = 'master/roles';
-$route['roles/create'] = 'master/roles/create';
-$route['roles/store'] = 'master/roles/store';
-$route['roles/edit'] = 'master/roles/edit';
-$route['roles/update'] = 'master/roles/update';
-$route['roles/destroy'] = 'master/roles/destroy';
-
 // Rekening Bank
 $route['rekening'] = 'master/rekening';
 $route['rekening/sync'] = 'master/rekening/sync';
@@ -232,3 +222,11 @@ $route['gudang/store'] = 'master/gudang/store';
 $route['gudang/edit'] = 'master/gudang/edit';
 $route['gudang/update'] = 'master/gudang/update';
 $route['gudang/destroy'] = 'master/gudang/destroy';
+/** Sub Menu Hak Akses */
+$route['roles'] = 'master/roles';
+$route['roles/data'] = 'master/roles/data';
+$route['roles/create'] = 'master/roles/create';
+$route['roles/store'] = 'master/roles/store';
+$route['roles/edit'] = 'master/roles/edit';
+$route['roles/update'] = 'master/roles/update';
+$route['roles/destroy'] = 'master/roles/destroy';

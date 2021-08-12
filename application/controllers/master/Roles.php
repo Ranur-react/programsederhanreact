@@ -6,21 +6,32 @@ class Roles extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        if ($this->session->userdata('status_login') == "sessDashboard")
-            cek_user();
-        else
-            redirect('logout');
+        check_logged_in();
         $this->load->model('master/Mroles');
     }
     public function index()
     {
         $data = [
             'title' => 'Hak Akses',
-            'small' => 'Menampilkan dan mengelola data hak akses user',
-            'links' => '<li class="active">Hak Akses</li>',
-            'data'  => $this->Mroles->fetch_all()
+            'links' => '<li class="active">Hak Akses</li>'
         ];
         $this->template->dashboard('master/roles/index', $data);
+    }
+    public function data()
+    {
+        $query = $this->Mroles->fetch_all();
+        if ($query == null) {
+            $data = (int)0;
+        } else {
+            foreach ($query as $row) {
+                $data[] = [
+                    'id' => $row['id_role'],
+                    'nama' => $row['nama_role'],
+                    'status' => in_array($row['id_role'], ['1', '2', '3', '4', '5', '6']) ? 1 : 0
+                ];
+            }
+        }
+        echo json_encode($data);
     }
     public function create()
     {
@@ -41,10 +52,14 @@ class Roles extends CI_Controller
             $this->Mroles->store($post);
             $json = array(
                 'status' => '0100',
+                'token' => $this->security->get_csrf_hash(),
                 'pesan' => 'Data hak akses telah disimpan'
             );
         } else {
-            $json['status'] = '0111';
+            $json = array(
+                'status' => '0101',
+                'token' => $this->security->get_csrf_hash()
+            );
             foreach ($_POST as $key => $value) {
                 $json['pesan'][$key] = form_error($key);
             }
@@ -72,10 +87,14 @@ class Roles extends CI_Controller
             $this->Mroles->update($post);
             $json = array(
                 'status' => '0100',
+                'token' => $this->security->get_csrf_hash(),
                 'pesan' => 'Data hak akses telah dirubah'
             );
         } else {
-            $json['status'] = '0111';
+            $json = array(
+                'status' => '0101',
+                'token' => $this->security->get_csrf_hash()
+            );
             foreach ($_POST as $key => $value) {
                 $json['pesan'][$key] = form_error($key);
             }
@@ -89,12 +108,12 @@ class Roles extends CI_Controller
         if ($action) {
             $json = array(
                 'status' => '0100',
-                'message' => successDestroy()
+                'msg' => successDestroy()
             );
         } else {
             $json = array(
                 'status' => '0101',
-                'message' => errorDestroy()
+                'msg' => errorDestroy()
             );
         }
         echo json_encode($json);
