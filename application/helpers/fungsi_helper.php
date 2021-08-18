@@ -5,10 +5,10 @@ if (!function_exists('status_span')) {
     {
         if ($jenis == 'aktif') :
             if ($code == 1) :
-                $pesan = 'Enabled';
+                $pesan = 'Aktif';
                 $class = 'status-active';
             else :
-                $pesan = 'Disabled';
+                $pesan = 'Nonaktif';
                 $class = 'status-unpaid';
             endif;
         elseif ($jenis == 'jenis_pemasok') :

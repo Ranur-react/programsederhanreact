@@ -53,16 +53,6 @@ $route['kategori/update'] = 'katalog/kategori/update';
 $route['kategori/destroy'] = 'katalog/kategori/destroy';
 $route['kategori/kategori_by_nama'] = 'katalog/kategori/kategori_by_nama';
 
-//menu master
-$route['pengguna'] = 'master/pengguna';
-$route['pengguna/create'] = 'master/pengguna/create';
-$route['pengguna/store'] = 'master/pengguna/store';
-$route['pengguna/edit'] = 'master/pengguna/edit';
-$route['pengguna/update'] = 'master/pengguna/update';
-$route['pengguna/destroy'] = 'master/pengguna/destroy';
-$route['pengguna/status-pengguna/(:num)'] = 'master/pengguna/status_pengguna/$1';
-$route['pengguna/generate-api/(:num)'] = 'master/pengguna/generate_api/$1';
-
 $route['barang'] = 'master/barang';
 $route['barang/data'] = 'master/barang/data';
 $route['barang/create'] = 'master/barang/create';
@@ -203,8 +193,19 @@ $route['insert'] = 'master/UploadImages/insertImages';
 $route['delete'] = 'master/UploadImages/delteImages';
 
 /** Menu Pengaturan
- * Sub Menu Hak Akses
+ * Sub Menu Pengguna
  */
+$route['pengguna'] = 'master/pengguna';
+$route['pengguna/data'] = 'master/pengguna/data';
+$route['pengguna/create'] = 'master/pengguna/create';
+$route['pengguna/get_gudang'] = 'master/pengguna/get_gudang';
+$route['pengguna/store'] = 'master/pengguna/store';
+$route['pengguna/edit'] = 'master/pengguna/edit';
+$route['pengguna/update'] = 'master/pengguna/update';
+$route['pengguna/destroy'] = 'master/pengguna/destroy';
+$route['pengguna/status-pengguna'] = 'master/pengguna/status_pengguna';
+$route['pengguna/generate-api'] = 'master/pengguna/generate_api';
+/** Sub Menu Hak Akses */
 $route['roles'] = 'master/roles';
 $route['roles/data'] = 'master/roles/data';
 $route['roles/create'] = 'master/roles/create';

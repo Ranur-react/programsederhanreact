@@ -3,9 +3,58 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Mpengguna extends CI_Model
 {
-    public function fetch_all()
+    var $tabel = 'users';
+    var $id = 'id_user';
+    var $column_order = array(null, 'nama_user', 'username');
+    var $column_search = array('nama_user', 'username');
+    var $order = array('id_user' => 'asc');
+
+    private function _get_data_query()
     {
-        return $this->db->get('users')->result_array();
+        $this->db->from($this->tabel);
+        $i = 0;
+        foreach ($this->column_search as $item) {
+            if ($_GET['search']['value']) {
+                if ($i === 0) {
+                    $this->db->group_start();
+                    $this->db->like($item, $_GET['search']['value']);
+                } else {
+                    $this->db->or_like($item, $_GET['search']['value']);
+                }
+                if (count($this->column_search) - 1 == $i)
+                    $this->db->group_end();
+            }
+            $i++;
+        }
+        if (isset($_GET['order'])) {
+            $this->db->order_by($this->column_order[$_GET['order']['0']['column']], $_GET['order']['0']['dir']);
+        } else if (isset($this->order)) {
+            $order = $this->order;
+            $this->db->order_by(key($order), $order[key($order)]);
+        }
+    }
+    function fetch_all()
+    {
+        $this->_get_data_query();
+        if ($_GET['length'] != -1)
+            $this->db->limit($_GET['length'], $_GET['start']);
+        $query = $this->db->get();
+        return $query->result();
+    }
+    function count_filtered()
+    {
+        $this->_get_data_query();
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+    function count_all()
+    {
+        $this->db->from($this->tabel);
+        return $this->db->count_all_results();
+    }
+    public function getall()
+    {
+        return $this->db->get($this->tabel)->result_array();
     }
     public function kode()
     {
