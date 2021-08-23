@@ -203,6 +203,23 @@ if (!function_exists('make_avatar')) {
     }
 }
 
+if (!function_exists('RemoveEmptyFolders')) {
+    function RemoveEmptyFolders($path)
+    {
+        $pathfolder = str_replace(substr($path, -37), "", $path);
+        $empty = true;
+        foreach (glob($pathfolder . DIRECTORY_SEPARATOR . "*") as $file) {
+            if (is_dir($file)) {
+                if (!RemoveEmptyFolders($file)) $empty = false;
+            } else {
+                $empty = false;
+            }
+        }
+        if ($empty) rmdir($pathfolder);
+        return $empty;
+    }
+}
+
 if (!function_exists('rupiah')) {
     function rupiah($uang)
     {
