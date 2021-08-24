@@ -25,7 +25,7 @@ $urls2 = $this->uri->segment(2)
                 </li>
             </ul>
         </li>
-        <li class="treeview <?= $urls == 'satuan' || $urls == 'kategori' || $urls == 'barang' || $urls == 'harga' || $urls == 'stok-barang' ? 'active' : null ?>">
+        <li class="treeview <?= in_array($urls, ['satuan', 'kategori', 'produk', 'harga', 'stok-produk']) ? "active" : null ?>">
             <a href="#">
                 <i class="fas fa-boxes"></i> <span>Katalog</span>
                 <span class="pull-right-container">
@@ -39,8 +39,8 @@ $urls2 = $this->uri->segment(2)
                 <li class="<?= $urls == 'kategori' ? 'active' : null ?>">
                     <a href="<?= site_url('kategori') ?>"><i class="fa fa-angle-double-right"></i> Kategori</a>
                 </li>
-                <li class="<?= $urls == 'barang' ? 'active' : null ?>">
-                    <a href="<?= site_url('barang') ?>"><i class="fa fa-angle-double-right"></i> Barang</a>
+                <li class="<?= $urls == 'produk' ? 'active' : null ?>">
+                    <a href="<?= site_url('produk') ?>"><i class="fa fa-angle-double-right"></i> Produk</a>
                 </li>
                 <li class="<?= $urls == 'harga' ? 'active' : null ?>">
                     <a href="<?= site_url('harga') ?>"><i class="fa fa-angle-double-right"></i> Harga Jual</a>

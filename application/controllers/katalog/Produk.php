@@ -1,77 +1,69 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Barang extends CI_Controller
+class Produk extends CI_Controller
 {
     public function __construct()
     {
         parent::__construct();
-        if ($this->session->userdata('status_login') == "sessDashboard")
-            cek_user();
-        else
-            redirect('logout');
-        $this->load->model('master/Mbarang');
-        $this->load->model('master/Msatuan');
+        check_logged_in();
+        $this->load->model('katalog/Mproduk');
+        $this->load->model('katalog/Msatuan');
+        $this->load->model('master/Mpemasok');
         $this->load->model('katalog/Mharga');
     }
     public function index()
     {
         $data = [
-            'title' => 'Barang',
-            'small' => 'Menampilkan dan mengelola data barang',
-            'links' => '<li class="active">Barang</li>'
+            'title' => 'Produk',
+            'links' => '<li class="active">Produk</li>'
         ];
-        $this->template->dashboard('master/barang/data', $data);
+        $this->template->dashboard('katalog/produk/index', $data);
     }
     public function data()
     {
-        $results = $this->Mbarang->get_all();
+        $results = $this->Mproduk->get_all();
         $data = array();
         $no = $_GET['start'];
         foreach ($results as $result) {
             $kode = $result->id_barang;
-            // Menampilkan stok barang dari penerimaan terakhir
-            $stok = $this->Mharga->query_penerimaan($kode, 0, 0, 1);
-            if ($stok != null) {
-                $terima_akhir = $this->db->where('id_terima', $stok->terima_detail)->get('penerimaan')->row();
-                $row_stok = $stok != null ? convert_satuan($stok->id_satuan, $stok->stok_detail) . ' ' . $stok->singkatan_satuan : 0;
-                $row_terima = '<div class="text-muted text-size-small">No: ' . $terima_akhir->nosurat_terima . ' Tgl: ' . format_indo($terima_akhir->tanggal_terima) . '</div>';
-            }
-            // Menampilkan harga jual dari penerimaan terakhir dengan status default aktif
-            $row = $this->Mharga->query_penerimaan($kode, 1, 0, 1);
-            if ($row != null) {
-                $terima = $this->db->where('id_terima', $row->terima_detail)->get('penerimaan')->row();
-                $harga_terakhir = $this->Mharga->query_harga_satuan($row->id_hrg_barang, 1);
-                $data_harga = '';
-                foreach ($harga_terakhir as $value) {
-                    $data_harga .= 'Rp ' . rupiah($value->jual_hrg_detail) . '&nbsp;/' . $value->berat_hrg_detail . ' ' . $value->singkatan_satuan . '<br>';
-                }
-                $data_harga .= '<div class="text-muted text-size-small">No: ' . $terima->nosurat_terima . ' Tgl: ' . format_indo($row->tanggal_hrg_barang) . '</div>';
-            }
-            // Menampilkan data kategori per barang
-            $data_kategori = $this->Mbarang->barang_kategori($kode);
+            // Menampilkan stok produk dari penerimaan terakhir
+            // $stok = $this->Mharga->query_penerimaan($kode, 0, 0, 1);
+            // if ($stok != null) {
+            //     $terima_akhir = $this->db->where('id_terima', $stok->terima_detail)->get('penerimaan')->row();
+            //     $row_stok = $stok != null ? convert_satuan($stok->id_satuan, $stok->stok_detail) . ' ' . $stok->singkatan_satuan : 0;
+            //     $row_terima = '<div class="text-muted text-size-small">No: ' . $terima_akhir->nosurat_terima . ' Tgl: ' . format_indo($terima_akhir->tanggal_terima) . '</div>';
+            // }
+            // Menampilkan data kategori produk
+            $data_kategori = $this->Mproduk->show($kode);
             $row_kategori = '';
-            foreach ($data_kategori as $data_kategori) {
-                $row_kategori .= $data_kategori['nama_kategori'] . '<br>';
+            foreach ($data_kategori['dataKategori'] as $data_kategori) {
+                $row_kategori .= $data_kategori['child'] . '<br>';
             }
-
-            $edit = '<a href="' . site_url('barang/edit/' . $result->id_barang) . '"><i class="icon-pencil7 text-green" data-toggle="tooltip" data-original-title="Edit"></i></a>';
-            $hapus = '<a href="javascript:void(0)" onclick="hapus(\'' . $result->id_barang . '\')"><i class="icon-trash text-red" data-toggle="tooltip" data-original-title="Hapus"></i></a>';
+            // Menampilkan data pemasok produk
+            $data_pemasok = $this->Mproduk->show($kode);
+            $row_pemasok = '';
+            foreach ($data_pemasok['dataPemasok'] as $data_pemasok) {
+                $row_pemasok .= $data_pemasok['pemasok'] . '<br>';
+            }
+            $edit = '<a href="' . site_url('produk/edit/' . $result->id_barang) . '"><i class="icon-pencil7 text-green" data-toggle="tooltip" data-original-title="Edit"></i></a>';
+            $hapus = '<a href="javascript:void(0)" onclick="destroy(\'' . $result->id_barang . '\')"><i class="icon-trash text-red" data-toggle="tooltip" data-original-title="Hapus"></i></a>';
             $no++;
             $rows = array();
             $rows[] = $no . '.';
             $rows[] = $result->nama_barang;
-            $rows[] = $stok != null ? $row_stok . '<br>' . $row_terima : 0;
-            $rows[] =  $row != null ? rtrim($data_harga, '') : '<div class="text-muted text-size-small">Harga belum diaktifkan</div>';
             $rows[] = rtrim($row_kategori, '<br>');
+            $rows[] = rtrim($row_pemasok, '<br>');
+            $rows[] = '';
+            // $rows[] = $stok != null ? $row_stok . '<br>' . $row_terima : 0;
             $rows[] = status_span($result->status_barang, 'aktif');
             $rows[] = $edit . '&nbsp;' . $hapus;
             $data[] = $rows;
         }
         $json = array(
             "draw" => $_GET['draw'],
-            "recordsTotal" => $this->Mbarang->count_all(),
-            "recordsFiltered" => $this->Mbarang->count_filtered(),
+            "recordsTotal" => $this->Mproduk->count_all(),
+            "recordsFiltered" => $this->Mproduk->count_filtered(),
             "data" => $data,
         );
         echo json_encode($json);
@@ -79,11 +71,11 @@ class Barang extends CI_Controller
     public function create()
     {
         $data = [
-            'title' => 'Barang',
-            'small' => 'Tambah data barang',
-            'links' => '<li><a href="' . site_url('barang') . '">Barang</a></li><li class="active">Tambah</li>'
+            'title' => 'Produk',
+            'links' => '<li><a href="' . site_url('produk') . '">Produk</a></li><li class="active">Tambah</li>',
+            'pemasok' => $this->Mpemasok->getall()
         ];
-        $this->template->dashboard('master/barang/create', $data);
+        $this->template->dashboard('katalog/produk/create', $data);
     }
     public function store()
     {
@@ -93,13 +85,17 @@ class Barang extends CI_Controller
         $this->form_validation->set_message('required', errorRequired());
         $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
         if ($this->form_validation->run() == TRUE) {
-            $this->Mbarang->store($post);
+            $this->Mproduk->store($post);
             $json = array(
-                'status' => "0100",
-                'pesan' => "Data barang telah disimpan"
+                'status' => '0100',
+                'token' => $this->security->get_csrf_hash(),
+                'msg' => 'Data produk telah disimpan'
             );
         } else {
-            $json['status'] = "0111";
+            $json = array(
+                'status' => '0101',
+                'token' => $this->security->get_csrf_hash()
+            );
             foreach ($_POST as $key => $value) {
                 $json['pesan'][$key] = form_error($key);
             }
@@ -109,15 +105,12 @@ class Barang extends CI_Controller
     public function edit($kode)
     {
         $data = [
-            'title' => 'Barang',
-            'small' => 'Mengubah data barang',
-            'links' => '<li><a href="' . site_url('barang') . '">Barang</a></li><li class="active">Edit</li>',
-            'data' => $this->Mbarang->show($kode),
-            'barang_desc' => $this->Mbarang->barang_desc($kode),
-            'barang_kategori' => $this->Mbarang->barang_kategori($kode),
-            'barang_satuan' => $this->Mbarang->barang_satuan($kode)
+            'title' => 'Produk',
+            'links' => '<li><a href="' . site_url('produk') . '">Produk</a></li><li class="active">Edit</li>',
+            'data' => $this->Mproduk->show($kode),
+            'pemasok' => $this->Mpemasok->getall()
         ];
-        $this->template->dashboard('master/barang/edit', $data);
+        $this->template->dashboard('katalog/produk/edit', $data);
     }
     public function update()
     {
@@ -127,13 +120,17 @@ class Barang extends CI_Controller
         $this->form_validation->set_message('required', errorRequired());
         $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
         if ($this->form_validation->run() == TRUE) {
-            $this->Mbarang->update($post);
+            $this->Mproduk->update($post);
             $json = array(
-                'status' => "0100",
-                'pesan' => "Data barang telah dirubah"
+                'status' => '0100',
+                'token' => $this->security->get_csrf_hash(),
+                'msg' => 'Data produk telah dirubah'
             );
         } else {
-            $json['status'] = "0111";
+            $json = array(
+                'status' => '0101',
+                'token' => $this->security->get_csrf_hash()
+            );
             foreach ($_POST as $key => $value) {
                 $json['pesan'][$key] = form_error($key);
             }
@@ -143,16 +140,16 @@ class Barang extends CI_Controller
     public function destroy()
     {
         $kode = $this->input->get('kode', true);
-        $action = $this->Mbarang->destroy($kode);
+        $action = $this->Mproduk->destroy($kode);
         if ($action) {
             $json = array(
-                'status' => "0100",
-                "message" => successDestroy()
+                'status' => '0100',
+                'msg' => successDestroy()
             );
         } else {
             $json = array(
-                'status' => "0101",
-                "message" => errorDestroy()
+                'status' => '0101',
+                'msg' => errorDestroy()
             );
         }
         echo json_encode($json);
@@ -160,17 +157,17 @@ class Barang extends CI_Controller
     public function get_satuan()
     {
         $barang = $this->input->get('barang');
-        $query = $this->Mbarang->get_satuan($barang);
+        $query = $this->Mproduk->get_satuan($barang);
         $data = '<option value="">Pilih</option>';
         foreach ($query as $d) {
             $data .= '<option value="' . $d['id_brg_satuan'] . '">' . $d['nama_satuan'] . '</option>';
         }
         echo $data;
     }
-    public function load_gambar()
+    public function data_gambar()
     {
-        $action = $this->input->post('action');
-        $urut   = $this->input->post('page_id_array');
+        $action = $this->input->get('action');
+        $urut   = $this->input->get('page_id_array');
         if ($action == 'create') {
             $query = $this->db->from('tmp_gambar')
                 ->join('satuan', 'idsatuan=id_satuan')
@@ -199,7 +196,7 @@ class Barang extends CI_Controller
             }
         }
         if ($action == 'update') {
-            $kode = $this->input->post('kode');
+            $kode = $this->input->get('kode');
             $query = $this->db->from('barang_gambar')
                 ->join('satuan', 'satuan_brg_gambar=id_satuan')
                 ->where('barang_brg_gambar', $kode)
@@ -238,13 +235,13 @@ class Barang extends CI_Controller
         }
         $data = [
             'name' => 'Upload Gambar',
-            'post' => 'barang/store-gambar',
+            'post' => 'produk/store-gambar',
             'class' => 'form_create',
             'multipart' => 1,
-            'satuan' => $this->Msatuan->getall(),
+            'satuan' => $this->Msatuan->fetch_all(),
             'data' => $data
         ];
-        $this->template->modal_form('master/barang/create-gambar', $data);
+        $this->template->modal_form('katalog/produk/create-gambar', $data);
     }
     public function store_gambar()
     {
@@ -257,7 +254,12 @@ class Barang extends CI_Controller
             $mime = get_mime_by_extension($_FILES['gambar']['name']);
             if (isset($_FILES['gambar']['name']) && $_FILES['gambar']['name'] != "") {
                 if (in_array($mime, $types)) {
-                    $config['upload_path'] = pathImage() . 'images/produk';
+                    $date = date('Y-m-d');
+                    $image_dir = pathImage() . 'images/produk/' . $date . '/';
+                    if (!is_dir($image_dir)) {
+                        mkdir($image_dir, 0777, true);
+                    }
+                    $config['upload_path'] = $image_dir;
                     $config['allowed_types'] = 'jpg|jpeg|png|svg';
                     $config['max_size'] = 819200;
                     $config['encrypt_name'] = TRUE;
@@ -265,12 +267,13 @@ class Barang extends CI_Controller
                     $this->upload->initialize($config);
                     if ($this->upload->do_upload('gambar')) {
                         $data['upload_data'] = $this->upload->data('file_name');
-                        $link = 'images/produk/' . $data['upload_data'];
+                        $link = 'images/produk/' . $date . '/' . $data['upload_data'];
                     }
                     if ($_FILES['gambar']['size'] > 819200) {
                         $json = array(
-                            "status" => "0101",
-                            "error" => "<div class='text-red'>Ukuran file tidak boleh melebihi 800KB</div>"
+                            'status' => '0101',
+                            'token' => $this->security->get_csrf_hash(),
+                            'error' => '<div class="text-red">Ukuran file tidak boleh melebihi 800KB</div>'
                         );
                     } else {
                         if ($post['action'] == 'create') {
@@ -295,24 +298,30 @@ class Barang extends CI_Controller
                             $this->db->insert('barang_gambar', $data);
                         }
                         $json = array(
-                            'status' => "0100",
-                            'pesan' => "Data gambar telah disimpan"
+                            'status' => '0100',
+                            'token' => $this->security->get_csrf_hash(),
+                            'msg' => 'Data gambar telah disimpan'
                         );
                     }
                 } else {
                     $json = array(
-                        "status" => "0101",
-                        "error" => "<div class='text-red'>Harap unggah file yang hanya berekstensi .jpeg / .jpg / .png.</div>"
+                        'status' => '0101',
+                        'token' => $this->security->get_csrf_hash(),
+                        'error' => '<div class="text-red">Harap unggah file yang hanya berekstensi .jpeg / .jpg / .png.</div>'
                     );
                 }
             } else {
                 $json = array(
-                    "status" => "0101",
-                    "error" => "<div class='text-red'>Harap unggah file yang hanya berekstensi .jpeg / .jpg / .png.</div>"
+                    'status' => '0101',
+                    'token' => $this->security->get_csrf_hash(),
+                    'error' => '<div class="text-red">Harap unggah file yang hanya berekstensi .jpeg / .jpg / .png.</div>'
                 );
             }
         } else {
-            $json['status'] = "0101";
+            $json = array(
+                'status' => '0101',
+                'token' => $this->security->get_csrf_hash()
+            );
             foreach ($_POST as $key => $value) {
                 $json['pesan'][$key] = form_error($key);
             }
@@ -326,13 +335,15 @@ class Barang extends CI_Controller
         if ($action == 'create') {
             $data = $this->db->where('id', $kode)->get('tmp_gambar')->row_array();
             unlink(pathImage() . $data['gambar']);
+            RemoveEmptyFolders(pathImage() . $data['gambar']);
             return $this->db->where('id', $kode)->delete('tmp_gambar');
         } else {
             $data = $this->db->where('id_brg_gambar', $kode)->get('barang_gambar')->row_array();
             unlink(pathImage() . $data['url_brg_gambar']);
+            RemoveEmptyFolders(pathImage() . $data['url_brg_gambar']);
             return $this->db->where('id_brg_gambar', $kode)->delete('barang_gambar');
         }
     }
 }
 
-/* End of file Barang.php */
+/* End of file Produk.php */

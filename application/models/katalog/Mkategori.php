@@ -128,10 +128,10 @@ class Mkategori extends CI_Model
             }
         } else {
             // Hapus semua level yang ada dibawah
-            $this->db->query("DELETE FROM kategori_path WHERE category_id='$kode'");
+            $this->db->query("DELETE FROM kategori_path WHERE parent_path='$kode'");
             // Perbaiki untuk level tanpa jalur
             $level = 0;
-            $query = $this->db->query("SELECT * FROM kategori_path WHERE category_id='$parent' ORDER BY level_path ASC");
+            $query = $this->db->query("SELECT * FROM kategori_path WHERE parent_path='$parent' ORDER BY level_path ASC");
             foreach ($query->result_array() as $result) {
                 $this->db->query("INSERT INTO kategori_path SET kategori_path='" . $kode . "',parent_path='" . $result['parent_path'] . "', level_path='" . $level . "'");
                 $level++;
@@ -142,16 +142,21 @@ class Mkategori extends CI_Model
     public function destroy($kode)
     {
         $data = $this->show($kode);
-        $this->db->query("DELETE FROM kategori_path WHERE kategori_path='$kode'");
-        $query = $this->db->query("SELECT * FROM kategori_path WHERE parent_path='$kode'")->result_array();
-        foreach ($query as $result) {
-            $this->destroy($result['kategori_path']);
+        $query = $this->db->from('barang_kategori')->where('kategori_brg_kategori', $kode)->count_all_results();
+        if ($query > 0) {
+            return false;
+        } else {
+            $this->db->query("DELETE FROM kategori_path WHERE kategori_path='$kode'");
+            $query = $this->db->query("SELECT * FROM kategori_path WHERE parent_path='$kode'")->result_array();
+            foreach ($query as $result) {
+                $this->destroy($result['kategori_path']);
+            }
+            if ($data['icon_kategori'] != "") {
+                unlink(pathImage() . $data['icon_kategori']);
+            }
+            $this->db->query("DELETE FROM kategori WHERE id_kategori='$kode'");
+            return true;
         }
-        if ($data['icon_kategori'] != "") {
-            unlink(pathImage() . $data['icon_kategori']);
-        }
-        $this->db->query("DELETE FROM kategori WHERE id_kategori='$kode'");
-        return true;
     }
     // pencarian kategori berdasarkan nama
     public function kategori_by_nama($filter_nama = '')

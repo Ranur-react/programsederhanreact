@@ -1,5 +1,5 @@
-<input type="text" name="kode" value="<?= $data['kode'] ?>">
-<input type="text" name="action" value="<?= $data['action'] ?>">
+<input type="hidden" name="kode" value="<?= $data['kode'] ?>">
+<input type="hidden" name="action" value="<?= $data['action'] ?>">
 <div class="form-group">
     <label>Satuan</label>
     <select class="form-control select2" name="satuan" data-placeholder="Pilih Satuan" style="width: 100%;">

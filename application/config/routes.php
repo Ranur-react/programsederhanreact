@@ -52,21 +52,22 @@ $route['kategori/edit'] = 'katalog/kategori/edit';
 $route['kategori/update'] = 'katalog/kategori/update';
 $route['kategori/destroy'] = 'katalog/kategori/destroy';
 $route['kategori/kategori_by_nama'] = 'katalog/kategori/kategori_by_nama';
-
-$route['barang'] = 'master/barang';
-$route['barang/data'] = 'master/barang/data';
-$route['barang/create'] = 'master/barang/create';
-$route['barang/store'] = 'master/barang/store';
-$route['barang/edit/(:num)'] = 'master/barang/edit/$1';
-$route['barang/update'] = 'master/barang/update';
-$route['barang/destroy'] = 'master/barang/destroy';
-$route['barang/get-satuan'] = 'master/barang/get_satuan';
-
-// Upload Gambar Barang
-$route['barang/load-gambar'] = 'master/barang/load_gambar';
-$route['barang/create-gambar'] = 'master/barang/create_gambar';
-$route['barang/store-gambar'] = 'master/barang/store_gambar';
-$route['barang/destroy-gambar'] = 'master/barang/destroy_gambar';
+/** Sub Menu Produk */
+$route['produk'] = 'katalog/produk';
+$route['produk/data'] = 'katalog/produk/data';
+$route['produk/create'] = 'katalog/produk/create';
+$route['produk/store'] = 'katalog/produk/store';
+$route['produk/edit/(:num)'] = 'katalog/produk/edit/$1';
+$route['produk/update'] = 'katalog/produk/update';
+$route['produk/destroy'] = 'katalog/produk/destroy';
+$route['produk/get-satuan'] = 'katalog/produk/get_satuan';
+/** Sub Menu Produk 
+ * Upload Gambar Produk
+ */
+$route['produk/data-gambar'] = 'katalog/produk/data_gambar';
+$route['produk/create-gambar'] = 'katalog/produk/create_gambar';
+$route['produk/store-gambar'] = 'katalog/produk/store_gambar';
+$route['produk/destroy-gambar'] = 'katalog/produk/destroy_gambar';
 
 // katalog
 $route['harga'] = 'katalog/harga';
