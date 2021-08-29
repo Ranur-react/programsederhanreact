@@ -50,7 +50,7 @@ $urls2 = $this->uri->segment(2)
                 </li>
             </ul>
         </li>
-        <li class="treeview <?= $urls == 'permintaan' || $urls == 'penerimaan' || $urls == 'pelunasan' ? 'active' : null ?>">
+        <li class="treeview <?= in_array($urls, ['permintaan', 'penerimaan', 'pelunasan']) ? "active" : null ?>">
             <a href="#">
                 <i class="fas fa-shopping-basket"></i> <span>Pembelian</span>
                 <span class="pull-right-container">

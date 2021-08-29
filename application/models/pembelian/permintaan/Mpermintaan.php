@@ -3,36 +3,60 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Mpermintaan extends CI_Model
 {
+    var $tabel = 'permintaan';
+    var $id = 'id_permintaan';
+    var $column_order = array(null, 'nosurat_permintaan', 'tanggal_permintaan');
+    var $column_search = array('nosurat_permintaan');
+    var $order = array('id_permintaan' => 'DESC');
+
     public function __construct()
     {
         parent::__construct();
         $this->load->model('pembelian/permintaan/Mtmp_create');
         $this->load->model('pembelian/permintaan/Mtmp_edit');
     }
-    public function jumlah_data()
+    private function _get_data_query()
     {
-        return $this->db->count_all_results("permintaan");
+        $this->db->from($this->tabel)->join('users', 'user_permintaan=id_user');
+        $i = 0;
+        foreach ($this->column_search as $item) {
+            if ($_GET['search']['value']) {
+                if ($i === 0) {
+                    $this->db->group_start();
+                    $this->db->like($item, $_GET['search']['value']);
+                } else {
+                    $this->db->or_like($item, $_GET['search']['value']);
+                }
+                if (count($this->column_search) - 1 == $i)
+                    $this->db->group_end();
+            }
+            $i++;
+        }
+        if (isset($_GET['order'])) {
+            $this->db->order_by($this->column_order[$_GET['order']['0']['column']], $_GET['order']['0']['dir']);
+        } else if (isset($this->order)) {
+            $order = $this->order;
+            $this->db->order_by(key($order), $order[key($order)]);
+        }
     }
-    public function tampil_data($start, $length)
+    function fetch_all()
     {
-        $sql = $this->db->from('permintaan')
-            ->join('supplier', 'supplier_permintaan=id_supplier')
-            ->join('users', 'user_permintaan=id_user')
-            ->order_by('id_permintaan', 'DESC')
-            ->limit($length, $start)
-            ->get();
-        return $sql;
+        $this->_get_data_query();
+        if ($_GET['length'] != -1)
+            $this->db->limit($_GET['length'], $_GET['start']);
+        $query = $this->db->get();
+        return $query->result();
     }
-    public function cari_data($search)
+    function count_filtered()
     {
-        $sql = $this->db->from('permintaan')
-            ->join('supplier', 'supplier_permintaan=id_supplier')
-            ->join('users', 'user_permintaan=id_user')
-            ->order_by('id_permintaan', 'DESC')
-            ->like('nosurat_permintaan', $search)
-            ->or_like('nama_supplier', $search)
-            ->get();
-        return $sql;
+        $this->_get_data_query();
+        $query = $this->db->get();
+        return $query->num_rows();
+    }
+    function count_all()
+    {
+        $this->db->from($this->tabel);
+        return $this->db->count_all_results();
     }
     public function kode()
     {
@@ -76,7 +100,6 @@ class Mpermintaan extends CI_Model
             'id_permintaan' => $kode,
             'nourut_permintaan' => $nosurat['nourut'],
             'nosurat_permintaan' => $nosurat['nosurat'],
-            'supplier_permintaan' => $post['supplier'],
             'tanggal_permintaan' => date("Y-m-d", strtotime($post['tanggal'])),
             'total_permintaan' => $total->total,
             'status_permintaan' => 1,
@@ -87,38 +110,83 @@ class Mpermintaan extends CI_Model
         foreach ($data_tmp as $d) {
             $data_detail = [
                 'permintaan_detail' => $kode,
-                'barang_detail' => $d['satuan'],
-                'harga_detail' => $d['harga'],
-                'jumlah_detail' => $d['jumlah']
+                'barang_detail' => $d->satuan,
+                'harga_detail' => $d->harga,
+                'jumlah_detail' => $d->jumlah
             ];
             $this->db->insert('permintaan_detail', $data_detail);
         }
         $hapus_tmp = $this->db->where('user', id_user())->delete('tmp_permintaan');
         return array($permintaan, $hapus_tmp);
     }
-    public function show($kode)
+    public function show($id = null)
     {
-        return $this->db->from('permintaan')
-            ->join('supplier', 'supplier_permintaan=id_supplier')
+        $sql = $this->db->from('permintaan')
             ->join('users', 'user_permintaan=id_user')
-            ->where('id_permintaan', $kode)
-            ->get()->row_array();
+            ->where('id_permintaan', $id)
+            ->get()->row();
+        if ($sql == null) :
+            $data['id'] = [];
+        else :
+            $data = [
+                'id' => (int)$sql->id_permintaan,
+                'nomor' => $sql->nosurat_permintaan,
+                'tanggal' => $sql->tanggal_permintaan,
+                'tanggal_format' => format_indo($sql->tanggal_permintaan),
+                'tanggal_date' => format_biasa($sql->tanggal_permintaan),
+                'status' => (int)$sql->status_permintaan,
+                'status_label' => status_label($sql->status_permintaan, 'permintaan'),
+                'user' => $sql->nama_user
+            ];
+            $queryProduk = $this->db->from('permintaan_detail')
+                ->join('barang_satuan', 'barang_detail=id_brg_satuan')
+                ->join('barang', 'barang_brg_satuan=id_barang')
+                ->join('satuan', 'satuan_brg_satuan=id_satuan')
+                ->where('permintaan_detail', $sql->id_permintaan)
+                ->order_by('id_detail')
+                ->get()->result();
+            $result_produk = array();
+            $dataProduk = array();
+            $total = 0;
+            foreach ($queryProduk as $qp) {
+                $subtotal = $qp->harga_detail * $qp->jumlah_detail;
+                $total = $total + $subtotal;
+                $result_produk = [
+                    'iddetail' => (int)$qp->id_detail,
+                    'produk' => $qp->nama_barang,
+                    'satuan' => $qp->nama_satuan,
+                    'singkatan' => $qp->singkatan_satuan,
+                    'harga' => (int)$qp->harga_detail,
+                    'hargaText' => 'Rp. ' . rupiah($qp->harga_detail),
+                    'hargaAccount' => akuntansi($qp->harga_detail),
+                    'jumlah' => (int)$qp->jumlah_detail,
+                    'jumlahText' => rupiah($qp->jumlah_detail),
+                    'total' => $subtotal,
+                    'totalText' => 'Rp. ' . rupiah($subtotal),
+                    'totalAccount' => akuntansi($subtotal)
+                ];
+                $dataProduk[] = $result_produk;
+            }
+            $data['dataProduk'] = $dataProduk;
+            $data['total'] = $total;
+            $data['totalText'] = 'Rp. ' . rupiah($total);
+            $data['totalAccount'] = akuntansi($total);
+        endif;
+        return $data;
     }
     public function update($kode, $post)
     {
         $total = $this->Mtmp_edit->get_total($kode);
         $data = array(
-            'supplier_permintaan' => $post['supplier'],
             'tanggal_permintaan' => date("Y-m-d", strtotime($post['tanggal'])),
             'total_permintaan' => $total
         );
-        $this->db->set('updated_at', 'NOW()', FALSE);
         return $this->db->where('id_permintaan', $kode)->update('permintaan', $data);
     }
     public function destroy($kode)
     {
         $data = $this->show($kode);
-        if ($data['status_permintaan'] == 1) :
+        if ($data['status'] == 1) :
             $this->db->where('permintaan_detail', $kode)->delete('permintaan_detail');
             $this->db->where('id_permintaan', $kode)->delete('permintaan');
             return "0100";

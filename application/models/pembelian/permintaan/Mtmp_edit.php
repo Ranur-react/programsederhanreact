@@ -3,16 +3,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Mtmp_edit extends CI_Model
 {
-    public function tampil_data($kode)
-    {
-        return $this->db->from('permintaan_detail')
-            ->join('barang_satuan', 'barang_detail=id_brg_satuan')
-            ->join('barang', 'barang_brg_satuan=id_barang')
-            ->join('satuan', 'satuan_brg_satuan=id_satuan')
-            ->where('permintaan_detail', $kode)
-            ->order_by('id_detail')
-            ->get()->result_array();
-    }
     public function get_total($kode)
     {
         $query = $this->db->select('IFNULL(SUM(harga_detail*jumlah_detail),0) AS total')->where('permintaan_detail', $kode)->get('permintaan_detail')->row();
@@ -29,13 +19,13 @@ class Mtmp_edit extends CI_Model
     public function store($post)
     {
         $data = [
-            'permintaan_detail' => $post['id_permintaan'],
+            'permintaan_detail' => $post['idminta'],
             'barang_detail' => $post['satuan'],
             'harga_detail' => convert_uang($post['harga']),
             'jumlah_detail' => convert_uang($post['jumlah'])
         ];
         $store = $this->db->insert('permintaan_detail', $data);
-        $this->update_total($post['id_permintaan']);
+        $this->update_total($post['idminta']);
         return $store;
     }
     public function show($kode)

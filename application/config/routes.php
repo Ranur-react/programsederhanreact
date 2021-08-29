@@ -85,7 +85,9 @@ $route['stok-barang/data'] = 'katalog/stok/data';
 $route['stok-barang/detail/(:num)'] = 'katalog/stok/detail/$1';
 $route['stok-barang/data-terima'] = 'katalog/stok/data_terima';
 
-// menu permintaan
+/** Menu Pembelian
+ * Sub Menu Permintaan
+ */
 $route['permintaan'] = 'pembelian/permintaan/permintaan';
 $route['permintaan/data'] = 'pembelian/permintaan/permintaan/data';
 $route['permintaan/create'] = 'pembelian/permintaan/permintaan/create';
@@ -93,9 +95,10 @@ $route['permintaan/store'] = 'pembelian/permintaan/permintaan/store';
 $route['permintaan/edit/(:num)'] = 'pembelian/permintaan/permintaan/edit/$1';
 $route['permintaan/update'] = 'pembelian/permintaan/permintaan/update';
 $route['permintaan/detail/(:num)'] = 'pembelian/permintaan/permintaan/detail/$1';
-$route['permintaan/info'] = 'pembelian/permintaan/permintaan/info';
+$route['permintaan/view'] = 'pembelian/permintaan/permintaan/view';
 $route['permintaan/destroy'] = 'pembelian/permintaan/permintaan/destroy';
-
+$route['permintaan/print/(:num)'] = 'pembelian/permintaan/permintaan/print/$1';
+/** Tmp Tambah Permintaan */
 $route['permintaan/tmp-create/data'] = 'pembelian/permintaan/tmp_create/data';
 $route['permintaan/tmp-create/create'] = 'pembelian/permintaan/tmp_create/create';
 $route['permintaan/tmp-create/store'] = 'pembelian/permintaan/tmp_create/store';
@@ -103,7 +106,7 @@ $route['permintaan/tmp-create/edit'] = 'pembelian/permintaan/tmp_create/edit';
 $route['permintaan/tmp-create/update'] = 'pembelian/permintaan/tmp_create/update';
 $route['permintaan/tmp-create/destroy'] = 'pembelian/permintaan/tmp_create/destroy';
 $route['permintaan/tmp-create/batal'] = 'pembelian/permintaan/tmp_create/batal';
-
+/** Tmp Edit Permintaan */
 $route['permintaan/tmp-edit/data'] = 'pembelian/permintaan/tmp_edit/data';
 $route['permintaan/tmp-edit/create'] = 'pembelian/permintaan/tmp_edit/create';
 $route['permintaan/tmp-edit/store'] = 'pembelian/permintaan/tmp_edit/store';

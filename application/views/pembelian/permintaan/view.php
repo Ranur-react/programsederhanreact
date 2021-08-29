@@ -1,48 +1,44 @@
 <table class="table table-bordered dataTable table-hover nowrap no-footer">
     <tr>
         <th class="bg-gray color-palette" width="130px">Nomor</th>
-        <td><?= $data['nosurat_permintaan'] ?></td>
-    </tr>
-    <tr>
-        <th class="bg-gray color-palette">Supplier</th>
-        <td><?= $data['nama_supplier'] ?></td>
+        <td>
+            <?= $data['nomor'] ?><div class="separate"></div>
+            <a href="<?= site_url('permintaan/print/' . $data['id']) ?>" style="color: rgb(255, 87, 34)" target="_blank">Cetak</a>
+        </td>
     </tr>
     <tr>
         <th class="bg-gray color-palette">Tanggal</th>
-        <td><?= format_indo($data['tanggal_permintaan']) ?></td>
+        <td><?= $data['tanggal_format'] ?></td>
     </tr>
     <tr>
         <th class="bg-gray color-palette">Status</th>
-        <td><?= status_label($data['status_permintaan'], 'permintaan') ?></td>
+        <td><?= $data['status_label'] ?></td>
     </tr>
 </table>
 <div class="table-responsive">
     <table class="table table-bordered dataTable table-hover nowrap no-footer">
         <thead class="bg-gray color-palette">
             <tr>
-                <th>Barang</th>
+                <th>Produk</th>
                 <th class="text-right">Harga</th>
                 <th class="text-right">Jumlah</th>
                 <th class="text-right">Total</th>
             </tr>
         </thead>
         <tbody>
-            <?php $total = 0;
-            foreach ($barang as $b) {
-                $total = $total + ($b['harga_detail'] * $b['jumlah_detail']);
-            ?>
+            <?php foreach ($data['dataProduk'] as $b) { ?>
                 <tr>
-                    <td><?= $b['nama_barang'] ?></td>
-                    <td><?= akuntansi($b['harga_detail']) ?></td>
-                    <td class="text-right"><?= rupiah($b['jumlah_detail']) . ' ' . $b['singkatan_satuan'] ?></td>
-                    <td><?= akuntansi($b['harga_detail'] * $b['jumlah_detail']) ?></td>
+                    <td><?= $b['produk'] ?></td>
+                    <td><?= $b['hargaAccount'] ?></td>
+                    <td class="text-right"><?= $b['jumlahText'] . ' ' . $b['singkatan'] ?></td>
+                    <td><?= $b['totalAccount'] ?></td>
                 </tr>
             <?php } ?>
         </tbody>
         <tfoot>
             <tr>
                 <th colspan="3" class="text-right">Total</th>
-                <th><?= akuntansi($total) ?></th>
+                <th><?= $data['totalAccount'] ?></th>
             </tr>
         </tfoot>
     </table>

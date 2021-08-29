@@ -1,13 +1,13 @@
-<input type="hidden" name="id_permintaan" value="<?= $kode ?>">
+<input type="hidden" name="idminta" value="<?= $kode ?>">
 <div class="form-group">
-    <label class="required">Pilih Barang</label>
-    <select class="form-control select2 barang" name="barang" style="width: 100%;" data-placeholder="Pilh Barang">
+    <label class="required">Pilih Produk</label>
+    <select class="form-control select2 idproduk" name="produk" style="width: 100%;" data-placeholder="Pilh Produk">
         <option></option>
-        <?php foreach ($barang as $b) { ?>
-            <option value="<?= $b['id_barang'] ?>"><?= $b['nama_barang'] ?></option>
+        <?php foreach ($produk as $p) { ?>
+            <option value="<?= $p['id_barang'] ?>"><?= $p['nama_barang'] ?></option>
         <?php } ?>
     </select>
-    <div id="barang"></div>
+    <div id="produk"></div>
 </div>
 <div class="form-group">
     <label class="required">Pilih Satuan</label>
@@ -29,11 +29,11 @@
         $('.select2').select2();
 
         $('#harga').keyup(function(e) {
-            var nilai = formatRupiah($(this).val(), '');
+            var nilai = formatted($(this).val(), '');
             $(this).val(nilai);
         });
         $('#jumlah').keyup(function(e) {
-            var nilai = formatRupiah($(this).val(), '');
+            var nilai = formatted($(this).val(), '');
             $(this).val(nilai);
         });
     });
