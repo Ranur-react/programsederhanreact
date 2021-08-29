@@ -156,8 +156,8 @@ class Produk extends CI_Controller
     }
     public function get_satuan()
     {
-        $barang = $this->input->get('barang');
-        $query = $this->Mproduk->get_satuan($barang);
+        $idproduk = $this->input->get('idproduk');
+        $query = $this->Mproduk->get_satuan($idproduk);
         $data = '<option value="">Pilih</option>';
         foreach ($query as $d) {
             $data .= '<option value="' . $d['id_brg_satuan'] . '">' . $d['nama_satuan'] . '</option>';

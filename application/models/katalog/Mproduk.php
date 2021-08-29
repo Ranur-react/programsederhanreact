@@ -273,11 +273,11 @@ class Mproduk extends CI_Model
         $this->db->where('id_barang', $kode)->delete('barang');
         return true;
     }
-    public function get_satuan($barang)
+    public function get_satuan($id = null)
     {
         $query = $this->db->from('barang_satuan')
             ->join('satuan', 'satuan_brg_satuan=id_satuan')
-            ->where('barang_brg_satuan', $barang)
+            ->where('barang_brg_satuan', $id)
             ->get()->result_array();
         return $query;
     }
