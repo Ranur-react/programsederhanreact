@@ -17,6 +17,24 @@ function addCommas(nStr) {
     return x1 + x2;
 }
 
+// Format Mata Uang
+function formatted(angka, prefix, nol_sen = true) {
+    var number_string = angka.replace(/[^,\d]/g, '').toString(),
+        split = number_string.split(','),
+        sisa = split[0].length % 3,
+        rupiah = split[0].substr(0, sisa),
+        ribuan = split[0].substr(sisa).match(/\d{3}/gi);
+
+    // tambahkan titik jika yang di input sudah menjadi angka ribuan
+    if (ribuan) {
+        separator = sisa ? '.' : '';
+        rupiah += separator + ribuan.join('.');
+    }
+
+    rupiah = split[1] != undefined ? rupiah + (nol_sen ? '' : ',' + split[1]) : rupiah;
+    return prefix == undefined ? rupiah : (rupiah ? rupiah : '');
+}
+
 // Autocomplete */
 (function ($) {
     $.fn.autocomplete = function (option) {
@@ -142,3 +160,22 @@ function addCommas(nStr) {
         });
     }
 })(window.jQuery);
+
+// Notifikasi
+toastr.options = {
+    "closeButton": true,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": false,
+    "positionClass": "toast-bottom-right",
+    "preventDuplicates": true,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "1000",
+    "timeOut": "5000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "linear",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+};
