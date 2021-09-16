@@ -25,7 +25,7 @@ $urls2 = $this->uri->segment(2)
                 </li>
             </ul>
         </li>
-        <li class="treeview <?= in_array($urls, ['satuan', 'kategori', 'produk', 'harga', 'stok-produk']) ? "active" : null ?>">
+        <li class="treeview <?= in_array($urls, ['satuan', 'konversi-satuan', 'kategori', 'produk', 'harga', 'stok-produk']) ? "active" : null ?>">
             <a href="#">
                 <i class="fas fa-boxes"></i> <span>Katalog</span>
                 <span class="pull-right-container">
@@ -35,6 +35,9 @@ $urls2 = $this->uri->segment(2)
             <ul class="treeview-menu">
                 <li class="<?= $urls == 'satuan' ? 'active' : null ?>">
                     <a href="<?= site_url('satuan') ?>"><i class="fa fa-angle-double-right"></i> Satuan</a>
+                </li>
+                <li class="<?= $urls == 'konversi-satuan' ? 'active' : null ?>">
+                    <a href="<?= site_url('konversi-satuan') ?>"><i class="fa fa-angle-double-right"></i> Konversi Satuan</a>
                 </li>
                 <li class="<?= $urls == 'kategori' ? 'active' : null ?>">
                     <a href="<?= site_url('kategori') ?>"><i class="fa fa-angle-double-right"></i> Kategori</a>
