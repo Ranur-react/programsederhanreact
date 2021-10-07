@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-lg-12 col-xs-12 ">
                 <div class="row">
-                    <div class="col-lg-2 col-xs-4"><b>Barang</b> <span class="value">:</span></div>
+                    <div class="col-lg-2 col-xs-4"><b>Produk</b> <span class="value">:</span></div>
                     <div class="col-lg-10 col-xs-8"><?= $data['nama_barang'] ?></div>
                     <div class="col-lg-2 col-xs-4"><b>Satuan</b> <span class="value">:</span></div>
                     <div class="col-lg-10 col-xs-8"><?= $data['nama_satuan'] ?></div>
@@ -17,7 +17,7 @@
         </div>
     </div>
 </div>
-<input type="hidden" name="iddetail" value="<?= $data['id_detail_terima'] ?>">
+<input type="hidden" name="iddetailterima" value="<?= $data['iddetailterima'] ?>">
 <div class="form-group">
     <label class="required">Harga</label>
     <input type="text" name="harga" id="harga" class="form-control" placeholder="Harga" value="<?= rupiah($data['harga_terima']) ?>">
@@ -29,11 +29,11 @@
 <script>
     $(function() {
         $('#harga').keyup(function(e) {
-            var nilai = formatRupiah($(this).val(), '');
+            var nilai = formatted($(this).val(), '');
             $(this).val(nilai);
         });
         $('#jumlah').keyup(function(e) {
-            var nilai = formatRupiah($(this).val(), '');
+            var nilai = formatted($(this).val(), '');
             $(this).val(nilai);
         });
     });

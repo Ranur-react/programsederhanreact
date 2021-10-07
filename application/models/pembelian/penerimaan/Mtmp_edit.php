@@ -7,7 +7,117 @@ class Mtmp_edit extends CI_Model
     {
         parent::__construct();
         $this->load->model('pembelian/penerimaan/Mpenerimaan');
+        $this->load->model('pembelian/penerimaan/Mtmp_permintaan');
     }
+    public function get_total($id = null)
+    {
+        $query = $this->db->select('IFNULL(SUM(harga_detail*jumlah_detail),0) AS total')->where('terima_detail', $id)->get('terima_detail')->row();
+        return $query->total;
+    }
+    public function update_total($id = null)
+    {
+        $total = $this->get_total($id);
+        $data = array(
+            'total_terima' => $total
+        );
+        return $this->db->where('id_terima', $id)->update('terima', $data);
+    }
+    public function store($post)
+    {
+        $idterima = $post['idterima'];
+        $iddetail = $post['iddetail'];
+        $jumlah = convert_uang($post['jumlah']);
+        $sql_request = $this->Mtmp_permintaan->show($iddetail);
+        $konversi = konversi_jumlah_satuan($sql_request['id_satuan'], $jumlah);
+        $data = [
+            'terima_detail' => $idterima,
+            'minta_detail' => $iddetail,
+            'harga_detail' => convert_uang($post['harga']),
+            'jumlah_detail' => $jumlah,
+            'stok_detail' => $konversi['jumlah']
+        ];
+        $this->db->insert('terima_detail', $data);
+        $id_detail_terima = $this->db->insert_id();
+        $data_satuan = $this->db->where('barang_brg_satuan', $sql_request['id_barang'])->get('barang_satuan')->result();
+        foreach ($data_satuan as $ds) {
+            $this->db->insert('terima_harga', [
+                'iddetail_harga' => $id_detail_terima,
+                'idsatuan_harga' => $ds->id_brg_satuan,
+                'nilai_satuan' => 0,
+                'jual_harga' => 0,
+                'status_default' => 0,
+                'status_aktif' => 0,
+            ]);
+        }
+        $this->update_total($idterima);
+        $this->Mpenerimaan->UpdateStatusRequest($idterima);
+        return true;
+    }
+    public function show($id = null)
+    {
+        return $this->db->select('*,permintaan_detail.id_detail as iddetailminta,permintaan_detail.harga_detail as harga_minta,permintaan_detail.jumlah_detail as jumlah_minta,terima_detail.id_detail as iddetailterima,terima_detail.harga_detail as harga_terima,terima_detail.jumlah_detail as jumlah_terima')
+            ->from('terima_detail')
+            ->join('permintaan_detail', 'minta_detail=permintaan_detail.id_detail')
+            ->join('barang_satuan', 'barang_detail=id_brg_satuan')
+            ->join('barang', 'barang_brg_satuan=id_barang')
+            ->join('satuan', 'satuan_brg_satuan=id_satuan')
+            ->where('terima_detail.id_detail', $id)
+            ->get()->row_array();
+    }
+    public function update($post)
+    {
+        $iddetailterima = $post['iddetailterima'];
+        $data = $this->show($iddetailterima);
+        $idterima = $data['terima_detail'];
+        $jumlah = convert_uang($post['jumlah']);
+        $konversi = konversi_jumlah_satuan($data['id_satuan'], $jumlah);
+        $konversi_stok = konversi_jumlah_satuan($data['id_satuan'], $data['jumlah_terima']);
+        if ($konversi_stok['jumlah'] > $data['stok_detail']) :
+            $arr = [
+                'status' => false,
+                'msg' => 'Produk gagal dirubah karena stok menjadi minus'
+            ];
+        else :
+            $data = [
+                'harga_detail'  => convert_uang($post['harga']),
+                'jumlah_detail' => $jumlah,
+                'stok_detail' => $konversi['jumlah']
+            ];
+            $this->db->where('id_detail', $iddetailterima)->update('terima_detail', $data);
+            $this->update_total($idterima);
+            $arr = [
+                'status' => true,
+                'msg' => 'Produk berhasil dirubah'
+            ];
+        endif;
+        return $arr;
+    }
+    public function destroy($id)
+    {
+        $data = $this->show($id);
+        $idterima = $data['terima_detail'];
+        $konversi = konversi_jumlah_satuan($data['id_satuan'], $data['jumlah_terima']);
+        if ($konversi['jumlah'] > $data['stok_detail']) :
+            $arr = [
+                'status' => false,
+                'msg' => 'Produk gagal dihapus karena stok menjadi minus'
+            ];
+        else :
+            $this->db->where('iddetail_harga', $id)->delete('terima_harga');
+            $this->db->where('id_detail', $id)->delete('terima_detail');
+            $this->Mpenerimaan->UpdateStatusRequest($idterima);
+            $this->update_total($idterima);
+            $arr = [
+                'status' => true,
+                'msg' => 'Produk berhasil dihapus'
+            ];
+        endif;
+        return $arr;
+    }
+
+
+
+
     public function data_supplier($kode)
     {
         return $this->db->from('penerimaan_supplier')
@@ -44,18 +154,6 @@ class Mtmp_edit extends CI_Model
             ->where('id_detail', $id_detail)
             ->get()->row_array();
     }
-    public function data_tmp($kode)
-    {
-        return $this->db->select('*,penerimaan_detail.id_detail AS id_detail_terima,penerimaan_detail.harga_detail AS harga_terima,penerimaan_detail.jumlah_detail AS jumlah_terima')
-            ->from('penerimaan_detail')
-            ->join('permintaan_detail', 'minta_detail=permintaan_detail.id_detail')
-            ->join('barang_satuan', 'barang_detail=id_brg_satuan')
-            ->join('barang', 'barang_brg_satuan=id_barang')
-            ->join('satuan', 'satuan_brg_satuan=id_satuan')
-            ->where('terima_detail', $kode)
-            ->order_by('penerimaan_detail.id_detail', 'ASC')
-            ->get()->result_array();
-    }
     public function data_harga($kode)
     {
         return $this->db->from('penerimaan_detail')
@@ -63,109 +161,6 @@ class Mtmp_edit extends CI_Model
             ->join('harga_barang', 'barang_terima_harga=id_hrg_barang')
             ->where('terima_detail', $kode)
             ->get()->result();
-    }
-    public function show($kode)
-    {
-        return $this->db->select('terima_detail,permintaan_detail.permintaan_detail AS id_minta,nama_barang,nama_satuan,singkatan_satuan,penerimaan_detail.id_detail AS id_detail_terima,penerimaan_detail.harga_detail AS harga_terima,penerimaan_detail.jumlah_detail AS jumlah_terima,permintaan_detail.harga_detail AS harga_minta,permintaan_detail.jumlah_detail AS jumlah_minta')
-            ->from('penerimaan_detail')
-            ->join('permintaan_detail', 'minta_detail=permintaan_detail.id_detail')
-            ->join('barang_satuan', 'barang_detail=id_brg_satuan')
-            ->join('barang', 'barang_brg_satuan=id_barang')
-            ->join('satuan', 'satuan_brg_satuan=id_satuan')
-            ->where('penerimaan_detail.id_detail', $kode)
-            ->get()->row_array();
-    }
-    public function get_total($kode)
-    {
-        $query = $this->db->select('IFNULL(SUM(harga_detail*jumlah_detail),0) AS total')->where('terima_detail', $kode)->get('penerimaan_detail')->row();
-        return $query->total;
-    }
-    public function update_total($kode)
-    {
-        $total = $this->get_total($kode);
-        $data = array(
-            'total_terima' => $total
-        );
-        return $this->db->where('id_terima', $kode)->update('penerimaan', $data);
-    }
-    public function store($post)
-    {
-        $idterima = $post['idterima'];
-        $terima = $this->Mpenerimaan->show($idterima);
-        $barang = $this->show_minta($post['iddetail']);
-        $query = $this->db->from('penerimaan_supplier')->where(['id_terima_supplier' => $idterima, 'id_minta_supplier' => $post['idminta']])->count_all_results();
-        if ($query == 0) {
-            $this->db->insert('penerimaan_supplier', ['id_terima_supplier' => $idterima, 'id_minta_supplier' => $post['idminta']]);
-        }
-        $data = [
-            'terima_detail' => $idterima,
-            'minta_detail' => $post['iddetail'],
-            'harga_detail' => convert_uang($post['harga']),
-            'jumlah_detail' => convert_uang($post['jumlah'])
-        ];
-        $this->db->insert('penerimaan_detail', $data);
-        $id_detail_terima = $this->db->insert_id();
-        $this->db->insert('harga_barang', [
-            'tanggal_hrg_barang' => $terima['tanggal_terima']
-        ]);
-        $id_harga = $this->db->insert_id();
-        $this->db->insert('penerimaan_harga', [
-            'detail_terima_harga' => $id_detail_terima,
-            'barang_terima_harga' => $id_harga
-        ]);
-        $data_satuan = $this->db->where('barang_brg_satuan', $barang['id_barang'])->get('barang_satuan')->result();
-        foreach ($data_satuan as $ds) {
-            $this->db->insert('harga_detail', [
-                'harga_hrg_detail' => $id_harga,
-                'satuan_hrg_detail' => $ds->id_brg_satuan,
-                'jual_hrg_detail' => 0,
-                'default_hrg_detail' => 0,
-                'aktif_hrg_detail' => 0,
-            ]);
-        }
-        $this->update_total($idterima);
-        $this->Mpenerimaan->UpdateStatusPermintaan($idterima);
-        return true;
-    }
-    public function update($post)
-    {
-        $data = $this->show($post['iddetail']);
-        $kode = $data['terima_detail'];
-        $data = [
-            'harga_detail'  => convert_uang($post['harga']),
-            'jumlah_detail' => convert_uang($post['jumlah'])
-        ];
-        $query = $this->db->where('id_detail', $post['iddetail'])->update('penerimaan_detail', $data);
-        $this->update_total($kode);
-        return $query;
-    }
-    public function destroy($kode)
-    {
-        $data = $this->show($kode);
-        $idterima = $data['terima_detail'];
-        $idminta = $data['id_minta'];
-        $check = $this->db->from('permintaan_detail')
-            ->join('penerimaan_detail', 'permintaan_detail.id_detail=minta_detail')
-            ->where(['permintaan_detail' => $idminta, 'terima_detail' => $idterima])
-            ->where_not_in('penerimaan_detail.id_detail', $kode)
-            ->count_all_results();
-        $data_harga = $this->db->where('detail_terima_harga', $kode)->get('penerimaan_harga')->row();
-        $id_harga = $data_harga->barang_terima_harga;
-        $this->db->where('detail_terima_harga', $kode)->delete('penerimaan_harga');
-        $this->db->where('harga_hrg_detail', $id_harga)->delete('harga_detail');
-        $this->db->where('id_hrg_barang', $id_harga)->delete('harga_barang');
-        if ($check > 0) :
-            $this->db->where('id_detail', $kode)->delete('penerimaan_detail');
-            $this->Mpenerimaan->UpdateStatusPermintaan($idterima);
-            $status = '0100';
-        else :
-            $this->db->where('id_detail', $kode)->delete('penerimaan_detail');
-            $this->Mpenerimaan->UpdateStatusPermintaan($idterima);
-            $this->db->where(['id_terima_supplier' => $idterima, 'id_minta_supplier' => $idminta])->delete('penerimaan_supplier');
-            $status = '0100';
-        endif;
-        $this->update_total($idterima);
-        return $status;
     }
 }
 
