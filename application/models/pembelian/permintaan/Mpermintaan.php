@@ -149,6 +149,7 @@ class Mpermintaan extends CI_Model
             $dataProduk = array();
             $total = 0;
             foreach ($queryProduk as $qp) {
+                $count_terima = $this->db->from('permintaan_detail')->join('terima_detail', 'permintaan_detail.id_detail=minta_detail')->where('permintaan_detail.id_detail', $qp->id_detail)->count_all_results();
                 $subtotal = $qp->harga_detail * $qp->jumlah_detail;
                 $total = $total + $subtotal;
                 $result_produk = [
@@ -161,9 +162,11 @@ class Mpermintaan extends CI_Model
                     'hargaAccount' => akuntansi($qp->harga_detail),
                     'jumlah' => (int)$qp->jumlah_detail,
                     'jumlahText' => rupiah($qp->jumlah_detail),
+                    'jumlahProduk' => rupiah($qp->jumlah_detail) . ' ' . $qp->singkatan_satuan,
                     'total' => $subtotal,
                     'totalText' => 'Rp. ' . rupiah($subtotal),
-                    'totalAccount' => akuntansi($subtotal)
+                    'totalAccount' => akuntansi($subtotal),
+                    'statusTerima' => $count_terima
                 ];
                 $dataProduk[] = $result_produk;
             }
