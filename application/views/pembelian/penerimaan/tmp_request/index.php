@@ -15,20 +15,19 @@
         border-radius: 0;
     }
 </style>
-<div class="modal fade" id="modal_data">
+<div class="modal fade" id="modal-data">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Data Permintaan Barang</h4>
+                <h4 class="modal-title">Daftar Permintaan Produk</h4>
             </div>
             <div class="modal-body table-responsive">
-                <table class="table table-bordered table-striped data_permintaan" style="width: 100%">
+                <table class="table table-bordered table-striped data-tabel">
                     <thead>
                         <tr>
                             <th class="text-center" width="40px">No.</th>
                             <th>No. Permintaan</th>
-                            <th>Supplier</th>
                             <th>Tanggal</th>
                             <th class="text-right">Total</th>
                             <th>User</th>
@@ -42,40 +41,42 @@
     </div>
 </div>
 <script>
-    $(".data_permintaan").DataTable({
-        ordering: false,
-        processing: true,
-        serverSide: true,
-        ajax: {
-            url: "<?= base_url('penerimaan/tmp-create/data-permintaan') ?>",
-            type: 'GET',
-        },
-        "columns": [{
-                "class": "text-center"
+    $(document).ready(function() {
+        table = $('.data-tabel').DataTable({
+            "ordering": false,
+            "processing": true,
+            "serverSide": true,
+            "order": [],
+            "ajax": {
+                "url": BASE_URL + "penerimaan/tmp-permintaan/data",
+                "type": "GET"
             },
-            {
-                "class": "text-left"
-            },
-            {
-                "class": "text-left"
-            },
-            {
-                "class": "text-left"
-            },
-            {
-                "class": "text-right"
-            },
-            {
-                "class": "text-left"
-            },
-            {
-                "class": "text-center",
-                "width": "100px"
-            },
-            {
-                "class": "text-center",
-                "width": "60px"
-            }
-        ]
+            "columnDefs": [{
+                "targets": [0],
+                "orderable": false,
+            }],
+            "columns": [{
+                    "class": "text-center"
+                },
+                {
+                    "class": "text-left"
+                },
+                {
+                    "class": "text-left"
+                },
+                {
+                    "class": "text-right"
+                },
+                {
+                    "class": "text-left"
+                },
+                {
+                    "class": "text-center"
+                },
+                {
+                    "class": "text-center"
+                }
+            ]
+        });
     });
 </script>
