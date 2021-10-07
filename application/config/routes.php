@@ -43,6 +43,14 @@ $route['satuan/edit'] = 'katalog/satuan/edit';
 $route['satuan/update'] = 'katalog/satuan/update';
 $route['satuan/destroy'] = 'katalog/satuan/destroy';
 $route['satuan/satuan_by_nama'] = 'katalog/satuan/satuan_by_nama';
+/** Sub Menu Konversi Satuan */
+$route['konversi-satuan'] = 'katalog/konversi';
+$route['konversi-satuan/data'] = 'katalog/konversi/data';
+$route['konversi-satuan/create'] = 'katalog/konversi/create';
+$route['konversi-satuan/store'] = 'katalog/konversi/store';
+$route['konversi-satuan/edit'] = 'katalog/konversi/edit';
+$route['konversi-satuan/update'] = 'katalog/konversi/update';
+$route['konversi-satuan/destroy'] = 'katalog/konversi/destroy';
 /** Sub Menu Kategori */
 $route['kategori'] = 'katalog/kategori';
 $route['kategori/data'] = 'katalog/kategori/data';
