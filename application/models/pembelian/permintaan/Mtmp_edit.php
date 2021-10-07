@@ -28,13 +28,13 @@ class Mtmp_edit extends CI_Model
         $this->update_total($post['idminta']);
         return $store;
     }
-    public function show($kode)
+    public function show($id = null)
     {
         return $this->db->from('permintaan_detail')
             ->join('barang_satuan', 'barang_detail=id_brg_satuan')
             ->join('barang', 'barang_brg_satuan=id_barang')
             ->join('satuan', 'satuan_brg_satuan=id_satuan')
-            ->where('id_detail', $kode)
+            ->where('id_detail', $id)
             ->get()->row_array();
     }
     public function update($post)
