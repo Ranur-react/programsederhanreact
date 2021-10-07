@@ -8,7 +8,7 @@ class Mkonversi extends CI_Model
 
     public function fetch_all()
     {
-        return $this->db->select('*,s1.nama_satuan as satuan_terbesar,s2.nama_satuan as satuan_terkecil,s2.singkatan_satuan')
+        return $this->db->select('*,s1.nama_satuan as satuan_terbesar,s1.singkatan_satuan as singkatan_terbesar,s2.nama_satuan as satuan_terkecil,s2.singkatan_satuan as singkatan_terkecil')
             ->from('satuan_konversi')
             ->join('satuan s1', 's1.id_satuan=idsatuan_terbesar')
             ->join('satuan s2', 's2.id_satuan=idsatuan_terkecil')

@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
     load_data();
 });
 
@@ -7,7 +7,7 @@ function load_data() {
         url: BASE_URL + 'konversi-satuan/data',
         method: "GET",
         dataType: 'json',
-        success: function(data) {
+        success: function (data) {
             var html = '';
             if (data == 0) {
                 html += '<tr>';
@@ -20,7 +20,7 @@ function load_data() {
                     html += '<a href="javascript:void(0)" class="edit" id="' + data[i].id + '" title="Edit"><i class="icon-pencil7 text-green"></i></a> <a href="javascript:void(0)" class="destroy" id="' + data[i].id + '"><i class="icon-trash text-red" title="Hapus"></i></a>';
                     html += '</td>';
                     html += '<td>Dari <strong>' + data[i].satuan_terbesar + '</strong> ke <strong>' + data[i].satuan_terkecil + '</strong></td>';
-                    html += '<td>' + data[i].nilai + ' ' + data[i].singkatan_satuan + '</td>';
+                    html += '<td>' + data[i].nilai + '</td>';
                     html += '</tr>';
                 }
             }
@@ -29,18 +29,18 @@ function load_data() {
     })
 }
 
-$(document).on('click', '.create', function(e) {
+$(document).on('click', '.create', function (e) {
     $.ajax({
         url: BASE_URL + 'konversi-satuan/create',
         type: "GET",
-        success: function(resp) {
+        success: function (resp) {
             $("#tampil_modal").html(resp);
             $("#modal_create").modal('show');
         }
     });
 });
 
-$(document).on('click', '.edit', function(e) {
+$(document).on('click', '.edit', function (e) {
     var id = $(this).attr('id');
     $.ajax({
         url: BASE_URL + 'konversi-satuan/edit',
@@ -48,13 +48,13 @@ $(document).on('click', '.edit', function(e) {
         data: {
             id: id
         },
-        success: function(resp) {
+        success: function (resp) {
             $("#tampil_modal").html(resp);
             $("#modal_create").modal('show');
         }
     });
 });
-$(document).on('click', '.destroy', function(e) {
+$(document).on('click', '.destroy', function (e) {
     var id = $(this).attr('id');
     Swal.fire({
         title: "Apakah kamu yakin?",
@@ -73,7 +73,7 @@ $(document).on('click', '.destroy', function(e) {
                     id: id
                 },
                 dataType: "json",
-                success: function(resp) {
+                success: function (resp) {
                     if (resp.status == "0100") {
                         Swal.fire('Deleted!', resp.msg, 'success').then((resp) => {
                             load_data();
@@ -87,25 +87,25 @@ $(document).on('click', '.destroy', function(e) {
     })
 });
 
-$(document).on('submit', '.form_create', function(e) {
+$(document).on('submit', '.form_create', function (e) {
     $.ajax({
         type: "post",
         url: $(this).attr('action'),
         data: $(this).serialize(),
         dataType: "json",
         cache: false,
-        beforeSend: function() {
+        beforeSend: function () {
             $('.store_data').button('loading');
         },
-        success: function(resp) {
+        success: function (resp) {
             resetToken(resp.token);
             if (resp.status == "0100") {
-                Swal.fire('Sukses', resp.pesan, 'success', ).then((resp) => {
+                Swal.fire('Sukses', resp.pesan, 'success',).then((resp) => {
                     $("#modal_create").modal('hide');
                     load_data();
                 });
             } else {
-                $.each(resp.pesan, function(key, value) {
+                $.each(resp.pesan, function (key, value) {
                     var element = $('#' + key);
                     element.closest('div.form-group')
                         .removeClass('has-error')
@@ -116,7 +116,7 @@ $(document).on('submit', '.form_create', function(e) {
                 });
             }
         },
-        complete: function() {
+        complete: function () {
             $('.store_data').button('reset');
         }
     });
