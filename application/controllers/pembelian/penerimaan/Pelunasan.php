@@ -6,14 +6,11 @@ class Pelunasan extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        if ($this->session->userdata('status_login') == "sessDashboard")
-            cek_user();
-        else
-            redirect('logout');
+        check_logged_in();
         $this->load->model('pembelian/penerimaan/Mpenerimaan');
-        $this->load->model('pembelian/Mpelunasan');
+        $this->load->model('pembelian/penerimaan/Mpelunasan');
     }
-    public function detail($kode)
+    public function index($kode)
     {
         $data = [
             'title' => 'Pelunasan',
@@ -21,27 +18,24 @@ class Pelunasan extends CI_Controller
             'links' => '<li class="active">Pelunasan</li>',
             'data' => $this->Mpenerimaan->show($kode)
         ];
-        $this->template->dashboard('pembelian/pelunasan/detail', $data);
+        $this->template->dashboard('pembelian/penerimaan/pelunasan/index', $data);
     }
     public function data()
     {
         $idterima = $this->input->get('idterima');
-        $d['data'] = $this->Mpenerimaan->show($idterima);
-        $d['result'] = $this->Mpelunasan->show($idterima);
-        $d['bayar'] = $this->Mpelunasan->total_bayar($idterima);
-        $this->load->view('pembelian/pelunasan/data', $d);
+        $data = $this->Mpenerimaan->show($idterima);
+        echo json_encode($data);
     }
     public function create()
     {
-        $kode = $this->input->get('kode');
+        $idterima = $this->input->get('idterima');
         $data = [
             'name' => 'Pelunasan',
-            'post' => 'pelunasan/store',
+            'post' => 'penerimaan/pelunasan/store',
             'class' => 'form_create',
-            'data' => $this->Mpenerimaan->show($kode),
-            'bayar' => $this->Mpelunasan->total_bayar($kode)
+            'data' => $this->Mpenerimaan->show($idterima)
         ];
-        $this->template->modal_form('pembelian/pelunasan/create', $data);
+        $this->template->modal_form('pembelian/penerimaan/pelunasan/create', $data);
     }
     public function store()
     {
@@ -54,12 +48,14 @@ class Pelunasan extends CI_Controller
             $this->Mpelunasan->store($post);
             $json = array(
                 'status' => '0100',
-                'message' => 'Pelunasan berhasil ditambahkan'
+                'token' => $this->security->get_csrf_hash(),
+                'msg' => 'Pelunasan berhasil ditambahkan'
             );
         } else {
             $json = array(
                 'status' => '0101',
-                'message' => 'Pelunasan gagal ditambahkan'
+                'token' => $this->security->get_csrf_hash(),
+                'msg' => 'Pelunasan gagal ditambahkan'
             );
             foreach ($_POST as $key => $value) {
                 $json['pesan'][$key] = form_error($key);
@@ -69,17 +65,17 @@ class Pelunasan extends CI_Controller
     }
     public function destroy()
     {
-        $kode = $this->input->get('kode', true);
-        $query = $this->Mpelunasan->destroy($kode);
+        $id = $this->input->get('id', true);
+        $query = $this->Mpelunasan->destroy($id);
         if ($query == '0100') {
             $json = array(
                 'status' => '0100',
-                'message' => 'Pelunasan berhasil dihapus'
+                'msg' => 'Pelunasan berhasil dihapus'
             );
         } else {
             $json = array(
                 'status' => '0101',
-                'message' => 'Pelunasan tidak bisa dihapus.'
+                'msg' => 'Pelunasan gagal dihapus.'
             );
         }
         echo json_encode($json);
