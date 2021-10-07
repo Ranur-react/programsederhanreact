@@ -6,14 +6,11 @@ class Penerimaan extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        if ($this->session->userdata('status_login') == "sessDashboard")
-            cek_user();
-        else
-            redirect('logout');
+        check_logged_in();
+        $this->load->model('master/Mpemasok');
         $this->load->model('master/Mgudang');
         $this->load->model('pembelian/penerimaan/Mpenerimaan');
         $this->load->model('pembelian/penerimaan/Mtmp_create');
-        $this->load->model('pembelian/penerimaan/Mtmp_edit');
     }
     public function index()
     {
@@ -22,87 +19,84 @@ class Penerimaan extends CI_Controller
             'small' => 'Menampilkan dan mengelola data penerimaan barang',
             'links' => '<li class="active">Penerimaan</li>'
         ];
-        $this->template->dashboard('pembelian/penerimaan/data', $data);
+        $this->template->dashboard('pembelian/penerimaan/index', $data);
     }
     public function data()
     {
-        $draw   = $_REQUEST['draw'];
-        $length = $_REQUEST['length'];
-        $start  = $_REQUEST['start'];
-        $search = $_REQUEST['search']["value"];
-        $total  = $this->Mpenerimaan->jumlah_data();
-        $output = array();
-        $output['draw'] = $draw;
-        $output['recordsTotal'] = $output['recordsFiltered'] = $total;
-        $output['data'] = array();
-        if ($search != "") {
-            $query = $this->Mpenerimaan->cari_data($search);
-        } else {
-            $query = $this->Mpenerimaan->tampil_data($start, $length);
-        }
-        if ($search != "") {
-            $count = $this->Mpenerimaan->cari_data($search);
-            $output['recordsTotal'] = $output['recordsFiltered'] = $count->num_rows();
-        }
-        $no = 1;
-        foreach ($query->result_array() as $d) {
-            $bayar = '<a href="' . site_url('pelunasan/detail/' . $d['id_terima']) . '"><i class="icon-coin-dollar text-purple" title="Bayar"></i></a>';
-            $info = '<a href="javascript:void(0)" onclick="info(\'' . $d['id_terima'] . '\')"><i class="icon-eye8 text-blue" title="Info"></i></a>';
-            $edit = '<a href="' . site_url('penerimaan/edit/' . $d['id_terima']) . '"><i class="icon-pencil7 text-green" title="Edit"></i></a>';
-            $hapus = '<a href="javascript:void(0)" onclick="hapus(\'' . $d['id_terima'] . '\')"><i class="icon-trash text-red" title="Hapus"></i></a>';
-            $output['data'][] = array(
-                $no . '.',
-                $d['nosurat_terima'],
-                $d['nama'],
-                $d['nama_gudang'],
-                format_biasa($d['tanggal_terima']),
-                akuntansi($d['total_terima']),
-                $d['nama_user'],
-                status_span($d['status_terima'], 'penerimaan'),
-                $bayar . '&nbsp;' . $info . '&nbsp;' . $edit . '&nbsp;' . $hapus
-            );
+        $query = $this->Mpenerimaan->fetch_all();
+        $data = array();
+        $no = $_GET['start'];
+        foreach ($query as $value) {
             $no++;
+            $bayar = '<a href="' . site_url('penerimaan/pelunasan/' . $value->id_terima) . '"><i class="icon-coin-dollar text-purple" title="Bayar"></i></a>';
+            $detail = '<a href="javascript:void(0)" class="detail" id="' . $value->id_terima . '"><i class="icon-eye8 text-black" title="Detail"></i></a>';
+            $edit = '<a href="' . site_url('penerimaan/edit/' . $value->id_terima) . '"><i class="icon-pencil7 text-green" title="Edit"></i></a>';
+            $destroy = '<a href="javascript:void(0)" class="destroy" id="' . $value->id_terima . '"><i class="icon-trash text-red" title="Hapus"></i></a>';
+            $row = array();
+            $row[] = $no . '.';
+            $row[] = $value->nosurat_terima;
+            $row[] = $value->nama_supplier;
+            $row[] = $value->nama_gudang;
+            $row[] = format_biasa($value->tanggal_terima);
+            $row[] = akuntansi($value->total_terima);
+            $row[] = $value->nama_user;
+            $row[] = status_span($value->status_terima, 'penerimaan');
+            $row[] = $bayar . '&nbsp;' . $detail . '&nbsp;' . $edit . '&nbsp;' . $destroy;
+            $data[] = $row;
         }
+        $output = array(
+            "draw" => $_GET['draw'],
+            "recordsTotal" => $this->Mpenerimaan->count_all(),
+            "recordsFiltered" => $this->Mpenerimaan->count_filtered(),
+            "data" => $data,
+        );
         echo json_encode($output);
     }
     public function create()
     {
         $data = [
             'title' => 'Penerimaan',
-            'small' => 'Tambah Data Penerimaan Barang',
+            'small' => 'Tambah Penerimaan Produk',
             'links' => '<li><a href="' . site_url('penerimaan') . '">Penerimaan</a></li><li class="active">Tambah</li>',
             'sidebar' => 'collapse',
-            'gudang' => $this->Mgudang->getall(),
+            'supplier' => $this->Mpemasok->getall(),
+            'gudang' => $this->Mgudang->fetch_all(),
             'nomor' => $this->Mpenerimaan->nosurat()
         ];
-        $this->template->dashboard('pembelian/penerimaan/tambah', $data);
+        $this->template->dashboard('pembelian/penerimaan/create', $data);
     }
     public function store()
     {
         $post = $this->input->post(null, TRUE);
         $this->form_validation->set_rules('tanggal', 'Tanggal', 'required');
+        $this->form_validation->set_rules('pemasok', 'Pemasok', 'required');
         $this->form_validation->set_rules('gudang', 'Gudang', 'required');
         $this->form_validation->set_message('required', errorRequired());
         $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
         if ($this->form_validation->run() == TRUE) {
-            $tmp_data = $this->Mtmp_create->data();
+            $tmp_data = $this->Mtmp_create->fetch_all();
             if (count($tmp_data) > 0) :
                 $kode = $this->Mpenerimaan->kode();
                 $this->Mpenerimaan->store($kode, $post);
                 $json = array(
-                    'status' => "0100",
+                    'status' => '0100',
+                    'token' => $this->security->get_csrf_hash(),
                     'kode' => $kode,
-                    'message' => 'Form tambah penerimaan barang berhasil dibuat.'
+                    'msg' => 'Form penerimaan produk berhasil dibuat.'
                 );
             else :
                 $json = array(
-                    'status' => "0100",
+                    'status' => '0100',
+                    'token' => $this->security->get_csrf_hash(),
                     'count' => count($tmp_data),
-                    'message' => 'Anda belum melengkapi isian form penerimaan barang.'
+                    'msg' => 'Anda belum melengkapi isian form penerimaan produk.'
                 );
             endif;
         } else {
-            $json['status'] = "0101";
+            $json = array(
+                'status' => '0101',
+                'token' => $this->security->get_csrf_hash()
+            );
             foreach ($_POST as $key => $value) {
                 $json['pesan'][$key] = form_error($key);
             }
@@ -116,7 +110,8 @@ class Penerimaan extends CI_Controller
             'small' => 'Edit Data Penerimaan Barang',
             'links' => '<li><a href="' . site_url('penerimaan') . '">Penerimaan</a></li><li class="active">Edit</li>',
             'sidebar' => 'collapse',
-            'gudang' => $this->Mgudang->getall(),
+            'supplier' => $this->Mpemasok->getall(),
+            'gudang' => $this->Mgudang->fetch_all(),
             'data' => $this->Mpenerimaan->show($kode)
         ];
         $this->template->dashboard('pembelian/penerimaan/edit', $data);
@@ -129,24 +124,29 @@ class Penerimaan extends CI_Controller
         $this->form_validation->set_message('required', errorRequired());
         $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
         if ($this->form_validation->run() == TRUE) {
-            $kode = $post['kode'];
-            $tmp_data = $this->Mtmp_edit->data_tmp($kode);
-            if (count($tmp_data) > 0) :
-                $this->Mpenerimaan->update($kode, $post);
+            $idterima = $post['idterima'];
+            $tmp_data = $this->db->from('terima_detail')->where('terima_detail', $idterima)->count_all_results();
+            if ($tmp_data > 0) :
+                $this->Mpenerimaan->update($idterima, $post);
                 $json = array(
-                    'status' => "0100",
-                    'kode' => $kode,
-                    'message' => 'Form edit penerimaan barang berhasil dirubah.'
+                    'status' => '0100',
+                    'token' => $this->security->get_csrf_hash(),
+                    'kode' => $idterima,
+                    'msg' => 'Form edit penerimaan produk berhasil dirubah.'
                 );
             else :
                 $json = array(
-                    'status' => "0100",
-                    'count' => count($tmp_data),
-                    'message' => 'Anda belum melengkapi isian form penerimaan barang.'
+                    'status' => '0100',
+                    'token' => $this->security->get_csrf_hash(),
+                    'count' => $tmp_data,
+                    'msg' => 'Anda belum melengkapi isian form edit penerimaan produk.'
                 );
             endif;
         } else {
-            $json['status'] = "0101";
+            $json = array(
+                'status' => '0101',
+                'token' => $this->security->get_csrf_hash()
+            );
             foreach ($_POST as $key => $value) {
                 $json['pesan'][$key] = form_error($key);
             }
@@ -157,37 +157,35 @@ class Penerimaan extends CI_Controller
     {
         $data = [
             'title' => 'Penerimaan',
-            'small' => 'Detail Penerimaan barang',
+            'small' => 'Detail Penerimaan Produk',
             'links' => '<li><a href="' . site_url('penerimaan') . '">Penerimaan</a></li><li class="active">Detail</li>',
-            'data' => $this->Mpenerimaan->show($kode),
-            'barang' => $this->Mtmp_edit->data_tmp($kode)
+            'data' => $this->Mpenerimaan->show($kode)
         ];
         $this->template->dashboard('pembelian/penerimaan/detail', $data);
     }
-    public function info()
+    public function view()
     {
-        $kode = $this->input->get('kode');
+        $id = $this->input->get('id');
         $data = [
-            'name' => 'Detail Penerimaan Barang',
+            'name' => 'Detail Penerimaan Produk',
             'modallg' => 1,
-            'data' => $this->Mpenerimaan->show($kode),
-            'barang' => $this->Mtmp_edit->data_tmp($kode)
+            'data' => $this->Mpenerimaan->show($id)
         ];
-        $this->template->modal_info('pembelian/penerimaan/info', $data);
+        $this->template->modal_info('pembelian/penerimaan/view', $data);
     }
     public function destroy()
     {
-        $kode = $this->input->get('kode', true);
-        $query = $this->Mpenerimaan->destroy($kode);
-        if ($query == '0100') {
+        $id = $this->input->get('id', true);
+        $proses = $this->Mpenerimaan->destroy($id);
+        if ($proses['status'] == '0100') {
             $json = array(
                 'status' => '0100',
-                'message' => 'Data penerimaan barang berhasil dihapus'
+                'msg' => $proses['msg']
             );
         } else {
             $json = array(
                 'status' => '0101',
-                'message' => 'Data penerimaan barang tidak bisa dihapus.'
+                'msg' => $proses['msg']
             );
         }
         echo json_encode($json);

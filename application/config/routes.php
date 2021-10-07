@@ -115,22 +115,24 @@ $route['permintaan/tmp-edit/update'] = 'pembelian/permintaan/tmp_edit/update';
 $route['permintaan/tmp-edit/destroy'] = 'pembelian/permintaan/tmp_edit/destroy';
 $route['permintaan/tmp-edit/batal'] = 'pembelian/permintaan/tmp_edit/batal';
 
-// penerminaan
+/** Menu Pembelian
+ * Sub Menu Penerimaan
+ */
 $route['penerimaan'] = 'pembelian/penerimaan/penerimaan';
 $route['penerimaan/data'] = 'pembelian/penerimaan/penerimaan/data';
 $route['penerimaan/create'] = 'pembelian/penerimaan/penerimaan/create';
 $route['penerimaan/store'] = 'pembelian/penerimaan/penerimaan/store';
 $route['penerimaan/edit/(:num)'] = 'pembelian/penerimaan/penerimaan/edit/$1';
-$route['penerimaan/update'] = 'pembelian/penerimaan/penerimaan/update';
 $route['penerimaan/detail/(:num)'] = 'pembelian/penerimaan/penerimaan/detail/$1';
-$route['penerimaan/info'] = 'pembelian/penerimaan/penerimaan/info';
+$route['penerimaan/update'] = 'pembelian/penerimaan/penerimaan/update';
+$route['penerimaan/view'] = 'pembelian/penerimaan/penerimaan/view';
 $route['penerimaan/destroy'] = 'pembelian/penerimaan/penerimaan/destroy';
-
-$route['penerimaan/tmp-create/modal-permintaan'] = 'pembelian/penerimaan/tmp_create';
-$route['penerimaan/tmp-create/data-permintaan'] = 'pembelian/penerimaan/tmp_create/data_permintaan';
-$route['penerimaan/tmp-create/check-permintaan'] = 'pembelian/penerimaan/tmp_create/check_permintaan';
-$route['penerimaan/tmp-create/show-permintaan'] = 'pembelian/penerimaan/tmp_create/show_permintaan';
-
+/** Data Permintaan */
+$route['penerimaan/tmp-permintaan'] = 'pembelian/penerimaan/tmp_permintaan';
+$route['penerimaan/tmp-permintaan/data'] = 'pembelian/penerimaan/tmp_permintaan/data';
+$route['penerimaan/tmp-permintaan/show'] = 'pembelian/penerimaan/tmp_permintaan/show';
+// $route['penerimaan/tmp-edit/check-permintaan'] = 'pembelian/penerimaan/tmp_edit/check_permintaan';
+/** Tmp Tambah Penerimaan */
 $route['penerimaan/tmp-create/data'] = 'pembelian/penerimaan/tmp_create/data';
 $route['penerimaan/tmp-create/create'] = 'pembelian/penerimaan/tmp_create/create';
 $route['penerimaan/tmp-create/store'] = 'pembelian/penerimaan/tmp_create/store';
@@ -138,23 +140,19 @@ $route['penerimaan/tmp-create/edit'] = 'pembelian/penerimaan/tmp_create/edit';
 $route['penerimaan/tmp-create/update'] = 'pembelian/penerimaan/tmp_create/update';
 $route['penerimaan/tmp-create/destroy'] = 'pembelian/penerimaan/tmp_create/destroy';
 $route['penerimaan/tmp-create/batal'] = 'pembelian/penerimaan/tmp_create/batal';
-
-$route['penerimaan/tmp-edit/data-supplier'] = 'pembelian/penerimaan/tmp_edit/data_supplier';
-$route['penerimaan/tmp-edit/check-permintaan'] = 'pembelian/penerimaan/tmp_edit/check_permintaan';
-
-$route['penerimaan/tmp-edit/data-tmp'] = 'pembelian/penerimaan/tmp_edit/data_tmp';
+/** Tmp Edit Penerimaan */
+$route['penerimaan/tmp-edit/data'] = 'pembelian/penerimaan/tmp_edit/data';
 $route['penerimaan/tmp-edit/create'] = 'pembelian/penerimaan/tmp_edit/create';
 $route['penerimaan/tmp-edit/store'] = 'pembelian/penerimaan/tmp_edit/store';
 $route['penerimaan/tmp-edit/edit'] = 'pembelian/penerimaan/tmp_edit/edit';
 $route['penerimaan/tmp-edit/update'] = 'pembelian/penerimaan/tmp_edit/update';
 $route['penerimaan/tmp-edit/destroy'] = 'pembelian/penerimaan/tmp_edit/destroy';
-
-// Pembayaran Penerimaan
-$route['pelunasan/detail/(:num)'] = 'pembelian/pelunasan/detail/$1';
-$route['pelunasan/data'] = 'pembelian/pelunasan/data';
-$route['pelunasan/create'] = 'pembelian/pelunasan/create';
-$route['pelunasan/store'] = 'pembelian/pelunasan/store';
-$route['pelunasan/destroy'] = 'pembelian/pelunasan/destroy';
+// Pelunasan Penerimaan
+$route['penerimaan/pelunasan/(:num)'] = 'pembelian/penerimaan/pelunasan/index/$1';
+$route['penerimaan/pelunasan/data'] = 'pembelian/penerimaan/pelunasan/data';
+$route['penerimaan/pelunasan/create'] = 'pembelian/penerimaan/pelunasan/create';
+$route['penerimaan/pelunasan/store'] = 'pembelian/penerimaan/pelunasan/store';
+$route['penerimaan/pelunasan/destroy'] = 'pembelian/penerimaan/pelunasan/destroy';
 
 // Pesanan
 $route['pesanan'] = 'penjualan/pesanan/pesanan';
