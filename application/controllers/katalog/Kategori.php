@@ -44,7 +44,7 @@ class Kategori extends CI_Controller
             $output['data'][] = array(
                 $no . '.',
                 $d['nama'],
-                $d['image'] != '' ? '<img src="' . assets() . $d['image'] . '" alt="' . $d['nama'] . '">' : '',
+                $d['image'] != '' ? '<img src="' . assets() . $d['image'] . '" alt="' . $d['nama'] . '" width="80px" height="80px">' : '',
                 $edit . '&nbsp;' . $hapus
             );
             $no++;
