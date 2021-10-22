@@ -114,13 +114,13 @@ class Mpenerimaan extends CI_Model
         $data_tmp = $this->Mtmp_create->fetch_all();
         foreach ($data_tmp as $d) {
             $id_barang = $d->id_barang;
-            $konversi = konversi_jumlah_satuan($d->id_satuan, $d->jumlah);
             $data_detail = [
                 'terima_detail' => $kode,
                 'minta_detail' => $d->iddetail,
                 'harga_detail' => $d->harga,
                 'jumlah_detail' => $d->jumlah,
-                'stok_detail' => $konversi['jumlah']
+                'convert_detail' => $d->stok,
+                'stok_detail' => $d->stok
             ];
             $this->db->insert('terima_detail', $data_detail);
             $id_detail_terima = $this->db->insert_id();

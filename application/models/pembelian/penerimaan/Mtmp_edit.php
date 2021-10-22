@@ -34,6 +34,7 @@ class Mtmp_edit extends CI_Model
             'minta_detail' => $iddetail,
             'harga_detail' => convert_uang($post['harga']),
             'jumlah_detail' => $jumlah,
+            'convert_detail' => $konversi['jumlah'],
             'stok_detail' => $konversi['jumlah']
         ];
         $this->db->insert('terima_detail', $data);
@@ -81,6 +82,7 @@ class Mtmp_edit extends CI_Model
             $data = [
                 'harga_detail'  => convert_uang($post['harga']),
                 'jumlah_detail' => $jumlah,
+                'convert_detail' => $konversi['jumlah'],
                 'stok_detail' => $konversi['jumlah']
             ];
             $this->db->where('id_detail', $iddetailterima)->update('terima_detail', $data);
