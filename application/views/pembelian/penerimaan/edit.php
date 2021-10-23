@@ -217,7 +217,7 @@
                         html += '<td>' + resp['dataProduk'][i]['produk'] + '</td>';
                         html += '<td class="text-right">' + resp['dataProduk'][i]['jumlahText'] + ' ' + resp['dataProduk'][i]['satuan'] + '</td>';
                         html += '<td class="text-right">' + resp['dataProduk'][i]['hargaText'] + '</td>';
-                        html += '<td class="text-right">' + resp['dataProduk'][i]['totalText'] + '</td>';
+                        html += '<td class="text-right">' + resp['dataProduk'][i]['subtotalText'] + '</td>';
                         html += '<td class="text-center">';
                         html += '<a href="javascript:void(0)" class="edit" id="' + resp['dataProduk'][i]['iddetailterima'] + '"><i class="icon-pencil7 text-green"></i></a>';
                         html += '&nbsp;';

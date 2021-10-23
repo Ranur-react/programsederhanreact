@@ -8,7 +8,7 @@ class Tmp_edit extends CI_Controller
         parent::__construct();
         check_logged_in();
         $this->load->model('pembelian/penerimaan/Mpenerimaan');
-        $this->load->model('pembelian/penerimaan/Mtmp_edit');
+        $this->load->model('pembelian/penerimaan/Mtmp_update');
         $this->load->model('pembelian/penerimaan/Mtmp_permintaan');
     }
     public function data()
@@ -57,7 +57,7 @@ class Tmp_edit extends CI_Controller
             $this->form_validation->set_message('greater_than', greater_than());
             $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
             if ($this->form_validation->run() == TRUE) {
-                $this->Mtmp_edit->store($post);
+                $this->Mtmp_update->store($post);
                 $json = array(
                     'status' => '0100',
                     'token' => $this->security->get_csrf_hash(),
@@ -84,7 +84,7 @@ class Tmp_edit extends CI_Controller
             'post' => 'penerimaan/tmp-edit/update',
             'class' => 'form_tmp',
             'backdrop' => 1,
-            'data' => $this->Mtmp_edit->show($id)
+            'data' => $this->Mtmp_update->show($id)
         ];
         $this->template->modal_form('pembelian/penerimaan/tmp_edit/edit', $data);
     }
@@ -97,7 +97,7 @@ class Tmp_edit extends CI_Controller
         $this->form_validation->set_error_delimiters(errorDelimiter(), errorDelimiter_close());
         if ($this->form_validation->run() == TRUE) {
             $post = $this->input->post(null, TRUE);
-            $proses = $this->Mtmp_edit->update($post);
+            $proses = $this->Mtmp_update->update($post);
             $json = array(
                 'status' => '0100',
                 'token' => $this->security->get_csrf_hash(),
@@ -119,7 +119,7 @@ class Tmp_edit extends CI_Controller
     public function destroy()
     {
         $id = $this->input->get('id');
-        $action = $this->Mtmp_edit->destroy($id);
+        $action = $this->Mtmp_update->destroy($id);
         if ($action['status'] == true) {
             $json = array(
                 'status' => '0100',
@@ -139,7 +139,7 @@ class Tmp_edit extends CI_Controller
     {
         $id_terima = $this->input->get('id_terima');
         $id_minta = $this->input->get('id_minta');
-        $data = $this->Mtmp_edit->check_permintaan($id_terima, $id_minta);
+        $data = $this->Mtmp_update->check_permintaan($id_terima, $id_minta);
         if ($data == '0100') :
             $json = array(
                 'status' => '0100'

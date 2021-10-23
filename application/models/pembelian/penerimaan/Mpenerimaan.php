@@ -118,12 +118,17 @@ class Mpenerimaan extends CI_Model
                 'terima_detail' => $kode,
                 'minta_detail' => $d->iddetail,
                 'harga_detail' => $d->harga,
-                'jumlah_detail' => $d->jumlah,
-                'convert_detail' => $d->stok,
-                'stok_detail' => $d->stok
+                'jumlah_detail' => $d->jumlah
             ];
             $this->db->insert('terima_detail', $data_detail);
             $id_detail_terima = $this->db->insert_id();
+            $this->db->insert('terima_stok', [
+                'iddetail_stok' => $id_detail_terima,
+                'idsatuan_stok' => $d->id_brg_satuan,
+                'jumlah_stok' => $d->jumlah,
+                'convert_stok' => $d->stok,
+                'real_stok' => $d->stok
+            ]);
             $data_satuan = $this->db->where('barang_brg_satuan', $id_barang)->get('barang_satuan')->result();
             foreach ($data_satuan as $ds) {
                 $this->db->insert('terima_harga', [
@@ -206,22 +211,42 @@ class Mpenerimaan extends CI_Model
             $resultProduk = [];
             $total = 0;
             foreach ($sql_produk as $sp) {
-                $stok_awal = konversi_jumlah_satuan($sp->id_satuan, $sp->jumlah_terima);
                 $subtotal = $sp->harga_terima * $sp->jumlah_terima;
                 $total = $total + $subtotal;
                 $resultProduk = [
                     'iddetailterima' => (int)$sp->iddetailterima,
                     'produk' => $sp->nama_barang,
                     'satuan' => $sp->singkatan_satuan,
-                    'harga' => $sp->harga_terima,
+                    'harga' => (int)$sp->harga_terima,
                     'hargaText' => rupiah($sp->harga_terima),
-                    'jumlah' => $sp->jumlah_terima,
+                    'jumlah' => (int)$sp->jumlah_terima,
                     'jumlahText' => rupiah($sp->jumlah_terima),
-                    'total' => (int)$subtotal,
-                    'totalText' => rupiah($subtotal),
-                    'stokAwal' => $stok_awal['jumlah'],
-                    'stokAkhir' => (int)$sp->stok_detail
+                    'subtotal' => (int)$subtotal,
+                    'subtotalText' => rupiah($subtotal)
                 ];
+                $sql_stok = $this->db->from('terima_stok')
+                    ->join('barang_satuan', 'idsatuan_stok=id_brg_satuan')
+                    ->join('barang', 'barang_brg_satuan=id_barang')
+                    ->join('satuan', 'satuan_brg_satuan=id_satuan')
+                    ->where('iddetail_stok', $sp->iddetailterima)
+                    ->get()->result();
+                $dataStok = [];
+                $resultStok = [];
+                foreach ($sql_stok as $st) {
+                    $convertAwal = konversi_nilai_satuan($st->id_satuan, $st->convert_stok);
+                    $convertAkhir = konversi_nilai_satuan($st->id_satuan, $st->real_stok);
+                    $resultStok = [
+                        'idstok_produk' => (int)$st->id_stok,
+                        'idsatuan' => (int)$sp->id_satuan,
+                        'satuan' => $sp->singkatan_satuan,
+                        'stokAwal' => (int)$st->convert_stok,
+                        'stokAwalConvert' => $convertAwal['jumlah'],
+                        'stokAkhir' => (int)$st->real_stok,
+                        'stokAkhirConvert' => $convertAkhir['jumlah']
+                    ];
+                    $dataStok[] = $resultStok;
+                }
+                $resultProduk['dataStok'] = $dataStok;
                 $dataProduk[] = $resultProduk;
             }
             $data['dataProduk'] = $dataProduk;
@@ -276,19 +301,19 @@ class Mpenerimaan extends CI_Model
     {
         $data = $this->show($id);
         if ($data['status'] == 0) :
-            $totalStokAwal = 0;
-            $totalStokAkhir = 0;
-            foreach ($data['dataProduk'] as $dp) {
-                $totalStokAwal = $totalStokAwal + $dp['stokAwal'];
-                $totalStokAkhir = $totalStokAkhir + $dp['stokAkhir'];
-            }
-            if ($totalStokAwal > $totalStokAkhir) :
+            $cek_stok = $this->db->select('terima_detail,SUM(convert_stok) AS stok_awal, SUM(real_stok) AS stok_akhir')
+                ->from('terima_stok')
+                ->join('terima_detail', 'iddetail_stok=id_detail')
+                ->where('terima_detail', $id)
+                ->get()->row_array();
+            if ($cek_stok['stok_awal'] > $cek_stok['stok_akhir']) :
                 $arr = [
                     'status' => '0101',
                     'msg' => 'Penerimaan produk gagal dihapus karena stok menjadi minus'
                 ];
             else :
                 foreach ($data['dataProduk'] as $dd) {
+                    $this->db->where('iddetail_stok', $dd['iddetailterima'])->delete('terima_stok');
                     $this->db->where('iddetail_harga', $dd['iddetailterima'])->delete('terima_harga');
                     $this->db->where('id_detail', $dd['iddetailterima'])->delete('terima_detail');
                 }

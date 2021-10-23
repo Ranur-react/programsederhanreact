@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Mtmp_edit extends CI_Model
+class Mtmp_update extends CI_Model
 {
     public function __construct()
     {
@@ -33,12 +33,18 @@ class Mtmp_edit extends CI_Model
             'terima_detail' => $idterima,
             'minta_detail' => $iddetail,
             'harga_detail' => convert_uang($post['harga']),
-            'jumlah_detail' => $jumlah,
-            'convert_detail' => $konversi['jumlah'],
-            'stok_detail' => $konversi['jumlah']
+            'jumlah_detail' => $jumlah
         ];
         $this->db->insert('terima_detail', $data);
         $id_detail_terima = $this->db->insert_id();
+        $sql_produk = $this->show($id_detail_terima);
+        $this->db->insert('terima_stok', [
+            'iddetail_stok' => $id_detail_terima,
+            'idsatuan_stok' => $sql_produk['id_brg_satuan'],
+            'jumlah_stok' => $jumlah,
+            'convert_stok' => $konversi['jumlah'],
+            'real_stok' => $konversi['jumlah']
+        ]);
         $data_satuan = $this->db->where('barang_brg_satuan', $sql_request['id_barang'])->get('barang_satuan')->result();
         foreach ($data_satuan as $ds) {
             $this->db->insert('terima_harga', [
@@ -72,20 +78,24 @@ class Mtmp_edit extends CI_Model
         $idterima = $data['terima_detail'];
         $jumlah = convert_uang($post['jumlah']);
         $konversi = konversi_jumlah_satuan($data['id_satuan'], $jumlah);
-        $konversi_stok = konversi_jumlah_satuan($data['id_satuan'], $data['jumlah_terima']);
-        if ($konversi_stok['jumlah'] > $data['stok_detail']) :
+        $cek_data = $this->db->where(['iddetail_stok' => $iddetailterima, 'idsatuan_stok' => $data['id_brg_satuan']])->get('terima_stok')->row_array();
+        if ($cek_data['convert_stok'] > $cek_data['real_stok']) :
             $arr = [
                 'status' => false,
                 'msg' => 'Produk gagal dirubah karena stok menjadi minus'
             ];
         else :
-            $data = [
+            $data_produk = [
                 'harga_detail'  => convert_uang($post['harga']),
-                'jumlah_detail' => $jumlah,
-                'convert_detail' => $konversi['jumlah'],
-                'stok_detail' => $konversi['jumlah']
+                'jumlah_detail' => $jumlah
             ];
-            $this->db->where('id_detail', $iddetailterima)->update('terima_detail', $data);
+            $this->db->where('id_detail', $iddetailterima)->update('terima_detail', $data_produk);
+            $data_stok = [
+                'jumlah_stok' => $jumlah,
+                'convert_stok' => $konversi['jumlah'],
+                'real_stok' => $konversi['jumlah']
+            ];
+            $this->db->where('iddetail_stok', $iddetailterima)->update('terima_stok', $data_stok);
             $this->update_total($idterima);
             $arr = [
                 'status' => true,
@@ -96,15 +106,19 @@ class Mtmp_edit extends CI_Model
     }
     public function destroy($id)
     {
-        $data = $this->show($id);
-        $idterima = $data['terima_detail'];
-        $konversi = konversi_jumlah_satuan($data['id_satuan'], $data['jumlah_terima']);
-        if ($konversi['jumlah'] > $data['stok_detail']) :
+        $cek_stok = $this->db->select('terima_detail,SUM(convert_stok) AS stok_awal, SUM(real_stok) AS stok_akhir')
+            ->from('terima_stok')
+            ->join('terima_detail', 'iddetail_stok=id_detail')
+            ->where('iddetail_stok', $id)
+            ->get()->row_array();
+        $idterima = $cek_stok['terima_detail'];
+        if ($cek_stok['stok_awal'] > $cek_stok['stok_akhir']) :
             $arr = [
                 'status' => false,
                 'msg' => 'Produk gagal dihapus karena stok menjadi minus'
             ];
         else :
+            $this->db->where('iddetail_stok', $id)->delete('terima_stok');
             $this->db->where('iddetail_harga', $id)->delete('terima_harga');
             $this->db->where('id_detail', $id)->delete('terima_detail');
             $this->Mpenerimaan->UpdateStatusRequest($idterima);
@@ -166,4 +180,4 @@ class Mtmp_edit extends CI_Model
     }
 }
 
-/* End of file Mtmp_edit.php */
+/* End of file Mtmp_update.php */
