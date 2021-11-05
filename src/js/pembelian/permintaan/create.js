@@ -15,32 +15,32 @@ function data() {
         dataType: 'json',
         success: function (resp) {
             var html = '';
-            if (resp == 0) {
+            if (resp['status'] == false) {
                 html += '<tr>';
                 html += '<td colspan="8" class="text-center text-red">Belum ada data produk yang diinputkan.</td>';
                 html += '</tr>';
             } else {
                 var no = 1;
                 var total = 0;
-                for (var count = 0; count < resp.length; count++) {
-                    total = total + resp[count].total;
+                for (var i = 0; i < resp['data'].length; i++) {
+                    total = total + resp['data'][i]['total'];
                     html += '<tr>';
                     html += '<td class="text-center">' + no + '</td>';
-                    html += '<td>' + resp[count].nama + '</td>';
-                    html += '<td class="text-right">' + addCommas(resp[count].harga) + '</td>';
-                    html += '<td class="text-right">' + addCommas(resp[count].jumlah) + ' ' + resp[count].satuan + '</td>';
-                    html += '<td class="text-right">' + addCommas(resp[count].total) + '</td>';
+                    html += '<td>' + resp['data'][i]['nama'] + '</td>';
+                    html += '<td class="text-right">' + resp['data'][i]['harga'] + '</td>';
+                    html += '<td class="text-right">' + resp['data'][i]['jumlah'] + ' ' + resp['data'][i]['satuan'] + '</td>';
+                    html += '<td class="text-right">' + resp['data'][i]['total'] + '</td>';
                     html += '<td class="text-center">';
-                    html += '<a href="javascript:void(0)" onclick="edit(' + resp[count].id + ')"><i class="icon-pencil7 text-green"></i></a>';
+                    html += '<a href="javascript:void(0)" onclick="edit(' + resp['data'][i]['id'] + ')"><i class="icon-pencil7 text-green"></i></a>';
                     html += '&nbsp;';
-                    html += '<a href="javascript:void(0)" onclick="destroy(' + resp[count].id + ')"><i class="icon-trash text-red"></i></a>';
+                    html += '<a href="javascript:void(0)" onclick="destroy(' + resp['data'][i]['id'] + ')"><i class="icon-trash text-red"></i></a>';
                     html += '</td>';
                     html += '</tr>';
                     no++;
                 }
                 html += '<tr>';
                 html += '<th colspan="4" class="text-right">Total</th>';
-                html += '<th class="text-right">' + addCommas(total) + '</th>';
+                html += '<th class="text-right">' + resp['total'] + '</th>';
                 html += '</tr>';
             }
             $('#data_tmp').html(html);
@@ -179,23 +179,7 @@ $('#form_create').on('submit', function (event) {
             resetToken(resp.token);
             if (resp.status == "0100") {
                 if (resp.count == 0) {
-                    var html = '<div id="modal-alert" tabindex="-1" data-backdrop="static" class="modal_alert_new modal fade">' +
-                        '<div class="modal-dialog">' +
-                        '<div class="modal-content">' +
-                        '<div class="modal-header text-white"><i class="fa fa-check-circle"></i> <b>Pemberitahuan!</b></div>' +
-                        '<div class="modal-body">' +
-                        '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert">×</button>' +
-                        resp.msg +
-                        '</div>' +
-                        '</div>' +
-                        '<div class="modal-footer">' +
-                        '<button type="button" data-dismiss="modal" class="btn btn-default btn-sm"> <i class="icon-cross2"></i> Tutup</button>' +
-                        '</div>'
-                    '</div>' +
-                        '</div>' +
-                        '</div>';
-                    $("#tampil_modal").html(html);
-                    $("#modal-alert").modal('show');
+                    Swal.fire('Gagal!', resp.msg, 'error');
                 } else {
                     Swal.fire({
                         title: 'Sukses!',

@@ -17,8 +17,8 @@ class Mtmp_create extends CI_Model
     {
         $data = [
             'satuan' => $post['satuan'],
-            'harga'  => convert_uang($post['harga']),
-            'jumlah' => convert_uang($post['jumlah']),
+            'harga'  => hapus_desimal($post['harga']),
+            'jumlah' => hapus_desimal($post['jumlah']),
             'user'   => id_user()
         ];
         return $this->db->insert('tmp_permintaan', $data);
@@ -36,8 +36,8 @@ class Mtmp_create extends CI_Model
     {
         $data = [
             'satuan' => $post['satuan'],
-            'harga'  => convert_uang($post['harga']),
-            'jumlah' => convert_uang($post['jumlah'])
+            'harga'  => hapus_desimal($post['harga']),
+            'jumlah' => hapus_desimal($post['jumlah'])
         ];
         return $this->db->where('id', $post['idtmp'])->update('tmp_permintaan', $data);
     }

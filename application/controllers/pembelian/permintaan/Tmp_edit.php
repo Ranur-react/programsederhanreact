@@ -131,7 +131,7 @@ class Tmp_edit extends CI_Controller
     public function batal()
     {
         $kode = $this->input->get('kode');
-        $total = $this->db->from('penerimaan_minta')->where('id_minta_minta', $kode)->count_all_results();
+        $total = $this->db->from('terima_request')->where('idrequest', $kode)->count_all_results();
         if ($total > 0) :
             $json = array(
                 'status' => '0101',

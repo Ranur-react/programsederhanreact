@@ -22,11 +22,11 @@
 </div>
 <div class="form-group">
     <label class="required">Harga</label>
-    <input type="text" name="harga" id="harga" class="form-control" placeholder="Harga" value="<?= rupiah($data['harga']) ?>">
+    <input type="text" name="harga" id="harga" class="form-control" placeholder="Harga" value="<?= number_decimal($data['harga']) ?>" autocomplete="off">
 </div>
 <div class="form-group">
     <label class="required">Jumlah</label>
-    <input type="text" name="jumlah" id="jumlah" class="form-control" placeholder="Jumlah" value="<?= rupiah($data['jumlah']) ?>">
+    <input type="text" name="jumlah" id="jumlah" class="form-control" placeholder="Jumlah" value="<?= number_decimal($data['jumlah']) ?>" autocomplete="off">
 </div>
 <script>
     $(function() {

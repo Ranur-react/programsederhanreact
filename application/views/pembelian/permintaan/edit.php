@@ -1,4 +1,4 @@
-<?php if ($data['id'] == null) { ?>
+<?php if ($data['status'] == false) { ?>
     @section(content)
     <div class="col-md-8 col-md-offset-2">
         <div class="box box-widget">

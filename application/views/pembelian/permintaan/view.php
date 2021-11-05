@@ -29,16 +29,16 @@
             <?php foreach ($data['dataProduk'] as $b) { ?>
                 <tr>
                     <td><?= $b['produk'] ?></td>
-                    <td><?= $b['hargaAccount'] ?></td>
-                    <td class="text-right"><?= $b['jumlahText'] . ' ' . $b['singkatan'] ?></td>
-                    <td><?= $b['totalAccount'] ?></td>
+                    <td class="text-right"><?= $b['hargaText'] ?></td>
+                    <td class="text-right"><?= $b['jumlahProduk'] ?></td>
+                    <td class="text-right"><?= $b['totalText'] ?></td>
                 </tr>
             <?php } ?>
         </tbody>
         <tfoot>
             <tr>
                 <th colspan="3" class="text-right">Total</th>
-                <th><?= $data['totalAccount'] ?></th>
+                <th class="text-right"><?= $data['totalText'] ?></th>
             </tr>
         </tfoot>
     </table>

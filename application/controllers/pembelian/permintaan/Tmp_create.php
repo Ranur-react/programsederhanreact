@@ -14,20 +14,27 @@ class Tmp_create extends CI_Controller
     {
         $query = $this->Mtmp_create->tampil_data();
         if ($query == null) {
-            $data = [(int)0];
+            $data = [
+                'status' => false
+            ];
         } else {
             $total = 0;
             foreach ($query as $row) {
                 $total = $total + ($row->harga * $row->jumlah);
-                $data[] = [
+                $result[] = [
                     'id' => $row->id,
                     'nama' => $row->nama_barang,
                     'satuan' => $row->singkatan_satuan,
-                    'harga' => $row->harga,
-                    'jumlah' => $row->jumlah,
-                    'total' => $row->harga * $row->jumlah
+                    'harga' => currency($row->harga),
+                    'jumlah' => number_decimal($row->jumlah),
+                    'total' => currency($row->harga * $row->jumlah)
                 ];
             }
+            $data = [
+                'status' => true,
+                'data' => $result,
+                'total' => currency($total)
+            ];
         }
         echo json_encode($data);
     }

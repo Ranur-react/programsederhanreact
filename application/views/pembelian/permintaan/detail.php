@@ -55,7 +55,7 @@
                                 <tr>
                                     <td><?= $b['produk'] ?></td>
                                     <td class="text-right"><?= $b['hargaText'] ?></td>
-                                    <td class="text-right"><?= $b['jumlahText'] . ' ' . $b['singkatan'] ?></td>
+                                    <td class="text-right"><?= $b['jumlahProduk'] ?></td>
                                     <td class="text-right"><?= $b['totalText'] ?></td>
                                 </tr>
                             <?php } ?>

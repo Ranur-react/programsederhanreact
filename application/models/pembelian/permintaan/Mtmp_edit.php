@@ -21,8 +21,8 @@ class Mtmp_edit extends CI_Model
         $data = [
             'permintaan_detail' => $post['idminta'],
             'barang_detail' => $post['satuan'],
-            'harga_detail' => convert_uang($post['harga']),
-            'jumlah_detail' => convert_uang($post['jumlah'])
+            'harga_detail' => hapus_desimal($post['harga']),
+            'jumlah_detail' => hapus_desimal($post['jumlah'])
         ];
         $store = $this->db->insert('permintaan_detail', $data);
         $this->update_total($post['idminta']);
@@ -43,8 +43,8 @@ class Mtmp_edit extends CI_Model
         $kode = $data['permintaan_detail'];
         $data = [
             'barang_detail' => $post['satuan'],
-            'harga_detail' => convert_uang($post['harga']),
-            'jumlah_detail' => convert_uang($post['jumlah'])
+            'harga_detail' => hapus_desimal($post['harga']),
+            'jumlah_detail' => hapus_desimal($post['jumlah'])
         ];
         $update = $this->db->where('id_detail', $post['kode'])->update('permintaan_detail', $data);
         $this->update_total($kode);
@@ -52,7 +52,7 @@ class Mtmp_edit extends CI_Model
     }
     public function destroy($kode)
     {
-        $check = $this->db->from('penerimaan_detail')->where('minta_detail', $kode)->count_all_results();
+        $check = $this->db->from('terima_detail')->where('minta_detail', $kode)->count_all_results();
         if ($check > 0) :
             $status = '0101';
         else :

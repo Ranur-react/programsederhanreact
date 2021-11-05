@@ -122,9 +122,9 @@
                     <td class="text-center" style="padding-top: 0px; padding-bottom: 0px"><?= $no . '.' ?></td>
                     <td style="padding-top: 0px; padding-bottom: 0px"><?= $d['produk'] ?></td>
                     <td class="text-center" style="padding: 0 4px 0 4px;"><?= $d['satuan'] ?></td>
-                    <td class="text-right" style="padding: 0 4px 0 4px"><?= $d['hargaAccount'] ?></td>
-                    <td class="text-right" style="padding: 0 4px 0 4px"><?= $d['jumlahText'] . ' ' . $d['singkatan'] ?></td>
-                    <td class="text-right" style="padding: 0 4px 0 4px"><?= $d['totalAccount'] ?></td>
+                    <td class="text-right" style="padding: 0 4px 0 4px"><?= $d['hargaText'] ?></td>
+                    <td class="text-right" style="padding: 0 4px 0 4px"><?= $d['jumlahProduk'] ?></td>
+                    <td class="text-right" style="padding: 0 4px 0 4px"><?= $d['totalText'] ?></td>
                 </tr>
             <?php $no++;
             } ?>
@@ -141,7 +141,7 @@
             </tr>
             <tr>
                 <th class="text-right" colspan="5">Total</td>
-                <th><?= $data['totalAccount'] ?></td>
+                <th class="text-right"><?= $data['totalText'] ?></td>
             </tr>
         </tbody>
     </table>

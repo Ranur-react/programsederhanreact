@@ -17,11 +17,11 @@
 </div>
 <div class="form-group">
     <label class="required">Harga</label>
-    <input type="text" name="harga" id="harga" class="form-control" placeholder="Harga">
+    <input type="text" name="harga" id="harga" class="form-control" placeholder="Harga" autocomplete="off">
 </div>
 <div class="form-group">
     <label class="required">Jumlah</label>
-    <input type="text" name="jumlah" id="jumlah" class="form-control" placeholder="Jumlah">
+    <input type="text" name="jumlah" id="jumlah" class="form-control" placeholder="Jumlah" autocomplete="off">
 </div>
 <script>
     $(function() {

@@ -30,9 +30,9 @@ function data_tmp() {
                     html += '<tr>';
                     html += '<td class="text-center">' + no + '</td>';
                     html += '<td>' + resp["dataProduk"][count]["produk"] + '</td>';
-                    html += '<td class="text-right">' + resp["dataProduk"][count]["hargaAccount"] + '</td>';
+                    html += '<td class="text-right">' + resp["dataProduk"][count]["hargaText"] + '</td>';
                     html += '<td class="text-right">' + resp["dataProduk"][count]["jumlahText"] + ' ' + resp["dataProduk"][count]["singkatan"] + '</td>';
-                    html += '<td class="text-right">' + resp["dataProduk"][count]["totalAccount"] + '</td>';
+                    html += '<td class="text-right">' + resp["dataProduk"][count]["totalText"] + '</td>';
                     html += '<td class="text-center">';
                     html += '<a href="javascript:void(0)" onclick="edit(' + resp["dataProduk"][count]["iddetail"] + ')"><i class="icon-pencil7 text-green"></i></a>';
                     html += '&nbsp;';
@@ -43,7 +43,7 @@ function data_tmp() {
                 }
                 html += '<tr>';
                 html += '<th colspan="4" class="text-right">Total</th>';
-                html += '<th class="text-right">' + resp.totalAccount + '</th>';
+                html += '<th class="text-right">' + resp["totalText"] + '</th>';
                 html += '</tr>';
             }
             $('#data_tmp').html(html);
@@ -81,7 +81,7 @@ function edit(kode) {
 
 function destroy(kode) {
     Swal.fire({
-        title: 'Anda yakin hapus ini?',
+        title: 'Anda yakin hapus data ini?',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -205,23 +205,7 @@ $('#form_create').on('submit', function (event) {
             resetToken(resp.token);
             if (resp.status == "0100") {
                 if (resp.count == 0) {
-                    var generate_html = '<div id="modal-alert" tabindex="-1" data-backdrop="static" class="modal_alert_new modal fade">' +
-                        '<div class="modal-dialog">' +
-                        '<div class="modal-content">' +
-                        '<div class="modal-header"><h4 class="modal-title"><i class="fa fa-info-circle"></i> Pemberitahuan!</h4></div>' +
-                        '<div class="modal-body">' +
-                        '<div class="alert alert-danger"><button type="button" class="close" data-dismiss="alert">×</button>' +
-                        resp.msg +
-                        '</div>' +
-                        '</div>' +
-                        '<div class="modal-footer">' +
-                        '<button type="button" data-dismiss="modal" class="btn btn-default btn-sm"> <i class="icon-cross2"></i> Tutup</button>' +
-                        '</div>'
-                    '</div>' +
-                        '</div>' +
-                        '</div>';
-                    $("#tampil_modal").html(generate_html);
-                    $("#modal-alert").modal('show');
+                    Swal.fire('Gagal!', resp.msg, 'error');
                 } else {
                     Swal.fire({
                         title: 'Sukses!',

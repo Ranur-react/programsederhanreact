@@ -33,7 +33,7 @@ class Permintaan extends CI_Controller
             $row[] = $no . '.';
             $row[] = $value->nosurat_permintaan;
             $row[] = format_biasa($value->tanggal_permintaan);
-            $row[] = akuntansi($value->total_permintaan);
+            $row[] = currency($value->total_permintaan);
             $row[] = $value->nama_user;
             $row[] = status_span($value->status_permintaan, 'permintaan');
             $row[] = $info . '&nbsp;' . $edit . '&nbsp;' . $hapus;

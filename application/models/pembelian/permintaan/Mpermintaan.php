@@ -126,15 +126,15 @@ class Mpermintaan extends CI_Model
             ->where('id_permintaan', $id)
             ->get()->row();
         if ($sql == null) :
-            $data['id'] = [];
+            $data['status'] = false;
         else :
             $data = [
+                'status' => true,
                 'id' => (int)$sql->id_permintaan,
                 'nomor' => $sql->nosurat_permintaan,
                 'tanggal' => $sql->tanggal_permintaan,
                 'tanggal_format' => format_indo($sql->tanggal_permintaan),
                 'tanggal_date' => format_biasa($sql->tanggal_permintaan),
-                'status' => (int)$sql->status_permintaan,
                 'status_label' => status_label($sql->status_permintaan, 'permintaan'),
                 'user' => $sql->nama_user
             ];
@@ -158,22 +158,19 @@ class Mpermintaan extends CI_Model
                     'satuan' => $qp->nama_satuan,
                     'singkatan' => $qp->singkatan_satuan,
                     'harga' => (int)$qp->harga_detail,
-                    'hargaText' => 'Rp. ' . rupiah($qp->harga_detail),
-                    'hargaAccount' => akuntansi($qp->harga_detail),
+                    'hargaText' => currency($qp->harga_detail),
                     'jumlah' => (int)$qp->jumlah_detail,
-                    'jumlahText' => rupiah($qp->jumlah_detail),
-                    'jumlahProduk' => rupiah($qp->jumlah_detail) . ' ' . $qp->singkatan_satuan,
+                    'jumlahText' => number_decimal($qp->jumlah_detail),
+                    'jumlahProduk' => number_decimal($qp->jumlah_detail) . ' ' . $qp->singkatan_satuan,
                     'total' => $subtotal,
-                    'totalText' => 'Rp. ' . rupiah($subtotal),
-                    'totalAccount' => akuntansi($subtotal),
+                    'totalText' => currency($subtotal),
                     'statusTerima' => $count_terima
                 ];
                 $dataProduk[] = $result_produk;
             }
             $data['dataProduk'] = $dataProduk;
             $data['total'] = $total;
-            $data['totalText'] = 'Rp. ' . rupiah($total);
-            $data['totalAccount'] = akuntansi($total);
+            $data['totalText'] = currency($total);
         endif;
         return $data;
     }
