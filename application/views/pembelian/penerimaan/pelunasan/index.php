@@ -1,4 +1,4 @@
-<?php if ($data['info'] == false) : ?>
+<?php if ($data['status'] == false) : ?>
     @section(content)
     <div class="col-md-8 col-md-offset-2">
         <div class="box box-widget">
@@ -36,23 +36,17 @@
                                         <div class="col-md-2"><b>Nomor</b><span class="value">:</span></div>
                                         <div class="col-md-4"><?= $data['nomor'] ?></div>
                                         <div class="col-md-2"><b>Total Tagihan</b><span class="value">:</span></div>
-                                        <div class="col-md-4">Rp. <?= $data['totalText'] ?></div>
+                                        <div class="col-md-4"><?= $data['totalText'] ?></div>
                                         <div class="col-md-2"><b>Tanggal Terima</b><span class="value">:</span></div>
                                         <div class="col-md-4"><?= $data['tanggalText'] ?></div>
                                         <div class="col-md-2"><b>Pembayaran</b><span class="value">:</span></div>
-                                        <div class="col-md-4">
-                                            Rp. <span id="pembayaran"></span>
-                                        </div>
+                                        <div class="col-md-4"><span id="pembayaran"></span></div>
                                         <div class="col-md-2"><b>Pemasok</b><span class="value">:</span></div>
                                         <div class="col-md-4"><?= $data['pemasok'] ?></div>
                                         <div class="col-md-2"><b>Sisa Pembayaran</b><span class="value">:</span></div>
-                                        <div class="col-md-4">
-                                            Rp. <span id="sisa-bayar"></span>
-                                        </div>
+                                        <div class="col-md-4"><span id="sisa-bayar"></span></div>
                                         <div class="col-md-2"><b>Status</b><span class="value">:</span></div>
-                                        <div class="col-md-10">
-                                            <span id="status-bayar"></span>
-                                        </div>
+                                        <div class="col-md-10"><span id="status-bayar"></span></div>
                                     </div>
                                 </div>
                             </div>
@@ -102,8 +96,8 @@
                 },
                 success: function(resp) {
                     var html = '';
-                    $('#pembayaran').html(resp["totalBayarFormat"]);
-                    $('#sisa-bayar').html(resp["sisaBayarFormat"]);
+                    $('#pembayaran').html(resp["totalBayarText"]);
+                    $('#sisa-bayar').html(resp["sisaBayarText"]);
                     $('#status-bayar').html(resp["statusText"]);
                     if (resp['dataBayar'].length > 0) {
                         var no = 1;
@@ -121,7 +115,7 @@
                         }
                         html += '<tr>';
                         html += '<th colspan="3" class="text-right">Total</th>';
-                        html += '<th class="text-right">Rp ' + resp['totalBayarFormat'] + '</th>';
+                        html += '<th class="text-right">' + resp['totalBayarText'] + '</th>';
                         html += '</tr>';
                     } else {
                         html += '<tr>';

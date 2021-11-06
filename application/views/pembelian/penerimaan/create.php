@@ -109,32 +109,31 @@
             dataType: "json",
             success: function(resp) {
                 var html = '';
-                if (resp == 0) {
+                if (resp['status'] == false) {
                     html += '<tr>';
                     html += '<td colspan="6" class="text-center text-red">Belum ada data produk yang diinputkan.</td>';
                     html += '</tr>';
                 } else {
                     var no = 1;
                     var total = 0;
-                    for (var i = 0; i < resp.length; i++) {
-                        total = total + resp[i].subtotal;
+                    for (var i = 0; i < resp['data'].length; i++) {
                         html += '<tr>';
                         html += '<td class="text-center">' + no + '</td>';
-                        html += '<td>' + resp[i].produk + '</td>';
-                        html += '<td class="text-right">' + addCommas(resp[i].harga) + '</td>';
-                        html += '<td class="text-right">' + addCommas(resp[i].jumlah) + ' ' + resp[i].satuan + '</td>';
-                        html += '<td class="text-right">' + addCommas(resp[i].subtotal) + '</td>';
+                        html += '<td>' + resp['data'][i]['produk'] + '</td>';
+                        html += '<td class="text-right">' + resp['data'][i]['jumlah'] + '</td>';
+                        html += '<td class="text-right">' + resp['data'][i]['harga'] + '</td>';
+                        html += '<td class="text-right">' + resp['data'][i]['subtotal'] + '</td>';
                         html += '<td class="text-center">';
-                        html += '<a href="javascript:void(0)" class="edit" id="' + resp[i].id + '"><i class="icon-pencil7 text-green"></i></a>';
+                        html += '<a href="javascript:void(0)" class="edit" id="' + resp['data'][i]['id'] + '"><i class="icon-pencil7 text-green"></i></a>';
                         html += '&nbsp;';
-                        html += '<a href="javascript:void(0)" class="destroy" id="' + resp[i].id + '"><i class="icon-trash text-red"></i></a>';
+                        html += '<a href="javascript:void(0)" class="destroy" id="' + resp['data'][i]['id'] + '"><i class="icon-trash text-red"></i></a>';
                         html += '</td>';
                         html += '</tr>';
                         no++;
                     }
                     html += '<tr>';
                     html += '<th colspan="4" class="text-right">Total</th>';
-                    html += '<th class="text-right">' + addCommas(total) + '</th>';
+                    html += '<th class="text-right">' + resp['total'] + '</th>';
                     html += '</tr>';
                 }
                 $('#data_tmp').html(html);
@@ -194,7 +193,7 @@
                         html += '<tr class="row-list-item">';
                         html += '<td class="list-p-2 row-list-title">' + resp["data"]["dataProduk"][i]["produk"] + '</td>';
                         // html += '<td class="list-p-2 row-list-title">Produk<div class="row-list-desc">100 gram</div></td>';
-                        html += '<td class="list-p-2 text-center" valign="top">' + resp["data"]["dataProduk"][i]["jumlahText"] + ' ' + resp["data"]["dataProduk"][i]["singkatan"] + '</td>';
+                        html += '<td class="list-p-2 text-center" valign="top">' + resp["data"]["dataProduk"][i]["jumlahProduk"] + '</td>';
                         html += '<td class="list-p-2 text-right" valign="top">' + resp["data"]["dataProduk"][i]["hargaText"] + '</td>';
                         html += '<td class="list-p-2 text-right" valign="top">' + resp["data"]["dataProduk"][i]["totalText"] + '</td>';
                         html += '<td class="list-p-2 text-center" valign="top">';

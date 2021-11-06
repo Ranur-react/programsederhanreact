@@ -26,13 +26,13 @@ class Mtmp_update extends CI_Model
     {
         $idterima = $post['idterima'];
         $iddetail = $post['iddetail'];
-        $jumlah = convert_uang($post['jumlah']);
+        $jumlah = hapus_desimal($post['jumlah']);
         $sql_request = $this->Mtmp_permintaan->show($iddetail);
-        $konversi = konversi_jumlah_satuan($sql_request['id_satuan'], $jumlah);
+        $konversi = prosesKonversi($sql_request['id_satuan'], $jumlah);
         $data = [
             'terima_detail' => $idterima,
             'minta_detail' => $iddetail,
-            'harga_detail' => convert_uang($post['harga']),
+            'harga_detail' => hapus_desimal($post['harga']),
             'jumlah_detail' => $jumlah
         ];
         $this->db->insert('terima_detail', $data);
@@ -76,8 +76,8 @@ class Mtmp_update extends CI_Model
         $iddetailterima = $post['iddetailterima'];
         $data = $this->show($iddetailterima);
         $idterima = $data['terima_detail'];
-        $jumlah = convert_uang($post['jumlah']);
-        $konversi = konversi_jumlah_satuan($data['id_satuan'], $jumlah);
+        $jumlah = hapus_desimal($post['jumlah']);
+        $konversi = prosesKonversi($data['id_satuan'], $jumlah);
         $cek_data = $this->db->where(['iddetail_stok' => $iddetailterima, 'idsatuan_stok' => $data['id_brg_satuan']])->get('terima_stok')->row_array();
         if ($cek_data['convert_stok'] > $cek_data['real_stok']) :
             $arr = [
@@ -86,7 +86,7 @@ class Mtmp_update extends CI_Model
             ];
         else :
             $data_produk = [
-                'harga_detail'  => convert_uang($post['harga']),
+                'harga_detail'  => hapus_desimal($post['harga']),
                 'jumlah_detail' => $jumlah
             ];
             $this->db->where('id_detail', $iddetailterima)->update('terima_detail', $data_produk);

@@ -30,7 +30,7 @@ class Mpelunasan extends CI_Model
             'terima_bayar' => $post['idterima'],
             'tanggal_bayar' => date("Y-m-d", strtotime($post['tanggal'])),
             'note_bayar' => $post['note'],
-            'jumlah_bayar' => convert_uang($post['jumlah']),
+            'jumlah_bayar' => hapus_desimal($post['jumlah']),
             'user_bayar' => id_user()
         ];
         $this->db->insert('terima_bayar', $data);

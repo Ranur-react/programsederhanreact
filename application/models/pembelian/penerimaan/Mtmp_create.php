@@ -21,13 +21,13 @@ class Mtmp_create extends CI_Model
     }
     public function store($post)
     {
-        $jumlah = convert_uang($post['jumlah']);
+        $jumlah = hapus_desimal($post['jumlah']);
         $sql_request = $this->Mtmp_permintaan->show($post['iddetail']);
-        $konversi = konversi_jumlah_satuan($sql_request['id_satuan'], $jumlah);
+        $konversi = prosesKonversi($sql_request['id_satuan'], $jumlah);
         $data = [
             'iddetail' => $post['iddetail'],
             'permintaan' => $post['idrequest'],
-            'harga' => convert_uang($post['harga']),
+            'harga' => hapus_desimal($post['harga']),
             'jumlah' => $jumlah,
             'stok' => $konversi['jumlah'],
             'user' => id_user()
@@ -46,12 +46,12 @@ class Mtmp_create extends CI_Model
     }
     public function update($post)
     {
-        $jumlah = convert_uang($post['jumlah']);
+        $jumlah = hapus_desimal($post['jumlah']);
         $result = $this->show($post['id']);
         $sql_request = $this->Mtmp_permintaan->show($result['iddetail']);
-        $konversi = konversi_jumlah_satuan($sql_request['id_satuan'], $jumlah);
+        $konversi = prosesKonversi($sql_request['id_satuan'], $jumlah);
         $data = [
-            'harga'  => convert_uang($post['harga']),
+            'harga'  => hapus_desimal($post['harga']),
             'jumlah' => $jumlah,
             'stok' => $konversi['jumlah']
         ];

@@ -182,15 +182,14 @@ class Mpenerimaan extends CI_Model
             ->get()->row();
         if ($sql != null) :
             $data = [
-                'info' => true,
+                'status' => true,
                 'idterima' => (int)$sql->id_terima,
                 'nomor' => $sql->nosurat_terima,
                 'tanggal' => $sql->tanggal_terima,
                 'tanggalIndo' => format_biasa($sql->tanggal_terima),
                 'tanggalText' => format_indo($sql->tanggal_terima),
                 'total' => (int)$sql->total_terima,
-                'totalText' => rupiah($sql->total_terima),
-                'status' => (int)$sql->status_terima,
+                'totalText' => currency($sql->total_terima),
                 'statusText' => status_label($sql->status_terima, 'penerimaan'),
                 'user' => $sql->nama_user,
                 'idpemasok' => (int)$sql->id_supplier,
@@ -218,11 +217,11 @@ class Mpenerimaan extends CI_Model
                     'produk' => $sp->nama_barang,
                     'satuan' => $sp->singkatan_satuan,
                     'harga' => (int)$sp->harga_terima,
-                    'hargaText' => rupiah($sp->harga_terima),
+                    'hargaText' => currency($sp->harga_terima),
                     'jumlah' => (int)$sp->jumlah_terima,
-                    'jumlahText' => rupiah($sp->jumlah_terima),
+                    'jumlahText' => number_decimal($sp->jumlah_terima),
                     'subtotal' => (int)$subtotal,
-                    'subtotalText' => rupiah($subtotal)
+                    'subtotalText' => currency($subtotal)
                 ];
                 $sql_stok = $this->db->from('terima_stok')
                     ->join('barang_satuan', 'idsatuan_stok=id_brg_satuan')
@@ -233,16 +232,16 @@ class Mpenerimaan extends CI_Model
                 $dataStok = [];
                 $resultStok = [];
                 foreach ($sql_stok as $st) {
-                    $convertAwal = konversi_nilai_satuan($st->id_satuan, $st->convert_stok);
-                    $convertAkhir = konversi_nilai_satuan($st->id_satuan, $st->real_stok);
+                    $convertAwal = nilaiKonversi($st->id_satuan, $st->convert_stok);
+                    $convertAkhir = nilaiKonversi($st->id_satuan, $st->real_stok);
                     $resultStok = [
                         'idstok_produk' => (int)$st->id_stok,
                         'idsatuan' => (int)$sp->id_satuan,
                         'satuan' => $sp->singkatan_satuan,
                         'stokAwal' => (int)$st->convert_stok,
-                        'stokAwalConvert' => $convertAwal['jumlah'],
+                        'stokAwalText' => $convertAwal['value'],
                         'stokAkhir' => (int)$st->real_stok,
-                        'stokAkhirConvert' => $convertAkhir['jumlah']
+                        'stokAkhirText' => $convertAkhir['value']
                     ];
                     $dataStok[] = $resultStok;
                 }
@@ -251,7 +250,7 @@ class Mpenerimaan extends CI_Model
             }
             $data['dataProduk'] = $dataProduk;
             $data['totalTerima'] = $total;
-            $data['totalFormat'] = rupiah($total);
+            $data['totalFormat'] = currency($total);
             $sql_request = $this->db->from('terima_request')
                 ->join('permintaan', 'idrequest=id_permintaan')
                 ->where('idterima', $id)
@@ -267,24 +266,24 @@ class Mpenerimaan extends CI_Model
             foreach ($sql_bayar as $sb) {
                 $totalBayar = $totalBayar + $sb->jumlah_bayar;
                 $resultBayar = [
-                    'idbayar' => $sb->id_bayar,
+                    'idbayar' => (int)$sb->id_bayar,
                     'tanggal' => $sb->tanggal_bayar,
                     'tanggalIndo' => format_biasa($sb->tanggal_bayar),
                     'tanggalText' => format_indo($sb->tanggal_bayar),
                     'note' => $sb->note_bayar,
-                    'jumlah' => $sb->jumlah_bayar,
-                    'jumlahText' => rupiah($sb->jumlah_bayar)
+                    'jumlah' => (int)$sb->jumlah_bayar,
+                    'jumlahText' => currency($sb->jumlah_bayar)
                 ];
                 $dataBayar[] = $resultBayar;
             }
             $sisa = $sql->total_terima - $totalBayar;
             $data['dataBayar'] = $dataBayar;
             $data['totalBayar'] = $totalBayar;
-            $data['totalBayarFormat'] = rupiah($totalBayar);
+            $data['totalBayarText'] = currency($totalBayar);
             $data['sisaBayar'] = $sisa;
-            $data['sisaBayarFormat'] = rupiah($sisa);
+            $data['sisaBayarText'] = currency($sisa);
         else :
-            $data['info'] = false;
+            $data['status'] = false;
         endif;
         return $data;
     }

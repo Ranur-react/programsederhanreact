@@ -10,11 +10,11 @@
                     <div class="col-lg-3 col-xs-4"><b>Pemasok</b><span class="value">:</span></div>
                     <div class="col-lg-9 col-xs-8"><?= $data['pemasok'] ?></div>
                     <div class="col-lg-3 col-xs-4"><b>Total Tagihan</b><span class="value">:</span></div>
-                    <div class="col-lg-9 col-xs-8">Rp. <?= $data['totalText'] ?></div>
+                    <div class="col-lg-9 col-xs-8"><?= $data['totalText'] ?></div>
                     <div class="col-lg-3 col-xs-4"><b>Pembayaran</b><span class="value">:</span></div>
-                    <div class="col-lg-9 col-xs-8">Rp. <?= $data['totalBayarFormat'] ?></div>
+                    <div class="col-lg-9 col-xs-8"><?= $data['totalBayarText'] ?></div>
                     <div class="col-lg-3 col-xs-4"><b>Sisa Bayar</b><span class="value">:</span></div>
-                    <div class="col-lg-9 col-xs-8">Rp. <?= $data['sisaBayarFormat'] ?></div>
+                    <div class="col-lg-9 col-xs-8"><?= $data['sisaBayarText'] ?></div>
                     <div class="col-lg-3 col-xs-4"><b>Status</b><span class="value">:</span></div>
                     <div class="col-lg-9 col-xs-8"><?= $data['statusText'] ?></div>
                 </div>
@@ -33,7 +33,7 @@
 </div>
 <div class="form-group">
     <label for="nama">Jumlah Bayar</label>
-    <input type="text" name="jumlah" id="jumlah" class="form-control" placeholder="Jumlah Bayar">
+    <input type="text" name="jumlah" id="jumlah" class="form-control" placeholder="Jumlah Bayar" autocomplete="off">
 </div>
 <div class="form-group">
     <label for="nama">Keterangan</label>

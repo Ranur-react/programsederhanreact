@@ -16,7 +16,7 @@ class Penerimaan extends CI_Controller
     {
         $data = [
             'title' => 'Penerimaan',
-            'small' => 'Menampilkan dan mengelola data penerimaan barang',
+            'small' => 'Daftar Penerimaan Produk',
             'links' => '<li class="active">Penerimaan</li>'
         ];
         $this->template->dashboard('pembelian/penerimaan/index', $data);
@@ -38,7 +38,7 @@ class Penerimaan extends CI_Controller
             $row[] = $value->nama_supplier;
             $row[] = $value->nama_gudang;
             $row[] = format_biasa($value->tanggal_terima);
-            $row[] = akuntansi($value->total_terima);
+            $row[] = currency($value->total_terima);
             $row[] = $value->nama_user;
             $row[] = status_span($value->status_terima, 'penerimaan');
             $row[] = $bayar . '&nbsp;' . $detail . '&nbsp;' . $edit . '&nbsp;' . $destroy;

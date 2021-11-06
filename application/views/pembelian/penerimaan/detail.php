@@ -1,5 +1,5 @@
 @section(content)
-<?php if ($data['info'] == false) : ?>
+<?php if ($data['status'] == false) : ?>
     <div class="col-md-8 col-md-offset-2">
         <div class="box box-widget">
             <div class="box-header with-border">
