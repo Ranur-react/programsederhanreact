@@ -30,7 +30,7 @@ class Konversi extends CI_Controller
                     'satuan_terbesar' => $row['satuan_terbesar'],
                     'satuan_terkecil' => $row['satuan_terkecil'],
                     'singkatan_satuan' => $row['singkatan_satuan'],
-                    'nilai' => '1 ' . $row['singkatan_terbesar'] . ' = ' . rupiah($row['nilai_konversi']) . ' ' . $row['singkatan_terkecil']
+                    'nilai' => '1 ' . $row['singkatan_terbesar'] . ' = ' . number_decimal($row['nilai_konversi']) . ' ' . $row['singkatan_terkecil']
                 ];
             }
         }
