@@ -80,18 +80,20 @@ $route['produk/destroy-gambar'] = 'katalog/produk/destroy_gambar';
 // katalog
 $route['harga'] = 'katalog/harga';
 $route['harga/data'] = 'katalog/harga/data';
+/** Sub Menu Stok Produk */
+$route['stok-produk'] = 'katalog/stok';
+$route['stok-produk/data'] = 'katalog/stok/data';
+$route['stok-produk/rekap/(:num)'] = 'katalog/stok/rekap/$1';
+
+
+
+// katalog
 $route['harga/detail'] = 'katalog/harga/detail';
 $route['harga/histori/(:num)'] = 'katalog/harga/histori/$1';
 $route['harga/data-terima'] = 'katalog/harga/data_terima';
 $route['harga/add-satuan'] = 'katalog/harga/add_satuan';
 $route['harga/edit-harga'] = 'katalog/harga/edit_harga';
 $route['harga/update-harga'] = 'katalog/harga/update_harga';
-
-// Stok Barang
-$route['stok-barang'] = 'katalog/stok';
-$route['stok-barang/data'] = 'katalog/stok/data';
-$route['stok-barang/detail/(:num)'] = 'katalog/stok/detail/$1';
-$route['stok-barang/data-terima'] = 'katalog/stok/data_terima';
 
 /** Menu Pembelian
  * Sub Menu Permintaan

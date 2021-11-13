@@ -1,3 +1,7 @@
+@section(style)
+<link rel="stylesheet" href="<?= assets() ?>bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+@endsection
+@section(content)
 <div class="col-xs-12">
     <div class="box box-widget">
         <div class="box-body table-responsive">
@@ -5,10 +9,9 @@
                 <thead>
                     <tr>
                         <th class="text-center" width="40px">No.</th>
-                        <th>Barang</th>
+                        <th>Produk</th>
                         <th>Satuan</th>
-                        <th>Stok</th>
-                        <th class="text-center">Status</th>
+                        <th>Stok Keseluruhan</th>
                         <th class="text-center">Action</th>
                     </tr>
                 </thead>
@@ -16,13 +19,17 @@
         </div>
     </div>
 </div>
+@endsection
+@section(script)
+<script src="<?= assets() ?>bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="<?= assets() ?>bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 <script>
     $(".tabel_stok").DataTable({
         ordering: false,
         processing: true,
         serverSide: true,
         ajax: {
-            url: "<?= base_url('stok-barang/data') ?>",
+            url: "<?= base_url('stok-produk/data') ?>",
             type: 'GET',
         },
         "columns": [{
@@ -39,9 +46,6 @@
             },
             {
                 "class": "text-center"
-            },
-            {
-                "class": "text-center"
             }
         ],
         "fnRowCallback": function(nRow, aData, iDisplayIndex, iDisplayIndexFull) {
@@ -51,3 +55,4 @@
         }
     });
 </script>
+@endsection

@@ -45,6 +45,9 @@ $urls2 = $this->uri->segment(2)
                 <li class="<?= $urls == 'produk' ? 'active' : null ?>">
                     <a href="<?= site_url('produk') ?>"><i class="fa fa-angle-double-right"></i> Produk</a>
                 </li>
+                <li class="<?= $urls == 'stok-produk' ? 'active' : null ?>">
+                    <a href="<?= site_url('stok-produk') ?>"><i class="fa fa-angle-double-right"></i> Stok Produk</a>
+                </li>
             </ul>
         </li>
         <li class="treeview <?= in_array($urls, ['permintaan', 'penerimaan', 'pelunasan']) ? "active" : null ?>">
