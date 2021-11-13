@@ -12,7 +12,7 @@
                 <thead>
                     <tr>
                         <th class="text-center" width="40px">No.</th>
-                        <th>Barang</th>
+                        <th>Produk</th>
                         <th>Kategori</th>
                         <th>Referensi Pemasok</th>
                         <th>Stok</th>
