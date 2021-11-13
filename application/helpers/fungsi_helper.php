@@ -220,13 +220,36 @@ if (!function_exists('RemoveEmptyFolders')) {
     }
 }
 
-if (!function_exists('rupiah')) {
-    function rupiah($uang)
+if (!function_exists('currency_symbol')) {
+    function currency_symbol()
     {
-        $format = number_format($uang, 0, ",", ".");
+        return 'Rp';
+    }
+}
+
+if (!function_exists('currency_decimal')) {
+    function currency_decimal($number)
+    {
+        $format = number_format($number, 0, ",", ".");
         return $format;
     }
 }
+
+if (!function_exists('currency')) {
+    function currency($number)
+    {
+        return currency_symbol() . ' ' . currency_decimal($number);
+    }
+}
+
+if (!function_exists('number_decimal')) {
+    function number_decimal($number)
+    {
+        $format = number_format($number, 0, ",", ".");
+        return $format;
+    }
+}
+
 
 if (!function_exists('akuntansi')) {
     function akuntansi($uang)
@@ -236,8 +259,8 @@ if (!function_exists('akuntansi')) {
     }
 }
 
-if (!function_exists('convert_uang')) {
-    function convert_uang($text)
+if (!function_exists('hapus_desimal')) {
+    function hapus_desimal($text)
     {
         $text = str_replace(".", "", $text);
         return $text;
