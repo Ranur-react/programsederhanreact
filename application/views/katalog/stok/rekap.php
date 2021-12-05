@@ -38,19 +38,19 @@
                                             </div>
                                         </div>
                                         <div class="detail-item with-border">
-                                            <div class="item-title">Stok Tersedia
-                                                <span class="pull-right">
-                                                    <span><?= $data['stok'] ?></span>
-                                                </span>
+                                            <div class="item-title item-header">Satuan
+                                                <span class="pull-right">Stok Tersedia</span>
                                             </div>
                                         </div>
-                                        <div class="detail-item with-border">
-                                            <div class="item-title">Terjual
-                                                <span class="pull-right">
-                                                    <span><?= $data['terjual'] ?></span>
-                                                </span>
+                                        <?php foreach ($data['dataStokSatuan'] as $data_stok) { ?>
+                                            <div class="detail-item with-border">
+                                                <div class="item-title"><?= $data_stok['satuan'] ?>
+                                                    <span class="pull-right">
+                                                        <span><?= $data_stok['stok'] ?></span>
+                                                    </span>
+                                                </div>
                                             </div>
-                                        </div>
+                                        <?php } ?>
                                     </div>
                                 </div>
                             </div>

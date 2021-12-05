@@ -34,8 +34,8 @@ class Stok extends CI_Controller
             // Menampilkan total stok produk dari semua penerimaan
             $data_stok = $this->Mstok->getDatastok($idproduk);
             $stok_all = '';
-            if ($data_stok['data']['totalNilai'] > 0) :
-                foreach ($data_stok['data']['nilaiSatuan'] as $data_stok) {
+            if ($data_stok['data']['totalStok'] > 0) :
+                foreach ($data_stok['data']['dataSatuan'] as $data_stok) {
                     if ($data_stok['stokAkhir'] > 0) :
                         $stok_all .= $data_stok['stokAkhirText'] . '<br>';
                     endif;

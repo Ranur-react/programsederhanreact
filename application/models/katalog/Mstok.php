@@ -71,8 +71,8 @@ class Mstok extends CI_Model
 
             $dataKonversi[] = $resultKonversi;
         }
-        $data['totalNilai'] = $total;
-        $data['nilaiSatuan'] = $dataKonversi;
+        $data['totalStok'] = $total;
+        $data['dataSatuan'] = $dataKonversi;
         // $data['satuan'] = $dataSatuan;
         $data['produk'] = $dataProduk;
         $arr = [
@@ -97,17 +97,14 @@ class Mstok extends CI_Model
             ->join('terima', 'terima_detail=id_terima')
             ->join('supplier', 'pemasok_terima=id_supplier')
             ->join('gudang', 'gudang_terima=id_gudang')
-            ->join('terima_stok', 'terima_detail.id_detail=iddetail_stok')
             ->where('id_barang', $id)
-            ->order_by('tanggal_terima', 'desc')
+            ->order_by('nourut_terima', 'desc')
             ->get()->result();
         $data_terima = [];
         $result_terima = [];
         foreach ($sql_terima as $sql_terima) {
-            $terjual = $sql_terima->convert_stok - $sql_terima->real_stok;
-            $jumlah = nilaiKonversi($sql_terima->satuan_brg_satuan, $sql_terima->convert_stok);
-            $stok = nilaiKonversi($sql_terima->satuan_brg_satuan, $sql_terima->real_stok);
-            $terjual = nilaiKonversi($sql_terima->satuan_brg_satuan, $terjual);
+            $konversi = prosesKonversi($sql_terima->satuan_brg_satuan, $sql_terima->jumlah_detail);
+            $jumlah = nilaiKonversi($sql_terima->satuan_brg_satuan, $konversi['jumlah']);
             $result_terima = [
                 'idterima' => (int)$sql_terima->id_terima,
                 'nomor' => $sql_terima->nosurat_terima,
@@ -116,9 +113,24 @@ class Mstok extends CI_Model
                 'pemasok' => $sql_terima->nama_supplier,
                 'gudang' => $sql_terima->nama_gudang,
                 'jumlah' => $jumlah['value'],
-                'stok' => $stok['value'],
-                'terjual' => $terjual['jumlah'] != '0' ? $terjual['value'] : COUNT_EMPTY
             ];
+            $sql_stok = $this->db->from('barang')
+                ->join('barang_satuan', 'id_barang=barang_brg_satuan')
+                ->join('satuan', 'satuan_brg_satuan=id_satuan')
+                ->join('terima_stok', 'id_brg_satuan=idsatuan_stok')
+                ->where('iddetail_stok', $sql_terima->id_detail)
+                ->get()->result();
+            $data_stok = [];
+            $result_stok = [];
+            foreach ($sql_stok as $ss) {
+                $stok = nilaiKonversi($ss->satuan_brg_satuan, $ss->real_stok);
+                $result_stok = [
+                    'satuan' => $ss->nama_satuan,
+                    'stok' => $stok['jumlah'] != '0' ? $stok['value'] : COUNT_EMPTY
+                ];
+                $data_stok[] = $result_stok;
+            }
+            $result_terima['dataStokSatuan'] = $data_stok;
             $sql_harga = $this->db->from('terima_harga')
                 ->join('barang_satuan', 'idsatuan_harga=id_brg_satuan')
                 ->join('satuan', 'satuan_brg_satuan=id_satuan')

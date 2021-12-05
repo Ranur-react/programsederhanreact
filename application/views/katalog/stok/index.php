@@ -11,7 +11,7 @@
                         <th class="text-center" width="40px">No.</th>
                         <th>Produk</th>
                         <th>Satuan</th>
-                        <th>Stok Keseluruhan</th>
+                        <th>Stok Tersedia</th>
                         <th class="text-center">Action</th>
                     </tr>
                 </thead>
