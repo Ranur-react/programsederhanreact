@@ -76,24 +76,18 @@ $route['produk/data-gambar'] = 'katalog/produk/data_gambar';
 $route['produk/create-gambar'] = 'katalog/produk/create_gambar';
 $route['produk/store-gambar'] = 'katalog/produk/store_gambar';
 $route['produk/destroy-gambar'] = 'katalog/produk/destroy_gambar';
-
-// katalog
+/** Sub Menu Harga Jual */
 $route['harga'] = 'katalog/harga';
 $route['harga/data'] = 'katalog/harga/data';
+$route['harga/rekap/(:num)'] = 'katalog/harga/rekap/$1';
+$route['harga/detail'] = 'katalog/harga/detail';
+$route['harga/data-harga'] = 'katalog/harga/data_harga';
+$route['harga/edit'] = 'katalog/harga/edit';
+$route['harga/update'] = 'katalog/harga/update';
 /** Sub Menu Stok Produk */
 $route['stok-produk'] = 'katalog/stok';
 $route['stok-produk/data'] = 'katalog/stok/data';
 $route['stok-produk/rekap/(:num)'] = 'katalog/stok/rekap/$1';
-
-
-
-// katalog
-$route['harga/detail'] = 'katalog/harga/detail';
-$route['harga/histori/(:num)'] = 'katalog/harga/histori/$1';
-$route['harga/data-terima'] = 'katalog/harga/data_terima';
-$route['harga/add-satuan'] = 'katalog/harga/add_satuan';
-$route['harga/edit-harga'] = 'katalog/harga/edit_harga';
-$route['harga/update-harga'] = 'katalog/harga/update_harga';
 
 /** Menu Pembelian
  * Sub Menu Permintaan

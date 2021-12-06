@@ -1,19 +1,20 @@
 <div class="detail-card m-b-1">
     <div class="detail-body">
         <div class="detail-header">
-            <h4><?= $data['barang']; ?></h4>
-            <h5><span class="me-1"><?= $data['nomor']; ?></span><span class="me-1"><?= $data['tanggal']; ?></span>dari: <?= $data['supplier'] ?><span class="detail-date pull-right"><i class="fa fa-clock-o"></i> <?= $data['created_at'] ?></span>
+            <h4><?= $data['nomor']; ?></h4>
+            <h5><span class="me-1">Pemasok: <?= $data['pemasok']; ?></span><span class="detail-date pull-right"><i class="fa fa-clock-o"></i> <?= $data['tanggal'] ?></span>
             </h5>
         </div>
         <div class="detail-item with-border">
             <div class="item-title">Harga beli
-                <span class="pull-right">Rp <?= $data['harga_beli'] . ' / ' . $data['satuan_beli']; ?></span>
+                <span class="pull-right"><?= $data['hargabeli'] . ' / ' . $data['satuan1']; ?></span>
             </div>
         </div>
     </div>
 </div>
-<input type="hidden" name="idharga" value="<?= $data['id_harga'] ?>">
-<input type="hidden" name="iddetail" value="<?= $data['id_detail'] ?>">
+<input type="hidden" name="idharga" value="<?= $data['idharga'] ?>">
+<input type="hidden" name="iddetail_terima" value="<?= $data['iddetail_terima'] ?>">
+<input type="hidden" name="nourut" value="<?= $nourut ?>">
 <div class="row m-t-1">
     <div class="col-xs-6">
         <div class="checkbox icheck">
@@ -31,16 +32,16 @@
     </div>
 </div>
 <div class="form-group">
-    <label>Berat</label>
+    <label>Jumlah Produk</label>
     <div class="input-group">
-        <input type="text" name="berat" id="keyberat" class="form-control" value="<?= $data['berat']; ?>">
-        <span class="input-group-addon">/ <?= $data['satuan_jual']; ?></span>
+        <input type="text" name="jumlah" id="jumlah_produk" class="form-control" value="<?= currency_decimal($data['jumlah']) ?>">
+        <span class="input-group-addon">/ <?= $data['satuan2'] ?></span>
     </div>
-    <div id="berat"></div>
+    <div id="jumlah"></div>
 </div>
 <div class="form-group">
     <label>Harga Jual</label>
-    <input type="text" name="harga" id="harga" class="form-control" value="<?= $data['harga'] ?>">
+    <input type="text" name="harga" id="harga" class="form-control" value="<?= currency_decimal($data['harga']) ?>">
 </div>
 <script>
     $(document).ready(function() {
@@ -51,12 +52,12 @@
         });
     });
     $(function() {
-        $('#keyberat').keyup(function(e) {
-            var nilai = formatRupiah($(this).val(), '');
+        $('#jumlah_produk').keyup(function(e) {
+            var nilai = formatted($(this).val(), '');
             $(this).val(nilai);
         });
         $('#harga').keyup(function(e) {
-            var nilai = formatRupiah($(this).val(), '');
+            var nilai = formatted($(this).val(), '');
             $(this).val(nilai);
         });
     });
