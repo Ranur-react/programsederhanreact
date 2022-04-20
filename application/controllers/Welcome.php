@@ -12,9 +12,8 @@ class Welcome extends CI_Controller
 	{
 		$data = [
 			'title' => 'Dashboard',
-			'menu'  => 'Dashboard',
-			'small' => nameApp(),
-			'links' => '<li class="active">Dashboard</li>'
+			'pageheader' => pageHeader(['Dashboard' => $this->common->global_set('nameapp')]),
+			'breadcrumb' => breadcrumb(['active' => 'Dashboard'])
 		];
 		$this->template->dashboard('layout/content', $data);
 	}
