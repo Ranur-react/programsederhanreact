@@ -1,10 +1,13 @@
+@section(style)
+<link rel="stylesheet" href="<?= assets() ?>css/login.css">
+@endsection
+@section(content)
 <div class="login-box">
     <div class="login-box-body">
         <div class="login-logo">
             <img src="<?= logoApp() ?>">
         </div>
         <p class="login-box-msg">Registrasi Akun Baru</p>
-        <div id="message"></div>
         <?= form_open('registrasi/signup', ['id' => 'form_signup']) ?>
         <div class="form-group has-feedback">
             <input type="text" name="nama" id="nama" class="form-control" placeholder="Nama Lengkap" autofocus>
@@ -36,66 +39,9 @@
         <?= form_close() ?>
     </div>
 </div>
-<script>
-    function get_level() {
-        var jenis = $("#jenis").val();
-        $.ajax({
-            type: "GET",
-            url: "<?= site_url('registrasi/signup-level') ?>",
-            data: {
-                jenis: jenis
-            },
-            success: function(data) {
-                $("#level").html(data);
-            }
-        });
-    }
-
-    function get_gudang() {
-        var jenis = $('#jenis').val();
-        $.ajax({
-            url: "<?= site_url('registrasi/signup-gudang') ?>",
-            method: "GET",
-            data: {
-                jenis: jenis
-            },
-            success: function(data) {
-                $('#get_gudang').html(data);
-            }
-        });
-    }
-
-    $(document).ready(function() {
-        $('#form_signup').on('submit', function(event) {
-            event.preventDefault();
-            $.ajax({
-                url: $(this).attr('action'),
-                type: "POST",
-                data: $(this).serialize(),
-                dataType: "json",
-                beforeSend: function() {
-                    $('#btn_signup').button('loading');
-                },
-                success: function(resp) {
-                    $('#message').html(resp.message);
-                    if (resp.status == "0100") {
-                        $('#form_signup').trigger("reset");
-                    } else {
-                        $.each(resp.pesan, function(key, value) {
-                            var element = $('#' + key);
-                            element.closest('div.form-group')
-                                .removeClass('has-error')
-                                .addClass(value.length > 0 ? 'has-error' : 'has-success')
-                                .find('.help-block')
-                                .remove();
-                            element.after(value);
-                        });
-                    }
-                },
-                complete: function() {
-                    $('#btn_signup').button('reset');
-                }
-            })
-        });
-    });
-</script>
+@endsection
+@section(script)
+<script src="<?= assets() ?>plugins/sweetalert2/sweetalert2.all.min.js"></script>
+<script src="<?= assets_js() ?>common.js"></script>
+<script src="<?= assets_js() ?>auth/registrasi.js"></script>
+@endsection

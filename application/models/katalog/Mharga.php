@@ -57,6 +57,164 @@ class Mharga extends CI_Model
         $query = $this->db->get();
         return $query->num_rows();
     }
+    public function get_harga_terakhir($id = null)
+    {
+        $this->db->from('terima');
+        $this->db->join('supplier', 'pemasok_terima=id_supplier');
+        $this->db->join('terima_detail', 'id_terima=terima_detail');
+        $this->db->join('terima_harga', 'id_detail=iddetail_harga');
+        $this->db->join('barang_satuan', 'idsatuan_harga=id_brg_satuan');
+        $this->db->join('barang', 'id_barang=barang_brg_satuan');
+        $this->db->join('satuan', 'id_satuan=satuan_brg_satuan');
+        $this->db->where(['id_barang' => $id, 'status_default' => 1]);
+        $this->db->where('id_detail IN (SELECT DISTINCT iddetail_stok FROM terima_stok,barang_satuan,barang WHERE idsatuan_stok=id_brg_satuan AND id_barang=barang_brg_satuan AND id_barang=' . $id . ' AND real_stok >= 0)');
+        $this->db->order_by('nourut_terima', 'desc');
+        $this->db->limit(1);
+        $sql = $this->db->get()->row();
+        if ($sql != null) :
+            $data = [
+                'iddetail_terima' => (int)$sql->id_detail,
+                'nomor' => $sql->nosurat_terima,
+                'tanggal' => format_indo($sql->tanggal_terima),
+                'pemasok' => $sql->nama_supplier,
+                'produk' => $sql->nama_barang,
+                'satuan' => $sql->singkatan_satuan,
+                'hargaBeli' => currency($sql->harga_detail),
+                'hargaText' => currency($sql->jual_harga),
+                'jumlahProduk' => $sql->nilai_satuan
+            ];
+            $sql_satuan = $this->db->from('terima_detail')
+                ->join('terima_harga', 'id_detail=iddetail_harga')
+                ->join('barang_satuan', 'idsatuan_harga=id_brg_satuan')
+                ->join('barang', 'id_barang=barang_brg_satuan')
+                ->join('satuan', 'id_satuan=satuan_brg_satuan')
+                ->where(['id_detail' => $id, 'status_aktif' => 1])
+                ->where('id_detail IN (SELECT DISTINCT iddetail_stok FROM terima_stok,barang_satuan,barang WHERE idsatuan_stok=id_brg_satuan AND id_barang=barang_brg_satuan AND id_barang=' . $id . ' AND real_stok >= 0)')
+                ->get()->result();
+            $data_satuan = [];
+            $result_satuan = [];
+            foreach ($sql_satuan as $sql_satuan) {
+                if ($sql_satuan->nilai_satuan == 0) :
+                    $warning = '<span style="padding-left:5px;color: rgba(0,0,0,.54)">(Jumlah produk belum diset)</span>';
+                else :
+                    $warning = '';
+                endif;
+                $result_satuan = [
+                    'jumlahProduk' => $sql_satuan->nilai_satuan,
+                    'satuan' => $sql_satuan->singkatan_satuan,
+                    'hargaText' => currency($sql_satuan->jual_harga),
+                    'default' => $sql_satuan->status_default,
+                    'aktif' => $sql_satuan->status_aktif,
+                    'warning' => $warning
+                ];
+                $data_satuan[] = $result_satuan;
+            }
+            $data['dataSatuan'] = $data_satuan;
+            $arr = [
+                'status' => true,
+                'data' => $data
+            ];
+        else :
+            $arr = [
+                'status' => false,
+                'data' => []
+            ];
+        endif;
+        return $arr;
+    }
+    public function data_harga($id = null)
+    {
+        $sql = $this->db->from('terima_harga')
+            ->join('barang_satuan', 'idsatuan_harga=id_brg_satuan')
+            ->join('satuan', 'satuan_brg_satuan=id_satuan')
+            ->where('iddetail_harga', $id)
+            ->get()->result();
+        $data = [];
+        $result = [];
+        foreach ($sql as $sql) {
+            $result = [
+                'idharga' => $sql->id_harga,
+                'satuan' => $sql->nama_satuan,
+                'singkatan' => $sql->singkatan_satuan,
+                'default' => $sql->status_default,
+                'aktif' => $sql->status_aktif,
+                'jumlahJual' => number_decimal($sql->nilai_satuan),
+                'harga' => $sql->jual_harga,
+                'hargaText' => currency($sql->jual_harga)
+            ];
+            $data[] = $result;
+        }
+        return $data;
+    }
+    public function get_harga($id = null)
+    {
+        $sql = $this->db->select('*,terima_detail.id_detail AS iddetail_terima,s1.singkatan_satuan AS singkatan1,s2.singkatan_satuan AS singkatan2')->from('terima')
+            ->join('supplier', 'id_supplier=pemasok_terima')
+            ->join('terima_detail', 'id_terima=terima_detail')
+            ->join('permintaan_detail', 'minta_detail=permintaan_detail.id_detail')
+            ->join('barang_satuan bs1', 'barang_detail=bs1.id_brg_satuan')
+            ->join('satuan s1', 'bs1.satuan_brg_satuan=s1.id_satuan')
+            ->join('terima_harga', 'terima_detail.id_detail=iddetail_harga')
+            ->join('barang_satuan bs2', 'idsatuan_harga=bs2.id_brg_satuan')
+            ->join('satuan s2', 'bs2.satuan_brg_satuan=s2.id_satuan')
+            ->where('id_harga', $id)
+            ->get()->row();
+        $data = [
+            'idharga' => (int)$sql->id_harga,
+            'idterima' => (int)$sql->id_terima,
+            'iddetail_terima' => (int)$sql->iddetail_terima,
+            'nomor' => $sql->nosurat_terima,
+            'tanggal' => format_indo($sql->tanggal_terima),
+            'pemasok' => $sql->nama_supplier,
+            'hargabeli' => currency($sql->harga_detail),
+            'satuan1' => $sql->singkatan1,
+            'satuan2' => $sql->singkatan2,
+            'jumlah' => $sql->nilai_satuan,
+            'harga' => $sql->jual_harga,
+            'default' => $sql->status_default,
+            'aktif' => $sql->status_aktif
+        ];
+        return $data;
+    }
+    public function update($post)
+    {
+        if (isset($post['default'])) {
+            $this->db->where('iddetail_harga', $post['iddetail_terima'])->update('terima_harga', ['status_default' => 0]);
+            $default = 1;
+        } else {
+            $default = 0;
+        }
+        if (isset($post['aktif'])) {
+            $aktif = 1;
+        } else {
+            if (isset($post['default'])) {
+                $aktif = 1;
+            } else {
+                $aktif = 0;
+            }
+        }
+        $data = [
+            'nilai_satuan' => hapus_desimal($post['jumlah']),
+            'jual_harga' => hapus_desimal($post['harga']),
+            'status_default' => $default,
+            'status_aktif' => $aktif
+        ];
+        return $this->db->where('id_harga', $post['idharga'])->update('terima_harga', $data);
+    }
+
+
+
+
+
+
+
+
+
+    // Function tidak digunakan
+    public function get_penerimaan($id = null, $default = null, $aktif = null, $limit = null)
+    {
+        $query = "SELECT * FROM barang JOIN barang_satuan ON id_barang=barang_brg_satuan JOIN satuan ON satuan_brg_satuan=id_satuan JOIN permintaan_detail ON id_brg_satuan=barang_detail JOIN terima_detail ON permintaan_detail.id_detail=minta_detail JOIN terima_harga ON terima_detail.id_detail=iddetail_harga WHERE id_barang='$id'";
+    }
     public function query_penerimaan($id = null, $default = null, $aktif = null, $limit = null)
     {
         $query = "SELECT * FROM barang JOIN barang_satuan ON id_barang=barang_brg_satuan JOIN satuan ON satuan_brg_satuan=id_satuan JOIN permintaan_detail ON id_brg_satuan=barang_detail
@@ -200,53 +358,6 @@ class Mharga extends CI_Model
             ->join('satuan', 'satuan_brg_satuan=id_satuan')
             ->where('id_hrg_detail', $id_hrg_detail)
             ->get()->row();
-    }
-    public function show_harga($id = null)
-    {
-        $data_terima = $this->show_terima($id);
-        $query = $this->db->where('id_hrg_detail', $id)->get('harga_detail')->row();
-        $query_satuan = $this->show_satuan($id);
-        $data['barang'] = $data_terima->nama_barang;
-        $data['id_terima'] = $data_terima->id_terima;
-        $data['nomor'] = $data_terima->nosurat_terima;
-        $data['supplier'] = $data_terima->nama_supplier;
-        $data['tanggal'] = format_indo($data_terima->tanggal_terima);
-        $data['created_at'] = sort_jam_timestamp($data_terima->created_at) . ' ' . format_tglin_timestamp($data_terima->created_at);
-        $data['satuan_beli'] = $query_satuan->singkatan_satuan;
-        $data['harga_beli'] = rupiah($data_terima->harga_detail);
-        $data['satuan_jual'] = $data_terima->singkatan_satuan;
-        $data['id_harga'] = $query->harga_hrg_detail;
-        $data['id_detail'] = $query->id_hrg_detail;
-        $data['berat'] = rupiah($query->berat_hrg_detail);
-        $data['harga'] = rupiah($query->jual_hrg_detail);
-        $data['default'] = $query->default_hrg_detail;
-        $data['aktif'] = $query->aktif_hrg_detail;
-        return $data;
-    }
-    public function update_harga($post)
-    {
-        if (isset($post['default'])) {
-            $this->db->where('harga_hrg_detail', $post['idharga'])->update('harga_detail', ['default_hrg_detail' => 0]);
-            $default = 1;
-        } else {
-            $default = 0;
-        }
-        if (isset($post['aktif'])) {
-            $aktif = 1;
-        } else {
-            if (isset($post['default'])) {
-                $aktif = 1;
-            } else {
-                $aktif = 0;
-            }
-        }
-        $data = [
-            'berat_hrg_detail' => convert_uang($post['berat']),
-            'jual_hrg_detail' => convert_uang($post['harga']),
-            'aktif_hrg_detail' => $aktif,
-            'default_hrg_detail' => $default
-        ];
-        return $this->db->where('id_hrg_detail', $post['iddetail'])->update('harga_detail', $data);
     }
 }
 

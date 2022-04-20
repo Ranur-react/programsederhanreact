@@ -1,8 +1,8 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 // cek session user dan remember me
-if (!function_exists('cek_user')) {
-    function cek_user()
+if (!function_exists('check_logged_in')) {
+    function check_logged_in()
     {
         $CI = &get_instance();
         if ($CI->session->userdata('status_login') != 'sessDashboard') :
@@ -72,6 +72,28 @@ if (!function_exists('user_photo')) {
 }
 
 // role user
+if (!function_exists('idrole_user')) {
+    function idrole_user()
+    {
+        $CI = &get_instance();
+        $row = $CI->db->where('id_user', id_user())->get('users')->row_array();
+        if ($row['jenis_user'] == 1) :
+            $result = $CI->db->from('role')
+                ->join('user_office', 'id_role=role_level')
+                ->where('user_level', id_user())
+                ->get()->row_array();
+            $role = $result['id_role'];
+        else :
+            $result = $CI->db->from('role')
+                ->join('user_gudang', 'id_role=role_level')
+                ->where('user_level', id_user())
+                ->get()->row_array();
+            $role = $result['id_role'];
+        endif;
+        return $role;
+    }
+}
+
 if (!function_exists('role_user')) {
     function role_user()
     {

@@ -1,14 +1,16 @@
+@section(style)
+<link rel="stylesheet" href="<?= assets() ?>bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+@endsection
+@section(content)
 <div class="col-xs-12">
     <div class="box box-widget">
         <div class="box-body table-responsive">
-            <table class="table table-bordered table-striped list_data">
+            <table class="table table-bordered table-striped data-tabel">
                 <thead>
                     <tr>
-                        <th class="text-center" width="40px">No.</th>
-                        <th>Barang</th>
-                        <th>Stok</th>
+                        <th class="text-center" width="5%">No.</th>
+                        <th>Produk</th>
                         <th>Harga</th>
-                        <th class="text-center">Status</th>
                         <th class="text-center">Action</th>
                     </tr>
                 </thead>
@@ -17,15 +19,19 @@
     </div>
 </div>
 <div id="tampil_modal"></div>
+@endsection
+@section(script)
+<script src="<?= assets() ?>bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="<?= assets() ?>bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 <script>
     $(document).ready(function() {
-        table = $('.list_data').DataTable({
+        table = $('.data-tabel').DataTable({
             "ordering": false,
             "processing": true,
             "serverSide": true,
             "order": [],
             "ajax": {
-                "url": "<?= base_url('harga/data') ?>",
+                "url": BASE_URL + "harga/data",
                 "type": "GET"
             },
             "columnDefs": [{
@@ -42,12 +48,6 @@
                     "class": "text-left"
                 },
                 {
-                    "class": "text-left"
-                },
-                {
-                    "class": "text-center"
-                },
-                {
                     "class": "text-center"
                 }
             ],
@@ -59,17 +59,19 @@
         });
     });
 
-    function detail(kode) {
+    $(document).on('click', '.detail', function() {
+        var id = $(this).attr('id');
         $.ajax({
-            url: "<?= site_url('harga/detail') ?>",
-            type: "GET",
+            url: BASE_URL + 'harga/detail',
+            type: 'GET',
             data: {
-                kode: kode
+                id: id
             },
             success: function(resp) {
-                $("#tampil_modal").html(resp);
-                $("#modal_alert").modal('show');
+                $('#tampil_modal').html(resp);
+                $('#modal_alert').modal('show');
             }
         });
-    }
+    });
 </script>
+@endsection

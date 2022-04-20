@@ -1,7 +1,14 @@
-<input type="hidden" name="barang" value="<?= $data['satuan'] ?>">
-<div class="form-group">
-    <label class="required">Barang</label>
-    <input type="text" class="form-control" value="<?= $data['nama_barang'] ?>" readonly>
+<input type="hidden" name="idtmp" value="<?= $data['id'] ?>">
+<div class="panel panel-default">
+    <div class="panel-body panel-body-custom">
+        <div class="row">
+            <div class="col-lg-12 col-xs-12 ">
+                <div class="row">
+                    <div class="col-md-12"><b>Produk</b> <span style="margin: 0 10px 0 10px;">:</span><?= $data['nama_barang'] ?></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <div class="form-group">
     <label class="required">Pilih Satuan</label>
@@ -15,22 +22,21 @@
 </div>
 <div class="form-group">
     <label class="required">Harga</label>
-    <input type="text" name="harga" id="harga" class="form-control" placeholder="Harga" value="<?= rupiah($data['harga']) ?>">
+    <input type="text" name="harga" id="harga" class="form-control" placeholder="Harga" value="<?= number_decimal($data['harga']) ?>" autocomplete="off">
 </div>
 <div class="form-group">
     <label class="required">Jumlah</label>
-    <input type="text" name="jumlah" id="jumlah" class="form-control" placeholder="Jumlah" value="<?= rupiah($data['jumlah']) ?>">
+    <input type="text" name="jumlah" id="jumlah" class="form-control" placeholder="Jumlah" value="<?= number_decimal($data['jumlah']) ?>" autocomplete="off">
 </div>
 <script>
     $(function() {
         $('.select2').select2();
-
         $('#harga').keyup(function(e) {
-            var nilai = formatRupiah($(this).val(), '');
+            var nilai = formatted($(this).val(), '');
             $(this).val(nilai);
         });
         $('#jumlah').keyup(function(e) {
-            var nilai = formatRupiah($(this).val(), '');
+            var nilai = formatted($(this).val(), '');
             $(this).val(nilai);
         });
     });

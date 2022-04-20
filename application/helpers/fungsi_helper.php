@@ -5,11 +5,19 @@ if (!function_exists('status_span')) {
     {
         if ($jenis == 'aktif') :
             if ($code == 1) :
-                $pesan = 'Enabled';
+                $pesan = 'Aktif';
                 $class = 'status-active';
             else :
-                $pesan = 'Disabled';
+                $pesan = 'Nonaktif';
                 $class = 'status-unpaid';
+            endif;
+        elseif ($jenis == 'jenis_pemasok') :
+            if ($code == 0) :
+                $pesan = 'Perorangan';
+                $class = 'status-active';
+            else :
+                $pesan = 'Perusahaan';
+                $class = 'status-pending transfer';
             endif;
         elseif ($jenis == 'permintaan') :
             if ($code == 1) :
@@ -90,7 +98,15 @@ if (!function_exists('status_span')) {
 if (!function_exists('status_label')) {
     function status_label($code, $jenis)
     {
-        if ($jenis == 'permintaan') :
+        if ($jenis == 'aktif') :
+            if ($code == 1) :
+                $pesan = 'Aktif';
+                $class = 'status-active';
+            else :
+                $pesan = 'Nonaktif';
+                $class = 'status-unpaid';
+            endif;
+        elseif ($jenis == 'permintaan') :
             if ($code == 1) :
                 $pesan = 'Pending';
                 $class = 'status-pending transfer';
@@ -187,13 +203,53 @@ if (!function_exists('make_avatar')) {
     }
 }
 
-if (!function_exists('rupiah')) {
-    function rupiah($uang)
+if (!function_exists('RemoveEmptyFolders')) {
+    function RemoveEmptyFolders($path)
     {
-        $format = number_format($uang, 0, ",", ".");
+        $pathfolder = str_replace(substr($path, -37), "", $path);
+        $empty = true;
+        foreach (glob($pathfolder . DIRECTORY_SEPARATOR . "*") as $file) {
+            if (is_dir($file)) {
+                if (!RemoveEmptyFolders($file)) $empty = false;
+            } else {
+                $empty = false;
+            }
+        }
+        if ($empty) rmdir($pathfolder);
+        return $empty;
+    }
+}
+
+if (!function_exists('currency_symbol')) {
+    function currency_symbol()
+    {
+        return 'Rp';
+    }
+}
+
+if (!function_exists('currency_decimal')) {
+    function currency_decimal($number)
+    {
+        $format = number_format($number, 0, ",", ".");
         return $format;
     }
 }
+
+if (!function_exists('currency')) {
+    function currency($number)
+    {
+        return currency_symbol() . ' ' . currency_decimal($number);
+    }
+}
+
+if (!function_exists('number_decimal')) {
+    function number_decimal($number)
+    {
+        $format = number_format($number, 0, ",", ".");
+        return $format;
+    }
+}
+
 
 if (!function_exists('akuntansi')) {
     function akuntansi($uang)
@@ -203,53 +259,53 @@ if (!function_exists('akuntansi')) {
     }
 }
 
-if (!function_exists('convert_uang')) {
-    function convert_uang($text)
+if (!function_exists('hapus_desimal')) {
+    function hapus_desimal($text)
     {
         $text = str_replace(".", "", $text);
         return $text;
     }
 }
 
-if (!function_exists('convert_stok')) {
-    function convert_stok($satuan, $jumlah)
-    {
-        /**
-         * Function ini difungsikan untuk mengkonversi jumlah pembelian
-         * dari satuan KG ke Gram, jika satuan yang dibeli adalah
-         * Gram maka jumlah tidak dikonversi dan apabila satuan
-         * yang tidak bisa dikonversi maka jumlah masih tetap
-         */
-        if ($satuan == 1) :
-            // Konversi jumlah dari satuan Kg ke satuan gram
-            $nilai = 1000 * $jumlah;
-        elseif ($satuan == 3) :
-            // Konversi jumlah dari satuan gram tetap pada satuan gram
-            $nilai = 1 * $jumlah;
-        else :
-            // Tidak terjadi konversi pada jumlah
-            $nilai = 1 * $jumlah;
-        endif;
-        return $nilai;
-    }
-}
+// if (!function_exists('convert_stok')) {
+//     function convert_stok($satuan, $jumlah)
+//     {
+/**
+ * Function ini difungsikan untuk mengkonversi jumlah pembelian
+ * dari satuan KG ke Gram, jika satuan yang dibeli adalah
+ * Gram maka jumlah tidak dikonversi dan apabila satuan
+ * yang tidak bisa dikonversi maka jumlah masih tetap
+ */
+// if ($satuan == 1) :
+// Konversi jumlah dari satuan Kg ke satuan gram
+//     $nilai = 1000 * $jumlah;
+// elseif ($satuan == 3) :
+// Konversi jumlah dari satuan gram tetap pada satuan gram
+//     $nilai = 1 * $jumlah;
+// else :
+// Tidak terjadi konversi pada jumlah
+//             $nilai = 1 * $jumlah;
+//         endif;
+//         return $nilai;
+//     }
+// }
 
-if (!function_exists('convert_satuan')) {
-    function convert_satuan($satuan, $jumlah)
-    {
-        if ($satuan == 1) :
-            // Konversi jumlah dari satuan Gram ke satuan Kg
-            $nilai = $jumlah / 1000;
-        elseif ($satuan == 3) :
-            // Konversi jumlah dari satuan gram tetap pada satuan gram
-            $nilai = $jumlah / 1;
-        else :
-            // Tidak terjadi konversi pada jumlah
-            $nilai = $jumlah;
-        endif;
-        return $nilai;
-    }
-}
+// if (!function_exists('convert_satuan')) {
+//     function convert_satuan($satuan, $jumlah)
+//     {
+//         if ($satuan == 1) :
+// Konversi jumlah dari satuan Gram ke satuan Kg
+//     $nilai = $jumlah / 1000;
+// elseif ($satuan == 3) :
+// Konversi jumlah dari satuan gram tetap pada satuan gram
+//     $nilai = $jumlah / 1;
+// else :
+// Tidak terjadi konversi pada jumlah
+//             $nilai = $jumlah;
+//         endif;
+//         return $nilai;
+//     }
+// }
 
 if (!function_exists('zerobefore')) {
     function zerobefore($lenght)

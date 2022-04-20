@@ -1,12 +1,12 @@
 <div class="form-group">
-    <label class="required">Pilih Barang</label>
-    <select class="form-control select2 barang" name="barang" style="width: 100%;" data-placeholder="Pilh Barang">
+    <label class="required">Pilih Produk</label>
+    <select class="form-control select2 idproduk" name="produk" style="width: 100%;" data-placeholder="Pilh Produk">
         <option></option>
-        <?php foreach ($barang as $b) { ?>
-            <option value="<?= $b['id_barang'] ?>"><?= $b['nama_barang'] ?></option>
+        <?php foreach ($produk as $p) { ?>
+            <option value="<?= $p['id_barang'] ?>"><?= $p['nama_barang'] ?></option>
         <?php } ?>
     </select>
-    <div id="barang"></div>
+    <div id="produk"></div>
 </div>
 <div class="form-group">
     <label class="required">Pilih Satuan</label>
@@ -17,22 +17,21 @@
 </div>
 <div class="form-group">
     <label class="required">Harga</label>
-    <input type="text" name="harga" id="harga" class="form-control" placeholder="Harga">
+    <input type="text" name="harga" id="harga" class="form-control" placeholder="Harga" autocomplete="off">
 </div>
 <div class="form-group">
     <label class="required">Jumlah</label>
-    <input type="text" name="jumlah" id="jumlah" class="form-control" placeholder="Jumlah">
+    <input type="text" name="jumlah" id="jumlah" class="form-control" placeholder="Jumlah" autocomplete="off">
 </div>
 <script>
     $(function() {
         $('.select2').select2();
-
         $('#harga').keyup(function(e) {
-            var nilai = formatRupiah($(this).val(), '');
+            var nilai = formatted($(this).val(), '');
             $(this).val(nilai);
         });
         $('#jumlah').keyup(function(e) {
-            var nilai = formatRupiah($(this).val(), '');
+            var nilai = formatted($(this).val(), '');
             $(this).val(nilai);
         });
     });

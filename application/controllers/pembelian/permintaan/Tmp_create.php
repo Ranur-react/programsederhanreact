@@ -6,29 +6,53 @@ class Tmp_create extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('master/Mbarang');
+        check_logged_in();
+        $this->load->model('katalog/Mproduk');
         $this->load->model('pembelian/permintaan/Mtmp_create');
     }
     public function data()
     {
-        $d['data'] = $this->Mtmp_create->tampil_data();
-        $this->load->view('pembelian/permintaan/tmp_create/data', $d);
+        $query = $this->Mtmp_create->tampil_data();
+        if ($query == null) {
+            $data = [
+                'status' => false
+            ];
+        } else {
+            $total = 0;
+            foreach ($query as $row) {
+                $total = $total + ($row->harga * $row->jumlah);
+                $result[] = [
+                    'id' => $row->id,
+                    'nama' => $row->nama_barang,
+                    'satuan' => $row->singkatan_satuan,
+                    'harga' => currency($row->harga),
+                    'jumlah' => number_decimal($row->jumlah),
+                    'total' => currency($row->harga * $row->jumlah)
+                ];
+            }
+            $data = [
+                'status' => true,
+                'data' => $result,
+                'total' => currency($total)
+            ];
+        }
+        echo json_encode($data);
     }
     public function create()
     {
         $data = [
-            'name' => 'Tambah Barang',
+            'name' => 'Tambah Produk',
             'post' => 'permintaan/tmp-create/store',
             'class' => 'form_tmp',
             'backdrop' => 1,
-            'barang' => $this->Mbarang->fetch_all()
+            'produk' => $this->Mproduk->fetch_all()
         ];
         $this->template->modal_form('pembelian/permintaan/tmp_create/create', $data);
     }
     public function store()
     {
         $post = $this->input->post(null, TRUE);
-        $this->form_validation->set_rules('barang', 'Barang', 'required|callback_cekbarang[' . $post['satuan'] . ']');
+        $this->form_validation->set_rules('produk', 'Produk', 'required|callback_cekproduk[' . $post['satuan'] . ']');
         $this->form_validation->set_rules('satuan', 'Satuan', 'required');
         $this->form_validation->set_rules('harga', 'Harga', 'required|greater_than[0]');
         $this->form_validation->set_rules('jumlah', 'Jumlah', 'required|greater_than[0]');
@@ -38,13 +62,15 @@ class Tmp_create extends CI_Controller
         if ($this->form_validation->run() == TRUE) {
             $this->Mtmp_create->store($post);
             $json = array(
-                'status' => "0100",
-                'message' => 'Barang berhasil ditambahkan'
+                'status' => '0100',
+                'token' => $this->security->get_csrf_hash(),
+                'msg' => 'Produk berhasil ditambahkan'
             );
         } else {
             $json = array(
-                'status' => "0101",
-                'message' => 'Barang gagal ditambahkan'
+                'status' => '0101',
+                'token' => $this->security->get_csrf_hash(),
+                'msg' => 'Produk gagal ditambahkan'
             );
             foreach ($_POST as $key => $value) {
                 $json['pesan'][$key] = form_error($key);
@@ -52,11 +78,11 @@ class Tmp_create extends CI_Controller
         }
         echo json_encode($json);
     }
-    public function cekbarang($barang, $satuan)
+    public function cekproduk($produk, $satuan)
     {
         $check = $this->db->where(['satuan' => $satuan, 'user' => id_user()])->get('tmp_permintaan');
         if ($check->num_rows() == 1) {
-            $this->form_validation->set_message('cekbarang', 'Barang sudah ditambahkan, silahkan update jika ingin melakukan perubahan.');
+            $this->form_validation->set_message('cekproduk', 'Produk sudah ditambahkan, silahkan update jika ingin melakukan perubahan.');
             return FALSE;
         } else {
             return TRUE;
@@ -67,11 +93,11 @@ class Tmp_create extends CI_Controller
         $kode = $this->input->get('kode');
         $query = $this->Mtmp_create->show($kode);
         $data = [
-            'name' => 'Edit Barang',
+            'name' => 'Edit Produk',
             'post' => 'permintaan/tmp-create/update',
             'class' => 'form_tmp',
             'backdrop' => 1,
-            'satuan' => $this->Mbarang->get_satuan($query['id_barang']),
+            'satuan' => $this->Mproduk->get_satuan($query['id_barang']),
             'data' => $query
         ];
         $this->template->modal_form('pembelian/permintaan/tmp_create/edit', $data);
@@ -88,13 +114,15 @@ class Tmp_create extends CI_Controller
             $post = $this->input->post(null, TRUE);
             $this->Mtmp_create->update($post);
             $json = array(
-                'status' => "0100",
-                'message' => 'Data barang berhasil dirubah'
+                'status' => '0100',
+                'token' => $this->security->get_csrf_hash(),
+                'msg' => 'Data produk berhasil dirubah'
             );
         } else {
             $json = array(
-                'status' => "0101",
-                'message' => 'Data barang gagal dirubah'
+                'status' => '0101',
+                'token' => $this->security->get_csrf_hash(),
+                'msg' => 'Data produk gagal dirubah'
             );
             foreach ($_POST as $key => $value) {
                 $json['pesan'][$key] = form_error($key);
@@ -107,9 +135,9 @@ class Tmp_create extends CI_Controller
         $kode = $this->input->get('kode', true);
         $action = $this->Mtmp_create->destroy($kode);
         if ($action == true) {
-            $json['status'] = "0100";
+            $json['status'] = '0100';
         } else {
-            $json['status'] = "0101";
+            $json['status'] = '0101';
         }
         echo json_encode($json);
     }
@@ -119,12 +147,12 @@ class Tmp_create extends CI_Controller
         if ($action) {
             $json = array(
                 'status' => '0100',
-                'message' => successCancel()
+                'msg' => successCancel()
             );
         } else {
             $json = array(
                 'status' => '0101',
-                'message' => errorDestroy()
+                'msg' => errorDestroy()
             );
         }
         echo json_encode($json);

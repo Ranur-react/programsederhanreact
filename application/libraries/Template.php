@@ -9,12 +9,12 @@ class Template
     function auth($template, $data = null)
     {
         $data['content'] = $this->_ci->load->view($template, $data, true);
-        $this->_ci->parser->parse('auth/index', $data);
+        $this->_ci->parser->parse('layout/auth/extends', $data);
     }
     function dashboard($template, $data = null)
     {
         $data['content'] = $this->_ci->load->view($template, $data, true);
-        $this->_ci->parser->parse('layout/index', $data);
+        $this->_ci->parser->parse('layout/extends', $data);
     }
     function modal_form($form, $data)
     {

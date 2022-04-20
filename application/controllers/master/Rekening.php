@@ -6,44 +6,39 @@ class Rekening extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        if ($this->session->userdata('status_login') == "sessDashboard")
-            cek_user();
-        else
-            redirect('logout');
+        check_logged_in();
         $this->load->model('master/Mrekening');
     }
     public function index()
     {
         $data = [
             'title' => 'Rekening Bank',
-            'small' => 'Menampilkan dan mengelola data rekening bank',
-            'links' => '<li class="active">Rekening Bank</li>',
-            'data'  => $this->Mrekening->fetch_all()
+            'links' => '<li class="active">Rekening Bank</li>'
         ];
         $this->template->dashboard('master/rekening/index', $data);
     }
-    public function sync()
+    public function data()
     {
-        //inisialisasi fungsi curl
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'http://localhost:81/integra/api_bank/briapi/kode_bank');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        $content = curl_exec($ch);
-        curl_close($ch);
-        //mengubah data json menjadi data array asosiatif
-        $result = json_decode($content, true);
-        //looping data menggunakan foreach
-        $no = 2;
-        foreach ($result['Data'] as $value) {
-            $kode =  $value['BankCode'];
-            $nama =  $value['Bankname'];
-            $check = $this->db->from('bank_code')->where('id_bank', $no)->count_all_results();
-            if ($check == 0) :
-                $this->db->query("INSERT INTO bank_code VALUES('$no','$kode','$nama')");
-            endif;
-            $no++;
+        $query = $this->Mrekening->fetch_all();
+        if ($query == null) {
+            $data = (int)0;
+        } else {
+            foreach ($query as $row) {
+                $status = [
+                    'class' => $row['status_account'] == 1 ? 'status-active' : 'status-pending',
+                    'text' => $row['status_account'] == 1 ? 'Aktif' : 'Tidak Aktif'
+                ];
+                $data[] = [
+                    'id' => $row['id_account'],
+                    'nama' => $row['nama_bank'],
+                    'kcb' => $row['kcb_account'],
+                    'norek' => $row['norek_account'],
+                    'pemilik' => $row['pemilik_account'],
+                    'status' => '<span class="label status ' . $status['class'] . '">' . $status['text'] . '</span>'
+                ];
+            }
         }
-        redirect('rekening');
+        echo json_encode($data);
     }
     public function create()
     {
@@ -83,31 +78,38 @@ class Rekening extends CI_Controller
                     }
                     if ($_FILES['gambar']['size'] > 819200) {
                         $json = array(
-                            "status" => "0111",
-                            "error" => "<div class='text-red'>Ukuran file tidak boleh melebihi 800KB</div>"
+                            'status' => '0101',
+                            'token' => $this->security->get_csrf_hash(),
+                            'error' => '<div class="text-red">Ukuran file tidak boleh melebihi 800KB</div>'
                         );
                     } else {
                         $this->Mrekening->store($post, $link);
                         $json = array(
-                            'status' => "0100",
-                            'pesan' => "Data rekening bank telah disimpan"
+                            'status' => '0100',
+                            'token' => $this->security->get_csrf_hash(),
+                            'pesan' => 'Data rekening bank telah disimpan'
                         );
                     }
                 } else {
                     $json = array(
-                        "status" => "0111",
-                        "error" => "<div class='text-red'>Harap unggah file yang hanya berekstensi .jpeg / .jpg / .png.</div>"
+                        'status' => '0101',
+                        'token' => $this->security->get_csrf_hash(),
+                        'error' => '<div class="text-red">Harap unggah file yang hanya berekstensi .jpeg / .jpg / .png.</div>'
                     );
                 }
             } else {
                 $this->Mrekening->store($post, $link = '');
                 $json = array(
-                    'status' => "0100",
-                    'pesan' => "Data rekening bank telah disimpan"
+                    'status' => '0100',
+                    'token' => $this->security->get_csrf_hash(),
+                    'pesan' => 'Data rekening bank telah disimpan'
                 );
             }
         } else {
-            $json['status'] = "0111";
+            $json = array(
+                'status' => '0101',
+                'token' => $this->security->get_csrf_hash()
+            );
             foreach ($_POST as $key => $value) {
                 $json['pesan'][$key] = form_error($key);
             }
@@ -154,31 +156,38 @@ class Rekening extends CI_Controller
                     }
                     if ($_FILES['gambar']['size'] > 819200) {
                         $json = array(
-                            "status" => "0111",
-                            "error" => "<div class='text-red'>Ukuran file tidak boleh melebihi 800KB</div>"
+                            'status' => '0101',
+                            'token' => $this->security->get_csrf_hash(),
+                            'error' => '<div class="text-red">Ukuran file tidak boleh melebihi 800KB</div>'
                         );
                     } else {
                         $this->Mrekening->update($post, $link);
                         $json = array(
-                            'status' => "0100",
-                            'pesan' => "Data rekening telah dirubah"
+                            'status' => '0100',
+                            'token' => $this->security->get_csrf_hash(),
+                            'pesan' => 'Data rekening bank telah dirubah'
                         );
                     }
                 } else {
                     $json = array(
-                        "status" => "0111",
-                        "error" => "<div class='text-red'>Harap unggah file yang hanya berekstensi .jpeg / .jpg / .png.</div>"
+                        'status' => '0101',
+                        'token' => $this->security->get_csrf_hash(),
+                        'error' => '<div class="text-red">Harap unggah file yang hanya berekstensi .jpeg / .jpg / .png.</div>'
                     );
                 }
             } else {
                 $this->Mrekening->update($post, $link = '');
                 $json = array(
-                    'status' => "0100",
-                    'pesan' => "Data rekening bank telah dirubah"
+                    'status' => '0100',
+                    'token' => $this->security->get_csrf_hash(),
+                    'pesan' => 'Data rekening bank telah dirubah'
                 );
             }
         } else {
-            $json['status'] = "0111";
+            $json = array(
+                'status' => '0101',
+                'token' => $this->security->get_csrf_hash()
+            );
             foreach ($_POST as $key => $value) {
                 $json['pesan'][$key] = form_error($key);
             }
@@ -191,13 +200,13 @@ class Rekening extends CI_Controller
         $action = $this->Mrekening->destroy($kode);
         if ($action) {
             $json = array(
-                'status' => "0100",
-                "message" => successDestroy()
+                'status' => '0100',
+                'msg' => successDestroy()
             );
         } else {
             $json = array(
-                'status' => "0101",
-                "message" => errorDestroy()
+                'status' => '0101',
+                'msg' => errorDestroy()
             );
         }
         echo json_encode($json);
