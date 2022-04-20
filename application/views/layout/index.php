@@ -5,9 +5,9 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title><?= $title ?></title>
+    <title><?= $title . ' - ' . $this->common->global_set('nameapp') ?></title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <link rel="shortcut icon" href="<?= faviconApp() ?>">
+    <link rel="shortcut icon" href="<?= assets() . $this->common->global_set('favicon') ?>">
     <link rel="stylesheet" href="<?= assets() ?>bower_components/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?= assets() ?>bower_components/font-awesome-5/css/all.css">
     <link rel="stylesheet" href="<?= assets() ?>bower_components/font-awesome/css/font-awesome.min.css">
@@ -28,7 +28,7 @@
     <div class="wrapper">
         <header class="main-header">
             <a href="<?= site_url() ?>" class="logo">
-                <span class="logo-lg"><img src="<?= logoDashboard() ?>" alt="" srcset=""></span>
+                <span class="logo-lg"><img src="<?= assets() . $this->common->global_set('logo_home') ?>" alt="" srcset=""></span>
             </a>
             <?php $this->load->view('layout/header') ?>
         </header>
