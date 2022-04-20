@@ -15,7 +15,7 @@
                         <p><?= user_profile() ?> <small><?= role_user() ?></small></p>
                     </li>
                     <li>
-                        <a href="<?= site_url('profile') ?>" class="profile-item"><i class="dropdown-icon icon-user"></i> Profile Saya</a>
+                        <a href="<?= site_url('profile') ?>" class="profile-item"><i class="dropdown-icon icon-user"></i> Profil Saya</a>
                     </li>
                     <li>
                         <a href="<?= site_url('change-password') ?>" class="profile-item"><i class="dropdown-icon icon-lock2"></i> Ganti Password</a>
