@@ -36,3 +36,6 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 .env.development
 .env.testing
 .env.production
+
+# Assets
+/assets/
