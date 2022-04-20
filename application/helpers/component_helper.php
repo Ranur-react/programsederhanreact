@@ -18,3 +18,12 @@ if (!function_exists("breadcrumb")) {
         return $result;
     }
 }
+
+if (!function_exists("pageHeader")) {
+    function pageHeader($data)
+    {
+        $result = array_keys($data);
+        $return = '<h1>' . $result[0] . ' <small>' . $data[$result[0]] . '</small></h1>';
+        return $return;
+    }
+}

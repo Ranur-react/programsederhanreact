@@ -48,7 +48,7 @@
         </aside>
         <div class="content-wrapper">
             <section class="content-header">
-                <h1><?= $title ?> <small><?= $small ?></small></h1>
+                <?= $pageheader ?>
                 <ol class="breadcrumb">
                     <li><a href="<?= site_url() ?>"><i class="fa fa-dashboard"></i> Home</a></li>
                     <?php foreach ($breadcrumb as $breadcrumb) {
