@@ -50,8 +50,10 @@
             <section class="content-header">
                 <h1><?= $title ?> <small><?= $small ?></small></h1>
                 <ol class="breadcrumb">
-                    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                    <?= $links ?>
+                    <li><a href="<?= site_url() ?>"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <?php foreach ($breadcrumb as $breadcrumb) {
+                        echo $breadcrumb['breadcrumb'];
+                    } ?>
                 </ol>
             </section>
             <section class="content">
