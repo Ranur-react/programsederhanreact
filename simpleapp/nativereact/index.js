@@ -5,13 +5,34 @@ export default class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			nim: null,
-			nama: null,
-			alamat: null,
-			nohp: null,
+			input: {
+				nobp: null,
+				nama: null,
+				alamat: null,
+				nohp: null,
+			},
 			data: [],
 		};
 	}
+	SimpanData = async () => {
+		let respond = await fetch(
+			'http://192.168.1.3/backendci3/Mahasiswa/Simpan',
+			{
+				method: 'POST',
+				headers: {
+					Accept: 'application/json',
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(this.state.input),
+			},
+		)
+			.then(r => r.json)
+			.catch(e => e);
+		console.log('================Simpn respond====================');
+		console.log(respond);
+		console.log('====================================');
+		this.LoadData();
+	};
 	LoadData = async () => {
 		let respond = await fetch(
 			'http://192.168.1.3/backendci3/Mahasiswa/GetAll',
@@ -32,22 +53,62 @@ export default class App extends Component {
 					<View style={styles.card}>
 						<View style={styles.forms}>
 							<Text>NoBP</Text>
-							<TextInput style={styles.input} />
+							<TextInput
+								onChangeText={e => {
+									this.setState({
+										input: {
+											...this.state.input,
+											nobp: e,
+										},
+									});
+								}}
+								style={styles.input}
+							/>
 						</View>
 						<View style={styles.forms}>
 							<Text>Nama</Text>
-							<TextInput style={styles.input} />
+							<TextInput
+								onChangeText={e => {
+									this.setState({
+										input: {
+											...this.state.input,
+											nama: e,
+										},
+									});
+								}}
+								style={styles.input}
+							/>
 						</View>
 						<View style={styles.forms}>
 							<Text>Alamat</Text>
-							<TextInput style={styles.input} />
+							<TextInput
+								onChangeText={e => {
+									this.setState({
+										input: {
+											...this.state.input,
+											alamat: e,
+										},
+									});
+								}}
+								style={styles.input}
+							/>
 						</View>
 						<View style={styles.forms}>
 							<Text>No.HP</Text>
-							<TextInput style={styles.input} />
+							<TextInput
+								onChangeText={e => {
+									this.setState({
+										input: {
+											...this.state.input,
+											nohp: e,
+										},
+									});
+								}}
+								style={styles.input}
+							/>
 						</View>
 						<View style={styles.forms}>
-							<Button title="Simpan" />
+							<Button onPress={this.SimpanData} title="Simpan" />
 						</View>
 					</View>
 				</View>
@@ -152,7 +213,7 @@ const styles = StyleSheet.create({
 	},
 	input: {
 		width: 200,
-		height: 30,
+		height: 50,
 		marginHorizontal: 10,
 
 		borderColor: 'grey',
