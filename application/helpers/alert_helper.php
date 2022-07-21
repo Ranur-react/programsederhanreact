@@ -18,7 +18,7 @@ if (!function_exists('danger')) {
 if (!function_exists('info')) {
 	function info($pesan)
 	{
-		$isi = '<div class="alert alert-dismissible" style="background-color: #d9edf7;border-color: #bce8f1;color: #214c61;"><i class="fa fa-exclamation-circle"></i> <b>Info!</b> ' . $pesan . '</div>';
+		$isi = '<div class="alert alert-dismissible" style="background-color: #d9edf7;border-color: #bce8f1;color: #214c61;"><i class="fa fa-exclamation-circle"></i> ' . $pesan . '</div>';
 		return $isi;
 	}
 }

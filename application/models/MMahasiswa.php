@@ -12,6 +12,7 @@ class MMahasiswa extends CI_Model
 
 	public function insert($data)
 	{
+		// echo $data['nobp'];
 
 		return $this->db->query("insert into tb_mahasiswa values('" . $data['nobp'] . "','" . $data['nama'] . "','" . $data['alamat'] . "','" . $data['nohp'] . "');");
 	}

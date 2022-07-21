@@ -1,10 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-require_once BASEPATH . 'dotenv/autoloader.php';
-$dotenv = new Dotenv\Dotenv(FCPATH);
-$dotenv->load();
-
 /*
 | -------------------------------------------------------------------
 | DATABASE CONNECTIVITY SETTINGS
@@ -79,11 +75,13 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => getenv('DB_HOST'),
-	'username' => getenv('DB_USERNAME'),
-	'password' => getenv('DB_PASSWORD'),
-	'database' => getenv('DB_DATABASE'),
-	'dbdriver' => getenv('DB_CONNECTION'),
+	'hostname' => 'localhost',
+	'username' => 'root',
+	'password' => '',
+
+	'database' => 'db_reactnative',
+	// 'database' => 'db_pklabsensi',
+	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
 	'db_debug' => (ENVIRONMENT !== 'production'),
