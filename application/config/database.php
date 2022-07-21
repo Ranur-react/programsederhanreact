@@ -79,7 +79,7 @@ $db['default'] = array(
 	'username' => 'root',
 	'password' => '',
 
-	'database' => 'db_reactnative',
+	'database' => 'db_bakend',
 	// 'database' => 'db_pklabsensi',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
