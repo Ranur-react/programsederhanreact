@@ -128,3 +128,25 @@ git clone https://github.com/Ranur-react/programsederhanreact.git
 			Maka akan terlihat seperti berikut:
 		     ![alt text](./img/Screen%20Shot%202022-07-21%20at%2022.10.59.png)
 
+		* buatlah function untuk mengolah data yang didaptkan sehingga dapat muncul di tampilan berupa teks biasa dengan script berikut.
+
+		```
+			const Tampilkdata = () => {
+			return (
+				<View>
+					<Text>{this.state.data.length != 0 ? 'Ada karyawan' : 'Gakada'}</Text>
+				</View>
+			);
+			};
+		```
+
+  		* Tambahkan Script deklarasi state di constructor untuk data hook  berikut di dalam class default app sebelum render functions.
+
+		  ```
+			constructor(props) {
+				super(props);
+				this.state = {
+					data: [],
+				};
+			}
+		  ```
