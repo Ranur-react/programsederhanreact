@@ -175,4 +175,85 @@ git clone https://github.com/Ranur-react/programsederhanreact.git
      	 ![alt text](./img/Screen%20Shot%202022-07-22%20at%2014.56.02.png)
 
 
+	* Maka semua data akan tampil seperti berikut:
+
+       ![alt text](./img/Screen%20Shot%202022-07-22%20at%2014.57.17.png)
+
+	* Sekarang lanjutkan dengan membuat method untuk mengirim data yang di input untuk dapat tersimpan lewat API.
+	* Tulislah script dibawah di dalam clas
+
+		```
+			simpandata = async () => {
+				await fetch('http://192.168.1.3/programsederhanreact/Karyawan/GetAll', {
+					method: 'GET',
+					headers: {
+						Accept: 'application/json',
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(this.state.input),
+				});
+			};
+		```	 	
+
+	* Lalu tambahkan obcjet berikut di dalam state constructor
+
+	```
+		constructor(props) {
+		super(props);
+		this.state = {
+			data: [],
+			input: {},  //objetc ini akan menampung semua inputan
+		};
+		}
+	``` 
+
+	* setalah object dibuat konfigurasi semua event input seperti berikut
+
+	```
+		return (
+		<View style={styles.container}>
+			<TextInput
+			style={styles.input}
+			onChangeText={e => {
+			this.setState({
+			input: {
+				...this.state.input,
+				id: e,
+			},
+			});
+			}}
+			placeholder="Masukan ID Karyawan"
+			/>
+			<TextInput
+			style={styles.input}
+			onChangeText={e => {
+			this.setState({
+			input: {
+				...this.state.input,
+				nama: e,
+			},
+			});
+			}}
+			placeholder="Masukan Nama Karyawan"
+			/>
+			<TextInput
+			style={styles.input}
+			onChangeText={e => {
+			this.setState({
+			input: {
+				...this.state.input,
+				almat: e,
+			},
+			});
+			}}
+			placeholder="Masukan Alamat"
+			/>
+			<Button onPress={this.simpandata} title="SIMPAN" />
+			<Text>Data karyawan:</Text>
+			<Tampilkdata />
+		</View>
+		);
+	```
+
+ * selanjutkan cobakan input data lalu klik tombol simpan
 
