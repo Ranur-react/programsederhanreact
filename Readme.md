@@ -132,11 +132,27 @@ git clone https://github.com/Ranur-react/programsederhanreact.git
 
 		```
 			const Tampilkdata = () => {
-			return (
-				<View>
-					<Text>{this.state.data.length != 0 ? 'Ada karyawan' : 'Gakada'}</Text>
-				</View>
-			);
+				if (this.state.data.length != 0) {
+					return (
+					<View>
+						{this.state.data.map((val, key) => {
+						return (
+							<View key={key}>
+							<Text>
+							{key + 1}. {val.nama}, {val.alamat}
+							</Text>
+							</View>
+						);
+						})}
+					</View>
+					);
+				} else {
+					return (
+					<View>
+						<Text>Empty</Text>
+					</View>
+					);
+				}
 			};
 		```
 
@@ -150,3 +166,13 @@ git clone https://github.com/Ranur-react/programsederhanreact.git
 				};
 			}
 		  ```
+      * Panggil  funtions Tampildata tersebut di dalam script JSX seperti berikut.
+
+     	![alt text](./img/Screen%20Shot%202022-07-22%20at%2014.45.50.png)
+
+	  * Sehingga keslurhan script akan terlihat seperti berikut
+
+     	 ![alt text](./img/Screen%20Shot%202022-07-22%20at%2014.56.02.png)
+
+
+
